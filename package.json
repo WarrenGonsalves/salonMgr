@@ -1,7 +1,7 @@
 {
-  "name": "OpenShift-Sample-App",
+  "name": "bumblebee",
   "version": "1.0.0",
-  "description": "OpenShift Sample Application",
+  "description": "bumblebee app",
   "keywords": [
     "OpenShift",
     "Node.js",
@@ -9,11 +9,11 @@
     "openshift"
   ],
   "author": {
-    "name": "OpenShift",
-    "email": "ramr@example.org",
-    "url": "http://www.openshift.com/"
+    "name": "Some really smart men and women",
+    "email": "live@love.laugh",
+    "url": "http://www.yahoo.com"
   },
-  "homepage": "http://www.openshift.com/",
+  "homepage": "http://www.yahoo.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/openshift/origin-server"
@@ -25,7 +25,8 @@
   },
 
   "dependencies": {
-    "express": "~3.4.4"
+    "express": "~3.4.4",
+    "restify":  "~2.8.3"
   },
   "devDependencies": {},
   "bundleDependencies": [],
