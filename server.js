@@ -13,6 +13,7 @@ var server = restify.createServer({
 var nodejs_ip_address = process.env.OPENSHIFT_NODEJS_IP
 var nodejs_port       = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var mongo_db_server = "127.7.192.2"
+var mongo_db_port = "27017"
 
 if (typeof nodejs_ip_address === "undefined") {
     //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
