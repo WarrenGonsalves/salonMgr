@@ -9,12 +9,25 @@ var server = restify.createServer({
     name : "appointment"
 });
 
+ //  Set the environment variables we need.
+var nodejs_ip_address = process.env.OPENSHIFT_NODEJS_IP
+var nodejs_port       = process.env.OPENSHIFT_NODEJS_PORT || 8080
 var mongo_db_server = "127.7.192.2"
+
+if (typeof nodejs_ip_address === "undefined") {
+    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
+    //  allows us to run/test the app locally.
+    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1')
+    nodejs_ip_address = "127.0.0.1"
+    mongo_db_server = "127.0.0.1"
+};
+
 var mongo_db_port = "27017"
 
 //var connection_string = 'mongodb://localhost:27017/optimus';
 //var connection_string = 'mongodb://admin/xdSqqbpcK_-T@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/bumblebee'
-var connection_string = 'mongodb://admin/xdSqqbpcK_-T@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+//var connection_string = 'mongodb://admin/xdSqqbpcK_-T@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
 
 console.log(connection_string)
 
@@ -72,17 +85,6 @@ var SchedulesSchema = new Schema({
                         })
 
 var Schedules = mongoose.model("Schedules",SchedulesSchema)
-
- //  Set the environment variables we need.
-var nodejs_ip_address = process.env.OPENSHIFT_NODEJS_IP;
-var nodejs_port       = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-
-if (typeof nodejs_ip_address === "undefined") {
-    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-    //  allows us to run/test the app locally.
-    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1');
-    nodejs_ip_address = "127.0.0.1";
-};
 
 server.use(restify.queryParser())
 server.use(restify.bodyParser()) 
