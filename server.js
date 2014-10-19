@@ -100,8 +100,10 @@ var SCHEDULE_PATH = '/schedules'
 server.get({path : SCHEDULE_PATH } , getAllSchedules) //get all schedules
 
 function getAllSchedules(req, res , next){
+  console.log("in get all schedules" +Schedules)
+
    // console.log("in find all schedules" +  mongoose.connection)
-    res.setHeader('Access-Control-Allow-Origin','*')
+    //res.setHeader('Access-Control-Allow-Origin','*')
     Schedules.find(function (err, schedules) {
           
           if (err) return console.error(err)
