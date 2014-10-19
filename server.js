@@ -21,16 +21,20 @@ if (typeof nodejs_ip_address === "undefined") {
     console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1')
     nodejs_ip_address = "127.0.0.1"
     mongo_db_server   = "127.0.0.1"
-    mongo_db_port = "27018"
+    mongo_db_port = "27017"
     nodejs_port = 7080
 };
 
-
+var options = {
+  user: "bumblebee",
+  pass:"admin123"
+}
 
 //var connection_string = 'mongodb://localhost:27017/optimus';
 //var connection_string = 'mongodb://admin/xdSqqbpcK_-T@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/bumblebee'
-var connection_string = 'mongodb://bumblebee/admin123@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+//var connection_string = 'mongodb://bumblebee/admin123@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
 //var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
 
 console.log(connection_string)
 
@@ -41,6 +45,7 @@ var connect = function () {
 };
 
 connect();
+
 
 mongoose.connection.on('error', console.log);
 mongoose.connection.on('disconnected', connect);
@@ -100,7 +105,7 @@ var SCHEDULE_PATH = '/schedules'
 server.get({path : SCHEDULE_PATH } , getAllSchedules) //get all schedules
 
 function getAllSchedules(req, res , next){
-  console.log("in get all schedules" +Schedules)
+  console.log("in get all schedules" )
 
    // console.log("in find all schedules" +  mongoose.connection)
     //res.setHeader('Access-Control-Allow-Origin','*')
