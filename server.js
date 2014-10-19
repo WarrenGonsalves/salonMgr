@@ -10,13 +10,14 @@ var server = restify.createServer({
 });
 
 var mongo_db_server = "127.7.192.2"
-var mongo_db_server = "27017"
+var mongo_db_port = "27017"
 
 //var connection_string = 'mongodb://localhost:27017/optimus';
 //var connection_string = 'mongodb://admin/xdSqqbpcK_-T@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/bumblebee'
-var connection_string = 'mongodb://admin/xdSqqbpcK_-T@'+mongo_db_server+":"+mongo_db_server+'/bumblebee'
+var connection_string = 'mongodb://admin/xdSqqbpcK_-T@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
 
 console.log(connection_string)
+
 // Connect to mongodb
 var connect = function () {
   var options = { server: { socketOptions: { keepAlive: 1 } } };
