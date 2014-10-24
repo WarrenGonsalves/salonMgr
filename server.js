@@ -1,120 +1,97 @@
-#!/bin/env node
-//  OpenShift sample Node application
-var express = require('express');
-var fs      = require('fs');
-var restify = require('restify');
-var mongoose = require("mongoose");
 
-var server = restify.createServer({
-    name : "appointment"
-});
+  //  OpenShift sample Node application
+  var express = require('express')
+  var fs      = require('fs')
+  var restify = require('restify')
+   var server = restify.createServer({
+      name : "appointment"
+  });
+   
+  var mongoose = require("mongoose")
+  
+  //  Set the environment variables we need.
+  var nodejs_ip_address = process.env.ip 
+  var nodejs_port       = (process.env.PORT || 5000);
+  var mongo_db_server   = "127.7.192.2"
+  var mongo_db_port     = "27017"
 
- //  Set the environment variables we need.
-var nodejs_ip_address = process.env.OPENSHIFT_NODEJS_IP
-var nodejs_port       = process.env.OPENSHIFT_NODEJS_PORT || 8080
-var mongo_db_server = "127.7.192.2"
-var mongo_db_port = "27017"
+  fs.readdirSync(__dirname + '/models').forEach(function(filename){
+    console.log("filename "+filename)
+    if (~filename.indexOf('.js')) require(__dirname  + '/models/' + filename)
+  })
 
-if (typeof nodejs_ip_address === "undefined") {
-    //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
-    //  allows us to run/test the app locally.
-    console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1')
-    nodejs_ip_address = "127.0.0.1"
-    mongo_db_server   = "127.0.0.1"
-    mongo_db_port = "27017"
-    nodejs_port = 7080
-};
+  var Organization      = mongoose.model('Organization')
+  var Schedules         = mongoose.model('Schedules')
+  var RatingAndReview   = mongoose.model('RatingAndReview')
 
-var options = {
-  user: "bumblebee",
-  pass:"admin123"
-}
+  var organization      = require('./routes/organization.js')
+  var ratingandreview   = require('./routes/ratingandreview.js')
+  var schedule          = require('./routes/schedule.js')
 
-//var connection_string = 'mongodb://localhost:27017/optimus';
-//var connection_string = 'mongodb://admin/xdSqqbpcK_-T@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/bumblebee'
-//var connection_string = 'mongodb://bumblebee/admin123@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
-//var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
-var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+  /*if (typeof nodejs_ip_address === "undefined") {
+      //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
+      //  allows us to run/test the app locally.
+      console.warn('No OPENSHIFT_NODEJS_IP var, using 127.0.0.1')
 
-console.log(connection_string)
+      nodejs_ip_address = "127.0.0.1"
+      mongo_db_server   = "127.0.0.1"
+      mongo_db_port = "27017"
+      nodejs_port = 7080
+  };
+  */
+  var connection_string
+  if(process.env.PORT == null) 
+     connection_string  = 'mongodb://localhost:27017/optimus'
+  else
+    connection_string   = 'mongodb://bumblebee_admin:admin123@proximus.modulusmongo.net:27017/ohas7uBe'
 
-// Connect to mongodb
-var connect = function () {
-  var options = { server: { socketOptions: { keepAlive: 1 } } };
-  mongoose.connect(connection_string, options);
-};
+  //var connection_string = 'mongodb://admin/xdSqqbpcK_-T@$OPENSHIFT_MONGODB_DB_HOST:$OPENSHIFT_MONGODB_DB_PORT/bumblebee'
+  //var connection_string = 'mongodb://bumblebee/admin123@'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+  //var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+  //var connection_string = 'mongodb://'+mongo_db_server+":"+mongo_db_port+'/bumblebee'
+  //var connection_string   = 'mongodb://bumblebee_admin:admin123@proximus.modulusmongo.net:27017/ohas7uBe'
 
-connect();
+  console.log(connection_string)
 
+  // Connect to mongodb
+  var connect = function () {
+    var options = { server: { socketOptions: { keepAlive: 1 } } };
+    mongoose.connect(connection_string, options);
+  };
 
-mongoose.connection.on('error', console.log);
-mongoose.connection.on('disconnected', connect);
+  connect();
 
-var Schema = mongoose.Schema;
+  mongoose.connection.on('error', console.log);
+  mongoose.connection.on('disconnected', connect);
 
-var OrganizationSchema = new Schema({
-                          org_id                : Number,
-                          name                  : String,
-                          address1              : String,
-                          address2              : String,
-                          city                  : String,
-                          state                 : String,
-                          zip                   : Number,
-                          country               : String,
-                          phone_number          : Number,
-                          latitude              : Number,
-                          longitude             : Number,
-                          image                 : String,
-                          service_type          : String,
-                          created_date          : Date,
-                          updated_date          : Date,
-                          created_by            : Number,
-                          updated_by            : Number
-                        })
+  server.use(restify.queryParser())
+  server.use(restify.bodyParser()) 
 
-var Organization = mongoose.model("Organization",OrganizationSchema)
+  server.listen(nodejs_port, function() {
+    console.log("Node app is running at localhost:" + nodejs_port)
+  })
 
-var SchedulesSchema = new Schema({
-                          schedule_id       : Number,
-                          org_id            : Number,
-                          customer_id       : Number,
-                          specialist_id     : Number,
-                          appointment_date  : Date,
-                          start_time        : Date,
-                          end_time          : Date,
-                          created_date      : Date,
-                          updated_date      : Date,
-                          created_by        : Number,
-                          updated_by        : Number
-                          //date            : { type: Date, set: setDateWithFormat },
-                          //start_time  : { type: Date, set: setStartTimeWithFormat },
-                          //end_time        : { type: Date, set: setEndTimeWithFormat },
-                            
-                        })
+  var RATINGANDREVIEW_PATH = '/ratingsAndReview'
+  server.get({path : RATINGANDREVIEW_PATH } , ratingandreview.getAllRatingAndReview) //get all rating and Review
+  server.post({path : RATINGANDREVIEW_PATH } , ratingandreview.addNewRatingAndReview)
+  server.post({path : RATINGANDREVIEW_PATH +'/ratingAndReviewId/:ratingAndReviewId'} , ratingandreview.updateRatingAndReviewByRatingId) //update rating and Review schema with changes by rating id
 
-var Schedules = mongoose.model("Schedules",SchedulesSchema)
+  var SCHEDULE_PATH = '/schedules'
 
-server.use(restify.queryParser())
-server.use(restify.bodyParser()) 
-server.listen(nodejs_port ,nodejs_ip_address, function(){
-    console.log('%s listening at %s ', server.name , server.url);
-})
+  server.get({path : SCHEDULE_PATH } , schedule.getAllSchedules) //get all schedules
+  server.get({path : SCHEDULE_PATH + '/scheduleId/:scheduleId'} , schedule.getScheduleByScheduleId) //get a schedule document with schedule id
+  server.get({path : SCHEDULE_PATH + '/customerId/:customerId'} , schedule.getScheduleByCustomerId) //get a schedule document with customer id
+  server.get({path : SCHEDULE_PATH + '/specialistId/:specialistId'} , schedule.getScheduleBySpecialistId) //get a schedule document with specialist id
+  server.get({path : SCHEDULE_PATH + '/specialistId/:specialistId/appointmentdate/:appointmentdate'} , schedule.getScheduleBySpecialistIdAndDate) //get a schedule document with schedule id
 
-var SCHEDULE_PATH = '/schedules'
+  server.post({path : SCHEDULE_PATH } ,schedule.postNewSchedule);
 
-server.get({path : SCHEDULE_PATH } , getAllSchedules) //get all schedules
-
-function getAllSchedules(req, res , next){
-  console.log("in get all schedules" )
-
-   // console.log("in find all schedules" +  mongoose.connection)
-    //res.setHeader('Access-Control-Allow-Origin','*')
-    Schedules.find(function (err, schedules) {
-          
-          if (err) return console.error(err)
-          res.json(schedules);
-    })
-}
-
-
-
+  var ORGANIZATION_PATH = '/organizations'
+  
+  server.get({path : ORGANIZATION_PATH } , organization.getAllOrganizations) //get all organizations
+  server.get({path : ORGANIZATION_PATH + '/:lat/:lon/:distance'} , organization.getOrganizationsWithLatLon) //get all organizations with lat lon and distance
+  server.get({path : ORGANIZATION_PATH + '/organizationId/:organizationId'} , organization.getOrganizationByOrganizationId) //get organizations by Organization id
+  
+  server.post({path : ORGANIZATION_PATH + '/addOrganization'} , organization.addOrganization) //get all organizations
+  server.post({path : ORGANIZATION_PATH + '/organizationId/:organizationId'} , organization.updateOrganizationByOrganizationId) //update organization by organization id
+  //server.del({path : PATH +'/:scheduleId' , version: '0.0.1'} , deleteSchedule);
