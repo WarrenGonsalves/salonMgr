@@ -13,12 +13,15 @@ function getOrganizationsWithLatLon(req, res, next) {
     
 
     Organization.where('locs').within({ center : [req.params.lon,req.params.lat], radius: distance, unique: true, spherical: true }).exec(function(err, results){
-    	var tmp_org_list = []
-    	 var errors	  	= {}
+	var tmp_org_list 	= []
+	var errors	  		= {}
+	var results_holder 	= {}
+	var results 		= {}
+
     	if (err) { 
     			errors.status = "error"
     			errors.error_message = "This should never happen, we will fix this next time"
-    			console.error(err)
+    			console.error("Asas"+err)
 
     		}else{
 	      		
@@ -49,8 +52,7 @@ function getOrganizationsWithLatLon(req, res, next) {
 	              tmp_org_list.push(org)
 	          })
 			
-			var results_holder = {}
-			var results = {}
+			
 	      	
 	      	errors.status	= "ok"
 	      	results_holder.org_list = tmp_org_list
