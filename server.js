@@ -6,7 +6,7 @@
    var server = restify.createServer({
       name : "appointment"
   });
-   
+
   var mongoose = require("mongoose")
   
   //  Set the environment variables we need.
@@ -90,6 +90,7 @@
   
   server.get({path : ORGANIZATION_PATH } , organization.getAllOrganizations) //get all organizations
   server.get({path : ORGANIZATION_PATH + '/:lat/:lon/:distance'} , organization.getOrganizationsWithLatLon) //get all organizations with lat lon and distance
+  server.get({path : ORGANIZATION_PATH + '?lat=:lat&lon=:lon&distance=:distance'} , organization.getOrganizationsWithLatLon) //get organizations by Organization id
   server.get({path : ORGANIZATION_PATH + '/organizationId/:organizationId'} , organization.getOrganizationByOrganizationId) //get organizations by Organization id
   
   server.post({path : ORGANIZATION_PATH + '/addOrganization'} , organization.addOrganization) //get all organizations

@@ -3,23 +3,82 @@ var mongoose      	= require('mongoose')
 var restify 		= require('restify')
 var Organization  	= mongoose.model('Organization')
 
-exports.getOrganizationsWithLatLon = function(req, res , next){
 
-    //var point = { type : "Point", coordinates : [parseInt(req.params.lon),parseInt(req.params.lat)] }
-    var point = { type : "Point", coordinates : [parseInt(req.params.lat),parseInt(req.params.lon)] }
-    var distance = (req.params.distance || 5)/6371
+function getOrganizationsWithLatLon(req, res, next) {
 
-    console.log(" req.params.lon asdsad" + req.params.lon + "   req.params.lat  " + req.params.lat + "  distance " + distance) 
+	console.log( " in getOrganizationsWithLatLon")
 
+    var point = { type : "Point", coordinates : [parseInt(req.params.lon),parseInt(req.params.lat)] }
+    var distance = parseInt(req.params.distance)/6371
+    
+
+    Organization.where('locs').within({ center : [req.params.lon,req.params.lat], radius: distance, unique: true, spherical: true }).exec(function(err, results){
+    	var tmp_org_list = []
+    	 var errors	  	= {}
+    	if (err) { 
+    			errors.status = "error"
+    			errors.error_message = "This should never happen, we will fix this next time"
+    			console.error(err)
+
+    		}else{
+	      		
+
+	      	 	results.forEach(function(v){
+	      	 	  var org = {}
+
+	      	 	  console.log(" some awesome formula  " + req.params.lat + " " + req.params.lon+ " " +v.locs[1]+ " " +v.locs[0]+ "   " +getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.locs[1],v.locs[0]));
+	      	 	 // var tmp_distance = Math.round(v.dis*100000000)/100000000
+	             // console.log(" iasdsan getallorg " + tmp_distance*1000)
+	              org.org_id 			= v.org_id
+	              org.name 				= v.name
+	              org.address1 			= v.address1
+	              org.address2 			= v.address2
+	              org.city 				= v.city
+	              org.state 			= v.state
+	              org.average_rating 	= Math.round(v.average_rating *10)/10
+	              org.image_url 		= "yahoo.com"
+	              org.service_type		= v.service_type
+	              org.review_count		= v.review_count
+	              org.nextslot_tooltip	= "4:30 PM"
+	              org.deal_tooltip		= "nothing right now"
+	              org.min_price			= "From 150Rs"
+	              org.longitude			= v.locs[0]
+	              org.latitude			= v.locs[1]
+	              org.distance 			= Math.round(getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.locs[1],v.locs[0])*100)/100
+
+	              tmp_org_list.push(org)
+	          })
+			
+			var results_holder = {}
+			var results = {}
+	      	
+	      	errors.status	= "ok"
+	      	results_holder.org_list = tmp_org_list
+	      
+	      }
+	      
+
+      	
+  		results_holder.errors = errors
+
+  		results.results = results_holder
+     	//console.log(stats)
+   	   	res.json(results)
+    })
+
+  /*  
     Organization.geoNear(point, { maxDistance : parseInt(distance), spherical : true}, function(err, results, stats) {
-      if (err) return console.error(err)
+    	
+		if (err) return console.error(err)
 
-      	var org = {}
-      	var tmp_org_list = []
+      		var tmp_org_list = []
 
-      	 results.forEach(function(v){
+      	 	results.forEach(function(v){
+      	 	  var org = {}
 
-              console.log(" iasdsan getallorg " + v.obj.locs[0])
+      	 	  console.log(" some awesome formula  " + req.params.lat + " " + req.params.lon+ " " +v.obj.locs[1]+ " " +v.obj.locs[0]+ "   " +getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.obj.locs[1],v.obj.locs[0]));
+      	 	  var tmp_distance = Math.round(v.dis*100000000)/100000000
+              console.log(" iasdsan getallorg " + tmp_distance*1000)
               org.org_id 			= v.obj.org_id
               org.name 				= v.obj.name
               org.address1 			= v.obj.address1
@@ -34,6 +93,7 @@ exports.getOrganizationsWithLatLon = function(req, res , next){
               org.deal_tooltip		= "nothing right now"
               org.longitude			= v.obj.locs[0]
               org.latitude			= v.obj.locs[1]
+              org.distance 			= Math.round(tmp_distance)*1000
 
               tmp_org_list.push(org)
           })
@@ -42,17 +102,35 @@ exports.getOrganizationsWithLatLon = function(req, res , next){
 
       	 orglist.org_list = tmp_org_list
   		
-        //console.log(tmpOrgList)
-      	//org.salon_list = results
-
-      	//console.log(orglist)
-
-   	   	res.json(orglist)
+     	console.log(stats)
+   	   //	res.json(orglist)
     
     })
+*/
 
-    //Organization.find({loc:{'$near':[72,19]}}).exec(console.log)
 
+}
+exports.getOrganizationsWithLatLon = getOrganizationsWithLatLon
+
+    
+
+
+function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2-lat1);  // deg2rad below
+  var dLon = deg2rad(lon2-lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
 }
 
 
@@ -61,6 +139,10 @@ exports.getAllOrganizations =  function(req, res , next){
  // console.log("in find all schedules" +  mongoose.connection)
   res.setHeader('Access-Control-Allow-Origin','*')
   
+  	if( (req.params.lat != null) && (req.params.lon != null)  ){
+  			getOrganizationsWithLatLon(req, res, next)
+  	}else{
+
     Organization.find(function (err, organizations) {
         if (err) return console.error(err)
          
@@ -74,6 +156,7 @@ exports.getAllOrganizations =  function(req, res , next){
        // var salonList = salon_list
         res.json(orglist)
   })
+}
 }
 
 

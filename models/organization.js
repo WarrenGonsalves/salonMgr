@@ -23,6 +23,6 @@ var OrganizationSchema = new Schema({
                           updated_by            : Number
                         })
 
-OrganizationSchema.index({ locs: '2dsphere' });
+//OrganizationSchema.index({ locs: '2dsphere' });
 
 mongoose.model("Organization",OrganizationSchema)
