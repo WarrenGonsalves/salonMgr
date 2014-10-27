@@ -3,35 +3,43 @@ var mongoose      	= require('mongoose')
 var restify 		= require('restify')
 var Organization  	= mongoose.model('Organization')
 
-
 function getOrganizationsWithLatLon(req, res, next) {
 
-	console.log( " in getOrganizationsWithLatLon")
+  console.log( " in getOrganizationsWithLatLon req.params.lon " + req.params.lon +  "  req.params.lat  "+req.params.lat + "  distance  "+req.params.distance)
+  var tmp_org_list    = []
+  var errors          = {}
+  var results_holder  = {}
+  var results         = {}
 
-    var point = { type : "Point", coordinates : [parseInt(req.params.lon),parseInt(req.params.lat)] }
-    var distance = parseInt(req.params.distance)/6371
-    
+  var req_lon         = req.params.lon
+  var req_lat         = req.params.lat
+  var req_distance    = req.params.distance
 
-    Organization.where('locs').within({ center : [req.params.lon,req.params.lat], radius: distance, unique: true, spherical: true }).exec(function(err, results){
-	var tmp_org_list 	= []
-	var errors	  		= {}
-	var results_holder 	= {}
-	var results 		= {}
+  if(req_lon == null || req_lat == null){
+          errors.status         = "error"
+          errors.error_message  = "Hmmm.. Something went wrong with the gps. Are you sure your device's gps is turned on?"
+          results_holder.errors = errors
 
-    	if (err) { 
-    			errors.status = "error"
+          results.results = results_holder
+          res.json(results)
+  }
+
+    var distance = parseInt(req_distance)/6371 // for spherical surfaces , 6371 kms is the circumference of earth
+
+    Organization.where('locs').within({ center : [req_lon,req_lat], radius: distance, unique: true, spherical: true }).exec(function(err, queryresults){
+	
+		if (err) { 
+    			
+          errors.status = "error"
     			errors.error_message = "This should never happen, we will fix this next time"
     			console.error("Asas"+err)
 
     		}else{
 	      		
 
-	      	 	results.forEach(function(v){
+	      	 	  queryresults.forEach(function(v){
 	      	 	  var org = {}
 
-	      	 	  console.log(" some awesome formula  " + req.params.lat + " " + req.params.lon+ " " +v.locs[1]+ " " +v.locs[0]+ "   " +getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.locs[1],v.locs[0]));
-	      	 	 // var tmp_distance = Math.round(v.dis*100000000)/100000000
-	             // console.log(" iasdsan getallorg " + tmp_distance*1000)
 	              org.org_id 			= v.org_id
 	              org.name 				= v.name
 	              org.address1 			= v.address1
@@ -47,75 +55,28 @@ function getOrganizationsWithLatLon(req, res, next) {
 	              org.min_price			= "From 150Rs"
 	              org.longitude			= v.locs[0]
 	              org.latitude			= v.locs[1]
-	              org.distance 			= Math.round(getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.locs[1],v.locs[0])*100)/100
+	              org.distance 			= Math.round(getDistanceFromLatLonInKm(req_lat,req_lon,v.locs[1],v.locs[0])*100)/100
 
 	              tmp_org_list.push(org)
 	          })
-			
-			
-	      	
+
 	      	errors.status	= "ok"
 	      	results_holder.org_list = tmp_org_list
 	      
 	      }
-	      
-
-      	
-  		results_holder.errors = errors
-
-  		results.results = results_holder
-     	//console.log(stats)
-   	   	res.json(results)
-    })
-
-  /*  
-    Organization.geoNear(point, { maxDistance : parseInt(distance), spherical : true}, function(err, results, stats) {
-    	
-		if (err) return console.error(err)
-
-      		var tmp_org_list = []
-
-      	 	results.forEach(function(v){
-      	 	  var org = {}
-
-      	 	  console.log(" some awesome formula  " + req.params.lat + " " + req.params.lon+ " " +v.obj.locs[1]+ " " +v.obj.locs[0]+ "   " +getDistanceFromLatLonInKm(req.params.lat,req.params.lon,v.obj.locs[1],v.obj.locs[0]));
-      	 	  var tmp_distance = Math.round(v.dis*100000000)/100000000
-              console.log(" iasdsan getallorg " + tmp_distance*1000)
-              org.org_id 			= v.obj.org_id
-              org.name 				= v.obj.name
-              org.address1 			= v.obj.address1
-              org.address2 			= v.obj.address2
-              org.city 				= v.obj.city
-              org.state 			= v.obj.state
-              org.average_rating 	= Math.round(v.obj.average_rating *10)/10
-              org.image_url 		= "yahoo.com"
-              org.service_type		= v.obj.service_type
-              org.review_count		= v.review_count
-              org.nextslot_tooltip	= "4:30 PM"
-              org.deal_tooltip		= "nothing right now"
-              org.longitude			= v.obj.locs[0]
-              org.latitude			= v.obj.locs[1]
-              org.distance 			= Math.round(tmp_distance)*1000
-
-              tmp_org_list.push(org)
-          })
-
-      	 var orglist = {}
-
-      	 orglist.org_list = tmp_org_list
   		
-     	console.log(stats)
-   	   //	res.json(orglist)
-    
     })
-*/
 
+      results_holder.errors = errors
+
+      results.results = results_holder
+      
+      //console.log(stats)
+      res.json(results)
 
 }
+
 exports.getOrganizationsWithLatLon = getOrganizationsWithLatLon
-
-    
-
 
 function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
   var R = 6371; // Radius of the earth in km
@@ -138,27 +99,13 @@ function deg2rad(deg) {
 
 
 exports.getAllOrganizations =  function(req, res , next){
- // console.log("in find all schedules" +  mongoose.connection)
-  res.setHeader('Access-Control-Allow-Origin','*')
-  
-  	if( (req.params.lat != null) && (req.params.lon != null)  ){
-  			getOrganizationsWithLatLon(req, res, next)
-  	}else{
-
-    Organization.find(function (err, organizations) {
+ 
+  Organization.find(function (err, organizations) {
+        
         if (err) return console.error(err)
-         
-          organizations.forEach(function(v){
-              console.log(" iasdsan getallorg " + v.org_id)
-          })
-          var orglist = {}
-            //console.log(tmpOrgList)
-          orglist.salon_list = organizations
-      
-       // var salonList = salon_list
-        res.json(orglist)
+        res.json(organizations);
   })
-}
+  	
 }
 
 
