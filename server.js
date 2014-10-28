@@ -138,8 +138,8 @@
                 name : "mundu"
             })
 
-          //var connection_string = "mongodb://"+mongo_db_user+":"+mongo_db_pwd+"@"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
-            var connection_string = "mongodb://"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
+          var connection_string = "mongodb://"+mongo_db_user+":"+mongo_db_pwd+"@"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
+          //  var connection_string = "mongodb://"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
 
             console.log("connection_string "+connection_string)
                 // Connect to mongodb
