@@ -2,18 +2,18 @@ var express 		= require('express')
 var mongoose      	= require('mongoose')
 var restify 		= require('restify')
 var Organization  	= mongoose.model('Organization')
+var url             = require('url')
 
 function getOrganizationsWithLatLon(req, res, next) {
 
-  console.log( " in getOrganizationsWithLatLon req.params.lon " + req.params.lon +  "  req.params.lat  "+req.params.lat + "  distance  "+req.params.distance)
   var tmp_org_list    = []
   var errors          = {}
   var results_holder  = {}
   var results         = {}
 
-  var req_lon         = req.params.lon
-  var req_lat         = req.params.lat
-  var req_distance    = req.params.distance
+  var req_lon         = (req.params.lon || (url.parse(req.url,true).query.lon))
+  var req_lat         = (req.params.lat || (url.parse(req.url,true).query.lat))
+  var req_distance    = (req.params.distance || (url.parse(req.url,true).query.distance))
 
   if(req_lon == null || req_lat == null){
           errors.status         = "error"
@@ -30,14 +30,14 @@ function getOrganizationsWithLatLon(req, res, next) {
 	
 		if (err) { 
     			
-          errors.status = "error"
+                errors.status = "error"
     			errors.error_message = "This should never happen, we will fix this next time"
     			console.error("Asas"+err)
 
     		}else{
 	      		
-
-	      	 	  queryresults.forEach(function(v){
+                console.error("in else")
+	      	    queryresults.forEach(function(v){
 	      	 	  var org = {}
 
 	              org.org_id 			= v.org_id
@@ -61,18 +61,19 @@ function getOrganizationsWithLatLon(req, res, next) {
 	          })
 
 	      	errors.status	= "ok"
+
 	      	results_holder.org_list = tmp_org_list
 	      
 	      }
-  		
+  		results_holder.errors = errors
+
+              results.results = results_holder
+              console.error("in else" + results);
+              //console.log(stats)
+              res.json(results)
     })
 
-      results_holder.errors = errors
 
-      results.results = results_holder
-      
-      //console.log(stats)
-      res.json(results)
 
 }
 
@@ -140,13 +141,21 @@ exports.addOrganization = function(req , res , next){
 
 
 exports.getOrganizationByOrganizationId = function(req, res , next){
- // console.log("in find all schedules" +  mongoose.connection)
- console.log(" in getOrganizationByOrganizationId req.params.organizationId " +req.params.organizationId)
-  //res.setHeader('Access-Control-Allow-Origin','*')
-  Organization.find({ org_id:req.params.scheduleId  },function (err, schedules) {
+
+
+org_id_passed = (req.params.organizationId || (url.parse(req.url,true).query.organizationId))
+
+
+Organization.find({ org_id:parseInt(org_id_passed) },function (err, organizations) {
+
         if (err) return console.error(err)
-        res.json(schedules);
+        res.json(organizations);
+  })
+    /*Organization.find({ org_id:req.params.organizationId },function (err, organization) {
+        if (err) return console.error(err)
+        res.json(organization);
       })
+      */
 }
 
 

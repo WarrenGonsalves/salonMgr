@@ -138,7 +138,8 @@
                 name : "mundu"
             })
 
-           var connection_string = "mongodb://"+mongo_db_user+":"+mongo_db_pwd+"@"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
+          //var connection_string = "mongodb://"+mongo_db_user+":"+mongo_db_pwd+"@"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
+            var connection_string = "mongodb://"+mongo_db_server+":"+mongo_db_port+"/"+mongo_db_name
 
             console.log("connection_string "+connection_string)
                 // Connect to mongodb
@@ -187,26 +188,21 @@
           server.get({path : ORGANIZATION_PATH + '/:lat/:lon/:distance'} , organization.getOrganizationsWithLatLon) //get all organizations with lat lon and distance
           server.get({path : ORGANIZATION_PATH + '/latlon'} , organization.getOrganizationsWithLatLon) //get all organizations with lat lon and distance
           server.get({path : ORGANIZATION_PATH + '/organizationId/:organizationId'} , organization.getOrganizationByOrganizationId) //get organizations by Organization id
+          server.get({path : ORGANIZATION_PATH + '/organizationId'} , organization.getOrganizationByOrganizationId) //get organizations by Organization id
 
           server.post({path : ORGANIZATION_PATH + '/addOrganization'} , organization.addOrganization) //get all organizations
           server.post({path : ORGANIZATION_PATH + '/organizationId/:organizationId'} , organization.updateOrganizationByOrganizationId) //update organization by organization id
           //server.del({path : PATH +'/:scheduleId' , version: '0.0.1'} , deleteSchedule);
 
-
-
-
   }
 
 start = function() {
     server.use(restify.queryParser())
-
     server.use(restify.bodyParser())
-
-
-     server.listen(nodejs_port, nodejs_ip_address, function() {
-                  console.log('%s: Node server started on %s:%d ...',
-                      Date(Date.now() ), nodejs_ip_address, nodejs_port)
-      })
+    server.listen(nodejs_port, nodejs_ip_address, function() {
+              console.log('%s: Node server started on %s:%d ...',
+                  Date(Date.now() ), nodejs_ip_address, nodejs_port)
+     })
 
 }
 
