@@ -2,8 +2,8 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
-var OrganizationSchema = new Schema({
-  org_id: Number,
+var SpecialistSchema = new Schema({
+  specialist_id: Number,
   name: String,
   address1: String,
   address2: String,
@@ -26,6 +26,4 @@ var OrganizationSchema = new Schema({
   updated_by: Number
 })
 
-//OrganizationSchema.index({ locs: '2dsphere' });
-
-mongoose.model("Organization", OrganizationSchema)
+mongoose.model("Specialist", SpecialistSchema)
