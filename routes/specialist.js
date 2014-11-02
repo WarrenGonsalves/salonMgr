@@ -1,17 +1,52 @@
 var express = require('express')
 var mongoose = require('mongoose')
 var restify = require('restify')
+var iSpecialist = require('./../models/iSpecialist.js')
 var Specialist = mongoose.model('Specialist')
 var url = require('url')
 
 exports.getAllSpecialists = function(req, res, next) {
 
+  var tmp_specialist_list = []
+  var errors = {}
+  var results_holder = {}
+  var results = {}
+
   Specialist.find(function(err, specialists) {
 
-    if (err) return console.error(err)
-    res.json(specialists);
 
+     if (err) {
+
+      errors.status = "error"
+      errors.error_message = "This should never happen, we will fix this next time"
+      console.error("Asas" + err)
+
+    } else {
+
+      console.error("in else")
+      specialists.forEach(function(v) {
+        console.error("in foreach ")
+        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
+         "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0],  v.locs[1], "","" )
+        console.log(" ispecialist "+ specialist)
+
+        tmp_specialist_list.push(specialist)
+      })
+
+      errors.status = "ok"
+
+      results_holder.specialist_list = tmp_specialist_list
+
+    }
+    results_holder.errors = errors
+
+    results.results = results_holder
+    console.error("in else" + results);
+    //console.log(stats)
+    res.json(results)
   })
+
+  
 
 }
 
@@ -52,26 +87,12 @@ function getSpecialistsWithLatLon(req, res, next) {
 
     } else {
 
-      console.error("in else")
+      console.error("in else"+queryresults)
       queryresults.forEach(function(v) {
-        var specialist = {}
-
-        specialist.specialist_id = v.specialist_id
-        specialist.name = v.name
-        specialist.address1 = v.address1
-        specialist.address2 = v.address2
-        specialist.city = v.city
-        specialist.state = v.state
-        specialist.average_rating = Math.round(v.average_rating * 10) / 10
-        specialist.image_url = "yahoo.com"
-        specialist.service_type = v.service_type
-        specialist.review_count = v.review_count
-        specialist.nextslot_tooltip = "4:30 PM"
-        specialist.deal_tooltip = "nothing right now"
-        specialist.min_price = "From 150Rs"
-        specialist.longitude = v.locs[0]
-        specialist.latitude = v.locs[1]
-        specialist.distance = Math.round(getDistanceFromLatLonInKm(req_lat, req_lon, v.locs[1], v.locs[0]) * 100) / 100
+        console.error("in foreach ")
+        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
+         "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0],  v.locs[1], req_lat, req_lon )
+        console.log(" ispecialist "+ specialist)
 
         tmp_specialist_list.push(specialist)
       })
@@ -95,22 +116,7 @@ function getSpecialistsWithLatLon(req, res, next) {
 
 exports.getSpecialistsWithLatLon = getSpecialistsWithLatLon
 
-function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-  var R = 6371; // Radius of the earth in km
-  var dLat = deg2rad(lat2 - lat1); // deg2rad below
-  var dLon = deg2rad(lon2 - lon1);
-  var a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  var d = R * c; // Distance in km
-  return d;
-}
 
-function deg2rad(deg) {
-  return deg * (Math.PI / 180)
-}
 
 
 exports.addSpecialist = function(req , res , next){
