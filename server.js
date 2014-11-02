@@ -195,6 +195,10 @@ initializeServer = function() {
   server.post({
     path: SPECIALIST_PATH + '/specialistId/:specialistId'
   }, specialist.updateSpecialistBySpecialistId) //update organization by organization id
+  server.get({
+    path: SPECIALIST_PATH + '/schema'
+  }, specialist.getSpecialistSchema) //update organization by organization id
+  
   //server.del({path : PATH +'/:scheduleId' , version: '0.0.1'} , deleteSchedule);
 
 }
