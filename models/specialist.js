@@ -11,15 +11,25 @@ var SpecialistSchema = new Schema({
   state: String,
   zip: Number,
   country: String,
-  phone_number: Number,
+  contact: [{
+    contactType: String,
+    contact: String
+  }],
   locs: {
     type: [Number],
     index: '2dsphere'
   },
-  image: String,
+  media: [{
+    media: String,
+    mediaType: String,
+    isProfile: Boolean
+  }],
   average_rating: Number,
   review_count: Number,
-  service_type: String,
+  categories: {
+    specialist_l1_title: String,
+    specialist_title: String
+  },
   created_date: Date,
   updated_date: Date,
   created_by: Number,
