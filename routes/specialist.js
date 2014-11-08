@@ -13,58 +13,35 @@ exports.getAllSpecialists = function(req, res, next) {
   var results = {}
 
   Specialist.find(function(err, specialists) {
-
-
-    if (err) {
-
-      errors.status = "error"
-      errors.error_message = "This should never happen, we will fix this next time"
-
-
-    } else {
-
-
-      specialists.forEach(function(v) {
-
-        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
-            "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], "", "")
-          //console.log(" ispecialist " + specialist)
-
-        tmp_specialist_list.push(specialist)
-      })
-
-      errors.status = "ok"
-
-      results_holder.specialist_list = tmp_specialist_list
-
-    }
-    results_holder.errors = errors
-
-    results.results = results_holder
-    console.error("in else" + results);
-    //console.log(stats)
-    res.json(results)
+    res.json(createResultJSON(err, specialists, "specialist"))
   })
 
 }
 
-exports.getAllOrganizations = function(req, res, next) {
+function createResultJSON(errorObj, queryResults, resultObjectType) {
 
-  Specialist.find(function(err, organizations) {
+  var errors = {}
+  var results = {}
 
-    if (err) return console.error(err)
-    res.json(organizations);
-  })
+  if (errorObj) {
+
+    errors.status = "error"
+    errors.error_message = "This should never happen, we will fix this next time"
+    results.errors = errors
+
+  } else {
+
+    results.specialist_list = queryResults
+
+  }
+
+  return results
 
 }
 
 function getSpecialistsWithLatLon(req, res, next) {
 
-  var tmp_specialist_list = []
-  var errors = {}
-  var results_holder = {}
-  var results = {}
-
+  
   var req_lon = (req.params.lon || (url.parse(req.url, true).query.lon))
   var req_lat = (req.params.lat || (url.parse(req.url, true).query.lat))
   var req_distance = (req.params.distance || (url.parse(req.url, true).query.distance))
@@ -87,37 +64,8 @@ function getSpecialistsWithLatLon(req, res, next) {
     spherical: true
   }).exec(function(err, queryresults) {
 
-    if (err) {
-
-      errors.status = "error"
-      errors.error_message = "This should never happen, we will fix this next time"
-      console.error("Asas" + err)
-
-    } else {
-
-      console.error("in else" + queryresults)
-      queryresults.forEach(function(v) {
-        console.error("in foreach ")
-        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
-            "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], req_lat, req_lon)
-          //  console.log(" ispecialist " + specialist)
-
-        tmp_specialist_list.push(specialist)
-      })
-
-      errors.status = "ok"
-
-      results_holder.specialist_list = tmp_specialist_list
-
-    }
-    results_holder.errors = errors
-
-    results.results = results_holder
-
-    res.json(results)
+    res.json(createResultJSON(err, queryresults, "specialist"))
   })
-
-
 
 }
 
@@ -150,8 +98,7 @@ exports.getSpecialistBySpecialistId = function(req, res, next) {
     specialist_id: parseInt(specialist_id_passed)
   }, function(err, specialist) {
 
-    if (err) return console.error(err)
-    res.json(specialist);
+    res.json(createResultJSON(err, specialist, "specialist"))
   })
 }
 
@@ -177,6 +124,31 @@ exports.getSpecialistSchema = function(req, res, next) {
   res.json(Specialist.schema.paths)
 
 }
+
+exports.testResults = function(req, res, next) {
+
+  var errors = {
+    status: "ok"
+
+  }
+
+  var list = {
+
+    specialist_id: 1,
+    name: "Robert Hansen",
+    address1: "Summerview",
+    address2: "003 Delladonna Park",
+
+  }
+
+  var results = {}
+
+  results.list = list
+  results.errors = errors
+
+  res.json(results)
+}
+
 
 exports.testArray = function(req, res, next) {
   console.log("in test array")
@@ -264,31 +236,6 @@ exports.getCategories = function(req, res, next) {
       return a.specialist_l1_title.localeCompare(b.specialist_l1_title)
     })
 
-    // for-in loop
-    /*  for (var i in sortedCategories) {
-
-      specialist_l1_title = sortedCategories[i].specialist_l1_title
-      specialist_title = sortedCategories[i].specialist_title
-
-      console.log("cat " + sortedCategories.length + "   i  =  " + i + " specialist_l1_title   " + specialist_l1_title + " specialist_title " + specialist_title); //"aa", bb", "cc"
-
-      if (((last_specialist_l1_title != null) && (specialist_l1_title != last_specialist_l1_title)) || (sortedCategories.length == (i + 1))) {
-       
-        tmpcat.category = last_specialist_l1_title
-        tmpcat.sub_categories = subcategories
-        category.push(tmpcat)
-        tmpcat = {}
-        subcategories = []
-      }
-
-      tmp_subcategories.title = specialist_title
-      tmp_subcategories.id = ""
-      subcategories.push(tmp_subcategories)
-
-      last_specialist_l1_title = sortedCategories[i].specialist_l1_title
-      tmp_subcategories = {}
-    }
-*/
 
     sortedCategories.forEach(function(c) {
 
@@ -313,7 +260,6 @@ exports.getCategories = function(req, res, next) {
       last_specialist_l1_title = c.specialist_l1_title
       tmp_subcategories = {}
 
-     
 
     })
     tmpcat.category = last_specialist_l1_title

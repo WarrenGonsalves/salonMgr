@@ -123,9 +123,8 @@ initializeServer = function() {
     path: RATINGANDREVIEW_PATH + '/ratingAndReviewId/:ratingAndReviewId'
   }, ratingandreview.updateRatingAndReviewByRatingId) //update rating and Review schema with changes by rating id
 
- 
 
- var SCHEDULE_PATH = '/schedules'
+  var SCHEDULE_PATH = '/schedules'
 
   server.get({
     path: SCHEDULE_PATH
@@ -173,15 +172,21 @@ initializeServer = function() {
   }, organization.updateOrganizationByOrganizationId) //update organization by organization id
   //server.del({path : PATH +'/:scheduleId' , version: '0.0.1'} , deleteSchedule);
 
-var CATEGORIES_PATH = '/categories'
+  var CATEGORY_PATH = '/categories'
 
- server.get({
-    path: CATEGORIES_PATH 
+  server.get({
+    path: CATEGORY_PATH
   }, specialist.getCategories) //get all schedules
 
- server.get({
-    path: CATEGORIES_PATH + '/test'
+  var TEST_PATH = '/test'
+
+  server.get({
+    path: TEST_PATH + '/testArray2'
   }, specialist.testArray2) //get all schedules
+
+  server.get({
+    path: TEST_PATH + '/testResults'
+  }, specialist.testResults) //get all schedules
 
 
   var SPECIALIST_PATH = '/specialists'
@@ -211,7 +216,7 @@ var CATEGORIES_PATH = '/categories'
   server.get({
     path: SPECIALIST_PATH + '/schema'
   }, specialist.getSpecialistSchema) //update organization by organization id
-  
+
   //server.del({path : PATH +'/:scheduleId' , version: '0.0.1'} , deleteSchedule);
 
 }

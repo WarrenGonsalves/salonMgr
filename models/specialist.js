@@ -11,7 +11,7 @@ var SpecialistSchema = new Schema({
   state: String,
   zip: Number,
   country: String,
-  contact: [{
+  contacts: [{
     contactType: String,
     contact: String
   }],
