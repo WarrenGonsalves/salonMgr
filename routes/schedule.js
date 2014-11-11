@@ -1,17 +1,50 @@
+var BASE_URL = '/schedules'
+
 module.exports = function() {
-    return [
-        {
+    return [{
             method: 'GET',
-            path: '/schedule',
-            config : {
-                handler: function(request, reply){
+            path: BASE_URL,
+            config: {
+                handler: function(req, reply) {
                     reply("getting schedule")
                 }
             }
+        }, {
+            method: 'GET',
+            path: BASE_URL + '/scheduleId/{id}',
+            config: {
+                handler: function(req, reply) {
+                    reply("getting schedule for id " + req.params.id)
+                }
+            }
+        }, {
+            method: 'GET',
+            path: BASE_URL + '/customerId/{id}',
+            config: {
+                handler: function(req, reply) {
+                    reply("getting schedule for customer " + req.params.id)
+                }
+            }
+        }, {
+            method: 'GET',
+            path: BASE_URL + '/specialistId/{id}',
+            config: {
+                handler: function(req, reply) {
+                    reply("getting schedule for specialistId " + req.params.id)
+                }
+            }
+        }, {
+            method: 'GET',
+            path: BASE_URL + '/specialistId/{id}/appointmentdate/{date}',
+            config: {
+                handler: function(req, reply) {
+                    reply("getting schedule for specialistId for date " + req.params.id + req.params.date)
+                }
+            }
         }
+
     ];
 }();
-
 
 // var express = require('express')
 // var mongoose      = require('mongoose')
@@ -23,7 +56,7 @@ module.exports = function() {
 //  // console.log("in find all schedules" +  mongoose.connection)
 //   res.setHeader('Access-Control-Allow-Origin','*')
 //   Schedules.find(function (err, schedules) {
-        
+
 //         if (err) return console.error(err)
 //         res.json(schedules);
 //   })
@@ -77,7 +110,7 @@ module.exports = function() {
 //   console.log("in post new schedule " + JSON.stringify(req.body))
 
 //   schedule.save(function (error, data) {
-  
+
 //   if (error) {
 //    return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 //   }else {

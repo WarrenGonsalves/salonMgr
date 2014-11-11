@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var _ = require('underscore');
 
-fs.readdirSync(__dirname).forEach(function (file) {
+fs.readdirSync(__dirname).forEach(function(file) {
   /* If its the current file ignore it */
   if (file === 'index.js') return;
 
@@ -14,6 +14,6 @@ fs.readdirSync(__dirname).forEach(function (file) {
 
   console.log("processing routes");
   console.log(mod)
-  /* Extend module.exports (in this case - undescore.js, can be any other) */
+    /* Extend module.exports (in this case - undescore.js, can be any other) */
   _.extend(module.exports, mod);
 });

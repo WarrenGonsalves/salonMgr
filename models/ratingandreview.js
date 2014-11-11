@@ -14,9 +14,9 @@ var RatingAndReviewSchema = new Schema({
   updated_date: Date,
   created_by: Number,
   updated_by: Number
-  //date            : { type: Date, set: setDateWithFormat },
-  //start_time  : { type: Date, set: setStartTimeWithFormat },
-  //end_time        : { type: Date, set: setEndTimeWithFormat },
+    //date            : { type: Date, set: setDateWithFormat },
+    //start_time  : { type: Date, set: setStartTimeWithFormat },
+    //end_time        : { type: Date, set: setEndTimeWithFormat },
 
 })
 

@@ -1,17 +1,32 @@
+var BASE_URL = '/ratingsAndReview'
+
 module.exports = function() {
-    return [
-        {
-            method: 'GET',
-            path: '/rating',
-            config : {
-                handler: function(request, reply){
-                    reply("getting rating")
-                }
+    return [{
+        method: 'GET',
+        path: BASE_URL,
+        config: {
+            handler: function(req, reply) {
+                reply("getting rating")
             }
         }
-    ];
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/{lat}/{long}/{distance}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting org for lat long distance")
+            }
+        }
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/organizationId/{id}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting org for id" + req.params.id)
+            }
+        }
+    }];
 }();
-
 
 // var express = require('express')
 // var mongoose      = require('mongoose')
@@ -21,10 +36,10 @@ module.exports = function() {
 // exports.getAllRatingAndReview = function(req, res , next){
 //    // console.log("in find all schedules" +  mongoose.connection)
 //     res.setHeader('Access-Control-Allow-Origin','*')
-    
+
 //       RatingAndReview.find(function (err, ratingAndReviewList) {
 //           if (err) return console.error(err)
-        
+
 //           res.json(ratingAndReviewList)
 //     })
 // }
@@ -34,7 +49,7 @@ module.exports = function() {
 //     var ratingAndReview = new RatingAndReview(req.body)
 
 //     ratingAndReview.save(function (error, data) {
-    
+
 //     if (error) {
 //      return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 //     }else {
@@ -62,7 +77,7 @@ module.exports = function() {
 //         console.log("person"+person)
 //         var items = Object.keys(group[person]); items.forEach(function(item) {
 //         var value = group[person][item]; console.log(person+': '+item+' = '+value); });
-      
+
 //       });
 
 //       // results.
@@ -72,7 +87,7 @@ module.exports = function() {
 //                     Organization.findOneAndUpdate({org_id: v._id}, {average_rating: v.average_rating}, null, function (err, organization) {
 //                       if (err) return console.error(err)
 //                     })
-                
+
 //         })
 //       */
 //     })
@@ -86,11 +101,11 @@ module.exports = function() {
 //       RatingAndReview.find({org_id: orgId, review: {$ne : null}})
 //                     .count(function (err, count) {
 //           if (err) return handleError(err);
-          
+
 //           console.log(" in updateReviewCountForOrganization " + orgId + "  count is "+count)
 
 //           Organization.findOneAndUpdate({org_id: orgId}, {review_count: count}, null, function (err, organization) {
-          
+
 //          if (err) return console.error(err)
 
 //          })
@@ -101,16 +116,13 @@ module.exports = function() {
 
 // exports.updateRatingAndReviewByRatingId = function(req, res , next){
 
-    
+
 //     var query = { rating_id: req.params.ratingAndReviewId };
 
 //     RatingAndReview.findOneAndUpdate(query, req.body, null, function (err, ratingAndReview) {
-          
+
 //           if (err) return console.error(err)
 
 //           res.json(ratingAndReview);
 //     })
 // }
-
-
-

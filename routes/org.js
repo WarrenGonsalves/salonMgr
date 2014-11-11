@@ -2,29 +2,35 @@
 //var Joi = require("joi");
 //var taskValidate = require('src/validate/task');
 
+var BASE_URL = '/organizations'
+
 module.exports = function() {
-    return [
-        {
-            method: 'GET',
-            path: '/org',
-            config : {
-                handler: function(request, reply){
-                    reply("getting org")
-                }
+    return [{
+        method: 'GET',
+        path: BASE_URL,
+        config: {
+            handler: function(req, reply) {
+                reply("getting org")
             }
         }
-    ];
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/{lat}/{long}/{distance}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting org for lat long distance")
+            }
+        }
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/organizationId/{id}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting org for id" + req.params.id)
+            }
+        }
+    }];
 }();
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -57,15 +63,15 @@ module.exports = function() {
 //     var distance = parseInt(req_distance)/6371 // for spherical surfaces , 6371 kms is the circumference of earth
 
 //     Organization.where('locs').within({ center : [req_lon,req_lat], radius: distance, unique: true, spherical: true }).exec(function(err, queryresults){
-	
+
 // 		if (err) { 
-    			
+
 //                 errors.status = "error"
 //     			errors.error_message = "This should never happen, we will fix this next time"
 //     			console.error("Asas"+err)
 
 //     		}else{
-	      		
+
 //                 console.error("in else")
 // 	      	    queryresults.forEach(function(v){
 // 	      	 	  var org = {}
@@ -93,7 +99,7 @@ module.exports = function() {
 // 	      	errors.status	= "ok"
 
 // 	      	results_holder.org_list = tmp_org_list
-	      
+
 // 	      }
 //   		results_holder.errors = errors
 
@@ -130,13 +136,13 @@ module.exports = function() {
 
 
 // exports.getAllOrganizations =  function(req, res , next){
- 
+
 //   Organization.find(function (err, organizations) {
-        
+
 //         if (err) return console.error(err)
 //         res.json(organizations);
 //   })
-  	
+
 // }
 
 
@@ -147,7 +153,7 @@ module.exports = function() {
 //   var query = { org_id: req.params.organizationId };
 
 //   Organization.findOneAndUpdate(query, req.body, null, function (err, organization) {
-        
+
 //         if (err) return console.error(err)
 
 //         res.json(organization);
@@ -159,7 +165,7 @@ module.exports = function() {
 //   var organization = new Organization(req.body)
 
 //   organization.save(function (error, data) {
-  
+
 //   if (error) {
 //    return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
 //   }else {
@@ -187,5 +193,3 @@ module.exports = function() {
 //       })
 //       */
 // }
-
-

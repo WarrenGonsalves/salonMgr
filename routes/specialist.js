@@ -1,16 +1,33 @@
+var BASE_URL = '/specialists'
+
 module.exports = function() {
-    return [
-        {
-            method: 'GET',
-            path: '/specialist',
-            config : {
-                handler: function(request, reply){
-                    reply("getting specialist")
-                }
+    return [{
+        method: 'GET',
+        path: BASE_URL,
+        config: {
+            handler: function(req, reply) {
+                reply("getting org")
             }
         }
-    ];
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/{lat}/{long}/{distance}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting specialist for lat long distance")
+            }
+        }
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/specialistId/{id}',
+        config: {
+            handler: function(req, reply) {
+                reply("getting specialist for id" + req.params.id)
+            }
+        }
+    }];
 }();
+
 
 // var express = require('express')
 // var mongoose = require('mongoose')
@@ -287,7 +304,7 @@ module.exports = function() {
 //       console.log("cat " + sortedCategories.length + "   i  =  " + i + " specialist_l1_title   " + specialist_l1_title + " specialist_title " + specialist_title); //"aa", bb", "cc"
 
 //       if (((last_specialist_l1_title != null) && (specialist_l1_title != last_specialist_l1_title)) || (sortedCategories.length == (i + 1))) {
-       
+
 //         tmpcat.category = last_specialist_l1_title
 //         tmpcat.sub_categories = subcategories
 //         category.push(tmpcat)
@@ -327,7 +344,7 @@ module.exports = function() {
 //       last_specialist_l1_title = c.specialist_l1_title
 //       tmp_subcategories = {}
 
-     
+
 
 //     })
 //     tmpcat.category = last_specialist_l1_title
