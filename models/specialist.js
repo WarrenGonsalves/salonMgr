@@ -34,6 +34,7 @@ var SpecialistSchema = new Schema({
   updated_date: Date,
   created_by: Number,
   updated_by: Number
+
 })
 
 mongoose.model("Specialist", SpecialistSchema)

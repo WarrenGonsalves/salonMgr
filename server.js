@@ -203,6 +203,9 @@ initializeServer = function() {
   server.get({
     path: SPECIALIST_PATH + '/specialistId/:specialistId'
   }, specialist.getSpecialistBySpecialistId) //get organizations by Organization id
+  server.get({
+    path: SPECIALIST_PATH + '/filterSpecialistBySkill/:skill'
+  }, specialist.getSpecialistBySkill) //get organizations by Organization id
   /*server.get({
     path: SPECIALIST_PATH + '/specialistID'
   }, specialist.getSpecialistBySpecialistId) //get organizations by Organization id

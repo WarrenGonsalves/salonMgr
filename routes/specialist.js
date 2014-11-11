@@ -102,6 +102,19 @@ exports.getSpecialistBySpecialistId = function(req, res, next) {
   })
 }
 
+exports.getSpecialistBySkill = function(req, res, next) {
+
+  specialist_skill_passed = (req.params.skill || (url.parse(req.url, true).query.skill))
+
+console.log("specialist_skill_passed " +specialist_skill_passed)
+  Specialist.find({
+    'categories.specialist_title': specialist_skill_passed
+  }, function(err, specialist) {
+console.log("specialist " +specialist)
+    res.json(createResultJSON(err, specialist, "specialist"))
+  })
+}
+
 exports.updateSpecialistBySpecialistId = function(req, res, next) {
 
   console.log("in updateOrganizationByOrganizationId req.params.organizationId " + req.params.specialistId)
