@@ -1,327 +1,341 @@
-var express = require('express')
-var mongoose = require('mongoose')
-var restify = require('restify')
-var iSpecialist = require('./../models/iSpecialist.js')
-var Specialist = mongoose.model('Specialist')
-var url = require('url')
+module.exports = function() {
+    return [
+        {
+            method: 'GET',
+            path: '/specialist',
+            config : {
+                handler: function(request, reply){
+                    reply("getting specialist")
+                }
+            }
+        }
+    ];
+}();
 
-exports.getAllSpecialists = function(req, res, next) {
+// var express = require('express')
+// var mongoose = require('mongoose')
+// var restify = require('restify')
+// var iSpecialist = require('./../models/iSpecialist.js')
+// var Specialist = mongoose.model('Specialist')
+// var url = require('url')
 
-  var tmp_specialist_list = []
-  var errors = {}
-  var results_holder = {}
-  var results = {}
+// exports.getAllSpecialists = function(req, res, next) {
 
-  Specialist.find(function(err, specialists) {
+//   var tmp_specialist_list = []
+//   var errors = {}
+//   var results_holder = {}
+//   var results = {}
 
+//   Specialist.find(function(err, specialists) {
 
-    if (err) {
 
-      errors.status = "error"
-      errors.error_message = "This should never happen, we will fix this next time"
+//     if (err) {
 
+//       errors.status = "error"
+//       errors.error_message = "This should never happen, we will fix this next time"
 
-    } else {
 
+//     } else {
 
-      specialists.forEach(function(v) {
 
-        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
-            "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], "", "")
-          //console.log(" ispecialist " + specialist)
+//       specialists.forEach(function(v) {
 
-        tmp_specialist_list.push(specialist)
-      })
+//         var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
+//             "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], "", "")
+//           //console.log(" ispecialist " + specialist)
 
-      errors.status = "ok"
+//         tmp_specialist_list.push(specialist)
+//       })
 
-      results_holder.specialist_list = tmp_specialist_list
+//       errors.status = "ok"
 
-    }
-    results_holder.errors = errors
+//       results_holder.specialist_list = tmp_specialist_list
 
-    results.results = results_holder
-    console.error("in else" + results);
-    //console.log(stats)
-    res.json(results)
-  })
+//     }
+//     results_holder.errors = errors
 
-}
+//     results.results = results_holder
+//     console.error("in else" + results);
+//     //console.log(stats)
+//     res.json(results)
+//   })
 
-exports.getAllOrganizations = function(req, res, next) {
+// }
 
-  Specialist.find(function(err, organizations) {
+// exports.getAllOrganizations = function(req, res, next) {
 
-    if (err) return console.error(err)
-    res.json(organizations);
-  })
+//   Specialist.find(function(err, organizations) {
 
-}
+//     if (err) return console.error(err)
+//     res.json(organizations);
+//   })
 
-function getSpecialistsWithLatLon(req, res, next) {
+// }
 
-  var tmp_specialist_list = []
-  var errors = {}
-  var results_holder = {}
-  var results = {}
+// function getSpecialistsWithLatLon(req, res, next) {
 
-  var req_lon = (req.params.lon || (url.parse(req.url, true).query.lon))
-  var req_lat = (req.params.lat || (url.parse(req.url, true).query.lat))
-  var req_distance = (req.params.distance || (url.parse(req.url, true).query.distance))
+//   var tmp_specialist_list = []
+//   var errors = {}
+//   var results_holder = {}
+//   var results = {}
 
-  if (req_lon == null || req_lat == null) {
-    errors.status = "error"
-    errors.error_message = "Hmmm.. Something went wrong with the gps. Are you sure your device's gps is turned on?"
-    results_holder.errors = errors
+//   var req_lon = (req.params.lon || (url.parse(req.url, true).query.lon))
+//   var req_lat = (req.params.lat || (url.parse(req.url, true).query.lat))
+//   var req_distance = (req.params.distance || (url.parse(req.url, true).query.distance))
 
-    results.results = results_holder
-    res.json(results)
-  }
+//   if (req_lon == null || req_lat == null) {
+//     errors.status = "error"
+//     errors.error_message = "Hmmm.. Something went wrong with the gps. Are you sure your device's gps is turned on?"
+//     results_holder.errors = errors
 
-  var distance = parseInt(req_distance) / 6371 // for spherical surfaces , 6371 kms is the circumference of earth
+//     results.results = results_holder
+//     res.json(results)
+//   }
 
-  Specialist.where('locs').within({
-    center: [req_lon, req_lat],
-    radius: distance,
-    unique: true,
-    spherical: true
-  }).exec(function(err, queryresults) {
+//   var distance = parseInt(req_distance) / 6371 // for spherical surfaces , 6371 kms is the circumference of earth
 
-    if (err) {
+//   Specialist.where('locs').within({
+//     center: [req_lon, req_lat],
+//     radius: distance,
+//     unique: true,
+//     spherical: true
+//   }).exec(function(err, queryresults) {
 
-      errors.status = "error"
-      errors.error_message = "This should never happen, we will fix this next time"
-      console.error("Asas" + err)
+//     if (err) {
 
-    } else {
+//       errors.status = "error"
+//       errors.error_message = "This should never happen, we will fix this next time"
+//       console.error("Asas" + err)
 
-      console.error("in else" + queryresults)
-      queryresults.forEach(function(v) {
-        console.error("in foreach ")
-        var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
-            "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], req_lat, req_lon)
-          //  console.log(" ispecialist " + specialist)
+//     } else {
 
-        tmp_specialist_list.push(specialist)
-      })
+//       console.error("in else" + queryresults)
+//       queryresults.forEach(function(v) {
+//         console.error("in foreach ")
+//         var specialist = new iSpecialist(v.specialist_id, v.name, v.address1, v.address2, v.city, v.state, v.pincode, v.average_rating,
+//             "yahoo.com", v.service_type, v.review_count, "4:30 PM", "nothing right now", "From 150Rs", v.locs[0], v.locs[1], req_lat, req_lon)
+//           //  console.log(" ispecialist " + specialist)
 
-      errors.status = "ok"
+//         tmp_specialist_list.push(specialist)
+//       })
 
-      results_holder.specialist_list = tmp_specialist_list
+//       errors.status = "ok"
 
-    }
-    results_holder.errors = errors
+//       results_holder.specialist_list = tmp_specialist_list
 
-    results.results = results_holder
+//     }
+//     results_holder.errors = errors
 
-    res.json(results)
-  })
+//     results.results = results_holder
 
+//     res.json(results)
+//   })
 
 
-}
 
-exports.getSpecialistsWithLatLon = getSpecialistsWithLatLon
+// }
 
+// exports.getSpecialistsWithLatLon = getSpecialistsWithLatLon
 
 
-exports.addSpecialist = function(req, res, next) {
 
-  var specialist = new Specialist(req.body)
-  console.log(req.contentLength())
-  console.log(req.contentType())
-  console.log(req.body)
-  specialist.save(function(error, data) {
+// exports.addSpecialist = function(req, res, next) {
 
-    if (error) {
-      return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
-    } else {
-      res.json(data);
-    }
-    res.send(201, specialist)
-  })
-}
+//   var specialist = new Specialist(req.body)
+//   console.log(req.contentLength())
+//   console.log(req.contentType())
+//   console.log(req.body)
+//   specialist.save(function(error, data) {
 
-exports.getSpecialistBySpecialistId = function(req, res, next) {
+//     if (error) {
+//       return next(new restify.InvalidArgumentError(JSON.stringify(error.errors)))
+//     } else {
+//       res.json(data);
+//     }
+//     res.send(201, specialist)
+//   })
+// }
 
-  specialist_id_passed = (req.params.specialistId || (url.parse(req.url, true).query.specialistId))
+// exports.getSpecialistBySpecialistId = function(req, res, next) {
 
-  Specialist.find({
-    specialist_id: parseInt(specialist_id_passed)
-  }, function(err, specialist) {
+//   specialist_id_passed = (req.params.specialistId || (url.parse(req.url, true).query.specialistId))
 
-    if (err) return console.error(err)
-    res.json(specialist);
-  })
-}
+//   Specialist.find({
+//     specialist_id: parseInt(specialist_id_passed)
+//   }, function(err, specialist) {
 
-exports.updateSpecialistBySpecialistId = function(req, res, next) {
+//     if (err) return console.error(err)
+//     res.json(specialist);
+//   })
+// }
 
-  console.log("in updateOrganizationByOrganizationId req.params.organizationId " + req.params.specialistId)
+// exports.updateSpecialistBySpecialistId = function(req, res, next) {
 
-  var query = {
-    specialist_id: req.params.specialistId
-  };
+//   console.log("in updateOrganizationByOrganizationId req.params.organizationId " + req.params.specialistId)
 
-  Specialist.findOneAndUpdate(query, req.body, null, function(err, specialist) {
+//   var query = {
+//     specialist_id: req.params.specialistId
+//   };
 
-    if (err) return console.error(err)
+//   Specialist.findOneAndUpdate(query, req.body, null, function(err, specialist) {
 
-    res.json(specialist);
-  })
-}
+//     if (err) return console.error(err)
 
-exports.getSpecialistSchema = function(req, res, next) {
+//     res.json(specialist);
+//   })
+// }
 
-  console.log(Specialist.schema.tree)
-  res.json(Specialist.schema.paths)
+// exports.getSpecialistSchema = function(req, res, next) {
 
-}
+//   console.log(Specialist.schema.tree)
+//   res.json(Specialist.schema.paths)
 
-exports.testArray = function(req, res, next) {
-  console.log("in test array")
-  var services = {}
-  var category = []
-  var tmpcat = {}
+// }
 
-  var subcategories = []
+// exports.testArray = function(req, res, next) {
+//   console.log("in test array")
+//   var services = {}
+//   var category = []
+//   var tmpcat = {}
 
-  var tmpcat = {}
-  var tmpsubcat = {}
-  tmpcat.category = "category1"
-  category.push(tmpcat)
+//   var subcategories = []
 
-  var tmpcat = {}
-  tmpcat.category = "category2"
-  category.push(tmpcat)
+//   var tmpcat = {}
+//   var tmpsubcat = {}
+//   tmpcat.category = "category1"
+//   category.push(tmpcat)
 
-  var tmpcat = {}
-  tmpcat.category = "category3"
-  category.push(tmpcat)
+//   var tmpcat = {}
+//   tmpcat.category = "category2"
+//   category.push(tmpcat)
 
-  services.services = category
+//   var tmpcat = {}
+//   tmpcat.category = "category3"
+//   category.push(tmpcat)
 
-  res.json(services)
-}
+//   services.services = category
 
-exports.testArray2 = function(req, res, next) {
-  console.log("in test array")
-  var services = {}
-  var category = []
-  var tmpcat = {}
+//   res.json(services)
+// }
 
-  var subcategories = []
-  var tmp_subcategories = {}
+// exports.testArray2 = function(req, res, next) {
+//   console.log("in test array")
+//   var services = {}
+//   var category = []
+//   var tmpcat = {}
 
-  tmp_subcategories.id = "1"
-  tmp_subcategories.title = "title 1"
-  subcategories.push(tmp_subcategories)
+//   var subcategories = []
+//   var tmp_subcategories = {}
 
-  var tmp_subcategories = {}
-  tmp_subcategories.id = "2"
-  tmp_subcategories.title = "title 2"
+//   tmp_subcategories.id = "1"
+//   tmp_subcategories.title = "title 1"
+//   subcategories.push(tmp_subcategories)
 
-  subcategories.push(tmp_subcategories)
+//   var tmp_subcategories = {}
+//   tmp_subcategories.id = "2"
+//   tmp_subcategories.title = "title 2"
 
-  var tmpcat = {}
-  var tmpsubcat = {}
-  var tmp_subcategories = {}
+//   subcategories.push(tmp_subcategories)
 
-  tmp_subcategories.id = "1"
-  tmp_subcategories.title = "title 1"
+//   var tmpcat = {}
+//   var tmpsubcat = {}
+//   var tmp_subcategories = {}
 
-  tmpcat.category = "category1"
-  tmpcat.sub_categories = subcategories
-  category.push(tmpcat)
+//   tmp_subcategories.id = "1"
+//   tmp_subcategories.title = "title 1"
 
-  var tmpcat = {}
-  tmpcat.category = "category2"
-  category.push(tmpcat)
+//   tmpcat.category = "category1"
+//   tmpcat.sub_categories = subcategories
+//   category.push(tmpcat)
 
-  var tmpcat = {}
-  tmpcat.category = "category3"
-  category.push(tmpcat)
+//   var tmpcat = {}
+//   tmpcat.category = "category2"
+//   category.push(tmpcat)
 
-  services.services = category
+//   var tmpcat = {}
+//   tmpcat.category = "category3"
+//   category.push(tmpcat)
 
-  res.json(services)
-}
+//   services.services = category
 
-exports.getCategories = function(req, res, next) {
+//   res.json(services)
+// }
 
-  Specialist.distinct(('categories'), function(err, cats) {
-    var services = {}
-    var category = []
-    var tmpcat = {}
+// exports.getCategories = function(req, res, next) {
 
-    var subcategories = []
-    var tmp_subcategories = {}
-    var last_specialist_l1_title
+//   Specialist.distinct(('categories'), function(err, cats) {
+//     var services = {}
+//     var category = []
+//     var tmpcat = {}
 
-    if (err) return console.error(err)
+//     var subcategories = []
+//     var tmp_subcategories = {}
+//     var last_specialist_l1_title
 
-    var sortedCategories = cats.sort(function(a, b) {
-      return a.specialist_l1_title.localeCompare(b.specialist_l1_title)
-    })
+//     if (err) return console.error(err)
 
-    // for-in loop
-    /*  for (var i in sortedCategories) {
+//     var sortedCategories = cats.sort(function(a, b) {
+//       return a.specialist_l1_title.localeCompare(b.specialist_l1_title)
+//     })
 
-      specialist_l1_title = sortedCategories[i].specialist_l1_title
-      specialist_title = sortedCategories[i].specialist_title
+//     // for-in loop
+//     /*  for (var i in sortedCategories) {
 
-      console.log("cat " + sortedCategories.length + "   i  =  " + i + " specialist_l1_title   " + specialist_l1_title + " specialist_title " + specialist_title); //"aa", bb", "cc"
+//       specialist_l1_title = sortedCategories[i].specialist_l1_title
+//       specialist_title = sortedCategories[i].specialist_title
 
-      if (((last_specialist_l1_title != null) && (specialist_l1_title != last_specialist_l1_title)) || (sortedCategories.length == (i + 1))) {
+//       console.log("cat " + sortedCategories.length + "   i  =  " + i + " specialist_l1_title   " + specialist_l1_title + " specialist_title " + specialist_title); //"aa", bb", "cc"
+
+//       if (((last_specialist_l1_title != null) && (specialist_l1_title != last_specialist_l1_title)) || (sortedCategories.length == (i + 1))) {
        
-        tmpcat.category = last_specialist_l1_title
-        tmpcat.sub_categories = subcategories
-        category.push(tmpcat)
-        tmpcat = {}
-        subcategories = []
-      }
+//         tmpcat.category = last_specialist_l1_title
+//         tmpcat.sub_categories = subcategories
+//         category.push(tmpcat)
+//         tmpcat = {}
+//         subcategories = []
+//       }
 
-      tmp_subcategories.title = specialist_title
-      tmp_subcategories.id = ""
-      subcategories.push(tmp_subcategories)
+//       tmp_subcategories.title = specialist_title
+//       tmp_subcategories.id = ""
+//       subcategories.push(tmp_subcategories)
 
-      last_specialist_l1_title = sortedCategories[i].specialist_l1_title
-      tmp_subcategories = {}
-    }
-*/
+//       last_specialist_l1_title = sortedCategories[i].specialist_l1_title
+//       tmp_subcategories = {}
+//     }
+// */
 
-    sortedCategories.forEach(function(c) {
+//     sortedCategories.forEach(function(c) {
 
-      console.log(c)
-      tmpcat.category = c.specialist_l1_title
+//       console.log(c)
+//       tmpcat.category = c.specialist_l1_title
 
-      if (last_specialist_l1_title != null && c.specialist_l1_title != last_specialist_l1_title) {
+//       if (last_specialist_l1_title != null && c.specialist_l1_title != last_specialist_l1_title) {
 
-        tmpcat.category = last_specialist_l1_title
-        tmpcat.sub_categories = subcategories
-        category.push(tmpcat)
+//         tmpcat.category = last_specialist_l1_title
+//         tmpcat.sub_categories = subcategories
+//         category.push(tmpcat)
 
-        tmpcat = {}
-        subcategories = []
-        tmp_subcategories = {}
+//         tmpcat = {}
+//         subcategories = []
+//         tmp_subcategories = {}
 
-      }
+//       }
 
-      tmp_subcategories.id = ""
-      tmp_subcategories.title = c.specialist_title
-      subcategories.push(tmp_subcategories)
-      last_specialist_l1_title = c.specialist_l1_title
-      tmp_subcategories = {}
+//       tmp_subcategories.id = ""
+//       tmp_subcategories.title = c.specialist_title
+//       subcategories.push(tmp_subcategories)
+//       last_specialist_l1_title = c.specialist_l1_title
+//       tmp_subcategories = {}
 
      
 
-    })
-    tmpcat.category = last_specialist_l1_title
-    tmpcat.sub_categories = subcategories
-    category.push(tmpcat)
+//     })
+//     tmpcat.category = last_specialist_l1_title
+//     tmpcat.sub_categories = subcategories
+//     category.push(tmpcat)
 
-    services.services = category
-    console.log(services)
-    res.json(services)
-  })
-}
+//     services.services = category
+//     console.log(services)
+//     res.json(services)
+//   })
+// }
