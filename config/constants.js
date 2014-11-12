@@ -4,7 +4,7 @@
  */
 var config = module.exports = {};
 
-console.log(process.env.OPENSHIFT_NODEJS_IP)
+console.log("OpenShift Ip: " + process.env.OPENSHIFT_NODEJS_IP)
 if (process.env.OPENSHIFT_NODEJS_IP === undefined) {
     config.env = 'development';
 } else {
@@ -25,4 +25,4 @@ config.mongo.dbname = process.env.BUMBLEBEE_MONGODB_DB_NAME || "fixers";
 config.mongo.user = process.env.BUMBLEBEE_MONGODB_DB_USER || "dbuser";
 config.mongo.pass = process.env.BUMBLEBEE_MONGODB_DB_PWD || "dbuser";
 
-config.mongo.connect.url = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname
+config.mongo.connecturl = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;

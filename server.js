@@ -23,7 +23,7 @@ var FixerApp = function() {
      */
     self.setupVariables = function() {
         //  Set the environment variables we need.
-        self.ipaddress = config.server.host;
+        self.ipaddress = config.server.ip;
         self.port = config.server.port;
 
         console.log('SERVER: setting ip %s, port %s, env %s', self.ipaddress, self.port, config.env);
