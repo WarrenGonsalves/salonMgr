@@ -4,6 +4,7 @@ var Hapi = require('hapi');
 var fs = require('fs');
 var routes = require('./routes');
 var config = require('./config/constants');
+var db = require('./db');
 
 /**
  *  Define the server application.

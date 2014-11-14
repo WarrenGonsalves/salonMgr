@@ -1,5 +1,5 @@
 var Mongoose = require('mongoose');
-var Config = require('./config/constants');
+var config = require('./config/constants');
 
 //load database
 Mongoose.connect(config.mongo.connecturl);

@@ -19,10 +19,11 @@ config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
 
 // mongodb
 config.mongo = {};
-config.mongo.host = process.env.BUMBLEBEE_MONGODB_DB_HOST || "localhost";
+config.mongo.host = process.env.BUMBLEBEE_MONGODB_DB_HOST || "127.0.0.1";
 config.mongo.port = process.env.BUMBLEBEE_MONGODB_DB_PORT || "27017";
 config.mongo.dbname = process.env.BUMBLEBEE_MONGODB_DB_NAME || "fixers";
 config.mongo.user = process.env.BUMBLEBEE_MONGODB_DB_USER || "dbuser";
 config.mongo.pass = process.env.BUMBLEBEE_MONGODB_DB_PWD || "dbuser";
 
 config.mongo.connecturl = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;
+console.log("ENV_MONGO: " + config.mongo.connecturl);
