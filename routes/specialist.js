@@ -1,3 +1,4 @@
+var specialist = require('../models/specialist');
 var BASE_URL = '/specialists'
 
 module.exports = function() {
@@ -6,23 +7,33 @@ module.exports = function() {
         path: BASE_URL,
         config: {
             handler: function(req, reply) {
-                reply("getting org")
+                specialist.getAll(function(err, data) {
+                    if (err) {
+                        reply({
+                            "error": err
+                        });
+                    }
+                    reply({
+                        specialist_list: data
+                    });
+                });
             }
         }
     }, {
         method: 'GET',
-        path: BASE_URL + '/{lat}/{long}/{distance}',
+        path: BASE_URL + '/filterSpecialistBySkill/{category}',
         config: {
             handler: function(req, reply) {
-                reply("getting specialist for lat long distance")
-            }
-        }
-    }, {
-        method: 'GET',
-        path: BASE_URL + '/specialistId/{id}',
-        config: {
-            handler: function(req, reply) {
-                reply("getting specialist for id" + req.params.id)
+                specialist.getByCategory(req.params.category, function(err, data) {
+                    if (err) {
+                        reply({
+                            "error": err
+                        });
+                    }
+                    reply({
+                        specialist_list: data
+                    });
+                });
             }
         }
     }];

@@ -32,7 +32,6 @@ module.exports = function() {
                         });
                     }
                     reply({
-                        status: "sucess",
                         data: data
                     });
                 });

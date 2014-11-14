@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
-
 var Schema = mongoose.Schema;
+var _ = require("underscore");
 
-var SpecialistSchema = new Schema({
+// schema
+var specialistSchema = new Schema({
   specialist_id: Number,
   name: String,
   address1: String,
@@ -36,4 +37,16 @@ var SpecialistSchema = new Schema({
   updated_by: Number
 })
 
-mongoose.model("Specialist", SpecialistSchema)
+// methods
+specialistSchema.statics.getAll = function(cb) {
+  console.log(__filename + "get all specialist ");
+  this.find({}, cb);
+}
+
+specialistSchema.statics.getByCategory = function(sub_category, cb) {
+  console.log(__filename + "get specialist by category: " + sub_category);
+  this.find({'categories.specialist_title': sub_category}, cb);
+}
+
+// export
+module.exports = mongoose.model('specialist', specialistSchema);

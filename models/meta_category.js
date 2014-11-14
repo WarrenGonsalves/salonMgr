@@ -26,10 +26,12 @@ categorySchema.statics.getAll = function(cb) {
             return;
         }
 
+        // group services by category
         grouped = _.groupBy(services, function(value) {
             return value.category
         });
 
+        // re-map json structure to match requirement
         mapped = _.map(grouped, function(value) {
             var mappedValue = {
                 'category': value[0].category,
@@ -41,6 +43,12 @@ categorySchema.statics.getAll = function(cb) {
         cb(err, mapped)
     });
 }
+
+categorySchema.statics.getDistinctServices = function(cb) {
+    console.log(__filename + "Distinct Services");
+    this.find({},cb);
+}
+
 
 // export
 module.exports = mongoose.model('category', categorySchema);
