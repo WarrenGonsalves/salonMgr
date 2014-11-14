@@ -20,20 +20,22 @@ categorySchema.statics.createNew = function(category, subCategory, cb) {
 
 categorySchema.statics.getAll = function(cb) {
     console.log("CATEGORY_DAO: get all");
-    this.find({}, function(err, services) {
+    this.find({}).select('category sub_category').sort('category sub_category').find(function(err, services) {
         if (err) {
             cb(err, services);
             return;
         }
 
-        grouped = _.groupBy(services, function(value){
+        grouped = _.groupBy(services, function(value) {
             return value.category
         });
 
-        mapped = _.map(grouped, function(value){
-            var newValue = {'category': value[0].category,
-                'sub_categories': value};
-            return newValue;
+        mapped = _.map(grouped, function(value) {
+            var mappedValue = {
+                'category': value[0].category,
+                'sub_categories': value
+            };
+            return mappedValue;
         })
 
         cb(err, mapped)
