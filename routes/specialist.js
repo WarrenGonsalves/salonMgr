@@ -1,4 +1,5 @@
 var specialist = require('../models/specialist');
+var specialistController = require('../controller/specialist');
 var BASE_URL = '/specialists'
 
 module.exports = function() {
@@ -21,6 +22,21 @@ module.exports = function() {
         }
     }, {
         method: 'GET',
+        path: BASE_URL + '/distinctCat',
+        config: {
+            handler: function(req, reply) {
+                specialist.getDistinctCat(function(err, data) {
+                    if (err) {
+                        reply({
+                            "error": err
+                        });
+                    }
+                    reply(data);
+                });
+            }
+        }
+    }, {
+        method: 'GET',
         path: BASE_URL + '/filterSpecialistBySkill/{category}',
         config: {
             handler: function(req, reply) {
@@ -36,6 +52,10 @@ module.exports = function() {
                 });
             }
         }
+    }, {
+        method: 'POST',
+        path: BASE_URL + '/{fname}/{cat}',
+        config: specialistController.postConfigHandler
     }];
 }();
 

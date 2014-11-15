@@ -52,3 +52,4 @@ categorySchema.statics.getDistinctServices = function(cb) {
 
 // export
 module.exports = mongoose.model('category', categorySchema);
+module.exports.categorySchema = categorySchema;
