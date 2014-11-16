@@ -42,6 +42,10 @@ module.exports = function() {
       }
     }
   }, {
+    method: 'GET',
+    path: BASE_URL + '/bycategory/{cat_id}',
+    config: specialistController.getAllByCategoryId
+  }, {
     method: 'POST',
     path: BASE_URL + '/{fname}/{cat}',
     config: specialistController.postConfigHandler

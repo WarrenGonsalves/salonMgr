@@ -1,5 +1,6 @@
 var Hapi = require('hapi');
 var db = require("../db");
+var util = require("../util");
 
 function SpecialistController() {};
 
@@ -19,8 +20,19 @@ SpecialistController.prototype.postConfigHandler = {
             specialist.save();
             reply(specialist);
         });
+    }
+};
 
+SpecialistController.prototype.getAllByCategoryId = {
+    handler: function(request, reply) {
 
+        console.log(__filename + "get specialist by category: " + request.params.cat_id);
+        db.specialist.find({
+            'categories._id': request.params.cat_id
+        }, function(err, data) {
+            util.replyHelper.ifError(err, reply);
+            reply(data);
+        });
     }
 };
 
