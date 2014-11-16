@@ -13,7 +13,7 @@ var specialistSchema = new Schema({
   state: String,
   zip: Number,
   country: String,
-  contact: [{
+  contacts: [{
     contactType: String,
     contact: String
   }],
@@ -33,6 +33,7 @@ var specialistSchema = new Schema({
   updated_date: Date,
   created_by: Number,
   updated_by: Number
+
 })
 
 // methods
