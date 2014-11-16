@@ -4,6 +4,11 @@ var ADMIN_URL = "/admin" + BASE_URL;
 
 module.exports = function() {
     return [{
+        /**
+         * Get all Categories
+         * GET
+         * /categories
+         */
         method: 'GET',
         path: BASE_URL,
         config: {
@@ -21,6 +26,11 @@ module.exports = function() {
             }
         }
     }, {
+        /**
+         * Create new category / sub category entry
+         * POST
+         * /admin/categories/{category}/{sub_category}
+         */
         method: 'POST',
         path: ADMIN_URL + "/{category}/{sub_category}",
         config: {
