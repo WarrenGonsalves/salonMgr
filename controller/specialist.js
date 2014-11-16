@@ -31,7 +31,9 @@ SpecialistController.prototype.getAllByCategoryId = {
             'categories._id': request.params.cat_id
         }, function(err, data) {
             util.replyHelper.ifError(err, reply);
-            reply(data);
+            reply({
+                specialist_list: data
+            });
         });
     }
 };
