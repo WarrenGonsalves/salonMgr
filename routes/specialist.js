@@ -1,6 +1,7 @@
 var specialist = require('../models/specialist');
 var specialistController = require('../controller/specialist');
-var BASE_URL = '/specialists'
+var BASE_URL = '/specialists';
+var util = require('../util');
 
 module.exports = function() {
   return [{
@@ -9,11 +10,7 @@ module.exports = function() {
     config: {
       handler: function(req, reply) {
         specialist.getAll(function(err, data) {
-          if (err) {
-            reply({
-              "error": err
-            });
-          }
+          util.replyHelper.ifError(err, reply);
           reply({
             specialist_list: data
           });
@@ -26,11 +23,7 @@ module.exports = function() {
     config: {
       handler: function(req, reply) {
         specialist.getDistinctCat(function(err, data) {
-          if (err) {
-            reply({
-              "error": err
-            });
-          }
+          util.replyHelper.ifError(err, reply);
           reply(data);
         });
       }
@@ -41,11 +34,7 @@ module.exports = function() {
     config: {
       handler: function(req, reply) {
         specialist.getByCategory(req.params.category, function(err, data) {
-          if (err) {
-            reply({
-              "error": err
-            });
-          }
+          util.replyHelper.ifError(err, reply);
           reply({
             specialist_list: data
           });
