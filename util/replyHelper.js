@@ -2,7 +2,7 @@ module.exports.ifError = function(err, reply) {
     if (err) {
         reply({
             "error": err
-        });
+        }).code(500);
     }
 };
 
