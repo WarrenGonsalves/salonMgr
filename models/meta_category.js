@@ -2,6 +2,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var _ = require("underscore");
 
+var SPECIALIST_BY_CATEGORY_HREF = "/specialists/bycategory/"
+
 // schema
 var categorySchema = new Schema({
     category: String,
@@ -26,29 +28,34 @@ categorySchema.statics.getAll = function(cb) {
             return;
         }
 
+        services = _.map(services, function(data) {
+            data = data.toJSON();
+            data.href = SPECIALIST_BY_CATEGORY_HREF + data._id;
+            return data;
+        });
+
         // group services by category
-        grouped = _.groupBy(services, function(value) {
-            return value.category
+        services = _.groupBy(services, function(data) {
+            return data.category;
         });
 
         // re-map json structure to match requirement
-        mapped = _.map(grouped, function(value) {
+        services = _.map(services, function(data) {
             var mappedValue = {
-                'category': value[0].category,
-                'sub_categories': value
+                'category': data[0].category,
+                'sub_categories': data
             };
             return mappedValue;
         })
 
-        cb(err, mapped)
+        cb(err, services)
     });
 }
 
 categorySchema.statics.getDistinctServices = function(cb) {
     console.log(__filename + "Distinct Services");
-    this.find({},cb);
+    this.find({}, cb);
 }
-
 
 // export
 module.exports = mongoose.model('category', categorySchema);
