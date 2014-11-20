@@ -1,6 +1,7 @@
 var Hapi = require('hapi');
 var db = require("../db");
 var util = require("../util");
+var _ = require('underscore');
 
 function SpecialistController() {};
 
@@ -23,6 +24,36 @@ SpecialistController.prototype.postConfigHandler = {
             specialist.categories.push(data);
             specialist.save();
             reply(specialist);
+        });
+    }
+};
+
+SpecialistController.prototype.getConfigHandler = {
+    handler: function(request, reply) {
+        
+        console.log(__filename + ' query param ' + JSON.stringify(request.query));
+
+        var query_param = {}
+
+        if (!(request.query.store === undefined)){
+            query_param['store.store_id'] = request.query.store;
+        }
+
+        if (!(request.query.category === undefined)){
+            query_param['categories._id'] = request.query.category;
+        }
+
+        console.log(__filename + ' query param ' + JSON.stringify(query_param));
+
+        db.specialist.find(query_param, function(err, data) {
+            if (err) {
+                reply(err).code(500);
+                return;
+            }
+
+            reply({
+                specialist_list: data
+            });
         });
     }
 };
@@ -63,6 +94,7 @@ SpecialistController.prototype.getAllAvailableByCategory = {
         });
     }
 };
+
 
 var specialistController = new SpecialistController();
 module.exports = specialistController;

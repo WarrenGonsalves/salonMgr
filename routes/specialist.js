@@ -9,19 +9,11 @@ module.exports = function() {
        * Get all specialist.
        * GET
        * /specialists
+       * Query Parameters: store={storeid}&category={categoryid}
        */
       method: 'GET',
       path: BASE_URL,
-      config: {
-        handler: function(req, reply) {
-          specialist.getAll(function(err, data) {
-            util.replyHelper.ifError(err, reply);
-            reply({
-              specialist_list: data
-            });
-          });
-        }
-      }
+      config: specialistController.getConfigHandler
     }, {
       /*!
        * Dummy

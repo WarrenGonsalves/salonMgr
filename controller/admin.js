@@ -21,5 +21,32 @@ AdminController.prototype.addSpecialistCategoryHandler = {
     }
 };
 
+AdminController.prototype.addSpecialistStoreHandler= {
+    handler: function(request, reply) {
+        db.specialist.findOne({
+            _id: request.params.spc_id
+        }, function(err, specialist) {
+            db.store.findOne({
+                _id: request.params.store_id
+            }, function(err, store) {
+                if (err) {
+                    reply(err).code(500);
+                    return;
+                }
+
+                if (!store || store === undefined) {
+                    reply("Store not found").code(500);
+                    return;
+                }
+
+                console.log("adding store: " + store + " to specialist: " + specialist);
+                specialist.store.push({'store_id': request.params.store_id});
+                specialist.save();
+                reply(specialist);
+            });
+        });
+    }
+};
+
 var adminController = new AdminController();
 module.exports = adminController;
