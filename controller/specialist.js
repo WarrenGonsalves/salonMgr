@@ -36,7 +36,7 @@ SpecialistController.prototype.getConfigHandler = {
         var query_param = {}
 
         if (!(request.query.store === undefined)){
-            query_param['store.store_id'] = request.query.store;
+            query_param['stores.store_id'] = request.query.store;
         }
 
         if (!(request.query.category === undefined)){
