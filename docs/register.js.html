@@ -85,6 +85,8 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#registrationController"><i class="alert alert-success"></i><span>registrationController</span></a>
+              </li>
               <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
               </li>
               <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
@@ -95,6 +97,20 @@
           </div>
         </div>
         <div class="span9">
+          <section id="registrationController">
+            <h1>registrationController</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">declaration</div><span>registrationController</span>
+            </p>
+          </section>
+          <div class="description"><p>Regsistration</p><p>Register a store / user using -<br />POST<br />/register/store/{phone}<br />/register/user/{phone}</p><p>Response -<br />{<br />&quot;__v&quot;: 0,<br />&quot;ph&quot;: 234234,<br />&quot;_id&quot;: &quot;546d81538b55f82ca98e37b9&quot;,<br />&quot;created_date&quot;: &quot;2014-11-20T05:50:33.844Z&quot;<br />}</p><p>Save &#39;_id&#39; for stores / user and use it for query filter where ever store or user query parameter is used.</p> </div>
+          <pre><code class="language-javascript">var registrationController = require('../controller/register');
+
+var BASE_URL = '/register'
+
+module.exports = function() {
+    return [{</code></pre>
           <section id="method">
             <h1>method</h1>
             <h5 class="subheader"></h5>
@@ -137,9 +153,14 @@ config: {
     handler: function(req, reply) {
         console.log(&quot;auth user for phone: &quot; + req.params.phone + &quot; :code &quot; + req.params.code);
         if (req.params.code === '1234') {
-            reply({message:&quot;valid user&quot;});
+            reply({
+                message: &quot;valid user&quot;
+            });
         } else {
-            reply({error:'invalid user', message:&quot;invalid user&quot;}).code(500);
+            reply({
+                error: 'invalid user',
+                message: &quot;invalid user&quot;
+            }).code(500);
         }
     }
 }
