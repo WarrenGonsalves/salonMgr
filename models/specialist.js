@@ -7,7 +7,7 @@ var _ = require("underscore");
 var specialistSchema = new Schema({
   specialist_id: Number,
   name: String,
-  store: [{
+  stores: [{
     store_id: String
   }],
   address1: String,

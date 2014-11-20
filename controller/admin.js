@@ -40,7 +40,7 @@ AdminController.prototype.addSpecialistStoreHandler= {
                 }
 
                 console.log("adding store: " + store + " to specialist: " + specialist);
-                specialist.store.push({'store_id': request.params.store_id});
+                specialist.stores.push({'store_id': request.params.store_id});
                 specialist.save();
                 reply(specialist);
             });
