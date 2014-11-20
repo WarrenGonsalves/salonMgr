@@ -74,21 +74,77 @@
             <li><a href="index.html">Main</a></li>
             <li><a href="admin.js.html">admin.js</a></li>
             <li><a href="category.js.html">category.js</a></li>
-            <li class="active"><a href="docs.js.html">docs.js</a></li>
+            <li><a href="docs.js.html">docs.js</a></li>
             <li><a href="index.js.html">index.js</a></li>
             <li><a href="org.js.html">org.js</a></li>
             <li><a href="ratingandreview.js.html">ratingandreview.js</a></li>
-            <li><a href="register.js.html">register.js</a></li>
+            <li class="active"><a href="register.js.html">register.js</a></li>
             <li><a href="schedule.js.html">schedule.js</a></li>
             <li><a href="specialist.js.html">specialist.js</a></li>
             <li><a href="store.js.html">store.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
+              </li>
+              <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
+              </li>
+              <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
+          <section id="method">
+            <h1>method</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>method</span>
+            </p>
+          </section>
+          <div class="description"><p>Register new store<br />POST<br />/register/store/{phone}</p> </div>
+          <pre><code class="language-javascript">method: 'POST',
+path: BASE_URL + '/store/{phone}',
+config: registrationController.registerStoreHandler
+    }, {</code></pre>
+          <section id="method">
+            <h1>method</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>method</span>
+            </p>
+          </section>
+          <div class="description"><p>NOT YET IMPLEMENTED.<br />Register new user<br />POST<br />/register/store/{phone}</p> </div>
+          <pre><code class="language-javascript">method: 'POST',
+path: BASE_URL + '/user/{phone}',
+config: {
+    handler: function(req, reply) {
+        reply(&quot;TODO: user registration for phone: &quot; + req.params.phone);
+    }
+}
+    }, {</code></pre>
+          <section id="method">
+            <h1>method</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>method</span>
+            </p>
+          </section>
+          <div class="description"><p>Authenticate user / store using giving phone / code<br />GET<br />/register/auth/{phone}/{code}</p> </div>
+          <pre><code class="language-javascript">method: 'GET',
+path: BASE_URL + '/auth/{phone}/{code}',
+config: {
+    handler: function(req, reply) {
+        console.log(&quot;auth user for phone: &quot; + req.params.phone + &quot; :code &quot; + req.params.code);
+        if (req.params.code === '1234') {
+            reply({message:&quot;valid user&quot;});
+        } else {
+            reply({error:'invalid user', message:&quot;invalid user&quot;}).code(500);
+        }
+    }
+}
+    }];
+}();</code></pre>
         </div>
       </div>
     </div>

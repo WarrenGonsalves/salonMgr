@@ -78,8 +78,10 @@
             <li><a href="index.js.html">index.js</a></li>
             <li><a href="org.js.html">org.js</a></li>
             <li><a href="ratingandreview.js.html">ratingandreview.js</a></li>
+            <li><a href="register.js.html">register.js</a></li>
             <li><a href="schedule.js.html">schedule.js</a></li>
             <li class="active"><a href="specialist.js.html">specialist.js</a></li>
+            <li><a href="store.js.html">store.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
@@ -98,19 +100,10 @@
               <div class="label label-success radius ctx-type">property</div><span>method</span>
             </p>
           </section>
-          <div class="description"><p>Get all specialist.<br />GET<br />/specialists</p> </div>
+          <div class="description"><p>Get all specialist.<br />GET<br />/specialists?store={storeid}&amp;category={categoryid}<br />Query parameters store / category are optional. Multiple query parametes will be used as AND query.</p> </div>
           <pre><code class="language-javascript">method: 'GET',
 path: BASE_URL,
-config: {
-  handler: function(req, reply) {
-    specialist.getAll(function(err, data) {
-      util.replyHelper.ifError(err, reply);
-      reply({
-        specialist_list: data
-      });
-    });
-  }
-}
+config: specialistController.getConfigHandler
     }, {</code></pre>
           <section id="method">
             <h1>method</h1>

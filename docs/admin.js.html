@@ -78,11 +78,17 @@
             <li><a href="index.js.html">index.js</a></li>
             <li><a href="org.js.html">org.js</a></li>
             <li><a href="ratingandreview.js.html">ratingandreview.js</a></li>
+            <li><a href="register.js.html">register.js</a></li>
             <li><a href="schedule.js.html">schedule.js</a></li>
             <li><a href="specialist.js.html">specialist.js</a></li>
+            <li><a href="store.js.html">store.js</a></li>
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
+              </li>
+              <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
+              </li>
               <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
               </li>
               <li><a href="#method"><i class="alert alert-success"></i><span>method</span></a>
@@ -118,6 +124,37 @@ config: {
           <pre><code class="language-javascript">method: 'POST',
 path: SPECIALIST_URL + '/addcat/{spc_id}/{cat_id}',
 config: adminController.addSpecialistCategoryHandler
+        }, {</code></pre>
+          <section id="method">
+            <h1>method</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>method</span>
+            </p>
+          </section>
+          <div class="description"><p>Add Store to given specialist<br />POST<br />/admin/specialist/addstore/{spc_id}/{store_id}</p> </div>
+          <pre><code class="language-javascript">method: 'POST',
+path: SPECIALIST_URL + '/addstore/{spc_id}/{store_id}',
+config: adminController.addSpecialistStoreHandler
+        }, {</code></pre>
+          <section id="method">
+            <h1>method</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-success radius ctx-type">property</div><span>method</span>
+            </p>
+          </section>
+          <div class="description"><p>admin config<br />GET<br />/admin/config</p> </div>
+          <pre><code class="language-javascript">method: 'GET',
+path: BASE_URL + '/config',
+config: {
+    handler: function(req, reply) {
+        reply({
+            &quot;server&quot;: process.env.OPENSHIFT_APP_DNS,
+            &quot;app&quot;: process.env.OPENSHIFT_APP_NAME
+        })
+    }
+}
         }
     ];
 }();</code></pre>

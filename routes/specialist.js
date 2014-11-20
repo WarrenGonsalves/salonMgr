@@ -8,8 +8,8 @@ module.exports = function() {
       /**
        * Get all specialist.
        * GET
-       * /specialists
-       * Query Parameters: store={storeid}&category={categoryid}
+       * /specialists?store={storeid}&category={categoryid}
+       * Query parameters store / category are optional. Multiple query parametes will be used as AND query.
        */
       method: 'GET',
       path: BASE_URL,
