@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 // schema
 var storeSchema = new Schema({
     name: String,
-    ph: Number,
+    ph: String,
     contact_name: String,
     lat: Number,
     lng: Number,

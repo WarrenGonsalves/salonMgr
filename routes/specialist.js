@@ -9,7 +9,8 @@ module.exports = function() {
        * Get all specialist.
        * GET
        * /specialists?store={storeid}&category={categoryid}
-       * Query parameters store / category are optional. Multiple query parametes will be used as AND query.
+       * Query parameters store / category are optional and can be used one at time or all or none.
+       * Multiple query parametes will be used as AND query.
        */
       method: 'GET',
       path: BASE_URL,
