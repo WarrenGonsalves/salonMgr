@@ -3,6 +3,7 @@ var config = require('./config/constants');
 var category = require('./models/meta_category');
 var specialist = require('./models/specialist');
 var store = require('./models/store');
+var job = require('./models/jobs');
 
 //load database
 Mongoose.connect(config.mongo.connecturl);
@@ -18,3 +19,4 @@ exports.db = db;
 exports.category = category;
 exports.specialist = specialist;
 exports.store = store;
+exports.job = job;

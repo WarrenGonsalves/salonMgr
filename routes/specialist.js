@@ -61,6 +61,14 @@ module.exports = function() {
       method: 'POST',
       path: BASE_URL + '/{fname}/{cat}',
       config: specialistController.postConfigHandler
+    }, {
+      method: 'POST',
+      path: BASE_URL + '/{spc_id}/book',
+      config: specialistController.postBookSpecialist
+    } , {
+      method: 'POST',
+      path: BASE_URL + '/{spc_id}/unbook',
+      config: specialistController.postUnBookSpecialist
     }
   ];
 }();

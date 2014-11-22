@@ -30,16 +30,16 @@ SpecialistController.prototype.postConfigHandler = {
 
 SpecialistController.prototype.getConfigHandler = {
     handler: function(request, reply) {
-        
+
         console.log(__filename + ' query param ' + JSON.stringify(request.query));
 
         var query_param = {}
 
-        if (!(request.query.store === undefined)){
+        if (!(request.query.store === undefined)) {
             query_param['stores.store_id'] = request.query.store;
         }
 
-        if (!(request.query.category === undefined)){
+        if (!(request.query.category === undefined)) {
             query_param['categories._id'] = request.query.category;
         }
 
@@ -94,6 +94,82 @@ SpecialistController.prototype.getAllAvailableByCategory = {
         });
     }
 };
+
+
+SpecialistController.prototype.postBookSpecialist = {
+    handler: function(request, reply) {
+
+        var specialist_id = request.params.spc_id;
+        var cust_name = request.payload.name;
+        var cust_phone = request.payload.phone;
+        var cust_addr = request.payload.addr;
+        var cust_task = request.payload.task;
+
+        console.log(__filename + "booking specialist for: " + specialist_id + cust_name + cust_phone + cust_addr + cust_task);
+
+        db.specialist.findOne({
+            _id: specialist_id
+        }, function(err, specialist) {
+
+            if (err) {
+                reply(err).code(510);
+                return;
+            }
+
+            if (specialist === null) {
+                reply("Specialist not found ").code(510);
+                return;
+            }
+
+            console.log(__filename + specialist.toJSON());
+
+            // if (!specialist.available) {
+            //     reply("specialist not available for booking").code(510);
+            //     return;
+            // }
+
+            // create new job
+            db.job.createNew(specialist_id, cust_name, cust_phone, cust_addr, cust_task, function(err, data) {
+                if (err) {
+                    reply(err).code(510);
+                    return;
+                } else {
+                    reply(data);
+                }
+            });
+
+            specialist.available = false;
+            specialist.save();
+
+        });
+    }
+};
+
+SpecialistController.prototype.postUnBookSpecialist = {
+    handler: function(request, reply) {
+
+        var specialist_id = request.params.spc_id;
+
+        db.specialist.findOne({
+            _id: specialist_id
+        }, function(err, specialist) {
+
+            if (err) {
+                reply(err).code(510);
+                return;
+            }
+
+            if (specialist === null) {
+                reply("Specialist not found ").code(510);
+                return;
+            }
+
+            specialist.available = true;
+            specialist.save();
+        });
+    }
+};
+
 
 
 var specialistController = new SpecialistController();

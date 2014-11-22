@@ -10,6 +10,10 @@ var specialistSchema = new Schema({
   stores: [{
     store_id: String
   }],
+  available: {
+    type: Boolean,
+    default: true
+  },
   address1: String,
   address2: String,
   city: String,
@@ -32,11 +36,13 @@ var specialistSchema = new Schema({
   average_rating: Number,
   review_count: Number,
   categories: [categoryModel.categorySchema],
-  created_date: Date,
+  created_date: {
+    type: Date,
+    default: Date.now()
+  },
   updated_date: Date,
   created_by: Number,
   updated_by: Number
-
 })
 
 // methods
@@ -47,12 +53,14 @@ specialistSchema.statics.getAll = function(cb) {
 
 specialistSchema.statics.getByCategory = function(sub_category, cb) {
   console.log(__filename + "get specialist by category: " + sub_category);
-  this.find({'categories.specialist_title': sub_category}, cb);
+  this.find({
+    'categories.specialist_title': sub_category
+  }, cb);
 }
 
 specialistSchema.statics.getDistinctCat = function(cb) {
   console.log(__filename + "get distinct category ");
-  this.find({},'categories.specialist_l1_title categories.specialist_title').where("categories.specialist_l1_title").ne(null).find(cb);
+  this.find({}, 'categories.specialist_l1_title categories.specialist_title').where("categories.specialist_l1_title").ne(null).find(cb);
 }
 
 // export
