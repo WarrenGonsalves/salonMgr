@@ -33,6 +33,7 @@ SpecialistController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(request.query));
 
+        var isGrouped = false;
         var query_param = {}
 
         if (!(request.query.store === undefined)) {
@@ -43,18 +44,35 @@ SpecialistController.prototype.getConfigHandler = {
             query_param['categories._id'] = request.query.category;
         }
 
+        if (!(request.query.grouped === undefined)) {
+            isGrouped = request.query.grouped;
+        }
+
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.specialist.find(query_param, function(err, data) {
+        db.specialist.find(query_param, function(err, specialistList) {
             if (err) {
                 reply(err).code(500);
                 return;
             }
 
+            if (isGrouped) {
+                // group services by availability
+                specialistList = _.groupBy(specialistList, function(data) {
+                    if (data.available) {
+                        return 'Available'
+                    } else {
+                        return 'Busy'
+                    };
+                });
+            };
+
             reply({
-                specialist_list: data
+                specialist_list: specialistList
             });
         });
+
+
     }
 };
 
