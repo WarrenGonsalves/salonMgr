@@ -53,6 +53,20 @@ module.exports = function() {
                     })
                 }
             }
+        },{
+            /**
+             * admin post test
+             * POST
+             * /admin/config
+             */
+            method: 'POST',
+            path: BASE_URL + '/test',
+            config: {
+                handler: function(req, reply) {
+                    console.log("post parameters: " + req.query.addr);
+                    reply("yes we are posting: "+ req.query.addr);
+                }
+            }
         }
     ];
 }();
