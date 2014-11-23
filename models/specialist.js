@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var categoryModel = require("./meta_category");
 var _ = require("underscore");
+var jobModel = require("./jobs");
 
 // schema
 var specialistSchema = new Schema({
@@ -14,6 +15,11 @@ var specialistSchema = new Schema({
     type: Boolean,
     default: true
   },
+  work_hours: {
+    type: String,
+    default: '10:00 am to 8:00 pm'
+  },
+  current_job: { type: Schema.Types.ObjectId, ref: 'job' },
   address1: String,
   address2: String,
   city: String,

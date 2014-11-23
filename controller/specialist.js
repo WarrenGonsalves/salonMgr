@@ -50,7 +50,7 @@ SpecialistController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.specialist.find(query_param, function(err, specialistList) {
+        db.specialist.find(query_param).populate('current_job').exec(function(err, specialistList) {
             if (err) {
                 reply(err).code(500);
                 return;
@@ -139,26 +139,25 @@ SpecialistController.prototype.postBookSpecialist = {
                 return;
             }
 
-            console.log(__filename + specialist.toJSON());
-
             // if (!specialist.available) {
             //     reply("specialist not available for booking").code(510);
             //     return;
             // }
 
             // create new job
+            var jobId;
             db.job.createNew(specialist_id, cust_name, cust_phone, cust_addr, cust_task, function(err, data) {
                 if (err) {
                     reply(err).code(510);
                     return;
                 } else {
+                    specialist.current_job = data._id;
+                    specialist.available = false;
+                    console.log(__filename + specialist.toJSON());
+                    specialist.save();
                     reply(data);
                 }
             });
-
-            specialist.available = false;
-            specialist.save();
-
         });
     }
 };
@@ -183,12 +182,13 @@ SpecialistController.prototype.postUnBookSpecialist = {
             }
 
             specialist.available = true;
+            specialist.current_job = null;
             specialist.save();
+
+            reply("Success");
         });
     }
 };
-
-
 
 var specialistController = new SpecialistController();
 module.exports = specialistController;
