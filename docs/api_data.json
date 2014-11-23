@@ -195,7 +195,7 @@
   },
   {
     "type": "post",
-    "url": "/specialist/{spc_id}/book",
+    "url": "/specialists/{spc_id}/book",
     "title": "Booking: book specialist",
     "name": "bookSpecialist",
     "group": "specialist",
@@ -243,7 +243,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialist/123456/book",
+        "content": "/specialists/123456/book",
         "type": "json"
       }
     ],
@@ -260,7 +260,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialist\n/specialist?store=123456\n/specialist?store=123456&category=667766\n/specialist?store=123456&category=667766&grouped=true",
+        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true",
         "type": "json"
       }
     ],
@@ -270,7 +270,7 @@
   },
   {
     "type": "post",
-    "url": "/specialist/{spc_id}/unbook",
+    "url": "/specialists/{spc_id}/unbook",
     "title": "Booking: unbook specialist",
     "name": "unbookSpecialist",
     "group": "specialist",
@@ -290,7 +290,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialist/123456/unbook",
+        "content": "/specialists/123456/unbook",
         "type": "json"
       }
     ],

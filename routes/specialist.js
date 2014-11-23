@@ -11,10 +11,10 @@ module.exports = function() {
      * @apiGroup specialist
      *
      * @apiExample Example usage:
-     * /specialist
-     * /specialist?store=123456
-     * /specialist?store=123456&category=667766
-     * /specialist?store=123456&category=667766&grouped=true
+     * /specialists
+     * /specialists?store=123456
+     * /specialists?store=123456&category=667766
+     * /specialists?store=123456&category=667766&grouped=true
      */
     {
       method: 'GET',
@@ -24,7 +24,7 @@ module.exports = function() {
     /*!
      * Create a sample specialist
      * POST
-     * /specialist/{fname}/{cat}
+     * /specialists/{fname}/{cat}
      */
     {
       method: 'POST',
@@ -32,7 +32,7 @@ module.exports = function() {
       config: specialistController.postConfigHandler
     },
     /**
-     * @api {post} /specialist/{spc_id}/book Booking: book specialist
+     * @api {post} /specialists/{spc_id}/book Booking: book specialist
      * @apiName bookSpecialist
      * @apiGroup specialist
      *
@@ -43,7 +43,7 @@ module.exports = function() {
      * @apiParam {String} task        Customer task [Post parameter]
      *
      * @apiExample Example usage:
-     * /specialist/123456/book
+     * /specialists/123456/book
      */
     {
       method: 'POST',
@@ -51,14 +51,14 @@ module.exports = function() {
       config: specialistController.postBookSpecialist
     },
     /**
-     * @api {post} /specialist/{spc_id}/unbook Booking: unbook specialist
+     * @api {post} /specialists/{spc_id}/unbook Booking: unbook specialist
      * @apiName unbookSpecialist
      * @apiGroup specialist
      *
      * @apiParam {String} spc_id      Specialist id [Url parameter]
      *
      * @apiExample Example usage:
-     * /specialist/123456/unbook
+     * /specialists/123456/unbook
      */
     {
       method: 'POST',
