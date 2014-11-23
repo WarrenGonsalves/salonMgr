@@ -23,51 +23,59 @@ var registrationController = require('../controller/register');
 var BASE_URL = '/register'
 
 module.exports = function() {
-    return [{
+    return [
         /**
-         * Register new store
-         * POST
-         * /register/store/{phone}
+         * @api {post} /register/store/{store_phone} Register: new store
+         * @apiName registerStore
+         * @apiGroup register
+         *
+         * @apiParam {String} store_phone Store phone number
+         *
+         * @apiExample Example usage:
+         * /register/store/9999888999
          */
-        method: 'POST',
-        path: BASE_URL + '/store/{phone}',
-        config: registrationController.registerStoreHandler
-    }, {
-        /**
-         * NOT YET IMPLEMENTED.
-         * Register new user
-         * POST
-         * /register/store/{phone}
-         */
-        method: 'POST',
-        path: BASE_URL + '/user/{phone}',
-        config: {
-            handler: function(req, reply) {
-                reply("TODO: user registration for phone: " + req.params.phone);
+        {
+            method: 'POST',
+            path: BASE_URL + '/store/{phone}',
+            config: registrationController.registerStoreHandler
+        }, {
+            method: 'POST',
+            path: BASE_URL + '/user/{phone}',
+            config: {
+                handler: function(req, reply) {
+                    reply("TODO: user registration for phone: " + req.params.phone);
+                }
             }
-        }
-    }, {
+        },
         /**
-         * Authenticate user / store using giving phone / code
-         * GET
-         * /register/auth/{phone}/{code}
+         * @api {post} /register/auth/{phone}/{auth_code} Register: auth store
+         * @apiName authStore
+         * @apiGroup register
+         *
+         * @apiParam {String} phone phone number
+         * @apiParam {String} auth_code authorization code received via SMS
+         *
+         * @apiExample Example usage:
+         * /register/auth/9999888999/2424
          */
-        method: 'GET',
-        path: BASE_URL + '/auth/{phone}/{code}',
-        config: {
-            handler: function(req, reply) {
-                console.log("auth user for phone: " + req.params.phone + " :code " + req.params.code);
-                if (req.params.code === '1234') {
-                    reply({
-                        message: "valid user"
-                    });
-                } else {
-                    reply({
-                        error: 'invalid user',
-                        message: "invalid user"
-                    }).code(500);
+        {
+            method: 'GET',
+            path: BASE_URL + '/auth/{phone}/{code}',
+            config: {
+                handler: function(req, reply) {
+                    console.log("auth user for phone: " + req.params.phone + " :code " + req.params.code);
+                    if (req.params.code === '1234') {
+                        reply({
+                            message: "valid user"
+                        });
+                    } else {
+                        reply({
+                            error: 'invalid user',
+                            message: "invalid user"
+                        }).code(500);
+                    }
                 }
             }
         }
-    }];
+    ];
 }();

@@ -6,12 +6,12 @@ var adminController = require('../controller/admin');
 module.exports = function() {
     return [
 
+        /**
+         * @api {get} / Test.
+         * @apiName TestEndPoint
+         * @apiGroup admin
+         */
         {
-            /**
-             * Endpoint for testing
-             * GET
-             * /
-             */
             method: 'GET',
             path: '/',
             config: {
@@ -19,30 +19,43 @@ module.exports = function() {
                     util.replyHelper.derp(reply);
                 }
             }
-        }, {
-            /**
-             * Add category to given specialist
-             * POST
-             * /admin/specialist/addcat/{spc_id}/{cat_id}
-             */
+        },
+        /**
+         * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist
+         * @apiName AddCat
+         * @apiGroup admin
+         *
+         * @apiParam {String} spc_id      Specialist id.
+         * @apiParam {String} cat_id      cateogory id.
+         *
+         */
+        {
             method: 'POST',
             path: SPECIALIST_URL + '/addcat/{spc_id}/{cat_id}',
+
+
             config: adminController.addSpecialistCategoryHandler
-        }, {
-            /**
-             * Add Store to given specialist
-             * POST
-             * /admin/specialist/addstore/{spc_id}/{store_id}
-             */
+        },
+        /**
+         * @api {post} /admin/specialist/addstore/{spc_id}/{store_id} Specialist: Add Store to specialist
+         * @apiName AddStore
+         * @apiGroup admin
+         *
+         * @apiParam {String} spc_id      Specialist id.
+         * @apiParam {String} store_id    Store id.
+         *
+         */
+        {
             method: 'POST',
             path: SPECIALIST_URL + '/addstore/{spc_id}/{store_id}',
             config: adminController.addSpecialistStoreHandler
-        }, {
-            /**
-             * admin config
-             * GET
-             * /admin/config
-             */
+        },
+        /**
+         * @api {get} /admin/config Server: Get Server config
+         * @apiName Server Config
+         * @apiGroup admin
+         */
+        {
             method: 'GET',
             path: BASE_URL + '/config',
             config: {
@@ -51,20 +64,6 @@ module.exports = function() {
                         "server": process.env.OPENSHIFT_APP_DNS,
                         "app": process.env.OPENSHIFT_APP_NAME
                     })
-                }
-            }
-        },{
-            /**
-             * admin post test
-             * POST
-             * /admin/config
-             */
-            method: 'POST',
-            path: BASE_URL + '/test',
-            config: {
-                handler: function(req, reply) {
-                    console.log("post parameters: " + req.query.addr);
-                    reply("yes we are posting: "+ req.query.addr);
                 }
             }
         }

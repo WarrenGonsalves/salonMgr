@@ -3,49 +3,58 @@ var BASE_URL = '/categories';
 var ADMIN_URL = "/admin" + BASE_URL;
 
 module.exports = function() {
-    return [{
+    return [
         /**
-         * Get all Categories
-         * GET
-         * /categories
+         * @api {get} /categories/ Get all categories
+         * @apiName getCategories
+         * @apiGroup categories
          */
-        method: 'GET',
-        path: BASE_URL,
-        config: {
-            handler: function(req, reply) {
-                category.getAll(function(err, data) {
-                    if (err) {
+        {
+            method: 'GET',
+            path: BASE_URL,
+            config: {
+                handler: function(req, reply) {
+                    category.getAll(function(err, data) {
+                        if (err) {
+                            reply({
+                                "error": err
+                            });
+                        }
                         reply({
-                            "error": err
+                            services: data
                         });
-                    }
-                    reply({
-                        services: data
                     });
-                });
+                }
+            }
+        },
+        /**
+         * @api {post} /admin/categories/{category}/{sub_category} Category: create new
+         * @apiName bookSpecialist
+         * @apiGroup admin
+         *
+         * @apiParam {String} category      Category name
+         * @apiParam {String} sub_category  Sub category name
+         *
+         * @apiExample Example usage:
+         * /admin/categories/Fixers/Plumber
+         */
+        {
+            method: 'POST',
+            path: ADMIN_URL + "/{category}/{sub_category}",
+            config: {
+                handler: function(req, reply) {
+                    category.createNew(req.params.category, req.params.sub_category, function(err, data) {
+                        if (err) {
+                            reply({
+                                "error": err
+                            });
+                        }
+                        reply({
+                            data: data
+                        });
+                    });
+                }
             }
         }
-    }, {
-        /**
-         * Create new category / sub category entry
-         * POST
-         * /admin/categories/{category}/{sub_category}
-         */
-        method: 'POST',
-        path: ADMIN_URL + "/{category}/{sub_category}",
-        config: {
-            handler: function(req, reply) {
-                category.createNew(req.params.category, req.params.sub_category, function(err, data) {
-                    if (err) {
-                        reply({
-                            "error": err
-                        });
-                    }
-                    reply({
-                        data: data
-                    });
-                });
-            }
-        }
-    }];
+    ];
 }();
