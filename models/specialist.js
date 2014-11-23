@@ -26,6 +26,10 @@ var specialistSchema = new Schema({
   state: String,
   zip: Number,
   country: String,
+  phone: {
+    type: String,
+    default: 9999999999
+  },
   contacts: [{
     contactType: String,
     contact: String
