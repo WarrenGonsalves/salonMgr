@@ -55,7 +55,7 @@ module.exports = function() {
             config: registrationController.registerCustomerHandler
         },
         /**
-         * @api {post} /register/auth/{phone}/{auth_code} Register: auth store or customer
+         * @api {post} /register/auth/{phone}/{auth_code} Register: auth phone
          * @apiName auth
          * @apiGroup register
          *

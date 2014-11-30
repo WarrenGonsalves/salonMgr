@@ -129,8 +129,8 @@
   {
     "type": "post",
     "url": "/register/auth/{phone}/{auth_code}",
-    "title": "Register: auth store",
-    "name": "authStore",
+    "title": "Register: auth store or customer",
+    "name": "auth",
     "group": "register",
     "parameter": {
       "fields": {
@@ -140,7 +140,7 @@
             "type": "String",
             "optional": false,
             "field": "phone",
-            "description": "<p>phone number</p> "
+            "description": "<p>Store / Customer phone number</p> "
           },
           {
             "group": "Parameter",
@@ -156,6 +156,36 @@
       {
         "title": "Example usage:",
         "content": "/register/auth/9999888999/2424",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/register.js",
+    "groupTitle": "register"
+  },
+  {
+    "type": "post",
+    "url": "/register/customer/{customer_phone}",
+    "title": "Register: new customer",
+    "name": "registerCustomer",
+    "group": "register",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_phone",
+            "description": "<p>Customer phone number</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/register/customer/9999888999",
         "type": "json"
       }
     ],
