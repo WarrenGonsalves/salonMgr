@@ -32,22 +32,23 @@ module.exports = function() {
       config: specialistController.postConfigHandler
     },
     /**
-     * @api {post} /specialists/{spc_id}/book Booking: book specialist
+     * @api {post} /specialists/{spc_id}/book/{cust_id} Booking: book specialist
      * @apiName bookSpecialist
      * @apiGroup specialist
      *
      * @apiParam {String} spc_id      Specialist id [Url parameter]
+     * @apiParam {String} cust_id     Customer id / Store id [Url parameter]
      * @apiParam {String} name        Customer name [Post parameter]
      * @apiParam {String} phone       Customer phone [Post parameter]
      * @apiParam {String} addr        Customer address [Post parameter]
      * @apiParam {String} task        Customer task [Post parameter]
      *
      * @apiExample Example usage:
-     * /specialists/123456/book
+     * /specialists/123456/book/34343434
      */
     {
       method: 'POST',
-      path: BASE_URL + '/{spc_id}/book',
+      path: BASE_URL + '/{spc_id}/book/{cust_id}',
       config: specialistController.postBookSpecialist
     },
     /**

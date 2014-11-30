@@ -22,3 +22,4 @@ exports.store = store;
 exports.job = job;
 exports.authCode = require('./models/authcode');
 exports.customer = require('./models/customer');
+exports.job = require('./models/jobs');

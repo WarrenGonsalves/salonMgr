@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 // schema
 var jobSchema = new Schema({
     specialist_id: String,
-    customer_id: String,
+    cust_id: String,
     cust_name: String,
     cust_ph: String,
     cust_addr: String,
@@ -20,10 +20,10 @@ var jobSchema = new Schema({
 })
 
 //methods
-jobSchema.statics.createNew = function(specialist_id, cust_name, cust_ph, cust_addr, cust_task, cb) {
-    console.log(__filename + "creating new job");
+jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr, cust_task, cb) {
     doc = {
         'specialist_id': specialist_id,
+        'cust_id': cust_id,
         'cust_name': cust_name,
         'cust_ph': cust_ph,
         'cust_addr': cust_addr,

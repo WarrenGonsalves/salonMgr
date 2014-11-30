@@ -113,11 +113,11 @@ SpecialistController.prototype.getAllAvailableByCategory = {
     }
 };
 
-
 SpecialistController.prototype.postBookSpecialist = {
     handler: function(request, reply) {
 
         var specialist_id = request.params.spc_id;
+        var customer_id = request.params.cust_id;
         var cust_name = request.payload.name;
         var cust_phone = request.payload.phone;
         var cust_addr = request.payload.addr;
@@ -146,17 +146,18 @@ SpecialistController.prototype.postBookSpecialist = {
 
             // create new job
             var jobId;
-            db.job.createNew(specialist_id, cust_name, cust_phone, cust_addr, cust_task, function(err, data) {
+            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr, cust_task, function(err, currentJob) {
                 if (err) {
                     reply(err).code(510);
                     return;
                 } else {
-                    specialist.current_job = data._id;
-                    specialist.jobs.push(data._id);
+                    specialist.current_job = currentJob._id;
+                    specialist.jobs.push(currentJob._id);
+
                     specialist.available = false;
                     console.log(__filename + specialist.toJSON());
                     specialist.save();
-                    reply(data);
+                    reply(currentJob);
                 }
             });
         });
