@@ -6,7 +6,6 @@ var jobModel = require("./jobs");
 
 // schema
 var specialistSchema = new Schema({
-  specialist_id: Number,
   name: String,
   stores: [{
     store_id: String
@@ -19,30 +18,31 @@ var specialistSchema = new Schema({
     type: String,
     default: '10:00 am to 8:00 pm'
   },
-  current_job: { type: Schema.Types.ObjectId, ref: 'job' },
-  address1: String,
-  address2: String,
+  jobs: [{
+    type: Schema.Types.ObjectId,
+    ref: 'job'
+  }],
+  current_job: {
+    type: Schema.Types.ObjectId,
+    ref: 'job'
+  },
+  addr: String,
   city: String,
   state: String,
-  zip: Number,
-  country: String,
+  zip: String,
   phone: {
     type: String,
-    default: 9999999999
+    default: 9999000000
   },
-  contacts: [{
-    contactType: String,
-    contact: String
+  social: [{
+    cat: String,
+    social_id: String
   }],
-  locs: {
-    type: [Number],
-    index: '2dsphere'
-  },
   media: [{
-    media: String,
-    mediaType: String,
-    isProfile: Boolean
+    cat: String,
+    url: String
   }],
+  verified: [String],
   average_rating: Number,
   review_count: Number,
   categories: [categoryModel.categorySchema],
@@ -51,8 +51,6 @@ var specialistSchema = new Schema({
     default: Date.now()
   },
   updated_date: Date,
-  created_by: Number,
-  updated_by: Number
 })
 
 // methods

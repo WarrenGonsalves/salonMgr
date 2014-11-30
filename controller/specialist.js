@@ -50,7 +50,7 @@ SpecialistController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.specialist.find(query_param).populate('current_job').exec(function(err, specialistList) {
+        db.specialist.find(query_param).populate('jobs').exec(function(err, specialistList) {
             if (err) {
                 reply(err).code(500);
                 return;
@@ -152,6 +152,7 @@ SpecialistController.prototype.postBookSpecialist = {
                     return;
                 } else {
                     specialist.current_job = data._id;
+                    specialist.jobs.push(data._id);
                     specialist.available = false;
                     console.log(__filename + specialist.toJSON());
                     specialist.save();

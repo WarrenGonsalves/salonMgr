@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 // schema
 var jobSchema = new Schema({
     specialist_id: String,
+    customer_id: String,
     cust_name: String,
     cust_ph: String,
     cust_addr: String,

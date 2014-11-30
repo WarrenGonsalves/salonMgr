@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "express": "~3.4.4",
+    "faker": "^2.1.1",
     "hapi": "^7.5.2",
     "mongoose": "~3.8.17",
     "restify": "~2.8.3",
