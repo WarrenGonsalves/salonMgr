@@ -127,9 +127,43 @@ define({ api: [
     "groupTitle": "categories"
   },
   {
+    "type": "get",
+    "url": "/customers",
+    "title": "Customer: get all",
+    "name": "customerGet",
+    "group": "customer",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "customer"
+  },
+  {
+    "type": "get",
+    "url": "/jobs?specialist={spc_id}&customer={cust_id}",
+    "title": "Job: get jobs",
+    "name": "jobGet",
+    "group": "job",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?customer=547af234107f433f5d9f202e\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "job"
+  },
+  {
     "type": "post",
     "url": "/register/auth/{phone}/{auth_code}",
-    "title": "Register: auth store or customer",
+    "title": "Register: auth phone",
     "name": "auth",
     "group": "register",
     "parameter": {
@@ -225,7 +259,7 @@ define({ api: [
   },
   {
     "type": "post",
-    "url": "/specialists/{spc_id}/book",
+    "url": "/specialists/{spc_id}/book/{cust_id}",
     "title": "Booking: book specialist",
     "name": "bookSpecialist",
     "group": "specialist",
@@ -238,6 +272,13 @@ define({ api: [
             "optional": false,
             "field": "spc_id",
             "description": "<p>Specialist id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "cust_id",
+            "description": "<p>Customer id / Store id [Url parameter]</p> "
           },
           {
             "group": "Parameter",
@@ -273,7 +314,7 @@ define({ api: [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialists/123456/book",
+        "content": "/specialists/123456/book/34343434",
         "type": "json"
       }
     ],
@@ -327,15 +368,5 @@ define({ api: [
     "version": "0.0.0",
     "filename": "routes/specialist.js",
     "groupTitle": "specialist"
-  },
-  {
-    "type": "get",
-    "url": "/stores",
-    "title": "get all",
-    "name": "getStores",
-    "group": "store",
-    "version": "0.0.0",
-    "filename": "routes/store.js",
-    "groupTitle": "store"
   }
 ] });
