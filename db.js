@@ -20,3 +20,5 @@ exports.category = category;
 exports.specialist = specialist;
 exports.store = store;
 exports.job = job;
+exports.authCode = require('./models/authcode');
+exports.customer = require('./models/customer');

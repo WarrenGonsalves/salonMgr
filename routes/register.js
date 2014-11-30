@@ -38,21 +38,28 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL + '/store/{phone}',
             config: registrationController.registerStoreHandler
-        }, {
-            method: 'POST',
-            path: BASE_URL + '/user/{phone}',
-            config: {
-                handler: function(req, reply) {
-                    reply("TODO: user registration for phone: " + req.params.phone);
-                }
-            }
         },
         /**
-         * @api {post} /register/auth/{phone}/{auth_code} Register: auth store
-         * @apiName authStore
+         * @api {post} /register/customer/{customer_phone} Register: new customer
+         * @apiName registerCustomer
          * @apiGroup register
          *
-         * @apiParam {String} phone phone number
+         * @apiParam {String} customer_phone Customer phone number
+         *
+         * @apiExample Example usage:
+         * /register/customer/9999888999
+         */
+         {
+            method: 'POST',
+            path: BASE_URL + '/customer/{phone}',
+            config: registrationController.registerCustomerHandler
+        },
+        /**
+         * @api {post} /register/auth/{phone}/{auth_code} Register: auth store or customer
+         * @apiName auth
+         * @apiGroup register
+         *
+         * @apiParam {String} phone Store / Customer phone number
          * @apiParam {String} auth_code authorization code received via SMS
          *
          * @apiExample Example usage:
@@ -61,21 +68,7 @@ module.exports = function() {
         {
             method: 'GET',
             path: BASE_URL + '/auth/{phone}/{code}',
-            config: {
-                handler: function(req, reply) {
-                    console.log("auth user for phone: " + req.params.phone + " :code " + req.params.code);
-                    if (req.params.code === '1234') {
-                        reply({
-                            message: "valid user"
-                        });
-                    } else {
-                        reply({
-                            error: 'invalid user',
-                            message: "invalid user"
-                        }).code(500);
-                    }
-                }
-            }
+            config: registrationController.authHandler
         }
     ];
 }();
