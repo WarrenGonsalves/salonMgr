@@ -22,15 +22,15 @@ function generateAuthCode(phone) {
  */
 function registerCustomer(isServiceProvider, request, reply) {
 
-    db.store.findOne({
+    db.customer.findOne({
         ph: request.params.phone
-    }, function(err, store) {
+    }, function(err, existingCustomer) {
         if (err) {
             util.replyHelper.ifError(err, reply);
             return;
         }
 
-        if (store) {
+        if (existingCustomer) {
             util.replyHelper.ifError("Phone number already registered", reply);
             return;
         }
