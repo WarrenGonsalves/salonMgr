@@ -32,8 +32,6 @@ module.exports = function() {
         {
             method: 'POST',
             path: SPECIALIST_URL + '/addcat/{spc_id}/{cat_id}',
-
-
             config: adminController.addSpecialistCategoryHandler
         },
         /**
