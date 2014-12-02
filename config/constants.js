@@ -25,5 +25,5 @@ config.mongo.dbname = process.env.BUMBLEBEE_MONGODB_DB_NAME || "fixers";
 config.mongo.user = process.env.BUMBLEBEE_MONGODB_DB_USER || "dbuser";
 config.mongo.pass = process.env.BUMBLEBEE_MONGODB_DB_PWD || "dbuser";
 
-config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL;
+config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL || "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;
 console.log("ENV_MONGO: " + config.mongo.connecturl);

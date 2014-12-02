@@ -140,7 +140,7 @@ var FixerApp = function() {
     self.server.start();
   };
 
-}; /*  Sample Application.  */
+};
 
 /**
  *  main():  Main code.
