@@ -62,7 +62,10 @@ module.exports = function() {
                 handler: function(req, reply) {
                     reply({
                         "server": process.env.OPENSHIFT_APP_DNS,
-                        "app": process.env.OPENSHIFT_APP_NAME
+                        "app": process.env.OPENSHIFT_APP_NAME,
+                        "host": process.env.OPENSHIFT_MONGODB_DB_HOST,
+                        "port": process.env.OPENSHIFT_MONGODB_DB_PORT,
+                        "connect": process.env.OPENSHIFT_MONGODB_DB_URL
                     })
                 }
             }
