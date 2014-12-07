@@ -25,6 +25,7 @@ FakeController.prototype.newSpecialistHandler = {
             specialist.zip = faker.address.zipCode();
             specialist.phone = 9920111222;
             specialist.profile_img = faker.internet.avatar();
+            specialist.family  = "Married, 3 kids. 2 daughters and one son."
             // var profilePic = {
             //     cat: 'profile',
             //     url: faker.internet.avatar()

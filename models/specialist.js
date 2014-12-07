@@ -7,6 +7,14 @@ var jobModel = require("./jobs");
 // schema
 var specialistSchema = new Schema({
   name: String,
+  phone: String,
+  profile_img: String,
+  addr: String,
+  city: String,
+  state: String,
+  zip: String,
+  verified: [String],
+  family: String,
   stores: [{
     store_id: String
   }],
@@ -14,7 +22,6 @@ var specialistSchema = new Schema({
     type: Boolean,
     default: true
   },
-  
   work_hours: {
     type: String,
     default: '10:00 am to 8:00 pm'
@@ -27,12 +34,6 @@ var specialistSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'job'
   },
-  addr: String,
-  city: String,
-  state: String,
-  zip: String,
-  phone: String,
-  profile_img: String,
   social: [{
     cat: String,
     social_id: String
@@ -41,7 +42,6 @@ var specialistSchema = new Schema({
     cat: String,
     url: String
   }],
-  verified: [String],
   average_rating: Number,
   review_count: Number,
   categories: [categoryModel.categorySchema],
@@ -50,7 +50,21 @@ var specialistSchema = new Schema({
     default: Date.now()
   },
   updated_date: Date,
-})
+}, {
+  toObject: {
+    virtuals: true
+  },
+  toJSON: {
+    virtuals: true
+  }
+});
+
+// virtuals
+specialistSchema
+  .virtual('experience')
+  .get(function() {
+    return this.name + ' has 8 years of experience.';
+  });
 
 // methods
 specialistSchema.statics.getAll = function(cb) {
