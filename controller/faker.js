@@ -8,7 +8,9 @@ function FakeController() {};
 FakeController.prototype.newSpecialistHandler = {
     handler: function(request, reply) {
 
-        db.category.find({}).exec(function(err, categoryList) {
+        db.category.find({
+            'category': 'Fixers'
+        }).exec(function(err, categoryList) {
 
             if (err) {
                 reply(err).code(420);
@@ -21,11 +23,13 @@ FakeController.prototype.newSpecialistHandler = {
             specialist.city = faker.address.city();
             specialist.state = faker.address.state();
             specialist.zip = faker.address.zipCode();
-            var profilePic = {
-                cat: 'profile',
-                url: faker.internet.avatar()
-            }
-            specialist.media.push(profilePic);
+            specialist.phone = 9920111222;
+            specialist.profile_img = faker.internet.avatar();
+            // var profilePic = {
+            //     cat: 'profile',
+            //     url: faker.internet.avatar()
+            // }
+            // specialist.media.push(profilePic);
             specialist.verified.push('verified PAN on 30-Nov_2014');
             var fbSocial = {
                 cat: 'fb',

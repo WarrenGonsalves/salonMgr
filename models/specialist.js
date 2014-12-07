@@ -31,10 +31,8 @@ var specialistSchema = new Schema({
   city: String,
   state: String,
   zip: String,
-  phone: {
-    type: String,
-    default: 9999000000
-  },
+  phone: String,
+  profile_img: String,
   social: [{
     cat: String,
     social_id: String
