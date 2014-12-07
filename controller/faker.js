@@ -33,7 +33,7 @@ FakeController.prototype.newSpecialistHandler = {
             //     url: faker.internet.avatar()
             // }
             // specialist.media.push(profilePic);
-            specialist.verified.push('verified PAN on 30-Nov_2014');
+            specialist.verified = 'verified PAN on 30-Nov_2014';
             var fbSocial = {
                 cat: 'fb',
                 social_id: faker.internet.email()

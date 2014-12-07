@@ -54,9 +54,9 @@ AdminController.prototype.postSpecialistHandler = {
     handler: function(request, reply) {
 
         db.category.findOne({
-            _id: request.params.cat_id
-        }, function(err, data) {
-            console.log("creating a specialist with data: " + JSON.stringify(request.query));
+            _id: request.query.cat_id
+        }, function(err, selectedCat) {
+            console.log("creating a specialist with data: " + JSON.stringify(selectedCat));
             var specialist = new db.specialist();
             specialist.name = request.query.name;
             specialist.addr = request.query.addr;
@@ -69,6 +69,7 @@ AdminController.prototype.postSpecialistHandler = {
             specialist.phone = request.query.phone;
             specialist.work_hours = request.query.work_hours;
             specialist.verified = request.query.verified;
+            specialist.categories.push(selectedCat);
             //specialist.verified.push(request.params.verified);
             specialist.save();
             reply(specialist);
