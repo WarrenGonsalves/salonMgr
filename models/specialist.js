@@ -14,6 +14,7 @@ var specialistSchema = new Schema({
     type: Boolean,
     default: true
   },
+  
   work_hours: {
     type: String,
     default: '10:00 am to 8:00 pm'
