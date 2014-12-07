@@ -28,10 +28,10 @@ config.mongo.connecturl
 
 if ("starscream" === process.env.OPENSHIFT_APP_NAME) {
     // This is prod instance. connect to prod database.
-    config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + '/fixers';
+    config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + 'fixers';
 } else if ("bumblebee" === process.env.OPENSHIFT_APP_NAME) {
     // This is dev instance. connect to dev database.
-    config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + '/optimus';
+    config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + 'optimus';
 } else {
     // Local instance.
     config.mongo.connecturl = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;
