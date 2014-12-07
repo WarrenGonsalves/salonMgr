@@ -9,6 +9,8 @@ var specialistSchema = new Schema({
   name: String,
   phone: String,
   profile_img: String,
+  hourly_rate: String,
+  consulting_fee: String,
   addr: String,
   city: String,
   state: String,

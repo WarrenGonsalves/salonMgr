@@ -2,6 +2,7 @@ var Hapi = require('hapi');
 var db = require("../db");
 var util = require("../util");
 var _ = require('underscore');
+var veribage = require('../config/legal');
 
 function SpecialistController() {};
 
@@ -68,7 +69,8 @@ SpecialistController.prototype.getConfigHandler = {
             };
 
             reply({
-                specialist_list: specialistList
+                specialist_list: specialistList,
+                specialist_rate_info: veribage.specialistRate
             });
         });
 

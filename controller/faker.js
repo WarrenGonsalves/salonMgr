@@ -26,6 +26,8 @@ FakeController.prototype.newSpecialistHandler = {
             specialist.phone = 9920111222;
             specialist.profile_img = faker.internet.avatar();
             specialist.family  = "Married, 3 kids. 2 daughters and one son."
+            specialist.hourly_rate = '₹ 350/hr';
+            specialist.consulting_fee = '₹ 200/hr'; 
             // var profilePic = {
             //     cat: 'profile',
             //     url: faker.internet.avatar()
