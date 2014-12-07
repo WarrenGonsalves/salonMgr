@@ -65,6 +65,20 @@ module.exports = function() {
       method: 'POST',
       path: BASE_URL + '/{spc_id}/unbook',
       config: specialistController.postUnBookSpecialist
+    }, {
+      method: 'GET',
+      path: '/img/{id}',
+      // handler: {
+      //   directory: {
+      //     path: './img',
+      //     listing: true,
+      //     index: true
+      //   }
+      // }
+      handler: function(request, reply) {
+        var path = __dirname + "/../img/" + request.params.id;
+        reply.file(path).header('Content-type', 'image/gif');
+      }
     }
   ];
 }();

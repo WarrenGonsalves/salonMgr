@@ -2,6 +2,9 @@
 logs
 *.log
 
+# img directory
+img
+
 # Runtime data
 pids
 *.pid

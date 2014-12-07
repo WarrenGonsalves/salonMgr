@@ -65,7 +65,7 @@ var specialistSchema = new Schema({
 specialistSchema
   .virtual('experience')
   .get(function() {
-    return this.name + ' has 8 years of experience.';
+    return '8 years of experience.';
   });
 
 // methods

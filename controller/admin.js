@@ -1,5 +1,6 @@
 var Hapi = require('hapi');
 var db = require("../db");
+var fs = require('fs');
 
 function AdminController() {};
 
@@ -76,6 +77,33 @@ AdminController.prototype.postSpecialistHandler = {
         });
     }
 };
+
+AdminController.prototype.postSpecialistProfileHandler = {
+    payload: {
+        output: 'stream',
+        allow: 'multipart/form-data'
+    },
+    handler: function(request, reply) {
+        var profile_img = request.payload["img"];
+        var path = __dirname + "/../img/" + request.params.spc_id;
+
+        profile_img.pipe(fs.createWriteStream(path));
+
+        reply("done");
+
+        // profile_img.on('end', function(err) {
+
+        //     db.specialist.findOne({
+        //         _id: request.params.spc_id
+        //     }, function(err, selectedSpecialist) {
+        //         selectedSpecialist.profile_pic = ''
+        //         selectedSpecialist.save();
+        //         reply("done");
+        //     });
+        // });
+    }
+};
+
 
 
 var adminController = new AdminController();

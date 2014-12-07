@@ -19,11 +19,14 @@ module.exports = function() {
                     util.replyHelper.derp(reply);
                 }
             }
-        },
-        {
+        }, {
             method: 'POST',
             path: SPECIALIST_URL,
             config: adminController.postSpecialistHandler
+        }, {
+            method: 'POST',
+            path: SPECIALIST_URL + '/profile/{spc_id}',
+            config: adminController.postSpecialistProfileHandler
         },
         /**
          * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist
