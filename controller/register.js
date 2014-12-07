@@ -12,7 +12,7 @@ function generateAuthCode(phone) {
 
     console.log("created new auth code for phone: " + authCode.phone);
 
-    //util.authUtil.sendCodeViaSMS(phone, authCode.code);
+    util.authUtil.sendCodeViaSMS(phone, authCode.code);
 };
 
 /**
@@ -80,21 +80,22 @@ RegistrationController.prototype.authHandler = {
             ph: request.params.phone
         }, function(err, authCode) {
             if (err) {
-                util.replyHelper.ifError(err, reply);
+                util.replyHelper.success(err, reply);
                 return;
             }
 
             if (authCode === null) {
-                reply("Auth Failed").code(420);
+                util.replyHelper.error("Authentication failed", reply);
                 return;
             }
 
+            // using 9999 as master code to bypass auth
             if (request.params.code === authCode.code || request.params.code === '9999') {
-                reply("Auth Success");
+                util.replyHelper.success("Authentication successful", reply);
                 authCode.active = false;
                 authCode.save();
             } else {
-                reply("Auth Failed").code(420);
+                util.replyHelper.error("Authentication failed", reply);
             }
         });
     }
