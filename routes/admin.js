@@ -1,6 +1,6 @@
 var util = require('../util');
 var BASE_URL = '/admin';
-var SPECIALIST_URL = BASE_URL + '/specialist';
+var SPECIALIST_URL = BASE_URL + '/specialists';
 var adminController = require('../controller/admin');
 
 module.exports = function() {
@@ -19,6 +19,11 @@ module.exports = function() {
                     util.replyHelper.derp(reply);
                 }
             }
+        },
+        {
+            method: 'POST',
+            path: SPECIALIST_URL,
+            config: adminController.postSpecialistHandler
         },
         /**
          * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist

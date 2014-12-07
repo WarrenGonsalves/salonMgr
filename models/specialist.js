@@ -15,7 +15,7 @@ var specialistSchema = new Schema({
   city: String,
   state: String,
   zip: String,
-  verified: [String],
+  verified: String,
   family: String,
   stores: [{
     store_id: String
