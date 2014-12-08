@@ -1,6 +1,7 @@
 var Hapi = require('hapi');
 var db = require("../db");
 var fs = require('fs');
+var config = require("../config/constants");
 
 function AdminController() {};
 
@@ -89,18 +90,18 @@ AdminController.prototype.postSpecialistProfileHandler = {
 
         profile_img.pipe(fs.createWriteStream(path));
 
-        reply("done");
+        //reply("done");
 
-        // profile_img.on('end', function(err) {
+        profile_img.on('end', function(err) {
 
-        //     db.specialist.findOne({
-        //         _id: request.params.spc_id
-        //     }, function(err, selectedSpecialist) {
-        //         selectedSpecialist.profile_pic = ''
-        //         selectedSpecialist.save();
-        //         reply("done");
-        //     });
-        // });
+            db.specialist.findOne({
+                _id: request.params.spc_id
+            }, function(err, selectedSpecialist) {
+                selectedSpecialist.profile_img = config.imgURL + request.params.spc_id;
+                selectedSpecialist.save();
+                reply(selectedSpecialist);
+            });
+        });
     }
 };
 

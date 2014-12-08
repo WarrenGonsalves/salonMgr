@@ -17,6 +17,8 @@ config.server = {};
 config.server.ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
 
+config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
+
 // mongodb
 config.mongo = {};
 config.mongo.host = process.env.BUMBLEBEE_MONGODB_DB_HOST || "127.0.0.1";
