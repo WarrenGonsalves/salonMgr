@@ -41,7 +41,7 @@ module.exports.sendCodeViaSMS = function(phone, code) {
     smsClient.messages.create({
         to: "+91" + phone,
         from: "+14242926394",
-        body: 'Use ' + code + ' as Fixers regsitration code.'
+        body: 'Use ' + code + ' as Fixers registration code.'
     }, function(err, message) {
         if (err) {
             console.log('ERROR: SMS for code verifciation failed: ', err);

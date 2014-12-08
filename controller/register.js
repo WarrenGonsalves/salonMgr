@@ -76,21 +76,29 @@ RegistrationController.prototype.authHandler = {
     handler: function(request, reply) {
         console.log("auth phone: " + request.params.phone + " :code " + request.params.code);
 
+        // master code bypass
+        if (request.params.code === '9999') {
+            util.replyHelper.success("Authentication successful", reply);
+            return;
+        }
+
+        // If not mastercode then check in db.
         db.authCode.findOne({
-            ph: request.params.phone
+            ph: request.params.phone,
+            code: request.params.code
         }, function(err, authCode) {
             if (err) {
                 util.replyHelper.success(err, reply);
                 return;
             }
 
+            // auth code not found for give phone / code combination.
             if (authCode === null) {
                 util.replyHelper.error("Authentication failed", reply);
                 return;
             }
 
-            // using 9999 as master code to bypass auth
-            if (request.params.code === authCode.code || request.params.code === '9999') {
+            if (request.params.code === authCode.code) {
                 util.replyHelper.success("Authentication successful", reply);
                 authCode.active = false;
                 authCode.save();
