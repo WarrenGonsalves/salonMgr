@@ -1,5 +1,39 @@
 define({ api: [
   {
+    "type": "get",
+    "url": "/circles",
+    "title": "Circles: get all",
+    "name": "getCircles",
+    "group": "Circle",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/circles",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/circle.js",
+    "groupTitle": "Circle"
+  },
+  {
+    "type": "post",
+    "url": "/circles/{name}/{lat}/{lng}",
+    "title": "Circles: create",
+    "name": "postCircles",
+    "group": "Circle",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/circles/Powai/12.556795/12.7676767",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/circle.js",
+    "groupTitle": "Circle"
+  },
+  {
     "type": "post",
     "url": "/admin/specialist/addcat/{spc_id}/{cat_id}",
     "title": "Specialist: Add Category to Specialist",
@@ -324,14 +358,14 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/specialist?store={storeid}&category={categoryid}&grouped=true",
+    "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&grouped=true",
     "title": "get specialists",
     "name": "getSpecialists",
     "group": "specialist",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true",
+        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444",
         "type": "json"
       }
     ],

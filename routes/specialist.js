@@ -7,7 +7,7 @@ var config = require('../config/constants');
 module.exports = function() {
   return [
     /**
-     * @api {get} /specialist?store={storeid}&category={categoryid}&grouped=true get specialists
+     * @api {get} /specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&grouped=true get specialists
      * @apiName getSpecialists
      * @apiGroup specialist
      *
@@ -16,6 +16,7 @@ module.exports = function() {
      * /specialists?store=123456
      * /specialists?store=123456&category=667766
      * /specialists?store=123456&category=667766&grouped=true
+     * /specialists?category=667766&lat=19.1999999&lng=72.9444444
      */
     {
       method: 'GET',

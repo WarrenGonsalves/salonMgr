@@ -41,6 +41,7 @@ SpecialistController.prototype.getConfigHandler = {
             query_param['stores.store_id'] = request.query.store;
         }
 
+        // filter for category
         if (!(request.query.category === undefined)) {
             query_param['categories._id'] = request.query.category;
         }
@@ -49,20 +50,18 @@ SpecialistController.prototype.getConfigHandler = {
             isGrouped = request.query.grouped;
         }
 
-        // if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
-        //     // var nearLoc = {
-        //     //     $near: {
-        //     //         $geometry: {
-        //     //             type: "Point",
-        //     //             coordinates: [request.query.lng, request.query.lat]
-        //     //         }
-        //     //     }
-        //     // };
-        //     var nearLoc = {
-        //         '$near': [request.query.lng, request.query.lat]
-        //     }
-        //     query_param['circle.locs'] = nearLoc;
-        // }
+        // filter for circle
+        if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
+            var nearLoc = {
+                $near: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [parseFloat(request.query.lng), parseFloat(request.query.lat)]
+                    }
+                }
+            };
+            query_param['circle_loc'] = nearLoc;
+        }
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
