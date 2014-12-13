@@ -17,7 +17,7 @@ var specialistSchema = new Schema({
   verified: String,
   family: String,
   circle: Schema.Types.Mixed,
-  circle_loc: Schema.Types.Mixed,
+  circleloc: Schema.Types.Mixed,
   stores: [{
     store_id: String
   }],
@@ -63,7 +63,7 @@ var specialistSchema = new Schema({
 });
 
 specialistSchema.index({
-    circle_loc: '2dsphere'
+  circleloc: '2dsphere'
 });
 
 // virtuals

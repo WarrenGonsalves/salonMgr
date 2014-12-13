@@ -25,7 +25,7 @@ FakeController.prototype.newSpecialistHandler = {
 
                 var circle = _.sample(circleList);
                 specialist.circle = circle;
-                specialist.circle_loc = circle.locs;
+                specialist.circleloc = circle.locs;
 
                 specialist.save(function(err, data) {
                     if (err) {

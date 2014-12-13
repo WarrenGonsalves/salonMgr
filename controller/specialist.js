@@ -60,7 +60,7 @@ SpecialistController.prototype.getConfigHandler = {
                     }
                 }
             };
-            query_param['circle_loc'] = nearLoc;
+            query_param['circleloc'] = nearLoc;
         }
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
