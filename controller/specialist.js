@@ -49,6 +49,21 @@ SpecialistController.prototype.getConfigHandler = {
             isGrouped = request.query.grouped;
         }
 
+        // if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
+        //     // var nearLoc = {
+        //     //     $near: {
+        //     //         $geometry: {
+        //     //             type: "Point",
+        //     //             coordinates: [request.query.lng, request.query.lat]
+        //     //         }
+        //     //     }
+        //     // };
+        //     var nearLoc = {
+        //         '$near': [request.query.lng, request.query.lat]
+        //     }
+        //     query_param['circle.locs'] = nearLoc;
+        // }
+
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
         db.specialist.find(query_param).populate('jobs').exec(function(err, specialistList) {

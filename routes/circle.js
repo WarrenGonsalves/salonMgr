@@ -26,7 +26,7 @@ module.exports = function() {
          */
         {
             method: 'POST',
-            path: BASE_URL + '/{name}/{lat}/{lng}',
+            path: BASE_URL,
             config: CircleController.postConfigHandler
         }
     ];

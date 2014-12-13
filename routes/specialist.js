@@ -2,6 +2,7 @@ var specialist = require('../models/specialist');
 var specialistController = require('../controller/specialist');
 var BASE_URL = '/specialists';
 var util = require('../util');
+var config = require('../config/constants');
 
 module.exports = function() {
   return [
@@ -76,7 +77,7 @@ module.exports = function() {
       //   }
       // }
       handler: function(request, reply) {
-        var path = __dirname + "/../img/" + request.params.id;
+        var path = config.dataDir + "img/" + request.params.id;
         reply.file(path).header('Content-type', 'image/gif');
       }
     }

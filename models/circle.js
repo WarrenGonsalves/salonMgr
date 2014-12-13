@@ -3,12 +3,19 @@ var Schema = mongoose.Schema;
 
 // schema
 var circleSchema = new Schema({
+    city: String,
     name: String,
     locs: {
-        type: [Number],
-        index: '2dsphere'
+        'type': {
+            type: String,
+            default: 'Point'
+        },
+        coordinates: [Number]
     }
 })
+circleSchema.index({
+    locs: '2dsphere'
+});
 
 //methods
 

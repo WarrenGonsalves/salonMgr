@@ -2,7 +2,6 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var categoryModel = require("./meta_category");
 var _ = require("underscore");
-var jobModel = require("./jobs");
 
 // schema
 var specialistSchema = new Schema({
@@ -17,6 +16,7 @@ var specialistSchema = new Schema({
   zip: String,
   verified: String,
   family: String,
+  circle: Schema.Types.Mixed,
   stores: [{
     store_id: String
   }],

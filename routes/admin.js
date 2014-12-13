@@ -73,7 +73,8 @@ module.exports = function() {
                         "port": process.env.OPENSHIFT_MONGODB_DB_PORT,
                         "connect": process.env.OPENSHIFT_MONGODB_DB_URL,
                         "dbname": process.env.BUMBLEBEE_MONGODB_DB_NAME,
-                        "dbname_2": process.env.OPENSHIFT_MONGODB_DB
+                        "dbname_2": process.env.OPENSHIFT_MONGODB_DB,
+                        "data": process.env.OPENSHIFT_DATA_DIR
                     })
                 }
             }

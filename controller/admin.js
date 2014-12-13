@@ -86,7 +86,7 @@ AdminController.prototype.postSpecialistProfileHandler = {
     },
     handler: function(request, reply) {
         var profile_img = request.payload["img"];
-        var path = __dirname + "/../img/" + request.params.spc_id;
+        var path = config.dataDir + "img/" + request.params.spc_id;
 
         profile_img.pipe(fs.createWriteStream(path));
 
@@ -104,8 +104,6 @@ AdminController.prototype.postSpecialistProfileHandler = {
         });
     }
 };
-
-
 
 var adminController = new AdminController();
 module.exports = adminController;

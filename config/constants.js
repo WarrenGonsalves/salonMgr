@@ -18,6 +18,8 @@ config.server.ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
 
 config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
+// create data directory or else upload of image will fail.
+config.dataDir = process.env.OPENSHIFT_DATA_DIR || (__dirname + "../data/");
 
 // mongodb
 config.mongo = {};
