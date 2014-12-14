@@ -2,8 +2,8 @@
 logs
 *.log
 
-# img directory
-img
+# data directory
+data
 
 # Runtime data
 pids

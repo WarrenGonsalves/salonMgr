@@ -2,6 +2,7 @@ var util = require('../util');
 var BASE_URL = '/admin';
 var SPECIALIST_URL = BASE_URL + '/specialists';
 var adminController = require('../controller/admin');
+var config = require('../config/constants');
 
 module.exports = function() {
     return [
@@ -74,7 +75,9 @@ module.exports = function() {
                         "connect": process.env.OPENSHIFT_MONGODB_DB_URL,
                         "dbname": process.env.BUMBLEBEE_MONGODB_DB_NAME,
                         "dbname_2": process.env.OPENSHIFT_MONGODB_DB,
-                        "data": process.env.OPENSHIFT_DATA_DIR
+                        "data": process.env.OPENSHIFT_DATA_DIR,
+                        "data_dir": config.dataDir,
+                        "img_dir": config.imgDir
                     })
                 }
             }
