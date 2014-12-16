@@ -78,7 +78,7 @@ module.exports = function() {
       //   }
       // }
       handler: function(request, reply) {
-        var path = config.dataDir + "img/" + request.params.id;
+        var path = config.imgDir + request.params.id;
         reply.file(path).header('Content-type', 'image/gif');
       }
     }

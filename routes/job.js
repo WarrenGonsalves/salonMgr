@@ -18,6 +18,10 @@ module.exports = function() {
             method: 'GET',
             path: BASE_URL,
             config: JobController.getConfigHandler
+        }, {
+            method: 'POST',
+            path: BASE_URL + '/img/{id}',
+            config: JobController.postImageController
         }
     ];
 }();

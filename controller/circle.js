@@ -49,7 +49,6 @@ CircleController.prototype.getConfigHandler = {
         //     coordinates: [parseFloat(request.query.lng), parseFloat(request.query.lat)]
         // };
 
-        // console.log("print something atleast" + JSON.stringify(point));
         // db.circle.geoNear(point, {
         //     maxDistance: 1,
         //     spherical: true

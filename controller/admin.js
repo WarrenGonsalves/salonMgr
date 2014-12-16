@@ -86,18 +86,17 @@ AdminController.prototype.postSpecialistProfileHandler = {
     },
     handler: function(request, reply) {
         var profile_img = request.payload["img"];
-        var path = config.dataDir + "img/" + request.params.spc_id;
-
+        var fileName = "profile_" + request.params.spc_id;
+        var path = config.imgDir + fileName;
+        console.log(path);
         profile_img.pipe(fs.createWriteStream(path));
-
-        //reply("done");
 
         profile_img.on('end', function(err) {
 
             db.specialist.findOne({
                 _id: request.params.spc_id
             }, function(err, selectedSpecialist) {
-                selectedSpecialist.profile_img = config.imgURL + request.params.spc_id;
+                selectedSpecialist.profile_img = config.imgURL + fileName;
                 selectedSpecialist.save();
                 reply(selectedSpecialist);
             });

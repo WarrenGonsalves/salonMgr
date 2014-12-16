@@ -9,6 +9,7 @@ var jobSchema = new Schema({
     cust_ph: String,
     cust_addr: String,
     cust_task: String,
+    images: [String],
     complete: {
         type: Boolean,
         default: false

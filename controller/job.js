@@ -1,4 +1,7 @@
 var db = require("../db");
+var util = require("../util");
+var config = require("../config/constants");
+var fs = require('fs');
 
 function JobController() {};
 
@@ -31,5 +34,30 @@ JobController.prototype.getConfigHandler = {
         });
     }
 };
+
+JobController.prototype.postImageController = {
+    payload: {
+        output: 'stream',
+        allow: 'multipart/form-data'
+    },
+    handler: function(request, reply) {
+        var job_img = request.payload["img"];
+        var fileName = "job_" + util.generator.getUUID();
+        var path = config.imgDir + fileName;
+
+        job_img.pipe(fs.createWriteStream(path));
+
+        job_img.on('end', function(err) {
+
+            db.job.findOne({
+                _id: request.params.id
+            }, function(err, selectedJob) {
+                selectedJob.images.push(config.imgURL + fileName);
+                selectedJob.save();
+                reply(selectedJob);
+            });
+        });
+    }
+}
 
 module.exports = new JobController();
