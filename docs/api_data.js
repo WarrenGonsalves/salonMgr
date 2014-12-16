@@ -196,6 +196,36 @@ define({ api: [
   },
   {
     "type": "post",
+    "url": "/jobs/img/{job_id}",
+    "title": "Job: upload images",
+    "name": "jobImage",
+    "group": "job",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "img",
+            "description": "<p>Job image file to be uploaded</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/img/547af234107f433f5d9f202e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "job"
+  },
+  {
+    "type": "post",
     "url": "/register/auth/{phone}/{auth_code}",
     "title": "Register: auth phone",
     "name": "auth",
