@@ -52,6 +52,7 @@ function fakeSpecialist() {
     specialist.family = "Married, 3 kids. 2 daughters and one son."
     specialist.hourly_rate = '₹ 350/hr';
     specialist.consulting_fee = '₹ 200/hr';
+    specialist.services = "Furniture, Polishing, Interior, Plumbing, Laundry, Carpentary, Painting, Wiring, Cabling";
     // var profilePic = {
     //     cat: 'profile',
     //     url: faker.internet.avatar()

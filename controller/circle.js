@@ -1,4 +1,5 @@
 var db = require("../db");
+var _ = require('underscore');
 
 function CircleController() {};
 
@@ -9,25 +10,10 @@ CircleController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
         var query_param = {}
+        var isGrouped = false;
 
-        // if (!(request.query.customer === undefined)) {
-        //     query_param['cust_id'] = request.query.customer;
-        // }
-
-        if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
-            // var nearLoc = {
-            //     $near: {
-            //         $geometry: {
-            //             type: "Point",
-            //             coordinates: [request.query.lng, request.query.lat]
-            //         }
-            //     }
-            // };
-            var nearLoc = {
-                $nearSphere: [request.query.lng, request.query.lat],
-                $maxDistance: 10 / 6368
-            }
-            query_param['locs'] = nearLoc;
+        if (!(request.query.grouped === undefined)) {
+            isGrouped = request.query.grouped;
         }
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
@@ -39,25 +25,26 @@ CircleController.prototype.getConfigHandler = {
                 return;
             }
 
+            if (isGrouped) {
+                // group circles by city
+                circles = _.groupBy(circles, function(data) {
+                    return data.city;
+                });
+
+                // re-map json structure to match requirement
+                circles = _.map(circles, function(data) {
+                    var mappedValue = {
+                        'city': data[0].city,
+                        'circles': data
+                    };
+                    return mappedValue;
+                })
+            }
+
             reply({
                 circleList: circles
             });
         });
-
-        // var point = {
-        //     type: 'Point',
-        //     coordinates: [parseFloat(request.query.lng), parseFloat(request.query.lat)]
-        // };
-
-        // db.circle.geoNear(point, {
-        //     maxDistance: 1,
-        //     spherical: true
-        // }, function(error, docs) {
-        //     console.log("print something atleast");
-        //     console.log(JSON.stringify(error));
-        //     console.log(JSON.stringify(docs));
-        //     reply("finished");
-        // });
     }
 };
 

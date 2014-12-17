@@ -16,6 +16,7 @@ var specialistSchema = new Schema({
   zip: String,
   verified: String,
   family: String,
+  services: String,
   circle: Schema.Types.Mixed,
   circleloc: Schema.Types.Mixed,
   stores: [{
