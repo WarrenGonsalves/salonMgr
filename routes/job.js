@@ -24,7 +24,8 @@ module.exports = function() {
          * @apiName jobImage
          * @apiGroup job
          *
-         * @apiParam {Object} img        Job image file to be uploaded
+         * @apiParam {String} job_id        Job id [Url parameter]
+         * @apiParam {Object} img           Job image file to be uploaded [Post parameter]
          *
          * @apiExample Example usage:
          * /jobs/img/547af234107f433f5d9f202e
