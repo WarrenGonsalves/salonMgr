@@ -1,14 +1,14 @@
 define({ api: [
   {
     "type": "get",
-    "url": "/circles",
+    "url": "/circles?grouped=true",
     "title": "Circles: get all",
     "name": "getCircles",
     "group": "Circle",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/circles",
+        "content": "/circles\n/circles?grouped=true",
         "type": "json"
       }
     ],
@@ -205,10 +205,17 @@ define({ api: [
         "Parameter": [
           {
             "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
             "type": "Object",
             "optional": false,
             "field": "img",
-            "description": "<p>Job image file to be uploaded</p> "
+            "description": "<p>Job image file to be uploaded [Post parameter]</p> "
           }
         ]
       }
