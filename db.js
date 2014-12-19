@@ -1,9 +1,6 @@
 var Mongoose = require('mongoose');
 var config = require('./config/constants');
-var category = require('./models/meta_category');
-var specialist = require('./models/specialist');
-var store = require('./models/store');
-var job = require('./models/jobs');
+var models = require('./models');
 
 //load database
 Mongoose.connect(config.mongo.connecturl);
@@ -16,11 +13,11 @@ db.once('open', function callback() {
 
 exports.Mongoose = Mongoose;
 exports.db = db;
-exports.category = category;
-exports.specialist = specialist;
-exports.store = store;
-exports.job = job;
-exports.authCode = require('./models/authcode');
-exports.customer = require('./models/customer');
-exports.job = require('./models/jobs');
-exports.circle = require('./models/circle');
+exports.category = models.category;
+exports.specialist = models.specialist;
+exports.store = models.store;
+exports.job = models.job;
+exports.authCode = models.authcode;
+exports.customer = models.customer;
+exports.job = models.job;
+exports.circle = models.circle;

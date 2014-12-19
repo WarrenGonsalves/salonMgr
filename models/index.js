@@ -2,7 +2,7 @@ var path = require('path');
 var fs = require('fs');
 var _ = require('underscore');
 
-console.log("processing utils");
+console.log("processing models");
 fs.readdirSync(__dirname).forEach(function(file) {
   /* If its the current file ignore it */
   if (file === 'index.js') return;

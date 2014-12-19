@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var categoryModel = require("./meta_category");
+var categoryModel = require("./category");
 var _ = require("underscore");
 
 // schema

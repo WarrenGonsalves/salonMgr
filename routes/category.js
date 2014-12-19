@@ -1,4 +1,4 @@
-var category = require('../models/meta_category');
+var db = require('../db');
 var BASE_URL = '/categories';
 var ADMIN_URL = "/admin" + BASE_URL;
 
@@ -14,7 +14,7 @@ module.exports = function() {
             path: BASE_URL,
             config: {
                 handler: function(req, reply) {
-                    category.getAll(function(err, data) {
+                    db.category.getAll(function(err, data) {
                         if (err) {
                             reply({
                                 "error": err
@@ -43,7 +43,7 @@ module.exports = function() {
             path: ADMIN_URL + "/{category}/{sub_category}",
             config: {
                 handler: function(req, reply) {
-                    category.createNew(req.params.category, req.params.sub_category, function(err, data) {
+                    db.category.createNew(req.params.category, req.params.sub_category, function(err, data) {
                         if (err) {
                             reply({
                                 "error": err
