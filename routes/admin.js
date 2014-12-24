@@ -1,6 +1,7 @@
 var util = require('../util');
 var BASE_URL = '/admin';
 var SPECIALIST_URL = BASE_URL + '/specialists';
+var REVIEW_URL = BASE_URL + '/reviews';
 var adminController = require('../controller/admin');
 var config = require('../config/constants');
 
@@ -56,6 +57,11 @@ module.exports = function() {
             method: 'POST',
             path: SPECIALIST_URL + '/addstore/{spc_id}/{store_id}',
             config: adminController.addSpecialistStoreHandler
+        },
+        {
+            method: 'POST',
+            path: REVIEW_URL,
+            config: adminController.postReviewMetadataHandler
         },
         /**
          * @api {get} /admin/config Server: Get Server config
