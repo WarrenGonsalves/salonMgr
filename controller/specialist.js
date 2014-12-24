@@ -3,6 +3,7 @@ var db = require("../db");
 var util = require("../util");
 var _ = require('underscore');
 var veribage = require('../config/legal');
+var moment = require('moment');
 
 function SpecialistController() {};
 
@@ -50,7 +51,7 @@ SpecialistController.prototype.getConfigHandler = {
             isGrouped = request.query.grouped;
         }
 
-        // filter for circle
+        // filter for circle 
         if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
             var nearLoc = {
                 $near: {
@@ -65,30 +66,60 @@ SpecialistController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.specialist.find(query_param).populate('jobs').exec(function(err, specialistList) {
+        db.specialist.find(query_param).populate('jobs').lean().exec(function(err, specialistList) {
             if (err) {
                 reply(err).code(500);
                 return;
             }
 
-            if (isGrouped) {
-                // group services by availability
-                specialistList = _.groupBy(specialistList, function(data) {
-                    if (data.available) {
-                        return 'Available'
-                    } else {
-                        return 'Busy'
-                    };
-                });
-            };
+            // specialistList = _.map(dataList, function(data) {
+            //     return data.toJSON();
+            // });
 
-            reply({
-                specialist_list: specialistList,
-                specialist_rate_info: veribage.specialistRate
+            console.log("date text : " + request.query.book_date)
+
+            // Filter out specialists who are already booked.
+            var bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
+            var bookEndTime = moment(bookStartTime).add(4, 'hours');
+
+            console.log('bookimg start : end ' + moment(bookStartTime).format() + moment(bookEndTime).format());
+            db.booking.find({
+                book_date: {
+                    $gte: bookStartTime,
+                    $lt: bookEndTime
+                }
+            }).select('-_id specialist_id').exec(function(err, bookedSpecialistList) {
+
+                // filter out booked specialists
+                var specialistIdList = [];
+                _.map(bookedSpecialistList, function(bookedSpecalist) {
+                    specialistIdList.push(String(bookedSpecalist.specialist_id));
+                })
+
+                console.log('booked specialists in 4 hours: ' + JSON.stringify(specialistIdList));
+
+
+                specialistList = _.reject(specialistList, function(specialist){
+                    return _.contains(specialistIdList, String(specialist._id));
+                });
+
+                if (isGrouped) {
+                    // group services by availability
+                    specialistList = _.groupBy(specialistList, function(data) {
+                        if (data.available) {
+                            return 'Available'
+                        } else {
+                            return 'Busy'
+                        };
+                    });
+                };
+
+                reply({
+                    specialist_list: specialistList,
+                    specialist_rate_info: veribage.specialistRate
+                });
             });
         });
-
-
     }
 };
 
@@ -138,6 +169,7 @@ SpecialistController.prototype.postBookSpecialist = {
         var cust_phone = request.payload.phone;
         var cust_addr = request.payload.addr;
         var cust_task = request.payload.task;
+        var book_date = new Date(Date.parse(request.payload.book_date));
 
         console.log(__filename + "booking specialist for: " + specialist_id + cust_name + cust_phone + cust_addr + cust_task);
 
@@ -162,7 +194,7 @@ SpecialistController.prototype.postBookSpecialist = {
 
             // create new job
             var jobId;
-            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr, cust_task, function(err, currentJob) {
+            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr, cust_task, book_date, function(err, currentJob) {
                 if (err) {
                     reply(err).code(510);
                     return;
@@ -173,6 +205,13 @@ SpecialistController.prototype.postBookSpecialist = {
                     specialist.available = false;
                     console.log(__filename + specialist.toJSON());
                     specialist.save();
+
+                    var booking = new db.booking();
+                    booking.specialist_id = currentJob.specialist_id;
+                    booking.book_date = new Date(Date.parse(book_date));
+                    booking.cust_id = currentJob.cust_id;
+                    booking.save();
+
                     reply(currentJob);
                 }
             });

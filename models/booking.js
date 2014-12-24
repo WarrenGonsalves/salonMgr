@@ -3,8 +3,7 @@ var Schema = mongoose.Schema;
 
 // schema
 var bookingSchema = new Schema({
-    specialist_id: String,
-    sub_category_id: String,
+    specialist_id: String,  
     book_date: Date,
     cust_id: String,
     created_date: {

@@ -21,3 +21,4 @@ exports.authCode = models.authcode;
 exports.customer = models.customer;
 exports.job = models.job;
 exports.circle = models.circle;
+exports.booking = models.booking;

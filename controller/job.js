@@ -21,7 +21,10 @@ JobController.prototype.getConfigHandler = {
             query_param['specialist_id'] = request.query.specialist;
         }
 
-        db.job.find(query_param, function(err, jobs) {
+        console.log("job query: " + JSON.stringify(query_param));
+
+        // TODO sort by book date.
+        db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
             console.log("getting all jobs ");
             if (err) {
                 reply(err).code(420);

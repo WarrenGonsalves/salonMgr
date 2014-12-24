@@ -9,6 +9,7 @@ var jobSchema = new Schema({
     cust_ph: String,
     cust_addr: String,
     cust_task: String,
+    book_date: Date,
     images: [String],
     complete: {
         type: Boolean,
@@ -21,14 +22,15 @@ var jobSchema = new Schema({
 })
 
 //methods
-jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr, cust_task, cb) {
+jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr, cust_task, book_date, cb) {
     doc = {
         'specialist_id': specialist_id,
         'cust_id': cust_id,
         'cust_name': cust_name,
         'cust_ph': cust_ph,
         'cust_addr': cust_addr,
-        'cust_task': cust_task
+        'cust_task': cust_task,
+        'book_date': book_date
     }
     console.log(__filename + "creating new job: " + doc);
     this.create(doc, cb);
