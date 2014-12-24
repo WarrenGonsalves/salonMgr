@@ -64,44 +64,37 @@ SpecialistController.prototype.getConfigHandler = {
             query_param['circleloc'] = nearLoc;
         }
 
-        console.log(__filename + ' query param ' + JSON.stringify(query_param));
+        // Filter out specialists who are already booked.
+        var bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
+        var bookEndTime = moment(bookStartTime).add(4, 'hours');
 
-        db.specialist.find(query_param).populate('jobs').lean().exec(function(err, specialistList) {
-            if (err) {
-                reply(err).code(500);
-                return;
+
+        db.booking.find({
+            book_date: {
+                $gte: bookStartTime,
+                $lt: bookEndTime
             }
+        }).select('-_id specialist_id').lean().exec(function(err, bookedSpecialistList) {
 
-            // specialistList = _.map(dataList, function(data) {
-            //     return data.toJSON();
-            // });
+            // Ids of booked specialists
+            var specialistIdList = [];
+            _.map(bookedSpecialistList, function(bookedSpecalist) {
+                specialistIdList.push(String(bookedSpecalist.specialist_id));
+            })
 
-            console.log("date text : " + request.query.book_date)
+            console.log('booked specialists in 4 hours: ' + JSON.stringify(specialistIdList));
 
-            // Filter out specialists who are already booked.
-            var bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
-            var bookEndTime = moment(bookStartTime).add(4, 'hours');
+            query_param['_id'] = {
+                $nin: specialistIdList
+            };
 
-            console.log('bookimg start : end ' + moment(bookStartTime).format() + moment(bookEndTime).format());
-            db.booking.find({
-                book_date: {
-                    $gte: bookStartTime,
-                    $lt: bookEndTime
+            console.log(__filename + ' query param ' + JSON.stringify(query_param));
+
+            db.specialist.find(query_param).populate('jobs').lean().exec(function(err, specialistList) {
+                if (err) {
+                    reply(err).code(500);
+                    return;
                 }
-            }).select('-_id specialist_id').exec(function(err, bookedSpecialistList) {
-
-                // filter out booked specialists
-                var specialistIdList = [];
-                _.map(bookedSpecialistList, function(bookedSpecalist) {
-                    specialistIdList.push(String(bookedSpecalist.specialist_id));
-                })
-
-                console.log('booked specialists in 4 hours: ' + JSON.stringify(specialistIdList));
-
-
-                specialistList = _.reject(specialistList, function(specialist){
-                    return _.contains(specialistIdList, String(specialist._id));
-                });
 
                 if (isGrouped) {
                     // group services by availability
