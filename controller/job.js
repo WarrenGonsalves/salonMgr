@@ -44,6 +44,9 @@ JobController.prototype.postImageController = {
         allow: 'multipart/form-data'
     },
     handler: function(request, reply) {
+
+        console.log("uploading img for job: " + JSON.stringify(request.payload));
+
         var job_img = request.payload["img"];
         var fileName = "job_" + util.generator.getUUID();
         var path = config.imgDir + fileName;
