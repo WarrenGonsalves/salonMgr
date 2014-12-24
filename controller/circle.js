@@ -18,7 +18,7 @@ CircleController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.circle.find(query_param, function(err, circles) {
+        db.circle.find(query_param).exec(function(err, circles) {
             console.log("getting all circles " + JSON.stringify(circles));
             if (err) {
                 reply(err).code(420);

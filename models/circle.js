@@ -12,7 +12,25 @@ var circleSchema = new Schema({
         },
         coordinates: [Number]
     }
-})
+}, {
+    toJSON: {
+        virtuals: true
+    }
+});
+
+// virtuals
+circleSchema
+    .virtual('lng')
+    .get(function() {
+        return this.locs.coordinates[0];
+    });
+
+circleSchema
+    .virtual('lat')
+    .get(function() {
+        return this.locs.coordinates[1];
+    });
+
 circleSchema.index({
     locs: '2dsphere'
 });
