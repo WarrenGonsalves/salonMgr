@@ -45,9 +45,9 @@ JobController.prototype.postImageController = {
     },
     handler: function(request, reply) {
 
-        console.log("uploading img for job: " + JSON.stringify(request.payload));
+        //console.log("uploading img for job: " + JSON.stringify(request.payload));
 
-        var job_img = request.payload["img"];
+        var job_img = request.payload["img"] || request.payload["_data"];
         var fileName = "job_" + util.generator.getUUID();
         var path = config.imgDir + fileName;
 
