@@ -49,6 +49,9 @@ function fakeSpecialist() {
     specialist.zip = faker.address.zipCode();
     specialist.phone = 9920111222;
     specialist.profile_img = faker.internet.avatar();
+    specialist.review.push({review_id: '549a67d4e09d82991a1df781', count: 0});
+    specialist.review.push({review_id: '549a67d4e09d82991a1df782', count: 0});
+    specialist.review.push({review_id: '549a67d4e09d82991a1df783', count: 0});
     specialist.family = "Married, 3 kids. 2 daughters and one son."
     specialist.hourly_rate = '₹ 350/hr';
     specialist.consulting_fee = '₹ 200/hr';

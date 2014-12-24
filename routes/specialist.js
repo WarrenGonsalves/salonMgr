@@ -44,6 +44,7 @@ module.exports = function() {
      * @apiParam {String} phone       Customer phone [Post parameter]
      * @apiParam {String} addr        Customer address [Post parameter]
      * @apiParam {String} task        Customer task [Post parameter]
+     * @apiParam {String} book_date   Book date and time in YYYY-MM-DDThh:mmTZD format [2014-11-12T10:00+05:30][Post parameter]
      *
      * @apiExample Example usage:
      * /specialists/123456/book/34343434

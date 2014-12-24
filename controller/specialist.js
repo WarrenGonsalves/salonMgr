@@ -164,7 +164,17 @@ SpecialistController.prototype.postBookSpecialist = {
         var cust_task = request.payload.task;
         var book_date = new Date(Date.parse(request.payload.book_date));
 
-        console.log(__filename + "booking specialist for: " + specialist_id + cust_name + cust_phone + cust_addr + cust_task);
+        if (specialist_id === null) {
+            reply("Incorrect specialist id ").code(510);
+            return;
+        }
+
+        if (customer_id === null) {
+            reply("Incorrect customer id ").code(510);
+            return;
+        }
+
+        console.log(__filename + "booking specialist for: " + specialist_id + ":" + customer_id + ":" + cust_name + cust_phone + cust_addr + cust_task);
 
         db.specialist.findOne({
             _id: specialist_id

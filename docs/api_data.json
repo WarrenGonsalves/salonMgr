@@ -17,6 +17,23 @@
     "groupTitle": "Circle"
   },
   {
+    "type": "get",
+    "url": "/circles?grouped=true",
+    "title": "Circles: get all",
+    "name": "getCircles",
+    "group": "Circle",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/circles\n/circles?grouped=true",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/review.js",
+    "groupTitle": "Circle"
+  },
+  {
     "type": "post",
     "url": "/circles/{name}/{lat}/{lng}",
     "title": "Circles: create",
@@ -378,6 +395,13 @@
             "optional": false,
             "field": "task",
             "description": "<p>Customer task [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "book_date",
+            "description": "<p>Book date and time in YYYY-MM-DDThh:mmTZD format [2014-11-12T10:00+05:30][Post parameter]</p> "
           }
         ]
       }
