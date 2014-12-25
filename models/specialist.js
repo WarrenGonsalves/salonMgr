@@ -19,13 +19,10 @@ var specialistSchema = new Schema({
   services: String,
   circle: Schema.Types.Mixed,
   circleloc: Schema.Types.Mixed,
-  ratings: [{
-    rating_id: {
-      type: Schema.Types.ObjectId,
-      ref: 'rating'
-    },
-    count: Number
-  }],
+  // ratings: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'specialistRating'
+  // }],
   stores: [{
     store_id: String
   }],

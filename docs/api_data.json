@@ -395,6 +395,13 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
+            "field": "category",
+            "description": "<p>Specialist category title [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
             "field": "name",
             "description": "<p>Customer name [Post parameter]</p> "
           },
@@ -411,6 +418,20 @@
             "optional": false,
             "field": "addr",
             "description": "<p>Customer address [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "addr2",
+            "description": "<p>Customer address 2 [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "landmark",
+            "description": "<p>Customer address landmark [Post parameter]</p> "
           },
           {
             "group": "Parameter",
@@ -442,14 +463,14 @@
   },
   {
     "type": "get",
-    "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&grouped=true",
+    "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
     "title": "get specialists",
     "name": "getSpecialists",
     "group": "specialist",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444",
+        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444&book_date=2014-11-12T10:00+05:30",
         "type": "json"
       }
     ],

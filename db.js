@@ -23,3 +23,4 @@ exports.job = models.job;
 exports.circle = models.circle;
 exports.booking = models.booking;
 exports.rating = models.rating;
+exports.specialistRating = models.specialistRating;

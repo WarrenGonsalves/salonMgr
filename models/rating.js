@@ -6,8 +6,6 @@ var ratingSchema = new Schema({
     text: String,
 });
 
-//methods
-
 // export
 module.exports = mongoose.model('rating', ratingSchema);
 module.exports.schema = ratingSchema;

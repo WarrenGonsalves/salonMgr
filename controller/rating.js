@@ -63,6 +63,8 @@ RatingController.prototype.postConfigHandler = {
                 return;
             }
 
+            console.log("updating rating for specialist ")
+
             _.each(specialist.ratings, function(rating){
                 console.log(JSON.stringify(rating));
             });

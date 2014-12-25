@@ -7,7 +7,7 @@ var config = require('../config/constants');
 module.exports = function() {
   return [
     /**
-     * @api {get} /specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&grouped=true get specialists
+     * @api {get} /specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true get specialists
      * @apiName getSpecialists
      * @apiGroup specialist
      *
@@ -16,7 +16,7 @@ module.exports = function() {
      * /specialists?store=123456
      * /specialists?store=123456&category=667766
      * /specialists?store=123456&category=667766&grouped=true
-     * /specialists?category=667766&lat=19.1999999&lng=72.9444444
+     * /specialists?category=667766&lat=19.1999999&lng=72.9444444&book_date=2014-11-12T10:00+05:30
      */
     {
       method: 'GET',
@@ -40,9 +40,12 @@ module.exports = function() {
      *
      * @apiParam {String} spc_id      Specialist id [Url parameter]
      * @apiParam {String} cust_id     Customer id / Store id [Url parameter]
+     * @apiParam {String} category    Specialist category title [Post parameter]
      * @apiParam {String} name        Customer name [Post parameter]
      * @apiParam {String} phone       Customer phone [Post parameter]
      * @apiParam {String} addr        Customer address [Post parameter]
+     * @apiParam {String} addr2       Customer address 2 [Post parameter]
+     * @apiParam {String} landmark    Customer address landmark [Post parameter]
      * @apiParam {String} task        Customer task [Post parameter]
      * @apiParam {String} book_date   Book date and time in YYYY-MM-DDThh:mmTZD format [2014-11-12T10:00+05:30][Post parameter]
      *

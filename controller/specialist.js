@@ -90,7 +90,7 @@ SpecialistController.prototype.getConfigHandler = {
 
             console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-            db.specialist.find(query_param).populate('jobs').populate('ratings.rating_id').lean().exec(function(err, specialistList) {
+            db.specialist.find(query_param).populate('jobs').exec(function(err, specialistList) {
                 if (err) {
                     reply(err).code(500);
                     return;
@@ -176,6 +176,18 @@ SpecialistController.prototype.postBookSpecialist = {
             return;
         }
 
+        if (request.payload.book_date === undefined) {
+            reply("Provide book date").code(510);
+            return;
+        }
+
+        if (request.payload.category === undefined) {
+            reply("Provide specialist category title").code(510);
+            return;
+        }
+
+
+
         console.log(__filename + "booking specialist for: " + specialist_id + ":" + customer_id + ":" + JSON.stringify(request.payload));
 
         db.specialist.findOne({
@@ -192,34 +204,37 @@ SpecialistController.prototype.postBookSpecialist = {
                 return;
             }
 
-            // if (!specialist.available) {
-            //     reply("specialist not available for booking").code(510);
-            //     return;
-            // }
+            var job = db.job();
 
-            // create new job
-            var jobId;
-            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, function(err, currentJob) {
-                if (err) {
-                    reply(err).code(510);
-                    return;
-                } else {
-                    specialist.current_job = currentJob._id;
-                    specialist.jobs.push(currentJob._id);
+            job.specialist_id = specialist_id;
+            job.specialist_name = specialist.name;
+            job.specialist_category = request.payload.category;
+            job.specialist_ph = specialist.phone;
+            job.cust_id = customer_id;
+            job.cust_name = cust_name;
+            job.cust_ph = cust_phone;
+            job.cust_addr1 = cust_addr1;
+            job.cust_addr2 = cust_addr2;
+            job.cust_addr_landmark = cust_addr_landmark;
+            job.cust_task = cust_task;
+            job.book_date = book_date;
 
-                    specialist.available = false;
-                    console.log(__filename + specialist.toJSON());
-                    specialist.save();
+            job.save();
 
-                    var booking = new db.booking();
-                    booking.specialist_id = currentJob.specialist_id;
-                    booking.book_date = new Date(Date.parse(book_date));
-                    booking.cust_id = currentJob.cust_id;
-                    booking.save();
+            console.log(__filename + "new job created: " + JSON.stringify(job._id));
+            specialist.current_job = job._id;
+            specialist.jobs.push(job._id);
+            specialist.available = false;
+            //console.log(__filename + "adding job to specialist: " + JSON.stringify(specialist));
+            specialist.save();
 
-                    reply(currentJob);
-                }
-            });
+            var booking = new db.booking();
+            booking.specialist_id = job.specialist_id;
+            booking.book_date = new Date(Date.parse(book_date));
+            booking.cust_id = job.cust_id;
+            booking.save();
+
+            reply(job);
         });
     }
 };
