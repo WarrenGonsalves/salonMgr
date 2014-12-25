@@ -90,7 +90,7 @@ SpecialistController.prototype.getConfigHandler = {
 
             console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-            db.specialist.find(query_param).populate('jobs').lean().exec(function(err, specialistList) {
+            db.specialist.find(query_param).populate('jobs').populate('ratings.rating_id').lean().exec(function(err, specialistList) {
                 if (err) {
                     reply(err).code(500);
                     return;
@@ -160,7 +160,9 @@ SpecialistController.prototype.postBookSpecialist = {
         var customer_id = request.params.cust_id;
         var cust_name = request.payload.name;
         var cust_phone = request.payload.phone;
-        var cust_addr = request.payload.addr;
+        var cust_addr1 = request.payload.addr;
+        var cust_addr2 = request.payload.addr2;
+        var cust_addr_landmark = request.payload.landmark;
         var cust_task = request.payload.task;
         var book_date = new Date(Date.parse(request.payload.book_date));
 
@@ -174,7 +176,7 @@ SpecialistController.prototype.postBookSpecialist = {
             return;
         }
 
-        console.log(__filename + "booking specialist for: " + specialist_id + ":" + customer_id + ":" + cust_name + cust_phone + cust_addr + cust_task);
+        console.log(__filename + "booking specialist for: " + specialist_id + ":" + customer_id + ":" + JSON.stringify(request.payload));
 
         db.specialist.findOne({
             _id: specialist_id
@@ -197,7 +199,7 @@ SpecialistController.prototype.postBookSpecialist = {
 
             // create new job
             var jobId;
-            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr, cust_task, book_date, function(err, currentJob) {
+            db.job.createNew(specialist_id, customer_id, cust_name, cust_phone, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, function(err, currentJob) {
                 if (err) {
                     reply(err).code(510);
                     return;

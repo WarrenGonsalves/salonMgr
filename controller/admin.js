@@ -107,14 +107,14 @@ AdminController.prototype.postSpecialistProfileHandler = {
 AdminController.prototype.postReviewMetadataHandler = {
     handler: function(request, reply) {
         console.log("Creating review metadata");
-        var review = new db.review();
-        review.text = request.payload.text;
-        review.save(function(err, data) {
+        var rating = new db.rating();
+        rating.text = request.payload.text;
+        rating.save(function(err, data) {
             if (err) {
                 console.log(err);
             }
         });
-        reply(review);
+        reply(rating);
     }
 };
 

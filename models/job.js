@@ -7,7 +7,9 @@ var jobSchema = new Schema({
     cust_id: String,
     cust_name: String,
     cust_ph: String,
-    cust_addr: String,
+    cust_addr1: String,
+    cust_addr2: String,
+    cust_addr_landmark: String,
     cust_task: String,
     book_date: Date,
     images: [String],
@@ -22,13 +24,15 @@ var jobSchema = new Schema({
 })
 
 //methods
-jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr, cust_task, book_date, cb) {
+jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, cb) {
     doc = {
         'specialist_id': specialist_id,
         'cust_id': cust_id,
         'cust_name': cust_name,
         'cust_ph': cust_ph,
-        'cust_addr': cust_addr,
+        'cust_addr1': cust_addr1,
+        'cust_addr2': cust_addr2,
+        'cust_addr_landmark': cust_addr_landmark,
         'cust_task': cust_task,
         'book_date': book_date
     }

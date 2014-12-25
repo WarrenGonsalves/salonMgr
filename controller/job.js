@@ -21,6 +21,10 @@ JobController.prototype.getConfigHandler = {
             query_param['specialist_id'] = request.query.specialist;
         }
 
+        if (!(request.query.complete === undefined)) {
+            query_param['complete'] = request.query.complete;
+        }
+
         console.log("job query: " + JSON.stringify(query_param));
 
         // TODO sort by book date.

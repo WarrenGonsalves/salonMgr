@@ -22,4 +22,4 @@ exports.customer = models.customer;
 exports.job = models.job;
 exports.circle = models.circle;
 exports.booking = models.booking;
-exports.review = models.review;
+exports.rating = models.rating;

@@ -1,7 +1,7 @@
 var util = require('../util');
 var BASE_URL = '/admin';
 var SPECIALIST_URL = BASE_URL + '/specialists';
-var REVIEW_URL = BASE_URL + '/reviews';
+var RATING_URL = BASE_URL + '/ratings';
 var adminController = require('../controller/admin');
 var config = require('../config/constants');
 
@@ -58,9 +58,17 @@ module.exports = function() {
             path: SPECIALIST_URL + '/addstore/{spc_id}/{store_id}',
             config: adminController.addSpecialistStoreHandler
         },
+        /**
+         * @api {post} /admin/reviews Reviews: new review metadata
+         * @apiName AddReviewMetadata
+         * @apiGroup admin
+         *
+         * @apiParam {String} text     Review text [Pay]
+         *
+         */
         {
             method: 'POST',
-            path: REVIEW_URL,
+            path: RATING_URL,
             config: adminController.postReviewMetadataHandler
         },
         /**

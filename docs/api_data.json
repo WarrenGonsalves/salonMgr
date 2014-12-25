@@ -17,23 +17,6 @@
     "groupTitle": "Circle"
   },
   {
-    "type": "get",
-    "url": "/circles?grouped=true",
-    "title": "Circles: get all",
-    "name": "getCircles",
-    "group": "Circle",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/circles\n/circles?grouped=true",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/review.js",
-    "groupTitle": "Circle"
-  },
-  {
     "type": "post",
     "url": "/circles/{name}/{lat}/{lng}",
     "title": "Circles: create",
@@ -49,6 +32,23 @@
     "version": "0.0.0",
     "filename": "routes/circle.js",
     "groupTitle": "Circle"
+  },
+  {
+    "type": "post",
+    "url": "/ratings/{specialist_id}",
+    "title": "Ratings: new specialist rating",
+    "name": "postRating",
+    "group": "Rating",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/ratings/5468521be05865bc22d26733",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/rating.js",
+    "groupTitle": "Rating"
   },
   {
     "type": "post",
@@ -72,6 +72,29 @@
             "optional": false,
             "field": "cat_id",
             "description": "<p>cateogory id.</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "admin"
+  },
+  {
+    "type": "post",
+    "url": "/admin/reviews",
+    "title": "Reviews: new review metadata",
+    "name": "AddReviewMetadata",
+    "group": "admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "text",
+            "description": "<p>Review text [Pay]</p> "
           }
         ]
       }
@@ -196,14 +219,14 @@
   },
   {
     "type": "get",
-    "url": "/jobs?specialist={spc_id}&customer={cust_id}",
+    "url": "/jobs?specialist={spc_id}&customer={cust_id}&complete={flag}",
     "title": "Job: get jobs",
     "name": "jobGet",
     "group": "job",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?customer=547af234107f433f5d9f202e\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
+        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?customer=547af234107f433f5d9f202e\n/jobs?customer=547af234107f433f5d9f202e&complete=true\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
         "type": "json"
       }
     ],

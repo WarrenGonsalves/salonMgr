@@ -4,7 +4,7 @@ var JobController = require('../controller/job');
 module.exports = function() {
     return [
         /**
-         * @api {get} /jobs?specialist={spc_id}&customer={cust_id} Job: get jobs
+         * @api {get} /jobs?specialist={spc_id}&customer={cust_id}&complete={flag} Job: get jobs
          * @apiName jobGet
          * @apiGroup job
          *
@@ -12,6 +12,7 @@ module.exports = function() {
          * /jobs
          * /jobs?specialist=547b3aeec3b83874ce377168
          * /jobs?customer=547af234107f433f5d9f202e
+         * /jobs?customer=547af234107f433f5d9f202e&complete=true
          * /jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e
          */
         {
