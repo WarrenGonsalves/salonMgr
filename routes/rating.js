@@ -3,6 +3,19 @@ var controller = require('../controller/rating');
 
 module.exports = function() {
     return [
+            /**
+         * @api {post} /ratings/{specialist_id} Ratings: new specialist rating
+         * @apiName postRating
+         * @apiGroup Rating
+         *
+         * @apiExample Example usage:
+         * /ratings/5468521be05865bc22d26733
+         */
+        {
+            method: 'GET',
+            path: BASE_URL,
+            config: controller.getConfigHandler
+        },
         /**
          * @api {post} /ratings/{specialist_id} Ratings: new specialist rating
          * @apiName postRating

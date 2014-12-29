@@ -16,31 +16,15 @@ RatingController.prototype.getConfigHandler = {
 
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.circle.find(query_param).exec(function(err, circles) {
-            console.log("getting all circles " + JSON.stringify(circles));
+        db.rating.find(query_param).exec(function(err, ratings) {
+            console.log("getting all ratings " + JSON.stringify(ratings));
             if (err) {
                 reply(err).code(420);
                 return;
             }
 
-            if (isGrouped) {
-                // group circles by city
-                circles = _.groupBy(circles, function(data) {
-                    return data.city;
-                });
-
-                // re-map json structure to match requirement
-                circles = _.map(circles, function(data) {
-                    var mappedValue = {
-                        'city': data[0].city,
-                        'circles': data
-                    };
-                    return mappedValue;
-                })
-            }
-
             reply({
-                circleList: circles
+                ratingList: ratings
             });
         });
     }
@@ -48,11 +32,14 @@ RatingController.prototype.getConfigHandler = {
 
 RatingController.prototype.postConfigHandler = {
     handler: function(request, reply) {
-        var rating_ids = request.query.rating_ids;
-        var review_comment = request.query.comment;
+        var rating_ids = request.payload.rating_ids || "";
+        var review_comment = request.params.comment;
 
         // find specialist
-        db.specialist.find({'_id': request.params.spc_id}).lean().exec(function(err, specialist){
+        db.specialist.findById(request.params.spc_id).exec(function(err, specialistDoc){
+
+            specialist = specialistDoc;
+
             if (err) {
                 reply(err).code(420);
                 return;
@@ -63,11 +50,19 @@ RatingController.prototype.postConfigHandler = {
                 return;
             }
 
-            console.log("updating rating for specialist ")
+            console.log("updating rating for specialist: " + JSON.stringify(rating_ids));
 
             _.each(specialist.ratings, function(rating){
-                console.log(JSON.stringify(rating));
+                console.log(JSON.stringify(rating._id));
+                if (rating_ids.indexOf(rating._id) > -1) {
+                    rating.count = rating.count + 1;
+                    console.log("increment");
+                }
             });
+
+            specialist.save();
+
+            reply("done");
 
         });
     }

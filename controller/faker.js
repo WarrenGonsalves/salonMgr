@@ -19,22 +19,30 @@ FakeController.prototype.newSpecialistHandler = {
 
             db.circle.find({}).exec(function(err, circleList) {
 
-                var specialist = fakeSpecialist();
+                db.rating.find({}).exec(function(err, ratings) {
 
-                specialist.categories.push(_.sample(categoryList));
+                    var specialist = fakeSpecialist();
 
-                var circle = _.sample(circleList);
-                specialist.circle = circle;
-                specialist.circleloc = circle.locs;
+                    specialist.categories.push(_.sample(categoryList));
 
-                specialist.save(function(err, data) {
-                    if (err) {
-                        reply(err).code(420);
-                    } else {
-                        reply(data);
-                    }
+                    var circle = _.sample(circleList);
+                    specialist.circle = circle;
+                    specialist.circleloc = circle.locs;
+
+                    _.each(ratings, function(rating) {
+                        specialist.ratings.push(rating);
+                    })
+
+                    specialist.save(function(err, data) {
+                        if (err) {
+                            reply(err).code(420);
+                        } else {
+                            reply(data);
+                        }
+                    });
+
                 });
-            })
+            });
         });
     }
 };
@@ -48,12 +56,6 @@ function fakeSpecialist() {
     specialist.zip = faker.address.zipCode();
     specialist.phone = 9920111222;
     specialist.profile_img = faker.internet.avatar();
-    specialist.ratings.push({rating_id: '549bc0bc0a76cb000015f4f7', count: 0});
-    specialist.ratings.push({rating_id: '549bc0ff0a76cb000015f4f8', count: 0});
-    specialist.ratings.push({rating_id: '549bc1070a76cb000015f4f9', count: 0});
-    // specialist.review_ids.push('549a67d4e09d82991a1df781');
-    // specialist.review_ids.push('549a67e5e09d82991a1df782');
-    // specialist.review_ids.push('549a6804e09d82991a1df783');
     specialist.family = "Married, 3 kids. 2 daughters and one son."
     specialist.hourly_rate = '₹ 350/hr';
     specialist.consulting_fee = '₹ 200/hr';

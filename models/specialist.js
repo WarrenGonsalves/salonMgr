@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var categoryModel = require("./category");
 var _ = require("underscore");
+var ratingModel = require("./rating");
 
 // schema
 var specialistSchema = new Schema({
@@ -19,10 +20,7 @@ var specialistSchema = new Schema({
   services: String,
   circle: Schema.Types.Mixed,
   circleloc: Schema.Types.Mixed,
-  // ratings: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'specialistRating'
-  // }],
+  ratings: [ratingModel.schema],
   stores: [{
     store_id: String
   }],

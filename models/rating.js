@@ -4,6 +4,10 @@ var Schema = mongoose.Schema;
 // schema
 var ratingSchema = new Schema({
     text: String,
+    count: {
+        type: Number,
+        default: 0
+    }
 });
 
 // export
