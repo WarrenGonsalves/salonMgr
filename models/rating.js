@@ -8,6 +8,8 @@ var ratingSchema = new Schema({
         type: Number,
         default: 0
     }
+}, {
+    id: false
 });
 
 // export

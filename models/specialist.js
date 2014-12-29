@@ -62,7 +62,8 @@ var specialistSchema = new Schema({
   },
   toJSON: {
     virtuals: true
-  }
+  },
+  id: false
 });
 
 specialistSchema.index({

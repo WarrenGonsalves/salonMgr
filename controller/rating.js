@@ -62,7 +62,7 @@ RatingController.prototype.postConfigHandler = {
 
             specialist.save();
 
-            reply("done");
+            reply(specialist);
 
         });
     }

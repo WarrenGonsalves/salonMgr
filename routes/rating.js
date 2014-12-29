@@ -2,24 +2,17 @@ var BASE_URL = '/ratings';
 var controller = require('../controller/rating');
 
 module.exports = function() {
-    return [
-            /**
-         * @api {post} /ratings/{specialist_id} Ratings: new specialist rating
-         * @apiName postRating
-         * @apiGroup Rating
-         *
-         * @apiExample Example usage:
-         * /ratings/5468521be05865bc22d26733
-         */
-        {
+    return [{
             method: 'GET',
             path: BASE_URL,
             config: controller.getConfigHandler
         },
         /**
-         * @api {post} /ratings/{specialist_id} Ratings: new specialist rating
+         * @api {post} /ratings/{specialist_id} Ratings: specialist rating
          * @apiName postRating
          * @apiGroup Rating
+         *
+         * @apiParam {String} rating_ids  Comma seperated ids for rating count to be incremented [Post parameter]
          *
          * @apiExample Example usage:
          * /ratings/5468521be05865bc22d26733

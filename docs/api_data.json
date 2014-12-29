@@ -36,9 +36,22 @@
   {
     "type": "post",
     "url": "/ratings/{specialist_id}",
-    "title": "Ratings: new specialist rating",
+    "title": "Ratings: specialist rating",
     "name": "postRating",
     "group": "Rating",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "rating_ids",
+            "description": "<p>Comma seperated ids for rating count to be incremented [Post parameter]</p> "
+          }
+        ]
+      }
+    },
     "examples": [
       {
         "title": "Example usage:",

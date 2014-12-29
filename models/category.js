@@ -8,7 +8,9 @@ var SPECIALIST_BY_CATEGORY_HREF = "/specialists/bycategory/"
 var categorySchema = new Schema({
     category: String,
     sub_category: String
-})
+}, {
+    id: false
+});
 
 // methods
 categorySchema.statics.createNew = function(category, subCategory, cb) {
