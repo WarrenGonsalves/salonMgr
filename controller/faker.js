@@ -9,7 +9,7 @@ FakeController.prototype.newSpecialistHandler = {
     handler: function(request, reply) {
 
         db.category.find({
-            'category': 'Fixers'
+            'category': 'Repair'
         }).exec(function(err, categoryList) {
 
             if (err) {
