@@ -56,21 +56,6 @@ module.exports = function() {
       method: 'POST',
       path: BASE_URL + '/{spc_id}/book/{cust_id}',
       config: specialistController.postBookSpecialist
-    },
-    /**
-     * @api {post} /specialists/{spc_id}/unbook Booking: unbook specialist
-     * @apiName unbookSpecialist
-     * @apiGroup specialist
-     *
-     * @apiParam {String} spc_id      Specialist id [Url parameter]
-     *
-     * @apiExample Example usage:
-     * /specialists/123456/unbook
-     */
-    {
-      method: 'POST',
-      path: BASE_URL + '/{spc_id}/unbook',
-      config: specialistController.postUnBookSpecialist
     }, {
       method: 'GET',
       path: '/img/{id}',

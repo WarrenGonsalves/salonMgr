@@ -239,33 +239,5 @@ SpecialistController.prototype.postBookSpecialist = {
     }
 };
 
-SpecialistController.prototype.postUnBookSpecialist = {
-    handler: function(request, reply) {
-
-        var specialist_id = request.params.spc_id;
-
-        db.specialist.findOne({
-            _id: specialist_id
-        }, function(err, specialist) {
-
-            if (err) {
-                reply(err).code(510);
-                return;
-            }
-
-            if (specialist === null) {
-                reply("Specialist not found ").code(510);
-                return;
-            }
-
-            specialist.available = true;
-            specialist.current_job = null;
-            specialist.save();
-
-            reply("Success");
-        });
-    }
-};
-
 var specialistController = new SpecialistController();
 module.exports = specialistController;

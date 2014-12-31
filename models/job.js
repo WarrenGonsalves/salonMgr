@@ -23,7 +23,8 @@ var jobSchema = new Schema({
     created_date: {
         type: Date,
         default: Date.now()
-    }
+    },
+    complete_date: Date
 })
 
 //methods

@@ -35,6 +35,19 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL + '/img/{id}',
             config: JobController.postImageController
+        },
+        /**
+         * @api {post} /jobs/done/{job_id} Job: Complete Job
+         * @apiName jobDone
+         * @apiGroup job
+         *
+         * @apiExample Example usage:
+         * /jobs/done/54a39430708acc00003b3d2e
+         */
+        {
+            method: 'POST',
+            path: BASE_URL + '/done/{id}',
+            config: JobController.jobDoneConfigHandler
         }
     ];
 }();

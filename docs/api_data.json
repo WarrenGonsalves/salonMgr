@@ -231,6 +231,23 @@
     "groupTitle": "customer"
   },
   {
+    "type": "post",
+    "url": "/jobs/done/{job_id}",
+    "title": "Job: Complete Job",
+    "name": "jobDone",
+    "group": "job",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/done/54a39430708acc00003b3d2e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "job"
+  },
+  {
     "type": "get",
     "url": "/jobs?specialist={spc_id}&customer={cust_id}&complete={flag}",
     "title": "Job: get jobs",
@@ -484,36 +501,6 @@
       {
         "title": "Example usage:",
         "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444&book_date=2014-11-12T10:00+05:30",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/specialist.js",
-    "groupTitle": "specialist"
-  },
-  {
-    "type": "post",
-    "url": "/specialists/{spc_id}/unbook",
-    "title": "Booking: unbook specialist",
-    "name": "unbookSpecialist",
-    "group": "specialist",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "spc_id",
-            "description": "<p>Specialist id [Url parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/specialists/123456/unbook",
         "type": "json"
       }
     ],

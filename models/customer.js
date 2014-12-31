@@ -6,6 +6,8 @@ var customerSchema = new Schema({
     name: String,
     ph: String,
     addr: String,
+    apn_id: String,
+    gcm_id: String,
     isSP: {
         type: Boolean,
         default: false

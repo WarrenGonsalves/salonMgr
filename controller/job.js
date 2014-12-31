@@ -68,6 +68,48 @@ JobController.prototype.postImageController = {
             });
         });
     }
-}
+};
 
+JobController.prototype.jobDoneConfigHandler = {
+    handler: function(request, reply) {
+        db.job.findById(request.params.id, function(err, selectedJob) {
+
+            if (err) {
+                reply(err).code(510);
+                return;
+            }
+
+            if (selectedJob === null) {
+                reply("Job not found ").code(510);
+                return;
+            }
+
+            selectedJob.complete = true;
+            selectedJob.complete_date = Date.now();
+            selectedJob.save();
+            db.specialist.findById(selectedJob.specialist_id).exec(function(err, selectedSpecialist) {
+
+                if (err) {
+                    reply(err).code(510);
+                    return;
+                }
+
+                if (selectedSpecialist === null) {
+                    reply("Specialist not found ").code(510);
+                    return;
+                }
+
+                var index = selectedSpecialist.jobs.indexOf(selectedJob._id);
+                if (index > -1) {
+                    selectedSpecialist.jobs.splice(index, 1);
+                    console.log("splicing");
+                }
+                selectedSpecialist.save();
+                console.log("removed job from specialist: " + selectedJob._id);
+                // TODO: soft delete booking entry.
+                reply(selectedSpecialist);
+            });
+        });
+    }
+}
 module.exports = new JobController();
