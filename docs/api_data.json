@@ -232,6 +232,43 @@
   },
   {
     "type": "post",
+    "url": "/customers/{customer_id}/registerpush",
+    "title": "Customer: register push notification key",
+    "name": "customerPost",
+    "group": "customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "gcm_id",
+            "description": "<p>GCM id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "apn_id",
+            "description": "<p>APN id [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/547ae3f83ee077774bbb2f5c/registerpush",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "customer"
+  },
+  {
+    "type": "post",
     "url": "/jobs/done/{job_id}",
     "title": "Job: Complete Job",
     "name": "jobDone",

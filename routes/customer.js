@@ -15,6 +15,22 @@ module.exports = function() {
             method: 'GET',
             path: BASE_URL,
             config: CustomerController.getConfigHandler
+        },
+        /**
+         * @api {post} /customers/{customer_id}/registerpush Customer: register push notification key
+         * @apiName customerPost
+         * @apiGroup customer
+         *
+         * @apiParam {String} gcm_id       GCM id [Post parameter]
+         * @apiParam {String} apn_id       APN id [Post parameter]
+         *
+         * @apiExample Example usage:
+         * /customers/547ae3f83ee077774bbb2f5c/registerpush
+         */
+        {
+            method: 'POST',
+            path: BASE_URL + "/{customer_id}/registerpush",
+            config: CustomerController.pushNotificationConfigHandler
         }
     ];
 }();
