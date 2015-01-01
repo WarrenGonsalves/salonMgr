@@ -20,6 +20,8 @@ CustomerController.prototype.pushNotificationConfigHandler = {
 
         db.customer.findById(request.params.customer_id, function(err, customer) {
 
+            var pushNotificationIdReceived = false;
+
             if (err) {
                 reply(err).code(510);
                 return;
@@ -32,16 +34,22 @@ CustomerController.prototype.pushNotificationConfigHandler = {
 
             if (!(request.payload.gcm_id === undefined)) {
                 customer.gcm_id = request.payload.gcm_id;
+                pushNotificationIdReceived = true;
             }
 
             if (!(request.payload.apn_id === undefined)) {
                 customer.apn_id = request.payload.apn_id;
+                pushNotificationIdReceived = true;
+            }
+
+            if (!pushNotificationIdReceived) {
+                reply("Provide valid GCM or APN Id as POST parameter ").code(510);
+                return;
             }
 
             customer.save();
 
-            console.log("setting pushnotification key for customer: " + customer._id);
-
+            console.log("setting pushnotification key for customer: " + customer._id + " : " + customer.gcm_id||customer.apn_id);
             reply(customer);
         });
     }

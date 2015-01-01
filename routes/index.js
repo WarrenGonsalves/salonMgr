@@ -9,6 +9,7 @@ fs.readdirSync(__dirname).forEach(function(file) {
     /*! Prepare empty object to store module */
     var mod = {};
 
+    console.log('routes: ' + file);
     /*! Store module with its name (from filename) */
     mod[path.basename(file, '.js')] = require(path.join(__dirname, file));
 

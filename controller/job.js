@@ -107,7 +107,7 @@ JobController.prototype.jobDoneConfigHandler = {
                 selectedSpecialist.save();
                 console.log("removed job from specialist: " + selectedJob._id);
                 // TODO: soft delete booking entry.
-                reply(selectedSpecialist);
+                reply(selectedJob);
             });
         });
     }

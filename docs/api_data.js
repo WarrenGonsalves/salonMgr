@@ -34,6 +34,67 @@ define({ api: [
     "groupTitle": "Circle"
   },
   {
+    "type": "get",
+    "url": "/invoices",
+    "title": "Invoice: get all",
+    "name": "getInvoices",
+    "group": "Invoice",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/invoices\n/invoices?id=54a53db2c879ab0b8c5ea911",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/invoice.js",
+    "groupTitle": "Invoice"
+  },
+  {
+    "type": "post",
+    "url": "/invoices",
+    "title": "Invoice: new invoice",
+    "name": "postInvoices",
+    "group": "Invoice",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id for invoice [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "total",
+            "description": "<p>Total amount for invoice [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_item",
+            "description": "<p>[]   {item:&#39;fixers&#39;, amount: 6000} [Post parameter] - repeate key / value for multiple line items.</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/invoices",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/invoice.js",
+    "groupTitle": "Invoice"
+  },
+  {
     "type": "post",
     "url": "/ratings/{specialist_id}",
     "title": "Ratings: specialist rating",

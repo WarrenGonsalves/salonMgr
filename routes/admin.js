@@ -95,6 +95,24 @@ module.exports = function() {
                     })
                 }
             }
+        }, {
+            method: 'POST',
+            path: BASE_URL + '/pushnotify/gcm',
+            config: {
+                handler: function(req, reply) {
+                    util.gcm.sendGCM(req.payload.token, {invoice_id: "12312112324"});
+                    reply("done");
+                }
+            }
+        }, {
+            method: 'POST',
+            path: BASE_URL + '/pushnotify/apn',
+            config: {
+                handler: function(req, reply) {
+                    util.apn.sendAPN(req.payload.token, {invoice_id: "12312112324"});
+                    reply("done");
+                }
+            }
         }
     ];
 }();

@@ -117,6 +117,14 @@ var FixerApp = function() {
     self.createRoutes();
   };
 
+  self.logRequests = function() {
+    // Print some information about the incoming request for debugging purposes
+    self.server.ext('onRequest', function(request, next) {
+      console.log(request.path, request.query, request.params, request.payload);
+      next();
+    });
+  }
+
 
   /**
    *  Initializes the sample application.
@@ -128,6 +136,7 @@ var FixerApp = function() {
 
     // Create the express server and routes.
     self.initializeServer();
+    self.logRequests();
   };
 
 
