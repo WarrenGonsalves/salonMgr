@@ -5,6 +5,7 @@ function createLog(level, tag, log, data_obj) {
     var logger = new db.logger();
     logger.level = level;
     logger.tag = tag;
+    logger.created_date = Date.now();
     logger.log = "";
 
     if (log instanceof Array) {

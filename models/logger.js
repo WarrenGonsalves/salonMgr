@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var moment = require('moment');
 
 // schema
 var loggerSchema = new Schema({
@@ -7,11 +8,23 @@ var loggerSchema = new Schema({
     tag: String,
     log: String,
     data: String,
-    created_date: {
-        type: Date,
-        default: Date.now()
-    }
+    created_date: Date
+}, {
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    },
+    id: false
 });
+
+// virtuals
+loggerSchema
+    .virtual('created')
+    .get(function() {
+        return moment(this.created_date).format('MMM Do, h:mm:ss a');
+    });
 
 // export
 module.exports = mongoose.model('logger', loggerSchema);
