@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>BumbleBee</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="./bower_components/webcomponentsjs/webcomponents.js"></script>
+    <link rel="import" href="./bower_components/core-header-panel/core-header-panel.html">
+    <link rel="import" href="./bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="./bower_components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="./bower_components/paper-progress/paper-progress.html">
+    <link rel="import" href="./bower_components/core-drawer-panel/core-drawer-panel.html">
+    <link rel="import" href="./bower_components/core-menu/core-menu.html">
+    <link rel="import" href="./bower_components/core-item/core-item.html">
+    <link rel="import" href="./bower_components/paper-shadow/paper-shadow.html">
+    <link rel="import" href="./bower_components/core-selector/core-selector.html">
+    <link rel="import" href="./bower_components/paper-item/paper-item.html">
+
+    <link rel="stylesheet" href="main.css">
+
+</head>
+<body fullbleed layout vertical unresolved>
+    <core-drawer-panel id="drawerPanel">
+        <core-header-panel drawer>
+            <core-toolbar>Console</core-toolbar>
+            <!-- <core-menu>
+                <core-item label="one"></core-item>
+                <core-item label="two"></core-item>
+            </core-menu> -->
+            <section>
+                <paper-shadow>
+                  <core-selector selected="1" selectedAttribute="">
+                    <paper-item>Logs</paper-item>
+                    <paper-item>Item 2</paper-item>
+                    <paper-item>Item 3</paper-item>
+                  </core-selector>
+                </paper-shadow>
+
+            </section>
+
+        </core-header-panel>
+
+        <core-header-panel main>
+            <core-toolbar>
+                <paper-icon-button id="navicon" icon="menu"></paper-icon-button>
+                <div>Bumblebee</div>
+            </core-toolbar>
+
+            <div class="content">Main content area</div>
+
+        </core-header-panel>
+    </core-drawer-panel>
+
+    <script type="text/javascript" src="app.js"></script>
+</body>
+</html>

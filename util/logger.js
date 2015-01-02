@@ -1,26 +1,11 @@
 var _ = require('underscore');
-
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-
-// schema
-var loggerSchema = new Schema({
-    level: String,
-    tag: String,
-    log: String,
-    data: String,
-    created_date: {
-        type: Date,
-        default: Date.now()
-    }
-});
-
-var loggerModel = mongoose.model('logger', loggerSchema);
+var db = require('../db');
 
 function createLog(level, tag, log, data_obj) {
-    var logger = new loggerModel();
+    var logger = new db.logger();
     logger.level = level;
     logger.tag = tag;
+    logger.log = "";
 
     if (log instanceof Array) {
         _.each(log, function(log) {

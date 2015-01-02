@@ -115,14 +115,37 @@ var FixerApp = function() {
         request: ['error']
       }
     });
+
     self.createRoutes();
+
+    self.server.views({
+      engines: {
+        jade: require('jade')
+      },
+      path: './public'
+    });
+
+    self.server.route({
+      method: 'GET',
+      path: '/admin/{param*}',
+      handler: {
+        directory: {
+          path: 'public'
+        }
+      }
+    });
   };
 
   self.logRequests = function() {
     // Print some information about the incoming request for debugging purposes
     self.server.ext('onRequest', function(request, next) {
-      util.logger.info("server.onRequest", [request.path, request.query, request.params, request.payload]);
-      next();
+
+      if (request.path.indexOf('/admin/') > -1) {
+        next();
+      } else {
+        util.logger.info("server.onRequest", [request.path, request.query, request.params, request.payload]);
+        next();
+      }
     });
   }
 

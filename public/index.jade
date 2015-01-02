@@ -1,0 +1,29 @@
+doctype html
+html
+    head
+        title Bumblebee
+        link(rel="import" href="./vulcanized.html")
+    body(fullbleed layout vertical unresolved)
+
+        core-drawer-panel
+            core-header-panel(drawer)
+                core-toolbar console
+                section
+                    paper-shadow
+                        core-selector(selected="1" selectedAttribute="")
+                            paper-item Logs
+                            paper-item Settings
+
+            core-header-panel(main)
+                core-toolbar
+                    paper-icon-button(icon="menu")
+                    div Bumblebee
+
+                div(class='content')
+
+                    each data in log_data
+                        p #{data.created_date}, #{data.log}
+
+
+
+                

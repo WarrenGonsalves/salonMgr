@@ -25,3 +25,4 @@ exports.booking = models.booking;
 exports.rating = models.rating;
 exports.specialistRating = models.specialistRating;
 exports.invoice = models.invoice;
+exports.logger = models.logger;

@@ -1,0 +1,16 @@
+body {
+    font-family: sans-serif;
+}
+
+core-toolbar {
+    background-color: #303f9f;
+    color: white;
+}
+
+[main] {
+    background-color: #F9F9F9;
+}
+
+[drawer] {
+    background-color: #FFFFFF;  
+}

@@ -22,6 +22,10 @@ module.exports = function() {
                 }
             }
         }, {
+            method: 'GET',
+            path: BASE_URL + '/console/{param*}',
+            config: adminController.consoleHandler
+        }, {
             method: 'POST',
             path: SPECIALIST_URL,
             config: adminController.postSpecialistHandler
@@ -100,7 +104,9 @@ module.exports = function() {
             path: BASE_URL + '/pushnotify/gcm',
             config: {
                 handler: function(req, reply) {
-                    util.gcm.sendGCM(req.payload.token, {invoice_id: "12312112324"});
+                    util.gcm.sendGCM(req.payload.token, {
+                        invoice_id: "12312112324"
+                    });
                     reply("done");
                 }
             }
@@ -109,7 +115,9 @@ module.exports = function() {
             path: BASE_URL + '/pushnotify/apn',
             config: {
                 handler: function(req, reply) {
-                    util.apn.sendAPN(req.payload.token, {invoice_id: "12312112324"});
+                    util.apn.sendAPN(req.payload.token, {
+                        invoice_id: "12312112324"
+                    });
                     reply("done");
                 }
             }

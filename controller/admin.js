@@ -119,5 +119,18 @@ AdminController.prototype.postReviewMetadataHandler = {
     }
 };
 
+AdminController.prototype.consoleHandler = {
+    handler: function(request, reply) {
+
+        db.logger.find({}).limit(500).sort('-created_date').exec(function(err, logs) {
+            //console.log('logger data', JSON.stringify(logs));
+            reply.view('index', {
+                title: 'Bumblebee',
+                log_data: logs
+            });
+        });
+    }
+};
+
 var adminController = new AdminController();
 module.exports = adminController;
