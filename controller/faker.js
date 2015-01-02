@@ -2,8 +2,35 @@ var db = require("../db");
 var util = require("../util");
 var _ = require('underscore');
 var faker = require('faker');
+var server = require('../server');
 
 function FakeController() {};
+
+FakeController.prototype.invoiceHandler = {
+    handler: function(request, reply) {
+
+        request = {
+            url: '/invoices',
+            method: 'POST',
+            payload: {
+                job_id: request.params.job_id,
+                total: 9000,
+                'line_item[]': {
+                    item: 'lights',
+                    amount: 6000
+                },
+                'line_item[]': {
+                    item: 'cabling',
+                    amount: 6000
+                }
+            }
+        }
+
+        server.inject(request, function(res){
+            console.log("response from post invoice: " + res);
+        });
+    }
+};
 
 FakeController.prototype.newSpecialistHandler = {
     handler: function(request, reply) {

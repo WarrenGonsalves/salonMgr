@@ -1,11 +1,3 @@
-module.exports.ifError = function(err, reply) {
-    if (err) {
-        reply({
-            "error": err
-        }).code(420);
-    }
-};
-
 module.exports.success = function(msg, reply) {
     reply({
         Success: msg

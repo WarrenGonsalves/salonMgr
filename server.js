@@ -5,6 +5,7 @@ var fs = require('fs');
 var routes = require('./routes');
 var config = require('./config/constants');
 var db = require('./db');
+var util = require('./util');
 
 /**
  *  Define the server application.
@@ -120,11 +121,10 @@ var FixerApp = function() {
   self.logRequests = function() {
     // Print some information about the incoming request for debugging purposes
     self.server.ext('onRequest', function(request, next) {
-      console.log(request.path, request.query, request.params, request.payload);
+      util.logger.info("server.onRequest", [request.path, request.query, request.params, request.payload]);
       next();
     });
   }
-
 
   /**
    *  Initializes the sample application.
@@ -157,3 +157,5 @@ var FixerApp = function() {
 var server = new FixerApp();
 server.initialize();
 server.start();
+
+module.exports = server;

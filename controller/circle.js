@@ -1,5 +1,6 @@
-var db = require("../db");
+var db = require('../db');
 var _ = require('underscore');
+var util = require('../util');
 
 function CircleController() {};
 
@@ -19,9 +20,8 @@ CircleController.prototype.getConfigHandler = {
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
         db.circle.find(query_param).exec(function(err, circles) {
-            console.log("getting all circles " + JSON.stringify(circles));
             if (err) {
-                reply(err).code(420);
+                util.reply.error(err, reply);
                 return;
             }
 
@@ -50,7 +50,6 @@ CircleController.prototype.getConfigHandler = {
 
 CircleController.prototype.postConfigHandler = {
     handler: function(request, reply) {
-        console.log("Creating new circle.");
         var circle = new db.circle()
         circle.city = request.payload.city;
         circle.name = request.payload.name;
@@ -60,6 +59,7 @@ CircleController.prototype.postConfigHandler = {
                 console.log(err);
             }
         });
+        util.logger.info("Circle", ["New Circle created"], circle);
         reply(circle);
     }
 };

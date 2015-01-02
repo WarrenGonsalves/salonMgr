@@ -1,4 +1,5 @@
-var db = require("../db");
+var db = require('../db');
+var util = require('../util');
 
 function CustomerController() {};
 
@@ -9,7 +10,11 @@ CustomerController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
         db.customer.find({}, function(err, data) {
-            console.log("getting all customers ");
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
             reply(data);
         });
     }
@@ -18,17 +23,22 @@ CustomerController.prototype.getConfigHandler = {
 CustomerController.prototype.pushNotificationConfigHandler = {
     handler: function(request, reply) {
 
+        if (request.params.customer_id === undefined) {
+            util.reply.error("Invalid customer_id", reply);
+            return;
+        }
+
         db.customer.findById(request.params.customer_id, function(err, customer) {
 
             var pushNotificationIdReceived = false;
 
             if (err) {
-                reply(err).code(510);
+                util.reply.error(err, reply);
                 return;
             }
 
             if (customer === null) {
-                reply("customer not found ").code(510);
+                util.reply.error("customer not found for Id: " + request.params.customer_id, reply);
                 return;
             }
 
@@ -43,13 +53,13 @@ CustomerController.prototype.pushNotificationConfigHandler = {
             }
 
             if (!pushNotificationIdReceived) {
-                reply("Provide valid GCM or APN Id as POST parameter ").code(510);
+                util.reply.error("Invalid gcm_id / apn_id", reply);
                 return;
             }
 
             customer.save();
+            util.logger.info("customer", ["gcm_id", customer.gcm_id, "apn_id", customer.apn_id], customer);
 
-            console.log("setting pushnotification key for customer: " + customer._id + " : " + customer.gcm_id||customer.apn_id);
             reply(customer);
         });
     }

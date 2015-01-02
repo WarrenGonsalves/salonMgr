@@ -1,5 +1,5 @@
-var db = require("../db");
-var util = require("../util");
+var db = require('../db');
+var util = require('../util');
 var _ = require('underscore');
 
 // Controller
@@ -7,8 +7,6 @@ function invoiceController() {};
 
 invoiceController.prototype.getConfigHandler = {
     handler: function(request, reply) {
-        console.log(__filename + ' query param ' + JSON.stringify(request.query));
-
         var query_param = {};
 
         if (!(request.query.id === undefined)) {
@@ -17,7 +15,7 @@ invoiceController.prototype.getConfigHandler = {
 
         db.invoice.find(query_param).populate('job').populate('specialist').lean().exec(function(err, invoiceList) {
             if (err) {
-                reply(err).code(510);
+                util.reply.error(err, reply);
                 return;
             }
 
@@ -31,28 +29,31 @@ invoiceController.prototype.getConfigHandler = {
 invoiceController.prototype.postConfigHandler = {
     handler: function(request, reply) {
 
-        console.log("payload: ", request.payload);
+        util.logger.info("Invoice", ["Invoice post payload", request.payload]);
 
         if (request.payload.job_id === undefined) {
-            reply("Provide valid job id.").code(510);
+            util.reply.error("Invalid job id", reply);
+            return;
         }
 
         if (request.payload.line_item === undefined) {
-            reply("Provide valid invoice line items.").code(510);
+            util.reply.error("Invalid line items", reply);
+            return;
         }
 
         if (request.payload.total === undefined) {
-            reply("Provide valid invoice total.").code(510);
+            util.reply.error("Invalid total", reply);
+            return;
         }
 
         db.job.findById(request.payload.job_id).lean().exec(function(err, job) {
             if (err) {
-                reply(err).code(510);
+                util.reply.error(err, reply);
                 return;
             }
 
             if (job === null) {
-                reply("job not found for id: " + request.payload.job_id).code(510);
+                util.reply.error("job not found for id: " + request.payload.job_id, reply);
                 return;
             }
 
@@ -62,9 +63,7 @@ invoiceController.prototype.postConfigHandler = {
             invoice.specialist = job.specialist_id;
 
             _.each(request.payload.line_item, function(line_item) {
-                console.log("line", line_item);
                 var line_item_obj = JSON.stringify(eval('(' + line_item + ')'));
-                console.log(line_item_obj);
                 invoice.line_items.push(JSON.parse(line_item_obj));
             });
 
@@ -73,7 +72,7 @@ invoiceController.prototype.postConfigHandler = {
 
             sendPushNotification(invoice);
 
-            console.log("Invoice created: " + invoice._id);
+            util.logger.info("Invoice", ["Invoice created: ", invoice._id]);
 
             reply(invoice);
 
@@ -85,9 +84,7 @@ function sendPushNotification(invoice) {
 
     db.customer.findById(invoice.customer_id).lean().exec(function(err, customer) {
         if (!(customer.gcm_id === undefined)) {
-            util.gcm.sendGCM(customer.gcm_id, {
-                invoice_id: invoice._id
-            });
+            util.gcm.sendGCM(customer.gcm_id, invoice._id);
             return;
         }
 

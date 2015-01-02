@@ -1,17 +1,15 @@
 var apn = require('apn');
-
+var logger = require('./logger');
 var p12Path = __dirname + '/cert/Certificates.p12';
-
-console.log('p12 path: ' + p12Path);
 
 var options = {
     pfx: p12Path,
     passphrase: "nyne"
 };
 
-module.exports.sendAPN = function(apnToken, pushPayload) {
+module.exports.sendAPN = function(token, pushPayload) {
 
-    var myDevice = new apn.Device(apnToken);
+    var myDevice = new apn.Device(token);
     var note = new apn.Notification();
     var apnConnection = new apn.Connection(options);
 
@@ -21,7 +19,7 @@ module.exports.sendAPN = function(apnToken, pushPayload) {
     note.alert = "\uD83D\uDCE7 \u2709 Handz invoice";
     note.payload = pushPayload;
 
-    console.log("APN push: " + apnToken + " msg:" + JSON.stringify(note));
+    logger.info("APN", ["APN for token", token], JSON.stringify(note))
 
     apnConnection.pushNotification(note, myDevice);
 }

@@ -102,10 +102,10 @@ JobController.prototype.jobDoneConfigHandler = {
                 var index = selectedSpecialist.jobs.indexOf(selectedJob._id);
                 if (index > -1) {
                     selectedSpecialist.jobs.splice(index, 1);
-                    console.log("splicing");
                 }
                 selectedSpecialist.save();
                 console.log("removed job from specialist: " + selectedJob._id);
+
                 // TODO: soft delete booking entry.
                 reply(selectedJob);
             });

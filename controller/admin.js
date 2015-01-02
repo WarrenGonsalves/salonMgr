@@ -2,6 +2,7 @@ var Hapi = require('hapi');
 var db = require("../db");
 var fs = require('fs');
 var config = require("../config/constants");
+var util = require("../util");
 
 function AdminController() {};
 
@@ -32,12 +33,12 @@ AdminController.prototype.addSpecialistStoreHandler = {
                 _id: request.params.store_id
             }, function(err, store) {
                 if (err) {
-                    reply(err).code(500);
+                    util.reply.error(err, reply);
                     return;
                 }
 
                 if (!store || store === undefined) {
-                    reply("Store not found").code(500);
+                    util.reply.error("Store not found", reply);
                     return;
                 }
 
