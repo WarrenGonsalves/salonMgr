@@ -26,12 +26,11 @@ function registerCustomer(isServiceProvider, request, reply) {
         ph: request.params.phone
     }, function(err, existingCustomer) {
         if (err) {
-            util.replyHelper.ifError(err, reply);
+            util.reply.error(err, reply);
             return;
         }
-
         // if (existingCustomer) {
-        //     util.replyHelper.ifError("Phone number already registered", reply);
+        //     util.reply.error("Phone number already registered", reply);
         //     return;
         // }
 
@@ -78,7 +77,7 @@ RegistrationController.prototype.authHandler = {
 
         // master code bypass
         if (request.params.code === '9999') {
-            util.replyHelper.success("Authentication successful", reply);
+            util.reply.success("Authentication successful", reply);
             return;
         }
 
@@ -88,22 +87,22 @@ RegistrationController.prototype.authHandler = {
             code: request.params.code
         }, function(err, authCode) {
             if (err) {
-                util.replyHelper.success(err, reply);
+                util.reply.success(err, reply);
                 return;
             }
 
             // auth code not found for give phone / code combination.
             if (authCode === null) {
-                util.replyHelper.error("Authentication failed", reply);
+                util.reply.error("Authentication failed", reply);
                 return;
             }
 
             if (request.params.code === authCode.code) {
-                util.replyHelper.success("Authentication successful", reply);
+                util.reply.success("Authentication successful", reply);
                 authCode.active = false;
                 authCode.save();
             } else {
-                util.replyHelper.error("Authentication failed", reply);
+                util.reply.error("Authentication failed", reply);
             }
         });
     }

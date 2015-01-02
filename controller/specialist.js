@@ -126,7 +126,7 @@ SpecialistController.prototype.getAllByCategoryId = {
         db.specialist.find({
             'categories._id': request.params.cat_id
         }, function(err, data) {
-            util.replyHelper.ifError(err, reply);
+            util.reply.error(err, reply);
             reply({
                 specialist_list: data
             });
@@ -145,7 +145,11 @@ SpecialistController.prototype.getAllAvailableByCategory = {
         db.specialist.find({
             'categories._id': request.params.cat_id
         }, function(err, data) {
-            util.replyHelper.ifError(err, reply);
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
             reply({
                 specialist_list: data
             });
@@ -195,7 +199,7 @@ SpecialistController.prototype.postBookSpecialist = {
         }, function(err, specialist) {
 
             if (err) {
-                reply(err).code(510);
+                util.reply.error(err, reply);
                 return;
             }
 

@@ -18,7 +18,7 @@ module.exports = function() {
             path: '/',
             config: {
                 handler: function(req, reply) {
-                    util.replyHelper.derp(reply);
+                    util.reply.derp(reply);
                 }
             }
         }, {
