@@ -44,7 +44,7 @@ SpecialistController.prototype.getConfigHandler = {
 
         // filter for category
         if (!(request.query.category === undefined)) {
-            query_param['categories._id'] = request.query.category;
+            query_param['categories'] = request.query.category;
         }
 
         if (!(request.query.grouped === undefined)) {
