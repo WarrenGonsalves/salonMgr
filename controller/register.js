@@ -30,7 +30,7 @@ function registerCustomer(isServiceProvider, request, reply) {
             return;
         }
         if (existingCustomer) {
-            util.reply.info("Phone number already registered, sending existing customer.", reply);
+            util.logger.info("Register",["Phone number already registered, sending existing customer.", existingCustomer]);
             reply(existingCustomer);
             return;
         }
