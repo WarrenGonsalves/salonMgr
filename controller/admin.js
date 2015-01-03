@@ -139,47 +139,47 @@ AdminController.prototype.setupCategoryHandler = {
         categories = [{
             category: 'Care',
             sub_category: 'Home cleaners',
-            order: 1
+            order: 2
         }, {
             category: 'Care',
             sub_category: 'Laundry',
-            order: 1
+            order: 2
         }, {
             category: 'Care',
             sub_category: 'Recycler',
-            order: 1
+            order: 2
         }, {
             category: 'Care',
             sub_category: 'Pest Control',
-            order: 1
+            order: 2
         }, {
             category: 'Repair',
             sub_category: 'Carpenter',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Electrician',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Laptop',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Painter',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Plumber',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Refrigerator',
-            order: 2
+            order: 1
         }, {
             category: 'Repair',
             sub_category: 'Washing machine',
-            order: 2
+            order: 1
         }];
 
         _.each(categories, function(category){
@@ -189,6 +189,8 @@ AdminController.prototype.setupCategoryHandler = {
             newCategory.order = category.order;
             newCategory.save();
         });
+
+        reply("done");
     }
 }
 
