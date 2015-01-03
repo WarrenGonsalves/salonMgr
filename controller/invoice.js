@@ -46,7 +46,7 @@ invoiceController.prototype.postConfigHandler = {
             return;
         }
 
-        db.job.findById(request.payload.job_id).lean().exec(function(err, job) {
+        db.job.findById(request.payload.job_id).exec(function(err, job) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -68,7 +68,10 @@ invoiceController.prototype.postConfigHandler = {
             });
 
             invoice.total = request.payload.total;
-            invoice.save()
+            invoice.save();
+
+            job.invoice_id = invoice._id;
+            job.save();
 
             sendPushNotification(invoice);
 

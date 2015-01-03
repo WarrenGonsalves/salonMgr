@@ -1,6 +1,7 @@
 var db = require('../db');
 var BASE_URL = '/categories';
 var ADMIN_URL = "/admin" + BASE_URL;
+var Controller = require('../controller/category');
 
 module.exports = function() {
     return [
@@ -12,20 +13,7 @@ module.exports = function() {
         {
             method: 'GET',
             path: BASE_URL,
-            config: {
-                handler: function(req, reply) {
-                    db.category.getAll(function(err, data) {
-                        if (err) {
-                            util.reply.error(err, reply);
-                            return;
-                        }
-                        
-                        reply({
-                            services: data
-                        });
-                    });
-                }
-            }
+            config: Controller.getConfigHandler
         },
         /**
          * @api {post} /admin/categories/{category}/{sub_category} Category: create new

@@ -12,7 +12,8 @@ function generateAuthCode(phone) {
 
     console.log("created new auth code for phone: " + authCode.phone);
 
-    util.authUtil.sendCodeViaSMS(phone, authCode.code);
+    // TODO: Enable this to send SMS code.
+    //util.authUtil.sendCodeViaSMS(phone, authCode.code);
 };
 
 /**
