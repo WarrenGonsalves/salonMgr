@@ -38,7 +38,7 @@ CategoryController.prototype.getConfigHandler = {
             })
 
             reply({
-                servicesList: services
+                services: services
             });
         });
     }
