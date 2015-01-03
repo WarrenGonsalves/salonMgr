@@ -31,7 +31,7 @@ JobController.prototype.getConfigHandler = {
         db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
             console.log("getting all jobs ");
             if (err) {
-                reply(err).code(420);
+                util.reply.error(err, reply);
                 return;
             }
 
@@ -75,12 +75,12 @@ JobController.prototype.jobDoneConfigHandler = {
         db.job.findById(request.params.id, function(err, selectedJob) {
 
             if (err) {
-                reply(err).code(510);
+                util.reply.error(err, reply);
                 return;
             }
 
             if (selectedJob === null) {
-                reply("Job not found ").code(510);
+                util.reply.error("Job not found", reply);
                 return;
             }
 
@@ -90,12 +90,12 @@ JobController.prototype.jobDoneConfigHandler = {
             db.specialist.findById(selectedJob.specialist_id).exec(function(err, selectedSpecialist) {
 
                 if (err) {
-                    reply(err).code(510);
+                    util.reply.error(err, reply);
                     return;
                 }
 
                 if (selectedSpecialist === null) {
-                    reply("Specialist not found ").code(510);
+                    util.reply.error("Specialist not found", reply);
                     return;
                 }
 
@@ -105,6 +105,7 @@ JobController.prototype.jobDoneConfigHandler = {
                 }
                 selectedSpecialist.save();
                 console.log("removed job from specialist: " + selectedJob._id);
+                util.logger.info("Jobs", ["removed job from specialist",selectedJob._id, selectedSpecialist._id])
 
                 // TODO: soft delete booking entry.
                 reply(selectedJob);

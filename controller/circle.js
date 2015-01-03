@@ -17,8 +17,6 @@ CircleController.prototype.getConfigHandler = {
             isGrouped = request.query.grouped;
         }
 
-        console.log(__filename + ' query param ' + JSON.stringify(query_param));
-
         db.circle.find(query_param).exec(function(err, circles) {
             if (err) {
                 util.reply.error(err, reply);
@@ -56,7 +54,8 @@ CircleController.prototype.postConfigHandler = {
         circle.locs.coordinates = [parseFloat(request.payload.lng), parseFloat(request.payload.lat)];
         circle.save(function(err, data) {
             if (err) {
-                console.log(err);
+                util.reply.error(err, reply);
+                return;
             }
         });
         util.logger.info("Circle", ["New Circle created"], circle);
