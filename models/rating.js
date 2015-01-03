@@ -6,7 +6,7 @@ var ratingSchema = new Schema({
     text: String,
     count: {
         type: Number,
-        default: 0
+        default: 1
     }
 }, {
     id: false

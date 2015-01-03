@@ -29,10 +29,11 @@ function registerCustomer(isServiceProvider, request, reply) {
             util.reply.error(err, reply);
             return;
         }
-        // if (existingCustomer) {
-        //     util.reply.error("Phone number already registered", reply);
-        //     return;
-        // }
+        if (existingCustomer) {
+            util.reply.info("Phone number already registered, sending existing customer.", reply);
+            reply(existingCustomer);
+            return;
+        }
 
         // create new customer
         customer = new db.customer();
