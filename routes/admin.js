@@ -7,7 +7,6 @@ var config = require('../config/constants');
 
 module.exports = function() {
     return [
-
         /**
          * @api {get} / Test.
          * @apiName TestEndPoint
@@ -74,6 +73,10 @@ module.exports = function() {
             method: 'POST',
             path: RATING_URL,
             config: adminController.postReviewMetadataHandler
+        },{
+            method: 'POST',
+            path: BASE_URL + '/setup/category',
+            config: adminController.setupCategoryHandler
         },
         /**
          * @api {get} /admin/config Server: Get Server config

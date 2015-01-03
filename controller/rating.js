@@ -1,5 +1,6 @@
 var db = require("../db");
 var _ = require('underscore');
+var util = require('../util');
 
 function RatingController() {};
 
@@ -36,7 +37,7 @@ RatingController.prototype.postConfigHandler = {
         var review_comment = request.params.comment;
 
         // find specialist
-        db.specialist.findById(request.params.spc_id).exec(function(err, specialistDoc){
+        db.specialist.findById(request.params.spc_id).exec(function(err, specialistDoc) {
 
             specialist = specialistDoc;
 
@@ -51,8 +52,9 @@ RatingController.prototype.postConfigHandler = {
             }
 
             console.log("updating rating for specialist: " + JSON.stringify(rating_ids));
+            util.logger.info("rating", ["updating rating for specialist:", specialistDoc._id, "ratings_ids:" + rating_ids]);
 
-            _.each(specialist.ratings, function(rating){
+            _.each(specialist.ratings, function(rating) {
                 console.log(JSON.stringify(rating._id));
                 if (rating_ids.indexOf(rating._id) > -1) {
                     rating.count = rating.count + 1;

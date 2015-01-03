@@ -9,7 +9,6 @@ var specialistSchema = new Schema({
   name: String,
   phone: String,
   profile_img: String,
-  hourly_rate: String,
   consulting_fee: String,
   addr: String,
   city: String,
@@ -50,7 +49,10 @@ var specialistSchema = new Schema({
   }],
   average_rating: Number,
   review_count: Number,
-  categories: [categoryModel.categorySchema],
+  categories: [{
+    type: Schema.Types.ObjectId,
+    ref: 'category'
+  }],
   created_date: {
     type: Date,
     default: Date.now()

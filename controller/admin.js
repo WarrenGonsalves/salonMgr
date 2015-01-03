@@ -3,6 +3,7 @@ var db = require("../db");
 var fs = require('fs');
 var config = require("../config/constants");
 var util = require("../util");
+var _ = require('underscore');
 
 function AdminController() {};
 
@@ -131,6 +132,65 @@ AdminController.prototype.consoleHandler = {
         });
     }
 };
+
+AdminController.prototype.setupCategoryHandler = {
+    handler: function(request, reply) {
+
+        categories = [{
+            category: 'Care',
+            sub_category: 'Home cleaners',
+            order: 1
+        }, {
+            category: 'Care',
+            sub_category: 'Laundry',
+            order: 1
+        }, {
+            category: 'Care',
+            sub_category: 'Recycler',
+            order: 1
+        }, {
+            category: 'Care',
+            sub_category: 'Pest Control',
+            order: 1
+        }, {
+            category: 'Repair',
+            sub_category: 'Carpenter',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Electrician',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Laptop',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Painter',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Plumber',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Refrigerator',
+            order: 2
+        }, {
+            category: 'Repair',
+            sub_category: 'Washing machine',
+            order: 2
+        }];
+
+        _.each(categories, function(category){
+            var newCategory = new db.category;
+            newCategory.category = category.category;
+            newCategory.sub_category = category.sub_category;
+            newCategory.order = category.order;
+            newCategory.save();
+        });
+    }
+}
 
 var adminController = new AdminController();
 module.exports = adminController;

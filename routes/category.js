@@ -16,10 +16,10 @@ module.exports = function() {
                 handler: function(req, reply) {
                     db.category.getAll(function(err, data) {
                         if (err) {
-                            reply({
-                                "error": err
-                            });
+                            util.reply.error(err, reply);
+                            return;
                         }
+                        
                         reply({
                             services: data
                         });

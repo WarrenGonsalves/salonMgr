@@ -35,9 +35,7 @@ FakeController.prototype.invoiceHandler = {
 FakeController.prototype.newSpecialistHandler = {
     handler: function(request, reply) {
 
-        db.category.find({
-            'category': 'Repair'
-        }).exec(function(err, categoryList) {
+        db.category.find({}).exec(function(err, categoryList) {
 
             if (err) {
                 reply(err).code(420);
@@ -50,7 +48,7 @@ FakeController.prototype.newSpecialistHandler = {
 
                     var specialist = fakeSpecialist();
 
-                    specialist.categories.push(_.sample(categoryList));
+                    specialist.categories.push(_.sample(categoryList)._id);
 
                     var circle = _.sample(circleList);
                     specialist.circle = circle;
@@ -84,8 +82,7 @@ function fakeSpecialist() {
     specialist.phone = 9920111222;
     specialist.profile_img = faker.internet.avatar();
     specialist.family = "Married, 3 kids. 2 daughters and one son."
-    specialist.hourly_rate = '₹ 350/hr';
-    specialist.consulting_fee = '₹ 200/hr';
+    specialist.consulting_fee = 'Minimum of ₹ 200';
     specialist.services = "Furniture, Polishing, Interior, Plumbing, Laundry, Carpentary, Painting, Wiring, Cabling";
     // var profilePic = {
     //     cat: 'profile',

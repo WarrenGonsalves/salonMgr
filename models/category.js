@@ -7,7 +7,8 @@ var SPECIALIST_BY_CATEGORY_HREF = "/specialists/bycategory/"
 // schema
 var categorySchema = new Schema({
     category: String,
-    sub_category: String
+    sub_category: String,
+    order: Number,
 }, {
     id: false
 });
@@ -24,7 +25,7 @@ categorySchema.statics.createNew = function(category, subCategory, cb) {
 
 categorySchema.statics.getAll = function(cb) {
     console.log("CATEGORY_DAO: get all");
-    this.find({}).select('category sub_category').sort('category sub_category').find(function(err, services) {
+    this.find({}).select('category sub_category').sort('order sub_category').find(function(err, services) {
         if (err) {
             cb(err, services);
             return;
