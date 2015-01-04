@@ -2,6 +2,7 @@ var db = require("../db");
 var util = require("../util");
 var config = require("../config/constants");
 var fs = require('fs');
+var _ = require('underscore');
 
 function JobController() {};
 
@@ -105,7 +106,7 @@ JobController.prototype.jobDoneConfigHandler = {
                 }
                 selectedSpecialist.save();
                 console.log("removed job from specialist: " + selectedJob._id);
-                util.logger.info("Jobs", ["removed job from specialist",selectedJob._id, selectedSpecialist._id])
+                util.logger.info("Jobs", ["removed job from specialist", selectedJob._id, selectedSpecialist._id])
 
                 // TODO: soft delete booking entry.
                 reply(selectedJob);

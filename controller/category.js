@@ -12,6 +12,7 @@ function CategoryController() {};
 CategoryController.prototype.getConfigHandler = {
     handler: function(request, reply) {
         db.category.find({}).select('category sub_category').sort('order sub_category').find(function(err, services) {
+
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -37,9 +38,29 @@ CategoryController.prototype.getConfigHandler = {
                 return mappedValue;
             })
 
-            reply({
-                services: services
-            });
+            if (!(request.query.customer === undefined)) {
+                db.job.find({
+                    cust_id: request.query.customer,
+                    complete:false
+                }).sort('book_date').exec(function(err, jobs) {
+                    console.log("got jobs: " + jobs);
+                    // if (err) {
+                    //     util.reply.error(err, reply);
+                    //     return;
+                    // }
+
+                    reply({
+                        services: services,
+                        joblist: jobs
+                    });
+
+                    return;
+                });
+            } else {
+                reply({
+                    services: services
+                });
+            }
         });
     }
 };

@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
+var moment = require('moment');
 
 // schema
 var jobSchema = new Schema({
@@ -26,7 +27,22 @@ var jobSchema = new Schema({
         default: Date.now()
     },
     complete_date: Date
+}, {
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    },
+    id: false
 })
+
+//virtuals
+jobSchema
+    .virtual('book_date_millisecs')
+    .get(function() {
+        return Date.parse(this.book_date);
+    });
 
 //methods
 jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, cb) {
