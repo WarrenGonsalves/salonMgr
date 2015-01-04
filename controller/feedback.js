@@ -9,32 +9,37 @@ FeedbackController.prototype.getConfigHandler = {
 
         var query_param = {}
 
-        if (!(request.query.customer === undefined)) {
-            query_param['cust_id'] = request.query.customer;
-        }
-
-        if (!(request.query.specialist === undefined)) {
-            query_param['specialist_id'] = request.query.specialist;
-        }
-
-        if (!(request.query.complete === undefined)) {
-            query_param['complete'] = request.query.complete;
-        }
-
-        console.log("job query: " + JSON.stringify(query_param));
-
         // TODO sort by book date.
-        db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
-            console.log("getting all jobs ");
+        db.feedback.find(query_param).exec(function(err, feedbackList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
 
             reply({
-                joblist: jobs
+                feedbackList: feedbackList
             });
         });
+    }
+};
+
+FeedbackController.prototype.postConfigHandler = {
+    handler: function(request, reply) {
+
+        if (request.payload.customer_id === undefined) {
+            return util.reply.error("Invalid customer_id", reply);
+        }
+
+        if (request.payload.text === undefined) {
+            return util.reply.error("Invalid feedback text", reply);
+        }
+
+        var feedback = new db.feedback();
+        feedback.customer_id = request.payload.customer_id;
+        feedback.text = request.payload.text;
+        feedback.save();
+
+        reply(feedback);
     }
 };
 

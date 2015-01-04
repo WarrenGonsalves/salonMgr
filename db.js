@@ -26,3 +26,4 @@ exports.rating = models.rating;
 exports.specialistRating = models.specialistRating;
 exports.invoice = models.invoice;
 exports.logger = models.logger;
+exports.feedback = models.feedback;

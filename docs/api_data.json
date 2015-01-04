@@ -35,6 +35,60 @@
   },
   {
     "type": "get",
+    "url": "/feedbacks",
+    "title": "feedback: get all",
+    "name": "feedbackGet",
+    "group": "Feedback",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/feedbacks",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/feedback.js",
+    "groupTitle": "Feedback"
+  },
+  {
+    "type": "post",
+    "url": "/feedbacks",
+    "title": "feedback: create",
+    "name": "feedbackPost",
+    "group": "Feedback",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>Customer Id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "text",
+            "description": "<p>Feedback text [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/feedbacks",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/feedback.js",
+    "groupTitle": "Feedback"
+  },
+  {
+    "type": "get",
     "url": "/invoices",
     "title": "Invoice: get all",
     "name": "getInvoices",

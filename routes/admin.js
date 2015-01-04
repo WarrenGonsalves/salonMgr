@@ -4,6 +4,7 @@ var SPECIALIST_URL = BASE_URL + '/specialists';
 var RATING_URL = BASE_URL + '/ratings';
 var adminController = require('../controller/admin');
 var config = require('../config/constants');
+var moment = require('moment');
 
 module.exports = function() {
     return [
@@ -98,7 +99,9 @@ module.exports = function() {
                         "dbname_2": process.env.OPENSHIFT_MONGODB_DB,
                         "data": process.env.OPENSHIFT_DATA_DIR,
                         "data_dir": config.dataDir,
-                        "img_dir": config.imgDir
+                        "img_dir": config.imgDir,
+                        "date_time_format": moment().format('YYYY-MM-DDTHH:mmZZ'),
+                        "date_time": moment("2015-01-04T13:07:00.000+05:30", 'YYYY-MM-DDTHH:mmZZ').format('YYYY-MM-DDTHH:mmZZ')
                     })
                 }
             }
