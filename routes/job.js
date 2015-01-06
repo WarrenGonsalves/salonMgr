@@ -37,9 +37,11 @@ module.exports = function() {
             config: JobController.postImageController
         },
         /**
-         * @api {post} /jobs/done/{job_id} Job: Complete Job
+         * @api {post} /jobs/done/{job_id} Job: Complete / Cancel
          * @apiName jobDone
          * @apiGroup job
+         *
+         * @apiParam {String} cancelled        pass 'true' to cancel job [optional] [Post parameter]
          *
          * @apiExample Example usage:
          * /jobs/done/54a39430708acc00003b3d2e

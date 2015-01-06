@@ -385,9 +385,22 @@ define({ api: [
   {
     "type": "post",
     "url": "/jobs/done/{job_id}",
-    "title": "Job: Complete Job",
+    "title": "Job: Complete / Cancel",
     "name": "jobDone",
     "group": "job",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "cancelled",
+            "description": "<p>pass &#39;true&#39; to cancel job [optional] [Post parameter]</p> "
+          }
+        ]
+      }
+    },
     "examples": [
       {
         "title": "Example usage:",

@@ -85,6 +85,10 @@ JobController.prototype.jobDoneConfigHandler = {
                 return;
             }
 
+            if (request.payload.cancelled === "true") {
+                selectedJob.cancelled = true;
+            }
+
             selectedJob.complete = true;
             selectedJob.complete_date = Date.now();
             selectedJob.save();
