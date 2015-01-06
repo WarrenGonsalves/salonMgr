@@ -160,6 +160,8 @@ SpecialistController.prototype.getAllAvailableByCategory = {
 SpecialistController.prototype.postBookSpecialist = {
     handler: function(request, reply) {
 
+        console.log("PAYLOAD-----" + JSON.stringify(request.payload));
+
         var specialist_id = request.params.spc_id;
         var customer_id = request.params.cust_id;
         var cust_name = request.payload.name;
@@ -168,31 +170,36 @@ SpecialistController.prototype.postBookSpecialist = {
         var cust_addr2 = request.payload.addr2;
         var cust_addr_landmark = request.payload.landmark;
         var cust_task = request.payload.task;
-        var book_date = new Date(Date.parse(request.payload.book_date));
+        var book_date
+        if (!(request.payload.book_date === undefined)) {
+            book_date = new Date(Date.parse(request.payload.book_date));
+        }
+
+        if (!(request.payload.book_date_milli === undefined)) {
+            book_date = new Date(parseInt(request.payload.book_date_milli));
+        }
 
         if (specialist_id === null) {
-            reply("Incorrect specialist id ").code(510);
+            util.reply.error("Incorrect specialist id ", reply);
             return;
         }
 
         if (customer_id === null) {
-            reply("Incorrect customer id ").code(510);
+            util.reply.error("Incorrect customer id", reply);
             return;
         }
 
-        if (request.payload.book_date === undefined) {
-            reply("Provide book date").code(510);
+        if (request.payload.book_date === undefined && request.payload.book_date_milli === undefined) {
+            util.reply.error("Provide book date", reply);
             return;
         }
 
         if (request.payload.category === undefined) {
-            reply("Provide specialist category title").code(510);
+            util.reply.error("Provide specialist category title", reply);
             return;
         }
 
-
-
-        console.log(__filename + "booking specialist for: " + specialist_id + ":" + customer_id + ":" + JSON.stringify(request.payload));
+        util.logger.info(__filename, ["booking specialist for: " + specialist_id + ":" + customer_id + ":"], JSON.stringify(request.payload));
 
         db.specialist.findOne({
             _id: specialist_id
