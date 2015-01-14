@@ -35,7 +35,19 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL + '/img/{id}',
             config: JobController.postImageController
-        }, {
+        }, 
+        /**
+         * @api {put} /jobs/{job_id} Job: update status
+         * @apiName jobStatus
+         * @apiGroup job
+         *
+         * @apiParam {String} job_id        Job id [Url parameter]
+         * @apiParam {String} status        Set status = 'accepted', 'on-going', 'done', 'cancelled' [Post parameter]
+         *
+         * @apiExample Example usage:
+         * /jobs/547af234107f433f5d9f202e
+         */
+        {
             method: 'PUT',
             path: BASE_URL + '/{id}',
             config: JobController.putHandler

@@ -467,6 +467,43 @@
     "groupTitle": "job"
   },
   {
+    "type": "put",
+    "url": "/jobs/{job_id}",
+    "title": "Job: update status",
+    "name": "jobStatus",
+    "group": "job",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>Set status = &#39;accepted&#39;, &#39;on-going&#39;, &#39;done&#39;, &#39;cancelled&#39; [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/547af234107f433f5d9f202e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "job"
+  },
+  {
     "type": "post",
     "url": "/register/auth/{phone}/{auth_code}",
     "title": "Register: auth phone",

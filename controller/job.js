@@ -58,27 +58,67 @@ JobController.prototype.putHandler = {
             }
 
             if (request.payload.status === "accepted") {
-
+                selectedJob.status = request.payload.status;
             }
 
             if (request.payload.status === "on-going") {
-
+                selectedJob.status = request.payload.status;
             }
 
             if (request.payload.status === "cancelled") {
-
+                selectedJob.status = request.payload.status;
+                selectedJob.cancelled = true;
             }
 
             if (request.payload.status === "done") {
                 selectedJob.status = request.payload.status;
-                
+                selectedJob.complete = true;
             }
 
-            reply(selectedJob);
+            selectedJob.save(function(err, savedJob) {
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+
+                reply(selectedJob);
+
+                if (selectedJob.status === "done" || selectedJob.status === "cancelled") {
+                    removeJobFromSpecialist(selectedJob);
+                }
+
+            });
         });
 
     }
 };
+
+function removeJobFromSpecialist(job) {
+
+    db.specialist.findById(job.specialist_id).exec(function(err, selectedSpecialist) {
+
+        if (err) {
+            util.logger.err('Jobs', err);
+            return;
+        }
+
+        if (selectedSpecialist === null) {
+            util.logger.err('Jobs', 'Specialist not found');
+            return;
+        }
+
+        var index = selectedSpecialist.jobs.indexOf(job._id);
+        if (index > -1) {
+            selectedSpecialist.jobs.splice(index, 1);
+        }
+        selectedSpecialist.save();
+        console.log("removed job from specialist: " + job._id);
+        util.logger.info("Jobs", ["removed job from specialist", job._id, selectedSpecialist._id])
+
+        // TODO: soft delete booking entry.
+        //reply(job);
+    });
+}
 
 JobController.prototype.postImageController = {
     payload: {
@@ -132,29 +172,9 @@ JobController.prototype.jobDoneConfigHandler = {
             selectedJob.complete = true;
             selectedJob.complete_date = Date.now();
             selectedJob.save();
-            db.specialist.findById(selectedJob.specialist_id).exec(function(err, selectedSpecialist) {
 
-                if (err) {
-                    util.reply.error(err, reply);
-                    return;
-                }
+            removeJobFromSpecialist(selectedJob);
 
-                if (selectedSpecialist === null) {
-                    util.reply.error("Specialist not found", reply);
-                    return;
-                }
-
-                var index = selectedSpecialist.jobs.indexOf(selectedJob._id);
-                if (index > -1) {
-                    selectedSpecialist.jobs.splice(index, 1);
-                }
-                selectedSpecialist.save();
-                console.log("removed job from specialist: " + selectedJob._id);
-                util.logger.info("Jobs", ["removed job from specialist", selectedJob._id, selectedSpecialist._id])
-
-                // TODO: soft delete booking entry.
-                reply(selectedJob);
-            });
         });
     }
 };

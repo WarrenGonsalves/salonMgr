@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var moment = require('moment');
+var moment = require('moment-timezone');
 
 // schema
 var loggerSchema = new Schema({
@@ -23,7 +23,7 @@ var loggerSchema = new Schema({
 loggerSchema
     .virtual('created')
     .get(function() {
-        return moment(this.created_date).format('MMM Do, h:mm:ss a');
+        return moment(this.created_date).tz('Asia/Kolkata').format('MMM Do, h:mm:ss a');
     });
 
 // export

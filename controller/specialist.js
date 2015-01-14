@@ -66,7 +66,7 @@ SpecialistController.prototype.getConfigHandler = {
 
         // Filter out specialists who are already booked.
         var bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
-        var bookEndTime = moment(bookStartTime).add(4, 'hours');
+        var bookEndTime = moment(bookStartTime).add(2, 'hours');
 
 
         db.booking.find({

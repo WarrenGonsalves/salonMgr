@@ -1,12 +1,13 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var moment = require('moment');
+var momenttz = require('moment-timezone');
 
 // schema
 var jobSchema = new Schema({
     status: {
         type: String,
-        enum: ['new','accepted','on-going','done','cancelled'],
+        enum: ['new', 'accepted', 'on-going', 'done', 'cancelled'],
         default: 'new'
     },
     invoice_id: String,
@@ -23,6 +24,7 @@ var jobSchema = new Schema({
     cust_task: String,
     book_date: Date,
     images: [String],
+    history: [String],
     complete: {
         type: Boolean,
         default: false
@@ -53,6 +55,14 @@ jobSchema
         return Date.parse(this.book_date);
     });
 
+jobSchema
+    .pre('save', function(next) {
+        if (this.isModified('status')) {
+            this.logHistory('status - ' + this.status);
+        }
+        next();
+    });
+
 //methods
 jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, cb) {
     doc = {
@@ -69,6 +79,10 @@ jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_p
     console.log(__filename + "creating new job: " + doc);
     this.create(doc, cb);
 }
+
+jobSchema.methods.logHistory = function(data) {
+    this.history.push(momenttz().tz('Asia/Kolkata').format('MMM Do, h:mm:ss a') + ' : ' + data);
+};
 
 // export
 module.exports = mongoose.model('job', jobSchema);
