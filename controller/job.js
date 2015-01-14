@@ -43,6 +43,43 @@ JobController.prototype.getConfigHandler = {
     }
 };
 
+JobController.prototype.putHandler = {
+    handler: function(request, reply) {
+        db.job.findById(request.params.id, function(err, selectedJob) {
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            if (selectedJob === null) {
+                util.reply.error("Job not found", reply);
+                return;
+            }
+
+            if (request.payload.status === "accepted") {
+
+            }
+
+            if (request.payload.status === "on-going") {
+
+            }
+
+            if (request.payload.status === "cancelled") {
+
+            }
+
+            if (request.payload.status === "done") {
+                selectedJob.status = request.payload.status;
+                
+            }
+
+            reply(selectedJob);
+        });
+
+    }
+};
+
 JobController.prototype.postImageController = {
     payload: {
         output: 'stream',
@@ -87,6 +124,9 @@ JobController.prototype.jobDoneConfigHandler = {
 
             if (request.payload.cancelled === "true") {
                 selectedJob.cancelled = true;
+                selectedJob.status = 'cancelled';
+            } else {
+                selectedJob.status = 'done';
             }
 
             selectedJob.complete = true;
@@ -117,5 +157,7 @@ JobController.prototype.jobDoneConfigHandler = {
             });
         });
     }
-}
+};
+
+
 module.exports = new JobController();

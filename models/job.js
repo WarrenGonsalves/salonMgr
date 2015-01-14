@@ -4,6 +4,11 @@ var moment = require('moment');
 
 // schema
 var jobSchema = new Schema({
+    status: {
+        type: String,
+        enum: ['new','accepted','on-going','done','cancelled'],
+        default: 'new'
+    },
     invoice_id: String,
     specialist_id: String,
     specialist_name: String,

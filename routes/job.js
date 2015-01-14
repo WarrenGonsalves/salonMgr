@@ -35,6 +35,11 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL + '/img/{id}',
             config: JobController.postImageController
+        }, {
+            method: 'PUT',
+            path: BASE_URL + '/{id}',
+            config: JobController.putHandler
+
         },
         /**
          * @api {post} /jobs/done/{job_id} Job: Complete / Cancel

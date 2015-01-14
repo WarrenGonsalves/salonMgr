@@ -25,7 +25,7 @@ var BASE_URL = '/register'
 module.exports = function() {
     return [
         /**
-         * @api {post} /register/store/{store_phone} Register: new store
+         * @api {post} /register/store/{store_phone} Register: store
          * @apiName registerStore
          * @apiGroup register
          *
@@ -40,7 +40,7 @@ module.exports = function() {
             config: registrationController.registerStoreHandler
         },
         /**
-         * @api {post} /register/customer/{customer_phone} Register: new customer
+         * @api {post} /register/customer/{customer_phone} Register: customer
          * @apiName registerCustomer
          * @apiGroup register
          *
@@ -49,10 +49,25 @@ module.exports = function() {
          * @apiExample Example usage:
          * /register/customer/9999888999
          */
-         {
+        {
             method: 'POST',
             path: BASE_URL + '/customer/{phone}',
             config: registrationController.registerCustomerHandler
+        },
+        /**
+         * @api {post} /register/specialist/{specialist_phone} Register: specialist
+         * @apiName registerSpecialist
+         * @apiGroup register
+         *
+         * @apiParam {String} specialist_phone Specialist phone number
+         *
+         * @apiExample Example usage:
+         * /register/specialist/9999888999
+         */
+        {
+            method: 'POST',
+            path: BASE_URL + '/specialist/{phone}',
+            config: registrationController.registerSpecialistHandler
         },
         /**
          * @api {post} /register/auth/{phone}/{auth_code} Register: auth phone

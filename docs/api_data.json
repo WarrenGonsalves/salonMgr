@@ -506,7 +506,7 @@
   {
     "type": "post",
     "url": "/register/customer/{customer_phone}",
-    "title": "Register: new customer",
+    "title": "Register: customer",
     "name": "registerCustomer",
     "group": "register",
     "parameter": {
@@ -535,8 +535,38 @@
   },
   {
     "type": "post",
+    "url": "/register/specialist/{specialist_phone}",
+    "title": "Register: specialist",
+    "name": "registerSpecialist",
+    "group": "register",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "specialist_phone",
+            "description": "<p>Specialist phone number</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/register/specialist/9999888999",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/register.js",
+    "groupTitle": "register"
+  },
+  {
+    "type": "post",
     "url": "/register/store/{store_phone}",
-    "title": "Register: new store",
+    "title": "Register: store",
     "name": "registerStore",
     "group": "register",
     "parameter": {

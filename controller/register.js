@@ -31,7 +31,7 @@ function registerCustomer(isServiceProvider, request, reply) {
             return;
         }
         if (existingCustomer) {
-            util.logger.info("Register",["Phone number already registered, sending existing customer.", existingCustomer]);
+            util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
             reply(existingCustomer);
             return;
         }
@@ -106,6 +106,31 @@ RegistrationController.prototype.authHandler = {
             } else {
                 util.reply.error("Authentication failed", reply);
             }
+        });
+    }
+};
+
+RegistrationController.prototype.registerSpecialistHandler = {
+    handler: function(request, reply) {
+        db.specialist.findOne({
+            phone: request.params.phone
+        }).exec(function(err, existingSpecialist) {
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+            if (existingSpecialist) {
+                util.logger.info("Register", ["Phone number already registered, sending existing specialist.", existingSpecialist]);
+                reply(existingSpecialist);
+                return;
+            }
+
+            // phone not registered as specialist. create new one
+            var specialist = db.specialist();
+            specialist.phone = request.params.phone;
+            specialist.save();
+
+            reply(specialist);
         });
     }
 };
