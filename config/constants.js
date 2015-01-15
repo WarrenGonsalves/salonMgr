@@ -2,44 +2,58 @@
  *   Stores configuration for server / db
  *   Overide necessary properties for local developement
  */
-var config = module.exports = {};
+var util = require('../util');
 
-console.log("OpenShift Ip: " + process.env.OPENSHIFT_NODEJS_IP)
-if (process.env.OPENSHIFT_NODEJS_IP === undefined) {
-    config.env = 'development';
-} else {
-    config.env = 'production';
-}
-config.hostname = 'dev.example.com';
+var config = module.exports = {};
 
 // server config
 config.server = {};
-config.server.ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
-
-config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
-// create data directory or else upload of image will fail.
-config.dataDir = process.env.OPENSHIFT_DATA_DIR || (__dirname + "/../data/");
-config.imgDir = config.dataDir + "img/";
 
 // mongodb
 config.mongo = {};
-config.mongo.host = process.env.BUMBLEBEE_MONGODB_DB_HOST || "127.0.0.1";
-config.mongo.port = process.env.BUMBLEBEE_MONGODB_DB_PORT || "27017";
-config.mongo.dbname = process.env.BUMBLEBEE_MONGODB_DB_NAME || "fixers";
-config.mongo.user = process.env.BUMBLEBEE_MONGODB_DB_USER || "dbuser";
-config.mongo.pass = process.env.BUMBLEBEE_MONGODB_DB_PWD || "dbuser";
-config.mongo.connecturl
 
-if ("starscream" === process.env.OPENSHIFT_APP_NAME) {  
-    // This is prod instance. connect to prod database.
-    config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + 'fixers';
-} else if ("bumblebee" === process.env.OPENSHIFT_APP_NAME) {
-    // This is dev instance. connect to dev database.
-    config.mongo.connecturl = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;
-} else {
-    // Local instance.
-    config.mongo.connecturl = "mongodb://" + config.mongo.user + ":" + config.mongo.pass + "@" + config.mongo.host + ":" + config.mongo.port + "/" + config.mongo.dbname;
+
+if (process.env.PARAM1 == 'prod') {
+    config.env = 'production';
+    config.server.ip = '127.0.0.1';
+    config.server.port = '8081';
+    // Mongo
+    config.mongo.connecturl = "mongodb://dbuser2:admin@127.0.0.1:27017/optimus";
+    // Data dir
+    // '/var/data/handz'
+    config.dataDir = process.env.PARAM2;
+
+    config.imgURL = 'http://handz-api.elasticbeanstalk.com' + '/img/';
 }
 
+if (process.env.OPENSHIFT_APP_NAME == "bumblebee") {
+    config.env = 'development';
+    config.server.ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+    config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
+    // Mongo
+    config.mongo.connecturl = "mongodb://" + process.env.BUMBLEBEE_MONGODB_DB_USER + ":" + process.env.BUMBLEBEE_MONGODB_DB_PWD + "@" + process.env.BUMBLEBEE_MONGODB_DB_HOST + ":" + process.env.BUMBLEBEE_MONGODB_DB_PORT + "/" + process.env.BUMBLEBEE_MONGODB_DB_NAME;
+    // Data dir
+    config.dataDir = process.env.OPENSHIFT_DATA_DIR || (__dirname + "/../data");
+
+    config.imgURL = 'http://' + process.env.OPENSHIFT_APP_DNS + '/img/';
+}
+
+if (process.env.NODE_ENV == 'local') {
+    config.env = 'local';
+    config.server.ip = '127.0.0.1';
+    config.server.port = '5000';
+    // Mongo
+    config.mongo.connecturl = "mongodb://dbuser:dbuser@127.0.0.1:27017/fixers";
+    // Data dir
+    config.dataDir = __dirname + "/../data";
+
+    config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
+}
+
+config.imgDir = config.dataDir + "/img/";
+config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
+
+
 console.log("ENV_MONGO: " + config.mongo.connecturl);
+//util.logger.info("Config",[], config);
+
