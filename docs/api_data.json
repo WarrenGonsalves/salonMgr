@@ -421,7 +421,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?customer=547af234107f433f5d9f202e\n/jobs?customer=547af234107f433f5d9f202e&complete=true\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
+        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?specialist=547b3aeec3b83874ce377168&status=on-going\n/jobs?specialist=547b3aeec3b83874ce377168&status=new\n/jobs?customer=547af234107f433f5d9f202e&complete=true\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
         "type": "json"
       }
     ],
@@ -487,7 +487,7 @@
             "type": "String",
             "optional": false,
             "field": "status",
-            "description": "<p>Set status = &#39;accepted&#39;, &#39;on-going&#39;, &#39;done&#39;, &#39;cancelled&#39; [Post parameter]</p> "
+            "description": "<p>Set status = &#39;accepted&#39;, &#39;on-going&#39;, &#39;done&#39;, &#39;cancelled&#39; [PUT parameter]</p> "
           }
         ]
       }

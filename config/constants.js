@@ -31,7 +31,7 @@ config.mongo.user = process.env.BUMBLEBEE_MONGODB_DB_USER || "dbuser";
 config.mongo.pass = process.env.BUMBLEBEE_MONGODB_DB_PWD || "dbuser";
 config.mongo.connecturl
 
-if ("starscream" === process.env.OPENSHIFT_APP_NAME) {
+if ("starscream" === process.env.OPENSHIFT_APP_NAME) {  
     // This is prod instance. connect to prod database.
     config.mongo.connecturl = process.env.OPENSHIFT_MONGODB_DB_URL + 'fixers';
 } else if ("bumblebee" === process.env.OPENSHIFT_APP_NAME) {

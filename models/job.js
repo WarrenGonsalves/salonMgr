@@ -59,6 +59,15 @@ jobSchema
     .pre('save', function(next) {
         if (this.isModified('status')) {
             this.logHistory('status - ' + this.status);
+
+            if (this.status == "done") {
+                this.complete = true;
+            }
+
+            if (this.status == "cancelled") {
+                this.complete = true;
+                this.cancelled = true;
+            }
         }
         next();
     });

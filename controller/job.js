@@ -12,7 +12,7 @@ function JobController() {};
 JobController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
-        var query_param = {}
+        var query_param = request.query;
 
         if (!(request.query.customer === undefined)) {
             query_param['cust_id'] = request.query.customer;
@@ -67,12 +67,10 @@ JobController.prototype.putHandler = {
 
             if (request.payload.status === "cancelled") {
                 selectedJob.status = request.payload.status;
-                selectedJob.cancelled = true;
             }
 
             if (request.payload.status === "done") {
                 selectedJob.status = request.payload.status;
-                selectedJob.complete = true;
             }
 
             selectedJob.save(function(err, savedJob) {
@@ -89,7 +87,6 @@ JobController.prototype.putHandler = {
 
             });
         });
-
     }
 };
 

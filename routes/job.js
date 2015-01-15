@@ -11,7 +11,8 @@ module.exports = function() {
          * @apiExample Example usage:
          * /jobs
          * /jobs?specialist=547b3aeec3b83874ce377168
-         * /jobs?customer=547af234107f433f5d9f202e
+         * /jobs?specialist=547b3aeec3b83874ce377168&status=on-going
+         * /jobs?specialist=547b3aeec3b83874ce377168&status=new
          * /jobs?customer=547af234107f433f5d9f202e&complete=true
          * /jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e
          */
@@ -42,7 +43,7 @@ module.exports = function() {
          * @apiGroup job
          *
          * @apiParam {String} job_id        Job id [Url parameter]
-         * @apiParam {String} status        Set status = 'accepted', 'on-going', 'done', 'cancelled' [Post parameter]
+         * @apiParam {String} status        Set status = 'accepted', 'on-going', 'done', 'cancelled' [PUT parameter]
          *
          * @apiExample Example usage:
          * /jobs/547af234107f433f5d9f202e
