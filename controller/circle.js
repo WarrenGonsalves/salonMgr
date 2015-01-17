@@ -17,7 +17,7 @@ CircleController.prototype.getConfigHandler = {
             isGrouped = request.query.grouped;
         }
 
-        db.circle.find(query_param).exec(function(err, circles) {
+        db.circle.find(query_param).sort('name city').exec(function(err, circles) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
