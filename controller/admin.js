@@ -58,21 +58,20 @@ AdminController.prototype.postSpecialistHandler = {
     handler: function(request, reply) {
 
         db.category.findOne({
-            _id: request.query.cat_id
+            _id: request.payload.cat_id
         }, function(err, selectedCat) {
             console.log("creating a specialist with data: " + JSON.stringify(selectedCat));
             var specialist = new db.specialist();
-            specialist.name = request.query.name;
-            specialist.addr = request.query.addr;
-            specialist.city = request.query.city;
-            specialist.state = request.query.state;
-            specialist.zip = request.query.zip;
-            specialist.family = request.query.family;
-            specialist.hourly_rate = request.query.hourly_rate;
-            specialist.consulting_fee = request.query.consulting_fee;
-            specialist.phone = request.query.phone;
-            specialist.work_hours = request.query.work_hours;
-            specialist.verified = request.query.verified;
+            specialist.name = request.payload.name;
+            specialist.phone = request.payload.phone;
+            specialist.addr = request.payload.addr;
+            specialist.city = request.payload.city;
+            specialist.state = request.payload.state;
+            specialist.zip = request.payload.zip;
+            specialist.family = request.payload.family;
+            specialist.consulting_fee = request.payload.consulting_fee;
+            specialist.work_hours = request.payload.work_hours;
+            specialist.verified = request.payload.verified;
             specialist.categories.push(selectedCat);
             //specialist.verified.push(request.params.verified);
             specialist.save();
@@ -80,6 +79,13 @@ AdminController.prototype.postSpecialistHandler = {
         });
     }
 };
+
+AdminController.prototype.putSpecialistHandler = {
+    handler: function(request, reply) {
+
+
+    }
+}
 
 AdminController.prototype.postSpecialistProfileHandler = {
     payload: {
@@ -182,7 +188,7 @@ AdminController.prototype.setupCategoryHandler = {
             order: 1
         }];
 
-        _.each(categories, function(category){
+        _.each(categories, function(category) {
             var newCategory = new db.category;
             newCategory.category = category.category;
             newCategory.sub_category = category.sub_category;

@@ -13,17 +13,19 @@ config.server = {};
 config.mongo = {};
 
 
-if (process.env.PARAM1 == 'prod') {
+if (process.env.NODE_ENV == 'prod') {
     config.env = 'production';
     config.server.ip = '127.0.0.1';
     config.server.port = '8081';
     // Mongo
-    config.mongo.connecturl = "mongodb://dbuser2:admin@127.0.0.1:27017/optimus";
+    //config.mongo.connecturl = "mongodb://dbuser2:admin@127.0.0.1:27017/optimus";
+    config.mongo.connecturl = process.env.MONGO_URL;
     // Data dir
     // '/var/data/handz'
-    config.dataDir = process.env.PARAM2;
+    config.dataDir = process.env.DATA_DIR;
 
-    config.imgURL = 'http://handz-api.elasticbeanstalk.com' + '/img/';
+    //config.imgURL = 'http://handz-api.elasticbeanstalk.com' + '/img/';
+    config.imgURL = process.env.DOMAIN_URL + '/img/';
 }
 
 if (process.env.OPENSHIFT_APP_NAME == "bumblebee") {
@@ -51,9 +53,6 @@ if (process.env.NODE_ENV == 'local') {
 }
 
 config.imgDir = config.dataDir + "/img/";
-config.imgURL = 'http://' + (process.env.OPENSHIFT_APP_DNS || '127.0.0.1:5000') + '/img/';
-
-
 console.log("ENV_MONGO: " + config.mongo.connecturl);
 //util.logger.info("Config",[], config);
 
