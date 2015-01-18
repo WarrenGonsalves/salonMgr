@@ -43,7 +43,8 @@ module.exports = function() {
          * @apiGroup job
          *
          * @apiParam {String} job_id        Job id [Url parameter]
-         * @apiParam {String} status        Set status = 'accepted', 'on-going', 'done', 'cancelled' [PUT parameter]
+         * @apiParam {String} status        Set status = 'Accepted', 'Estimated', 'Started', 'Finished', Cancelled' [PUT parameter]
+         * @apiParam {String} estimate      estimate data when setting Status = Estimated. [Put Parameter]
          *
          * @apiExample Example usage:
          * /jobs/547af234107f433f5d9f202e

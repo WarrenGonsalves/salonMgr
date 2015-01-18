@@ -487,7 +487,14 @@ define({ api: [
             "type": "String",
             "optional": false,
             "field": "status",
-            "description": "<p>Set status = &#39;accepted&#39;, &#39;on-going&#39;, &#39;done&#39;, &#39;cancelled&#39; [PUT parameter]</p> "
+            "description": "<p>Set status = &#39;Accepted&#39;, &#39;Estimated&#39;, &#39;Started&#39;, &#39;Finished&#39;, Cancelled&#39; [PUT parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "estimate",
+            "description": "<p>estimate data when setting Status = Estimated. [Put Parameter]</p> "
           }
         ]
       }
