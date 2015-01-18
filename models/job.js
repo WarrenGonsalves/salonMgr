@@ -7,9 +7,10 @@ var momenttz = require('moment-timezone');
 var jobSchema = new Schema({
     status: {
         type: String,
-        enum: ['new', 'accepted', 'on-going', 'done', 'cancelled'],
-        default: 'new'
+        enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced'],
+        default: 'New'
     },
+    estimate: String,
     invoice_id: String,
     specialist_id: String,
     specialist_name: String,
@@ -60,11 +61,11 @@ jobSchema
         if (this.isModified('status')) {
             this.logHistory('status - ' + this.status);
 
-            if (this.status == "done") {
+            if (this.status == "Finished") {
                 this.complete = true;
             }
 
-            if (this.status == "cancelled") {
+            if (this.status == "Cancelled") {
                 this.complete = true;
                 this.cancelled = true;
             }

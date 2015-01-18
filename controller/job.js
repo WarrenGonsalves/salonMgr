@@ -57,20 +57,15 @@ JobController.prototype.putHandler = {
                 return;
             }
 
-            if (request.payload.status === "accepted") {
+            if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
                 selectedJob.status = request.payload.status;
-            }
 
-            if (request.payload.status === "on-going") {
-                selectedJob.status = request.payload.status;
-            }
-
-            if (request.payload.status === "cancelled") {
-                selectedJob.status = request.payload.status;
-            }
-
-            if (request.payload.status === "done") {
-                selectedJob.status = request.payload.status;
+                if (request.payload.status == 'Estimated' && request.payload.estimate == undefined) {
+                    util.reply.error('Need valid estimate data to set job status = Estimated', reply);
+                    return;
+                } else {
+                    selectedJob.estimate = request.payload.estimate
+                }
             }
 
             selectedJob.save(function(err, savedJob) {
@@ -81,7 +76,7 @@ JobController.prototype.putHandler = {
 
                 reply(selectedJob);
 
-                if (selectedJob.status === "done" || selectedJob.status === "cancelled") {
+                if (selectedJob.status === "Accepted" || selectedJob.status === "Cancelled") {
                     removeJobFromSpecialist(selectedJob);
                 }
 
@@ -161,9 +156,9 @@ JobController.prototype.jobDoneConfigHandler = {
 
             if (request.payload.cancelled === "true") {
                 selectedJob.cancelled = true;
-                selectedJob.status = 'cancelled';
+                selectedJob.status = 'Cancelled';
             } else {
-                selectedJob.status = 'done';
+                selectedJob.status = 'Finished';
             }
 
             selectedJob.complete = true;
@@ -171,7 +166,6 @@ JobController.prototype.jobDoneConfigHandler = {
             selectedJob.save();
 
             removeJobFromSpecialist(selectedJob);
-
         });
     }
 };

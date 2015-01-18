@@ -73,7 +73,6 @@ AdminController.prototype.postSpecialistHandler = {
             specialist.work_hours = request.payload.work_hours;
             specialist.verified = request.payload.verified;
             specialist.categories.push(selectedCat);
-            //specialist.verified.push(request.params.verified);
             specialist.save();
             reply(specialist);
         });
