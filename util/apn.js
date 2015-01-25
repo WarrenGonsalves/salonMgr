@@ -3,7 +3,8 @@ var logger = require('./logger');
 
 var apn = require('apn');
 var logger = require('./logger');
-var p12Path
+var certPath
+var keyPath
 var options
 
 if (config.env === "prod") {
@@ -19,10 +20,12 @@ if (config.env === "prod") {
 
 } else {
     logger.info(__filename, ["using dev apn certificates"]);
-    p12Path = __dirname + '/cert/dev_certificates.p12';
+    certPath = __dirname + '/cert/dev_cert.pem';
+    keyPath = __dirname + '/cert/dev_cert_key.pem'
 
     options = {
-        pfx: p12Path,
+        cert: certPath,
+        key: keyPath,
         passphrase: "nyne"
     };
 }
