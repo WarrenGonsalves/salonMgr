@@ -29,7 +29,7 @@ var specialistSchema = new Schema({
   },
   work_hours: {
     type: String,
-    default: '10:00 am to 8:00 pm'
+    default: '8:00 am to 10:00 pm'
   },
   jobs: [{
     type: Schema.Types.ObjectId,

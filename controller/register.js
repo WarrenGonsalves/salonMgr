@@ -39,10 +39,11 @@ function registerCustomer(isServiceProvider, request, reply) {
         // create new customer
         customer = new db.customer();
         customer.ph = request.params.phone;
+        customer.name = request.payload.name;
         customer.isSP = isServiceProvider;
         customer.save();
 
-        console.log("created new customer: " + customer.ph + " is a store: " + customer.isSP);
+        console.log("created new customer: " + customer.name + " is a store: " + customer.isSP);
 
         generateAuthCode(customer.ph);
         reply(customer);

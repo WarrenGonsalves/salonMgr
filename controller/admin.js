@@ -85,6 +85,11 @@ AdminController.prototype.postSpecialistHandler = {
                     return;
                 }
 
+                if ( selectedCircle === null ) {
+                    util.reply.error("Invalid circle", reply);
+                    return;
+                }
+
                 db.rating.find({}).exec(function(err, ratings) {
 
                     if (err) {
@@ -112,7 +117,9 @@ AdminController.prototype.postSpecialistHandler = {
                         specialist.ratings.push(rating);
                     })
 
-
+                    // circle
+                    specialist.circle = selectedCircle;
+                    specialist.circleloc = selectedCircle.locs;
 
                     specialist.save();
                     reply(specialist);
