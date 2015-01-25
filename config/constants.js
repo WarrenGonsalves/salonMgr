@@ -26,6 +26,7 @@ if (process.env.NODE_ENV == 'prod') {
 
     //config.imgURL = 'http://handz-api.elasticbeanstalk.com' + '/img/';
     config.imgURL = process.env.DOMAIN_URL + '/img/';
+    
 }
 
 if (process.env.OPENSHIFT_APP_NAME == "bumblebee") {
