@@ -4,17 +4,15 @@ var JobController = require('../controller/job');
 module.exports = function() {
     return [
         /**
-         * @api {get} /jobs?specialist={spc_id}&customer={cust_id}&complete={flag} Job: get jobs
+         * @api {get} /jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started} Job: get jobs
          * @apiName jobGet
          * @apiGroup job
          *
          * @apiExample Example usage:
          * /jobs
-         * /jobs?specialist=547b3aeec3b83874ce377168
-         * /jobs?specialist=547b3aeec3b83874ce377168&status=on-going
-         * /jobs?specialist=547b3aeec3b83874ce377168&status=new
-         * /jobs?customer=547af234107f433f5d9f202e&complete=true
-         * /jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e
+         * /jobs?specialist_id=547b3aeec3b83874ce377168
+         * /jobs?specialist_id=547b3aeec3b83874ce377168&status=New
+         * /jobs?cust_id=547af234107f433f5d9f202e&complete=true
          */
         {
             method: 'GET',
@@ -24,7 +22,7 @@ module.exports = function() {
         /**
          * @api {post} /jobs/img/{job_id} Job: upload images
          * @apiName jobImage
-         * @apiGroup job
+         * @apiGroup jobs
          *
          * @apiParam {String} job_id        Job id [Url parameter]
          * @apiParam {Object} img           Job image file to be uploaded [Post parameter]
@@ -53,7 +51,6 @@ module.exports = function() {
             method: 'PUT',
             path: BASE_URL + '/{id}',
             config: JobController.putHandler
-
         },
         /**
          * @api {post} /jobs/done/{job_id} Job: Complete / Cancel

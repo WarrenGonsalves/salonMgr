@@ -14,7 +14,7 @@ config.mongo = {};
 
 
 if (process.env.NODE_ENV == 'prod') {
-    config.env = 'production';
+    config.env = 'prod';
     config.server.ip = '127.0.0.1';
     config.server.port = '8081';
     // Mongo

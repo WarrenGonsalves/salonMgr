@@ -1,11 +1,29 @@
+var config = require('../config/constants');
+var logger = require('./logger');
+
 var apn = require('apn');
 var logger = require('./logger');
-var p12Path = __dirname + '/cert/Certificates.p12';
+var p12Path
+var options
 
-var options = {
-    pfx: p12Path,
-    passphrase: "nyne"
-};
+if (config.env === "prod") {
+    logger.info(__filename, ["using prod apn certificates"]);
+    p12Path = __dirname + '/cert/prod_certificates.p12';
+
+    options = {
+        pfx: p12Path,
+        passphrase: "q"
+    };
+
+} else {
+    logger.info(__filename, ["using dev apn certificates"]);
+    p12Path = __dirname + '/cert/dev_certificates.p12';
+
+    options = {
+        pfx: p12Path,
+        passphrase: "nyne"
+    };
+}
 
 module.exports.sendAPN = function(token, pushPayload) {
 

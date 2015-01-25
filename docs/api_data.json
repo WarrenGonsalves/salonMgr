@@ -414,14 +414,14 @@
   },
   {
     "type": "get",
-    "url": "/jobs?specialist={spc_id}&customer={cust_id}&complete={flag}",
+    "url": "/jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}",
     "title": "Job: get jobs",
     "name": "jobGet",
     "group": "job",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs\n/jobs?specialist=547b3aeec3b83874ce377168\n/jobs?specialist=547b3aeec3b83874ce377168&status=on-going\n/jobs?specialist=547b3aeec3b83874ce377168&status=new\n/jobs?customer=547af234107f433f5d9f202e&complete=true\n/jobs?specialist=547b3aeec3b83874ce377168&customer=547af234107f433f5d9f202e",
+        "content": "/jobs\n/jobs?specialist_id=547b3aeec3b83874ce377168\n/jobs?specialist_id=547b3aeec3b83874ce377168&status=New\n/jobs?cust_id=547af234107f433f5d9f202e&complete=true",
         "type": "json"
       }
     ],
