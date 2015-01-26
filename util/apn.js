@@ -14,8 +14,7 @@ if (config.env === "prod") {
     options = {
         pfx: p12Path,
         passphrase: "q",
-        "batchFeedback": true,
-        "interval": 120
+        production: false
     };
 
 } else {
@@ -26,6 +25,7 @@ if (config.env === "prod") {
     options = {
         cert: certPath,
         key: keyPath,
+        production: false,
         passphrase: "nyne"
     };
 }
