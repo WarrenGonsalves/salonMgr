@@ -13,7 +13,7 @@ invoiceController.prototype.getConfigHandler = {
             query_param['_id'] = request.query.id;
         }
 
-        db.invoice.find(query_param).populate('job').populate('specialist').lean().exec(function(err, invoiceList) {
+        db.invoice.find(query_param).populate('job').populate('specialist').exec(function(err, invoiceList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
