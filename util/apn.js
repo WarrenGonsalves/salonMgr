@@ -13,18 +13,16 @@ if (config.env === "prod") {
 
     options = {
         pfx: p12Path,
-        passphrase: "q",
-        production: false
+        passphrase: "123",
+        production: true
     };
 
 } else {
     logger.info(__filename, ["using dev apn certificates"]);
-    certPath = __dirname + '/cert/dev_cert.pem';
-    keyPath = __dirname + '/cert/dev_cert_key.pem'
+    p12Path = __dirname + '/cert/dev_certificates.p12';
 
     options = {
-        cert: certPath,
-        key: keyPath,
+        pfx: p12Path,
         production: false,
         passphrase: "nyne"
     };
