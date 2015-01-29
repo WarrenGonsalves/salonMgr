@@ -143,7 +143,7 @@ var FixerApp = function() {
       if (request.path.indexOf('/admin/') > -1) {
         next();
       } else {
-        util.logger.info("server.onRequest", [request.path, request.query, request.params, request.payload]);
+        util.logger.info("server.onRequest", [request.path, request.query, request.params]);
         next();
       }
     });
@@ -161,7 +161,6 @@ var FixerApp = function() {
     self.initializeServer();
     self.logRequests();
   };
-
 
   /**
    *  Start the server (starts up the sample application).

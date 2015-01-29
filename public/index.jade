@@ -21,8 +21,8 @@ html
 
                 div(class='content')
 
-                    each data in log_data
-                        p #{data.created}, #{data.log}
+                    each row in log_data
+                        p #{row.created}, #{row.tag} <br> #{row.log}, #{row.data}
 
 
 

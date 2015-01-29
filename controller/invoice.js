@@ -88,14 +88,12 @@ function sendPushNotification(invoice) {
     db.customer.findById(invoice.customer_id).lean().exec(function(err, customer) {
         if (!(customer.gcm_id === undefined)) {
             util.gcm.sendGCM(customer.gcm_id, invoice._id);
-            return;
         }
 
         if (!(customer.apn_id === undefined)) {
             util.apn.sendAPN(customer.apn_id, {
                 invoice_id: invoice._id
             });
-            return;
         }
 
     });

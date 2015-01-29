@@ -4,6 +4,7 @@ var util = require("../util");
 var _ = require('underscore');
 var veribage = require('../config/legal');
 var moment = require('moment');
+var momenttz = require('moment-timezone');
 
 function SpecialistController() {};
 
@@ -65,15 +66,23 @@ SpecialistController.prototype.getConfigHandler = {
         }
 
         // Filter out specialists who are already booked.
-        var bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
+        var bookStartTime
+        if (!(request.query.book_date === undefined)) {
+            bookStartTime = moment(request.query.book_date, 'YYYY-MM-DDThh:mmTZD');
+        } else {
+            bookStartTime = moment(Number(request.query.book_date_milli));
+        }
         var bookEndTime = moment(bookStartTime).add(2, 'hours');
+
+        console.log(__filename, "Start Time", momenttz(bookStartTime).tz('Asia/Kolkata').format('MMM Do, h:mm:ss a'), "End Time", momenttz(bookEndTime).tz('Asia/Kolkata').format('MMM Do, h:mm:ss a'));
 
 
         db.booking.find({
             book_date: {
                 $gte: bookStartTime,
                 $lt: bookEndTime
-            }
+            },
+            active: true
         }).select('-_id specialist_id').lean().exec(function(err, bookedSpecialistList) {
 
             // Ids of booked specialists
@@ -229,9 +238,8 @@ SpecialistController.prototype.postBookSpecialist = {
             job.cust_addr_landmark = cust_addr_landmark;
             job.cust_task = cust_task;
             job.book_date = book_date;
-
             job.save();
-
+            
             console.log(__filename + "new job created: " + JSON.stringify(job._id));
             specialist.current_job = job._id;
             specialist.jobs.push(job._id);
@@ -243,7 +251,11 @@ SpecialistController.prototype.postBookSpecialist = {
             booking.specialist_id = job.specialist_id;
             booking.book_date = new Date(Date.parse(book_date));
             booking.cust_id = job.cust_id;
+            booking.job_id = job._id;
             booking.save();
+
+            job.booking_slot_id = booking._id;
+            job.save();
 
             reply(job);
         });

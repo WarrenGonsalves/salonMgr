@@ -76,7 +76,7 @@ JobController.prototype.putHandler = {
 
                 reply(selectedJob);
 
-                if (selectedJob.status === "Accepted" || selectedJob.status === "Cancelled") {
+                if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
                     removeJobFromSpecialist(selectedJob);
                 }
 
@@ -86,6 +86,15 @@ JobController.prototype.putHandler = {
 };
 
 function removeJobFromSpecialist(job) {
+
+    // mark booking slot as inactive.
+    db.booking.findOne({
+        job_id: job._id
+    }, function(err, selectedBooking) {
+        util.logger.info('Unblock booking slot', [selectedBooking]);
+        selectedBooking.active = false;
+        selectedBooking.save();
+    });
 
     db.specialist.findById(job.specialist_id).exec(function(err, selectedSpecialist) {
 
@@ -106,9 +115,6 @@ function removeJobFromSpecialist(job) {
         selectedSpecialist.save();
         console.log("removed job from specialist: " + job._id);
         util.logger.info("Jobs", ["removed job from specialist", job._id, selectedSpecialist._id])
-
-        // TODO: soft delete booking entry.
-        //reply(job);
     });
 }
 

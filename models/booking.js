@@ -3,9 +3,14 @@ var Schema = mongoose.Schema;
 
 // schema
 var bookingSchema = new Schema({
-    specialist_id: String,  
+    specialist_id: String,
     book_date: Date,
     cust_id: String,
+    job_id: String,
+    active: {
+        type: Boolean,
+        default: true
+    },
     created_date: {
         type: Date,
         default: Date.now()

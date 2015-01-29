@@ -12,6 +12,7 @@ var jobSchema = new Schema({
     },
     estimate: String,
     invoice_id: String,
+    booking_slot_id: String,
     specialist_id: String,
     specialist_name: String,
     specialist_category: String,
