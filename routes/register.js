@@ -45,6 +45,8 @@ module.exports = function() {
          * @apiGroup register
          *
          * @apiParam {String} customer_phone Customer phone number
+         * @apiParam {String} name Customer Name [Post Param]
+         * @apiParam {String} email Customer email [Post Param]
          *
          * @apiExample Example usage:
          * /register/customer/9999888999

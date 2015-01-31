@@ -23,6 +23,21 @@ function generateAuthCode(phone) {
  */
 function registerCustomer(isServiceProvider, request, reply) {
 
+    if (request.params.phone === undefined) {
+        util.reply.error("Customer registration needs a valid phone number", reply);
+        return;
+    }
+
+    if (request.payload.name === undefined) {
+        util.reply.error("Customer registration needs a valid name", reply);
+        return;
+    }
+
+    if (request.payload.email === undefined) {
+        util.reply.error("Customer registration needs a valid email address", reply);
+        return;
+    }
+
     db.customer.findOne({
         ph: request.params.phone
     }, function(err, existingCustomer) {
@@ -40,6 +55,7 @@ function registerCustomer(isServiceProvider, request, reply) {
         customer = new db.customer();
         customer.ph = request.params.phone;
         customer.name = request.payload.name;
+        customer.email = request.payload.email;
         customer.isSP = isServiceProvider;
         customer.save();
 

@@ -262,6 +262,16 @@ define({ api: [
     "groupTitle": "admin"
   },
   {
+    "type": "put",
+    "url": "/admin/category",
+    "title": "Category: update",
+    "name": "ServerCateogry",
+    "group": "admin",
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "admin"
+  },
+  {
     "type": "get",
     "url": "/admin/config",
     "title": "Server: Get Server config",
@@ -430,43 +440,6 @@ define({ api: [
     "groupTitle": "job"
   },
   {
-    "type": "post",
-    "url": "/jobs/img/{job_id}",
-    "title": "Job: upload images",
-    "name": "jobImage",
-    "group": "job",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "job_id",
-            "description": "<p>Job id [Url parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Object",
-            "optional": false,
-            "field": "img",
-            "description": "<p>Job image file to be uploaded [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/jobs/img/547af234107f433f5d9f202e",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/job.js",
-    "groupTitle": "job"
-  },
-  {
     "type": "put",
     "url": "/jobs/{job_id}",
     "title": "Job: update status",
@@ -509,6 +482,43 @@ define({ api: [
     "version": "0.0.0",
     "filename": "routes/job.js",
     "groupTitle": "job"
+  },
+  {
+    "type": "post",
+    "url": "/jobs/img/{job_id}",
+    "title": "Job: upload images",
+    "name": "jobImage",
+    "group": "jobs",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "img",
+            "description": "<p>Job image file to be uploaded [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/img/547af234107f433f5d9f202e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "jobs"
   },
   {
     "type": "post",
@@ -562,6 +572,20 @@ define({ api: [
             "optional": false,
             "field": "customer_phone",
             "description": "<p>Customer phone number</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Customer Name [Post Param]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>Customer email [Post Param]</p> "
           }
         ]
       }

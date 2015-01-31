@@ -33,6 +33,8 @@
     "moment-timezone": "^0.3.0",
     "mongoose": "~3.8.17",
     "node-gcm": "^0.9.12",
+    "nodemailer": "^1.3.0",
+    "nodemailer-ses-transport": "^1.2.0",
     "restify": "~2.8.3",
     "twilio": "^1.9.0",
     "underscore": "^1.7.0"

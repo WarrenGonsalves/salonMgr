@@ -239,7 +239,7 @@ SpecialistController.prototype.postBookSpecialist = {
             job.cust_task = cust_task;
             job.book_date = book_date;
             job.save();
-            
+
             console.log(__filename + "new job created: " + JSON.stringify(job._id));
             specialist.current_job = job._id;
             specialist.jobs.push(job._id);
@@ -256,6 +256,14 @@ SpecialistController.prototype.postBookSpecialist = {
 
             job.booking_slot_id = booking._id;
             job.save();
+
+            db.customer.findById(customer_id).exec(function(err, customer) {
+                if (customer != null) {
+                    job.cust_email = customer.email;
+                    job.save();
+                    util.email.sendBookingConfirmation(customer, job);
+                }
+            });
 
             reply(job);
         });

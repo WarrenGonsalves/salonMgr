@@ -20,6 +20,7 @@ var jobSchema = new Schema({
     cust_id: String,
     cust_name: String,
     cust_ph: String,
+    cust_email: String,
     cust_addr1: String,
     cust_addr2: String,
     cust_addr_landmark: String,

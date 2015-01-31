@@ -85,7 +85,7 @@ AdminController.prototype.postSpecialistHandler = {
                     return;
                 }
 
-                if ( selectedCircle === null ) {
+                if (selectedCircle === null) {
                     util.reply.error("Invalid circle", reply);
                     return;
                 }
@@ -249,6 +249,29 @@ AdminController.prototype.setupCategoryHandler = {
         reply("done");
     }
 }
+
+AdminController.prototype.categoryPutHandler = {
+    handler: function(request, reply) {
+
+        db.category.findById(request.payload.id).exec(function(err, category) {
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+            if (category === null) {
+                util.logger.error("Admin-Category", ["cateogry not found for id"], request.payload);
+                reply(existingCustomer);
+                return;
+            }
+
+            category.active = request.payload.active;
+            category.save();
+
+            reply(category);
+        });
+    }
+};
 
 var adminController = new AdminController();
 module.exports = adminController;

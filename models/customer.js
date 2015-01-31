@@ -6,6 +6,7 @@ var customerSchema = new Schema({
     name: String,
     ph: String,
     addr: String,
+    email: String,
     apn_id: String,
     gcm_id: String,
     isSP: {

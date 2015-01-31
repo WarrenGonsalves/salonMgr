@@ -76,6 +76,8 @@ JobController.prototype.putHandler = {
 
                 reply(selectedJob);
 
+                sendJobStatusUpdate(selectedJob);
+
                 if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
                     removeJobFromSpecialist(selectedJob);
                 }
@@ -116,6 +118,10 @@ function removeJobFromSpecialist(job) {
         console.log("removed job from specialist: " + job._id);
         util.logger.info("Jobs", ["removed job from specialist", job._id, selectedSpecialist._id])
     });
+}
+
+function sendJobStatusUpdate(job) {
+    util.email.sendStatusUpdate(job);
 }
 
 JobController.prototype.postImageController = {
@@ -172,6 +178,7 @@ JobController.prototype.jobDoneConfigHandler = {
             selectedJob.save();
 
             removeJobFromSpecialist(selectedJob);
+            sendJobStatusUpdate(selectedJob);
         });
     }
 };

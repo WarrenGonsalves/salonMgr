@@ -18,6 +18,7 @@ module.exports = function() {
             path: '/',
             config: {
                 handler: function(req, reply) {
+                    util.email.sendMail("hands-support@handsforhome.com", "email.naikparag@gmail.com", "Estimate", "Test Body");
                     util.reply.derp(reply);
                 }
             }
@@ -74,10 +75,20 @@ module.exports = function() {
             method: 'POST',
             path: RATING_URL,
             config: adminController.postReviewMetadataHandler
-        },{
+        }, {
             method: 'POST',
             path: BASE_URL + '/setup/category',
             config: adminController.setupCategoryHandler
+        },
+        /**
+         * @api {put} /admin/category Category: update
+         * @apiName ServerCateogry
+         * @apiGroup admin
+         */
+        {
+            method: 'PUT',
+            path: BASE_URL + '/category',
+            config: adminController.categoryPutHandler
         },
         /**
          * @api {get} /admin/config Server: Get Server config
