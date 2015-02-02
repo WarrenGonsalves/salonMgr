@@ -18,7 +18,6 @@ module.exports = function() {
             path: '/',
             config: {
                 handler: function(req, reply) {
-                    util.email.sendMail("hands-support@handsforhome.com", "email.naikparag@gmail.com", "Estimate", "Test Body");
                     util.reply.derp(reply);
                 }
             }

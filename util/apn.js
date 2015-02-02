@@ -13,7 +13,7 @@ if (config.env === "prod") {
 
     options = {
         pfx: p12Path,
-        passphrase: "123",
+        passphrase: "hands",
         production: true
     };
 
@@ -24,7 +24,7 @@ if (config.env === "prod") {
     options = {
         pfx: p12Path,
         production: false,
-        passphrase: "nyne"
+        passphrase: "hands"
     };
 }
 

@@ -3,12 +3,21 @@ var sesTransport = require('nodemailer-ses-transport');
 var logger = require('./logger');
 
 var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
 
-var transporter = nodemailer.createTransport(sesTransport({
-    accessKeyId: 'AKIAI35TGSKIAFGVQFVQ',
-    secretAccessKey: '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',
-    rateLimit: 5
-}));
+// var transporter = nodemailer.createTransport(sesTransport({
+//     accessKeyId: 'AKIAI35TGSKIAFGVQFVQ',
+//     secretAccessKey: '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',
+//     rateLimit: 5
+// }));
+// 
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'hands.transform@gmail.com',
+        pass: 'hands@123'
+    }
+});
 
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
 
@@ -18,6 +27,12 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
         to: toAddr,
         subject: subject,
         html: text
+    }, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Message sent: ' + info.response);
+        }
     });
 }
 
@@ -27,6 +42,7 @@ module.exports.sendBookingConfirmation = function(customer, job) {
 
     var bookingHtmlMsg = job.cust_name + ", " + "your booking has been confirmed.";
     this.sendMail(SupportEmailId, customer.email, "Hands Booking Confirmation", bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - for support team", "CUSTOMER - " + JSON.stringify(customer) + " JOB - " + JSON.stringify(job));
 }
 
 module.exports.sendStatusUpdate = function(job) {
@@ -54,6 +70,6 @@ module.exports.sendStatusUpdate = function(job) {
         bookingHtmlSubject = "Thank you for using Hands";
         bookingHtmlMsg = "Thank you for using Hands. Please use your Hands app to provide valuable feedback for " + job.specialist_name;
     }
-    
+
     this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
 }
