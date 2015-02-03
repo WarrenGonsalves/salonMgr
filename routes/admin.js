@@ -33,6 +33,10 @@ module.exports = function() {
             method: 'POST',
             path: SPECIALIST_URL + '/profile/{spc_id}',
             config: adminController.postSpecialistProfileHandler
+        }, {
+            method: 'POST',
+            path: SPECIALIST_URL + '/resetratings',
+            config: adminController.specialistRatingResetHandler
         },
         /**
          * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist

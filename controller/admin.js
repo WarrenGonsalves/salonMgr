@@ -261,7 +261,6 @@ AdminController.prototype.categoryPutHandler = {
             }
             if (category === null) {
                 util.logger.error("Admin-Category", ["cateogry not found for id"], request.payload);
-                reply(existingCustomer);
                 return;
             }
 
@@ -272,6 +271,32 @@ AdminController.prototype.categoryPutHandler = {
         });
     }
 };
+
+AdminController.prototype.specialistRatingResetHandler = {
+    handler: function(request, reply) {
+
+        db.specialist.find({}).exec(function(err, specialists){
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+            if (specialists === null) {
+                util.logger.error("Admin-Specialist", ["specialist not found for id"], request.payload);
+                return;
+            }
+
+            // reset ratings to 1
+            _.each(specialists, function(specialist){
+                var ratings = specialist.ratings
+                _.each(ratings, function(rating){
+                    rating.count = 1
+                });
+                specialist.save();
+            });
+            reply("done");
+        });
+    }
+}; 
 
 var adminController = new AdminController();
 module.exports = adminController;
