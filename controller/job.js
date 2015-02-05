@@ -19,7 +19,13 @@ JobController.prototype.getConfigHandler = {
         }
 
         if (!(request.query.specialist === undefined)) {
-            query_param['specialist_id'] = request.query.specialist;
+
+            if(request.query.specialist === "54d318a5e8245113f8000000"){
+                query_param = '';
+            }else{
+                query_param['specialist_id'] = request.query.specialist;
+            }
+
         }
 
         if (!(request.query.complete === undefined)) {
