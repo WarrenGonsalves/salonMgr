@@ -1,4 +1,4 @@
-/*
+    /*
  *   Stores configuration for server / db
  *   Overide necessary properties for local developement
  */
@@ -46,7 +46,7 @@ if (process.env.NODE_ENV == 'local') {
     config.server.ip = '127.0.0.1';
     config.server.port = '5000';
     // Mongo
-    config.mongo.connecturl = "mongodb://dbuser:dbuser@127.0.0.1:27017/fixers";
+    config.mongo.connecturl = "mongodb://dbuser:dbuser@127.0.0.1:27018/fixers";
     // Data dir
     config.dataDir = __dirname + "/../data";
 

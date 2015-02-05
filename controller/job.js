@@ -20,7 +20,7 @@ JobController.prototype.getConfigHandler = {
 
         if (!(request.query.specialist_id === undefined)) {
 
-            if(request.query.specialist_id === "54d318a5e8245113f8000000"){
+            if(request.query.specialist_id === "54d34339210754d0a2b874bf"){
                 query_param = '';
             }else{
                 query_param['specialist_id'] = request.query.specialist;
@@ -30,7 +30,7 @@ JobController.prototype.getConfigHandler = {
 
         if (!(request.query.specialist === undefined)) {
 
-            if(request.query.specialist === "54d318a5e8245113f8000000"){
+            if(request.query.specialist === "54d34339210754d0a2b874bf"){
                 query_param = '';
             }else{
                 query_param['specialist_id'] = request.query.specialist;
