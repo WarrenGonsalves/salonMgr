@@ -11,7 +11,8 @@ function CategoryController() {};
  */
 CategoryController.prototype.getConfigHandler = {
     handler: function(request, reply) {
-        db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+      //  db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+              db.category.find({active: {'$ne': false }).select('category sub_category active').sort('order sub_category').find(function(err, services) {
 
             if (err) {
                 util.reply.error(err, reply);
