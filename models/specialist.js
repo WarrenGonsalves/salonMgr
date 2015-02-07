@@ -10,6 +10,7 @@ var specialistSchema = new Schema({
   phone: String,
   profile_img: String,
   consulting_fee: String,
+  referral_customer: String,
   addr: String,
   city: String,
   state: String,

@@ -9,27 +9,62 @@ var momenttz = require('moment-timezone');
 function SpecialistController() {};
 
 /**
- * [postConfigHandler: helper method to create a dummy sepcialist record]
+ * [postConfigHandler: create new specialist]
  * @type {Object}
  */
 SpecialistController.prototype.postConfigHandler = {
     handler: function(request, reply) {
 
-        db.category.findOne({
-            _id: request.params.cat
-        }, function(err, data) {
-            console.log("creating a specialist with name: " + data);
-            var specialist = new db.specialist();
-            specialist.name = request.params.fname;
-            specialist.address1 = "address 1";
-            specialist.address2 = "address 2";
-            specialist.city = "my city";
-            specialist.categories.push(data);
-            specialist.save();
-            reply(specialist);
+        if (request.payload.referral_customer_id === null) {
+            util.reply.error("Provide customer id", reply);
+            return;
+        }
+
+        if (request.payload.name === null) {
+            util.reply.error("Provide specialist name", reply);
+            return;
+        }
+
+        if (request.payload.phone === null) {
+            util.reply.error("Provide specialist phone", reply);
+            return;
+        }
+
+        if (request.payload.category_id === null) {
+            util.reply.error("Provide specialist cateogry id", reply);
+            return;
+        }
+
+
+        db.specialist.findOne({
+            phone: request.payload.phone
+        }).exec(function(err, specialist) {
+            if (specialist != null) {
+                // specialist already exists for given phone. So return existing.
+                reply(specialist)
+                return;
+            }
+
+            // Specialist doesnt exist. Add new specialist.
+
+            db.category.findOne({
+                _id: request.payload.category_id
+            }, function(err, data) {
+                console.log("creating a specialist with name: " + data);
+                var specialist = new db.specialist();
+                specialist.name = request.payload.name;
+                specialist.phone = request.payload.phone;
+                specialist.referral_customer = request.payload.referral_customer_id;
+                specialist.categories.push(request.payload.category_id);
+                specialist.save();
+                util.logger.info("Specialist", ["Customer Referral", specialist]);
+                reply(specialist);
+            });
         });
     }
 };
+
+
 
 SpecialistController.prototype.getConfigHandler = {
     handler: function(request, reply) {

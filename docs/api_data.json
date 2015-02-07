@@ -755,6 +755,50 @@
     "groupTitle": "specialist"
   },
   {
+    "type": "post",
+    "url": "/specialists",
+    "title": "Specialist: Customer Referral",
+    "name": "custReferral",
+    "group": "specialist",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "referral_customer_id",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Specialist name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Specialist Phone [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category_id",
+            "description": "<p>Specialist Category [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/specialist.js",
+    "groupTitle": "specialist"
+  },
+  {
     "type": "get",
     "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
     "title": "get specialists",

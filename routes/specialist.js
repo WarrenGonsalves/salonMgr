@@ -23,10 +23,15 @@ module.exports = function() {
       path: BASE_URL,
       config: specialistController.getConfigHandler
     },
-    /*!
-     * Create a sample specialist
-     * POST
-     * /specialists/{fname}/{cat}
+    /**
+     * @api {post} /specialists       Specialist: Customer Referral
+     * @apiName custReferral
+     * @apiGroup specialist
+     *
+     * @apiParam {String} referral_customer_id    Customer id [Post parameter]
+     * @apiParam {String} name                    Specialist name [Post parameter]
+     * @apiParam {String} phone                   Specialist Phone [Post parameter]
+     * @apiParam {String} category_id             Specialist Category [Post parameter]
      */
     {
       method: 'POST',
