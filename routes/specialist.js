@@ -35,7 +35,7 @@ module.exports = function() {
      */
     {
       method: 'POST',
-      path: BASE_URL + '/{fname}/{cat}',
+      path: BASE_URL,
       config: specialistController.postConfigHandler
     },
     /**
