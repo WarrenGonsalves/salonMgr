@@ -61,7 +61,29 @@ module.exports = function() {
       method: 'POST',
       path: BASE_URL + '/{spc_id}/book/{cust_id}',
       config: specialistController.postBookSpecialist
-    }, {
+    },
+    /**
+     * @api {post} /specialists/customerjob Booking: referr customer + job
+     * @apiName customerJob
+     * @apiGroup specialist
+     *
+     * @apiParam {String} spc_id      Specialist id [Post parameter]
+     * @apiParam {String} category    Specialist category title [Post parameter]
+     * @apiParam {String} name        Customer name [Post parameter]
+     * @apiParam {String} phone       Customer phone [Post parameter]
+     * @apiParam {String} task        Customer task [Post parameter]
+     * @apiParam {String} book_date_milli   Book date and time in milli secs [Post parameter]
+     *
+     * @apiExample Example usage:
+     * /specialists/customerjob
+     */
+    {
+      method: 'POST',
+      path: BASE_URL + '/customerjob',
+      config: specialistController.postCustomerJob
+    },
+
+    {
       method: 'GET',
       path: '/img/{id}',
       // handler: {

@@ -816,6 +816,71 @@ define({ api: [
     "groupTitle": "specialist"
   },
   {
+    "type": "post",
+    "url": "/specialists/customerjob",
+    "title": "Booking: referr customer + job",
+    "name": "customerJob",
+    "group": "specialist",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "spc_id",
+            "description": "<p>Specialist id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>Specialist category title [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Customer name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Customer phone [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "task",
+            "description": "<p>Customer task [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "book_date_milli",
+            "description": "<p>Book date and time in milli secs [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/specialists/customerjob",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/specialist.js",
+    "groupTitle": "specialist"
+  },
+  {
     "type": "get",
     "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
     "title": "get specialists",

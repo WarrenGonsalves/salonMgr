@@ -20,9 +20,9 @@ JobController.prototype.getConfigHandler = {
 
         if (!(request.query.specialist_id === undefined)) {
 
-            if(request.query.specialist_id === "54d34339210754d0a2b874bf"){
+            if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
                 query_param = '';
-            }else{
+            } else {
                 query_param['specialist_id'] = request.query.specialist;
             }
 
@@ -30,9 +30,9 @@ JobController.prototype.getConfigHandler = {
 
         if (!(request.query.specialist === undefined)) {
 
-            if(request.query.specialist === "54d34339210754d0a2b874bf"){
+            if (request.query.specialist === "54d34339210754d0a2b874bf") {
                 query_param = '';
-            }else{
+            } else {
                 query_param['specialist_id'] = request.query.specialist;
             }
 
@@ -79,7 +79,9 @@ JobController.prototype.putHandler = {
                 if (request.payload.status == 'Estimated' && request.payload.estimate == undefined) {
                     util.reply.error('Need valid estimate data to set job status = Estimated', reply);
                     return;
-                } else {
+                }
+
+                if (request.payload.status == 'Estimated') {
                     selectedJob.estimate = request.payload.estimate
                 }
             }
