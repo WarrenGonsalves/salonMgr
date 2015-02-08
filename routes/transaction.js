@@ -1,4 +1,4 @@
-var BASE_URL = '/transactions';
+var BASE_URL = '/hawaii';
 var controller = require('../controller/transaction');
 
 module.exports = function() {
