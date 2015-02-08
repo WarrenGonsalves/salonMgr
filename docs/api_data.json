@@ -180,6 +180,23 @@
   },
   {
     "type": "post",
+    "url": "/transactions",
+    "title": "Transaction: callback url",
+    "name": "processTransaction",
+    "group": "Transaction",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/transactions",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/transaction.js",
+    "groupTitle": "Transaction"
+  },
+  {
+    "type": "post",
     "url": "/admin/specialist/addcat/{spc_id}/{cat_id}",
     "title": "Specialist: Add Category to Specialist",
     "name": "AddCat",
