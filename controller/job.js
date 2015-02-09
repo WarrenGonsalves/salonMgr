@@ -12,30 +12,28 @@ function JobController() {};
 JobController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
-        var query_param = request.query;
+        var query_param = '';
 
         if (!(request.query.customer === undefined)) {
             query_param['cust_id'] = request.query.customer;
         }
 
-        if (!(request.query.specialist_id === undefined)) {
+        // if (!(request.query.specialist_id === undefined)) {
 
+        //     if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
+        //         query_param = '';
+        //     } else {
+        //         query_param['specialist_id'] = request.query.specialist;
+        //     }
+
+        // }
+
+        if (!(request.query.specialist === undefined)) {
             if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
                 query_param = '';
             } else {
                 query_param['specialist_id'] = request.query.specialist;
             }
-
-        }
-
-        if (!(request.query.specialist === undefined)) {
-
-            if (request.query.specialist === "54d34339210754d0a2b874bf") {
-                query_param = '';
-            } else {
-                query_param['specialist_id'] = request.query.specialist;
-            }
-
         }
 
         if (!(request.query.complete === undefined)) {
