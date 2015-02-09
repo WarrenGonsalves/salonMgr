@@ -12,7 +12,7 @@ function JobController() {};
 JobController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
-        var query_param = '';
+        var query_param = {};
 
         if (!(request.query.customer === undefined)) {
             query_param['cust_id'] = request.query.customer;
@@ -40,7 +40,7 @@ JobController.prototype.getConfigHandler = {
             query_param['complete'] = request.query.complete;
         }
 
-        console.log("job query: " + JSON.stringify(query_param));
+        util.logger.info("Jobs - get", [query_param])
 
         // TODO sort by book date.
         db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
