@@ -122,6 +122,15 @@ module.exports = function() {
             }
         }, {
             method: 'POST',
+            path: BASE_URL + '/testpay',
+            config: {
+                handler: function(req, reply) {
+                    util.paytm.testTransaction(req.payload.order_id, req.payload.customer_id, req.payload.amount);
+                    reply("done");
+                }
+            }
+        }, {
+            method: 'POST',
             path: BASE_URL + '/pushnotify/gcm',
             config: {
                 handler: function(req, reply) {

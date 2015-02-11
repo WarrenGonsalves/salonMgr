@@ -1,5 +1,6 @@
 var db = require("../db");
 var util = require("../util");
+var config = require("../config/constants")
 
 /**
  * creates authCode entry and sends SMS with auth code generated.
@@ -12,8 +13,13 @@ function generateAuthCode(phone) {
 
     console.log("created new auth code for phone: " + authCode.phone);
 
-    // TODO: Enable this to send SMS code.
-    //util.authUtil.sendCodeViaSMS(phone, authCode.code);
+    if (config.env == 'prod') {
+        util.sms.sendOTP(phone, authCode.code);
+    }
+
+    if (config.env == 'local') {
+        console.log("in local env.. not sending sms")
+    }
 };
 
 /**
@@ -47,6 +53,7 @@ function registerCustomer(isServiceProvider, request, reply) {
         }
         if (existingCustomer) {
             util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
+            generateAuthCode(existingCustomer.ph);
             reply(existingCustomer);
             return;
         }

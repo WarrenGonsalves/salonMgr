@@ -332,10 +332,10 @@ SpecialistController.prototype.postCustomerJob = {
             return;
         }
 
-        if (request.payload.category === undefined) {
-            util.reply.error("Provide specialist category title", reply);
-            return;
-        }
+        // if (request.payload.category === undefined) {
+        //     util.reply.error("Provide specialist category title", reply);
+        //     return;
+        // }
 
         util.logger.info(__filename, ["new customer + job referred by specialist: " + specialist_id], JSON.stringify(request.payload));
 
