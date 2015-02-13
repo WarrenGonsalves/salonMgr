@@ -1,5 +1,6 @@
 var logger = require('./logger');
 var request = require('request');
+var config = require("../config/constants")
 
 var TAG = "Send SMS"
 
@@ -8,6 +9,12 @@ var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
 
 module.exports.sendSMS = function sendSMS(to, body) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
+
+    if (config.env != 'prod') {
+        logger.info(TAG, "skip sms for non prod env");
+        return;
+    }
+
     request.post(exotelApi, {
             form: {
                 From: "02233814263",
@@ -28,5 +35,13 @@ module.exports.sendOTP = function(phone, otp) {
     logger.info(TAG, ["SMS OTP", phone]);
 
     var smsBody = "Hi " + otp + " OTP ,Thank you for registering; Your account has been activated"
+    this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendBookingConfirmation = function(phone, job) {
+
+    logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
+
+    var smsBody = "Hi " + job._id + " Booking ,Thank you for registering; Your account has been activated"
     this.sendSMS(phone, smsBody);
 }

@@ -298,6 +298,7 @@ SpecialistController.prototype.postBookSpecialist = {
                     job.cust_email = customer.email;
                     job.save();
                     util.email.sendBookingConfirmation(customer, job);
+                    util.sms.sendBookingConfirmation(customer.ph, job);
                 }
             });
 
@@ -397,6 +398,7 @@ SpecialistController.prototype.postCustomerJob = {
                 job.cust_email = customer.email;
                 job.save();
                 util.email.sendBookingConfirmation(customer, job);
+                util.sms.sendBookingConfirmation(customer.ph, job);
 
                 reply(job);
             });
