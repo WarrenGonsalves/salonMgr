@@ -36,6 +36,13 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
     });
 }
 
+module.exports.sendFeedback = function(feedback) {
+    logger.info("Email Notification", ["Feedback", feedback]);
+
+    var feedbackHtmlMsg = "customer_id: " + feedback.customer_id + "<br>" + feedback.text;
+    this.sendMail(SupportEmailId, SupportDistEmail, "Feedback from " + feedback.customer_id, feedbackHtmlMsg);
+}
+
 module.exports.sendBookingConfirmation = function(customer, job) {
 
     logger.info("Email Notification", ["Booking Confirmation", customer, job]);

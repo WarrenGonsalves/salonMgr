@@ -38,7 +38,7 @@ FeedbackController.prototype.postConfigHandler = {
         feedback.customer_id = request.payload.customer_id;
         feedback.text = request.payload.text;
         feedback.save();
-
+        util.email.sendFeedback(feedback);
         reply(feedback);
     }
 };

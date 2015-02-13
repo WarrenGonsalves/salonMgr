@@ -95,7 +95,7 @@ SpecialistController.prototype.getConfigHandler = {
                         type: "Point",
                         coordinates: [parseFloat(request.query.lng), parseFloat(request.query.lat)]
                     },
-                    $maxDistance: 300000
+                    $maxDistance: 250000
                 }
             };
             query_param['circleloc'] = nearLoc;
