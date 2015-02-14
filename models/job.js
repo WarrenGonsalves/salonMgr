@@ -17,6 +17,7 @@ var jobSchema = new Schema({
     specialist_name: String,
     specialist_category: String,
     specialist_ph: String,
+    specialist_image: String,
     cust_id: String,
     cust_name: String,
     cust_ph: String,
