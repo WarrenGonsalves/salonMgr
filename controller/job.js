@@ -18,6 +18,10 @@ JobController.prototype.getConfigHandler = {
             query_param['cust_id'] = request.query.customer;
         }
 
+        if (!(request.query.cust_id === undefined)) {
+            query_param['cust_id'] = request.query.cust_id;
+        }
+
         // if (!(request.query.specialist_id === undefined)) {
 
         //     if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
@@ -36,6 +40,14 @@ JobController.prototype.getConfigHandler = {
             }
         }
 
+        if (!(request.query.specialist_id === undefined)) {
+            if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
+                query_param = '';
+            } else {
+                query_param['specialist_id'] = request.query.specialist_id;
+            }
+        }
+
         if (!(request.query.complete === undefined)) {
             query_param['complete'] = request.query.complete;
         }
@@ -44,7 +56,6 @@ JobController.prototype.getConfigHandler = {
 
         // TODO sort by book date.
         db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
-            console.log("getting all jobs ");
             if (err) {
                 util.reply.error(err, reply);
                 return;

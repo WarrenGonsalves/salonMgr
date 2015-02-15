@@ -43,6 +43,13 @@ module.exports.sendFeedback = function(feedback) {
     this.sendMail(SupportEmailId, SupportDistEmail, "Feedback from " + feedback.customer_id, feedbackHtmlMsg);
 }
 
+module.exports.sendNewSpecialistReferral = function(name, phone, customer_id) {
+    logger.info("Email Notification", ["New Spec Referral", name, phone, customer_id]);
+
+    var referralHtmlMsg = "Specialist Name: " + name + "<br>" + "Specialist Phone: " + phone + "<br>" + "Referred by customer: " + customer_id;
+    this.sendMail(SupportEmailId, SupportDistEmail, "New Specialist Referral " + name,  referralHtmlMsg);
+}
+
 module.exports.sendBookingConfirmation = function(customer, job) {
 
     logger.info("Email Notification", ["Booking Confirmation", customer, job]);

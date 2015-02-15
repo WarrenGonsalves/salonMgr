@@ -1,10 +1,13 @@
 var Hapi = require('hapi');
 var db = require("../db");
 var util = require("../util");
+var node_util = require('util');
 var _ = require('underscore');
 var veribage = require('../config/legal');
 var moment = require('moment');
 var momenttz = require('moment-timezone');
+
+var SPECIALIST_REFFERED_REPLY = "Thank You! for adding %s. Our team will contact the specialist and on-board him in a week.";
 
 function SpecialistController() {};
 
@@ -30,40 +33,26 @@ SpecialistController.prototype.postConfigHandler = {
             return;
         }
 
-        if (request.payload.category_id === null) {
-            util.reply.error("Provide specialist cateogry id", reply);
-            return;
-        }
+        customer_id = request.payload.referral_customer_id;
+        name = request.payload.name;
+        phone = request.payload.phone;
 
+        // if (request.payload.category_id === null) {
+        //     util.reply.error("Provide specialist cateogry id", reply);
+        //     return;
+        // }
 
         db.specialist.findOne({
             phone: request.payload.phone
         }).exec(function(err, specialist) {
-            if (specialist != null) {
-                // specialist already exists for given phone. So return existing.
-                reply(specialist)
-                return;
-            }
+            // Specialist doesnt exist. Send email to support team
+            util.email.sendNewSpecialistReferral(name, phone, customer_id);
 
-            // Specialist doesnt exist. Add new specialist.
-
-            db.category.findOne({
-                _id: request.payload.category_id
-            }, function(err, data) {
-                console.log("creating a specialist with name: " + data);
-                var specialist = new db.specialist();
-                specialist.name = request.payload.name;
-                specialist.phone = request.payload.phone;
-                specialist.referral_customer = request.payload.referral_customer_id;
-                specialist.categories.push(request.payload.category_id);
-                specialist.save();
-                util.logger.info("Specialist", ["Customer Referral", specialist]);
-                reply(specialist);
-            });
+            reply_string = node_util.format(SPECIALIST_REFFERED_REPLY, name)
+            reply(reply_string);
         });
     }
 };
-
 
 
 SpecialistController.prototype.getConfigHandler = {
@@ -334,10 +323,10 @@ SpecialistController.prototype.postCustomerJob = {
             return;
         }
 
-        // if (request.payload.category === undefined) {
-        //     util.reply.error("Provide specialist category title", reply);
-        //     return;
-        // }
+        if (request.payload.category === undefined) {
+            util.reply.error("Provide specialist category title", reply);
+            return;
+        }
 
         util.logger.info(__filename, ["new customer + job referred by specialist: " + specialist_id], JSON.stringify(request.payload));
 
