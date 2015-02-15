@@ -45,11 +45,10 @@ SpecialistController.prototype.postConfigHandler = {
         db.specialist.findOne({
             phone: request.payload.phone
         }).exec(function(err, specialist) {
-            // Specialist doesnt exist. Send email to support team
             util.email.sendNewSpecialistReferral(name, phone, customer_id);
 
             reply_string = node_util.format(SPECIALIST_REFFERED_REPLY, name)
-            reply(reply_string);
+            util.reply.success(reply_string, reply);
         });
     }
 };
@@ -289,6 +288,7 @@ SpecialistController.prototype.postBookSpecialist = {
                     job.save();
                     util.email.sendBookingConfirmation(customer, job);
                     util.sms.sendBookingConfirmation(customer.ph, job);
+                    util.sms.notifySpecialistNewBooking(job);
                 }
             });
 
@@ -390,6 +390,7 @@ SpecialistController.prototype.postCustomerJob = {
                 job.save();
                 util.email.sendBookingConfirmation(customer, job);
                 util.sms.sendBookingConfirmation(customer.ph, job);
+                util.sms.notifySpecialistNewBooking(job);
 
                 reply(job);
             });
