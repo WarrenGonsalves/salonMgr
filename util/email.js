@@ -56,7 +56,7 @@ module.exports.sendBookingConfirmation = function(customer, job) {
 
     var bookingHtmlMsg = job.cust_name + ", " + "your booking has been confirmed.";
     this.sendMail(SupportEmailId, customer.email, "Hands Booking Confirmation", bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - for support team", "CUSTOMER - " + JSON.stringify(customer) + " JOB - " + JSON.stringify(job));
+    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, "CUSTOMER - " + JSON.stringify(customer) + "<br><br> JOB - " + JSON.stringify(job));
 }
 
 module.exports.sendStatusUpdate = function(job) {
