@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "apn": "^1.6.2",
+    "bcrypt": "^0.8.1",
     "express": "~3.4.4",
     "faker": "^2.1.1",
     "hapi": "^7.5.2",

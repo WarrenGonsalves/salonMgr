@@ -12,7 +12,7 @@ module.exports.sendSMS = function sendSMS(to, body) {
 
     if (config.env != 'prod') {
         logger.info(TAG, "skip sms for non prod env");
-        //return;
+        return;
     }
 
     request.post(exotelApi, {
@@ -50,5 +50,8 @@ module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
     var smsBody = "Hi " + job.specialist_name + ", new job " + job.cust_name + "-" + job.cust_ph + " ,Thank you for registering; Your account has been activated"
-    this.sendSMS(job.specialist_ph, smsBody);
+    
+    // TODO  replace viveks number with job.specialist_ph
+    this.sendSMS("9833789536", smsBody);
 }
+

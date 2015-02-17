@@ -356,6 +356,58 @@ define({ api: [
     "groupTitle": "categories"
   },
   {
+    "type": "post",
+    "url": "/customers/auth",
+    "title": "Customer: Auth",
+    "name": "customerAuth",
+    "group": "customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "secret",
+            "description": "<p>secret to verify [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/auth",
+        "type": "json"
+      }
+    ],
+    "description": "<p>provide either the phone / email / customer_id + secret to auth user.</p> ",
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "customer"
+  },
+  {
     "type": "get",
     "url": "/customers",
     "title": "Customer: get all",
@@ -402,6 +454,50 @@ define({ api: [
       {
         "title": "Example usage:",
         "content": "/customers/547ae3f83ee077774bbb2f5c/registerpush",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "customer"
+  },
+  {
+    "type": "put",
+    "url": "/customers/secret",
+    "title": "Customer: update secret",
+    "name": "customerUpdate",
+    "group": "customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "old_secret",
+            "description": "<p>old secret to verify [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "new_secret",
+            "description": "<p>new secret to set [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/secret",
         "type": "json"
       }
     ],

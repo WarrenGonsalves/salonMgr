@@ -20,6 +20,88 @@ CustomerController.prototype.getConfigHandler = {
     }
 };
 
+CustomerController.prototype.secretHandler = {
+    handler: function(request, reply) {
+
+        var isValidId = false;
+        queryParams = {};
+
+        if (!(request.payload.phone === undefined)) {
+            queryParams['ph'] = request.payload.phone;
+            isValidId = true;
+        }
+
+        if (!(request.payload.email === undefined)) {
+            queryParams['email'] = request.payload.email;
+            isValidId = true;
+        }
+
+        if (!(request.payload.customer_id === undefined)) {
+            queryParams['_id'] = request.payload.customer_id;
+            isValidId = true;
+        }
+
+        if (!isValidId) {
+            util.reply.error("why u no give valid id :(", reply);
+            return;
+        }
+
+        if (request.payload.secret === undefined) {
+            util.reply.error("Provide secret to validate", reply);
+            return;
+        }
+
+        util.logger.info("Customer", ["secret Handler", queryParams]);
+
+        db.customer.findOne(queryParams, function(err, customer) {
+            if (customer == null) {
+                util.reply.error("No customer found for given criteria", reply);
+                return;
+            }
+
+            if (customer.isValidSecret(request.payload.secret))
+                reply(customer);
+            else {
+                util.reply.error("Invalid user and/or secret", reply);
+            }
+        });
+    }
+}
+
+CustomerController.prototype.secretUpdateHandler = {
+    handler: function(request, reply) {
+
+        if (request.payload.customer_id === undefined) {
+            util.reply.error("why u no give valid id :(", reply);
+            return;
+        }
+
+        if (request.payload.old_secret === undefined) {
+            util.reply.error("Provide secret to validate", reply);
+            return;
+        }
+
+        if (request.payload.new_secret === undefined) {
+            util.reply.error("Provide secret to set", reply);
+            return;
+        }
+
+        db.customer.findById(request.payload.customer_id, function(err, customer) {
+            if (customer == null) {
+                util.reply.error("No customer found for given criteria", reply);
+                return;
+            }
+
+            if (customer.isValidSecret(request.payload.old_secret)) {
+                customer.setSecret(request.payload.new_secret)
+                reply(customer);
+            } else {
+                util.reply.error("Invalid user and/or secret", reply);
+            }
+        });
+    }
+}
+
 CustomerController.prototype.pushNotificationConfigHandler = {
     handler: function(request, reply) {
 

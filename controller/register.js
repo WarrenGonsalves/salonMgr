@@ -65,6 +65,7 @@ function registerCustomer(isServiceProvider, request, reply) {
         customer.email = request.payload.email;
         customer.isSP = isServiceProvider;
         customer.save();
+        customer.initSecret();
 
         console.log("created new customer: " + customer.name + " is a store: " + customer.isSP);
 
