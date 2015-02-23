@@ -30,28 +30,33 @@ module.exports.sendSMS = function sendSMS(to, body) {
     );
 }
 
-module.exports.sendOTP = function(phone, otp) {
+module.exports.sendOTP = function(phone, otp, customername) {
 
     logger.info(TAG, ["SMS OTP", phone]);
 
-    var smsBody = "Hi " + otp + " OTP ,Thank you for registering; Your account has been activated"
+    var smsBody = "Hello, "+ customername+ " . Hope all is well. Your One-Time Password (OTP) for registration is " + otp + " .Thank you for registering with us."
+    
     this.sendSMS(phone, smsBody);
+
 }
 
-module.exports.sendBookingConfirmation = function(phone, job) {
+module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
-    var smsBody = "Hi " + job._id + " Booking ,Thank you for registering; Your account has been activated"
+    var smsBody = "Hello, " + customername + ", Hope all is well. Thank you for booking " + job.specialist_name + "("+job.specialist_category+"). Your booking confirmation # is "+job._id + "."
+    
     this.sendSMS(phone, smsBody);
 }
 
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
-    var smsBody = "Hi " + job.specialist_name + ", new job " + job.cust_name + "-" + job.cust_ph + " ,Thank you for registering; Your account has been activated"
+    var smsBody = "Hello " + job.specialist_name + ", New booking from hands.  Customer name - " + job.cust_name + ", Customer phone # - " + job.cust_ph + " . Please call within 5 minutes."
     
     // TODO  replace viveks number with job.specialist_ph
+    //this.sendSMS("9833789536", smsBody);
     this.sendSMS("9833789536", smsBody);
+    this.sendSMS(job.specialist_ph, smsBody)
 }
 

@@ -5,7 +5,7 @@ var config = require("../config/constants")
 /**
  * creates authCode entry and sends SMS with auth code generated.
  */
-function generateAuthCode(phone) {
+function generateAuthCode(phone, customername) {
     authCode = new db.authCode();
     authCode.ph = phone;
     authCode.code = util.authUtil.generateAuthCode();
@@ -14,7 +14,7 @@ function generateAuthCode(phone) {
     console.log("created new auth code for phone: " + authCode.phone);
 
     if (config.env == 'prod') {
-        util.sms.sendOTP(phone, authCode.code);
+        util.sms.sendOTP(phone, authCode.code, customername);
     }
 
     if (config.env == 'local') {
@@ -53,7 +53,7 @@ function registerCustomer(isServiceProvider, request, reply) {
         }
         if (existingCustomer) {
             util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
-            generateAuthCode(existingCustomer.ph);
+            generateAuthCode(existingCustomer.ph,existingCustomer.name);
             reply(existingCustomer);
             return;
         }
@@ -69,7 +69,7 @@ function registerCustomer(isServiceProvider, request, reply) {
 
         console.log("created new customer: " + customer.name + " is a store: " + customer.isSP);
 
-        generateAuthCode(customer.ph);
+        generateAuthCode(customer.ph, customer.name);
         reply(customer);
     });
 }
