@@ -5,7 +5,7 @@ var controller = require('../controller/shopify');
 module.exports = function() {
     return [
         /**
-         * @api {get} /admin/interface/shopify/reload/customers Interface: reload customers
+         * @api {post} /admin/interface/shopify/reload/customers Interface: reload customers
          * @apiName interfaceCustomer
          * @apiGroup interface
          *
@@ -16,9 +16,18 @@ module.exports = function() {
             method: 'POST',
             path: ADMIN_BASE_URL + '/reload/customers',
             config: controller.reloadCustomerHandler
-        }, {
+        },
+        /**
+         * @api {get} /shopify/customers Shopify: customers
+         * @apiName shopifyCustomers
+         * @apiGroup Shopify
+         *
+         * @apiExample Example usage:
+         * /shopify/customers
+         */
+        {
             method: 'GET',
-            path: ADMIN_BASE_URL + '/customers',
+            path: BASE_URL + '/customers',
             config: controller.getCustomersHandler
         }
     ];

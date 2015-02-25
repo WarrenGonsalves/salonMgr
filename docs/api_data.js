@@ -179,6 +179,23 @@ define({ api: [
     "groupTitle": "Rating"
   },
   {
+    "type": "get",
+    "url": "/shopify/customers",
+    "title": "Shopify: customers",
+    "name": "shopifyCustomers",
+    "group": "Shopify",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/shopify/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Shopify"
+  },
+  {
     "type": "post",
     "url": "/transactions",
     "title": "Transaction: callback url",
@@ -504,6 +521,23 @@ define({ api: [
     "version": "0.0.0",
     "filename": "routes/customer.js",
     "groupTitle": "customer"
+  },
+  {
+    "type": "post",
+    "url": "/admin/interface/shopify/reload/customers",
+    "title": "Interface: reload customers",
+    "name": "interfaceCustomer",
+    "group": "interface",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/admin/interface/shopify/reload/customer",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "interface"
   },
   {
     "type": "post",
