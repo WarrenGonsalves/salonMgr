@@ -13,13 +13,7 @@ function generateAuthCode(phone, customername) {
 
     console.log("created new auth code for phone: " + authCode.phone);
 
-    if (config.env == 'prod') {
-        util.sms.sendOTP(phone, authCode.code, customername);
-    }
-
-    if (config.env == 'local') {
-        console.log("in local env.. not sending sms")
-    }
+    util.sms.sendOTP(phone, authCode.code, customername);
 };
 
 /**
@@ -53,7 +47,7 @@ function registerCustomer(isServiceProvider, request, reply) {
         }
         if (existingCustomer) {
             util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
-            generateAuthCode(existingCustomer.ph,existingCustomer.name);
+            generateAuthCode(existingCustomer.ph, existingCustomer.name);
             reply(existingCustomer);
             return;
         }
