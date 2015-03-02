@@ -12,7 +12,7 @@ module.exports.sendSMS = function sendSMS(to, body) {
 
     if (config.env != 'prod') {
         logger.info(TAG, "skip sms for non prod env");
-        //return;
+        return;
     }
 
     request.post(exotelApi, {
