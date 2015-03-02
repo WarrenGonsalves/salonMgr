@@ -10,6 +10,11 @@ var jobSchema = new Schema({
         enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced'],
         default: 'New'
     },
+    is_shopify: {
+        type: Boolean,
+        default: false
+    },
+    shopify_order: String,
     estimate: String,
     invoice_id: String,
     booking_slot_id: String,
