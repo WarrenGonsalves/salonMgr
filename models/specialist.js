@@ -18,6 +18,11 @@ var specialistSchema = new Schema({
   verified: String,
   family: String,
   services: String,
+  shopify_product_id: String,
+  is_shopify: {
+    type: Boolean,
+    default: false
+  },
   circle: Schema.Types.Mixed,
   circleloc: Schema.Types.Mixed,
   ratings: [ratingModel.schema],
