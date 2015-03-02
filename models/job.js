@@ -14,7 +14,7 @@ var jobSchema = new Schema({
         type: Boolean,
         default: false
     },
-    shopify_order: String,
+    shopify_order: Schema.Types.Mixed,
     estimate: String,
     invoice_id: String,
     booking_slot_id: String,

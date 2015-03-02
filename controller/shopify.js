@@ -67,9 +67,11 @@ ShopifyController.prototype.reloadCustomerHandler = {
 
 ShopifyController.prototype.postOrderHandler = {
     handler: function(request, reply) {
-        console.log(request.body, request.payload, request.params)
+        //console.log("here---", request.payload);
 
-        var product_id = JSON.parse(request.payload).line_items[0].product_id;
+        var shopify_order = request.payload;
+
+        var product_id = shopify_order.line_items[0].product_id;
         db.specialist.findOne({
             shopify_product_id: product_id
         }).exec(function(err, specialist) {
@@ -86,13 +88,14 @@ ShopifyController.prototype.postOrderHandler = {
             var job = db.job();
 
             job.is_shopify = true;
-            job.shopify_order = request.payload;
+            job.shopify_order = JSON.parse(JSON.stringify(request.payload));
             job.specialist_id = specialist._id;
             job.specialist_name = specialist.name;
             job.specialist_ph = specialist.phone;
             job.save();
 
             util.logger.info("Shopify Order", [job]);
+            console.log("Shopify Order", JSON.stringify(job));
 
             reply("Job Created");
         });
