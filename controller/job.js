@@ -3,6 +3,7 @@ var util = require("../util");
 var config = require("../config/constants");
 var fs = require('fs');
 var _ = require('underscore');
+var ShopifyController = require('./shopify');
 
 function JobController() {};
 
@@ -101,14 +102,25 @@ JobController.prototype.putHandler = {
                     return;
                 }
 
-                reply(selectedJob);
+                if (selectedJob.is_shopify && selectedJob.status == 'Finished') {
+                    // if shopify order is being closed then let know shopify too.
+                    ShopifyController.closeOrder(selectedJob.shopify_order.id, function(err, response) {
+                        if (err) {
+                            util.reply.error(err, reply);
+                            return;
+                        }
+                        //var order_info = response.order.order_number + " : " + response.order.id;
+                        var jsonResponse = JSON.parse(response);
+                        util.reply.success(jsonResponse, reply);
+                    });
 
-                sendJobStatusUpdate(selectedJob);
-
-                if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
-                    removeJobFromSpecialist(selectedJob);
+                } else {
+                    reply(selectedJob);
+                    sendJobStatusUpdate(selectedJob);
+                    if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
+                        removeJobFromSpecialist(selectedJob);
+                    }
                 }
-
             });
         });
     }

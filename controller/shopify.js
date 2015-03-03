@@ -100,7 +100,21 @@ ShopifyController.prototype.postOrderHandler = {
             reply("Job Created");
         });
     }
+};
+
+ShopifyController.prototype.closeOrder = function(orderNumber, cb) {
+
+    var shopify_close_order_url = SHOPIFY_BASE_URL + 'admin/orders/' + orderNumber + '/close.json';
+    console.log("Close Order", shopify_close_order_url);
+
+    node_request.post(shopify_close_order_url, function(err, response, body) {
+        if (err || response.statusCode != 200) {
+            cb(err);
+        }
+        return cb(err, body);
+    });
 }
+
 
 // SPECIALISTS - PRODUCTS
 
