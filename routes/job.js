@@ -34,7 +34,7 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL + '/img/{id}',
             config: JobController.postImageController
-        }, 
+        },
         /**
          * @api {put} /jobs/{job_id} Job: update status
          * @apiName jobStatus
@@ -49,6 +49,10 @@ module.exports = function() {
          */
         {
             method: 'PUT',
+            path: BASE_URL + '/{id}',
+            config: JobController.putHandler
+        }, {
+            method: 'POST',
             path: BASE_URL + '/{id}',
             config: JobController.putHandler
         },
