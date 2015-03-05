@@ -196,6 +196,23 @@ define({ api: [
     "groupTitle": "Shopify"
   },
   {
+    "type": "get",
+    "url": "/shopify/customers",
+    "title": "Shopify:",
+    "name": "shopifyCustomers",
+    "group": "Shopify",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/shopify/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Shopify"
+  },
+  {
     "type": "post",
     "url": "/transactions",
     "title": "Transaction: callback url",
@@ -524,8 +541,8 @@ define({ api: [
   },
   {
     "type": "post",
-    "url": "/admin/interface/shopify/reload/customers",
-    "title": "Interface: reload customers",
+    "url": "/admin/interface/shopify/reload/customer",
+    "title": "Interface: reload customer",
     "name": "interfaceCustomer",
     "group": "interface",
     "examples": [
@@ -541,7 +558,24 @@ define({ api: [
   },
   {
     "type": "post",
-    "url": "/jobs/done/{job_id}",
+    "url": "/admin/interface/shopify/reload/specialist",
+    "title": "Interface: reload specialist",
+    "name": "interfaceSpecialist",
+    "group": "interface",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/admin/interface/shopify/reload/specialist",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "interface"
+  },
+  {
+    "type": "post",
+    "url": "/deprecated_use_update_status",
     "title": "Job: Complete / Cancel",
     "name": "jobDone",
     "group": "job",
@@ -561,7 +595,7 @@ define({ api: [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs/done/54a39430708acc00003b3d2e",
+        "content": "/deprecated_use_update_status",
         "type": "json"
       }
     ],
@@ -571,14 +605,14 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}",
+    "url": "/jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}&job_id={1005}",
     "title": "Job: get jobs",
     "name": "jobGet",
     "group": "job",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs\n/jobs?specialist_id=547b3aeec3b83874ce377168\n/jobs?specialist_id=547b3aeec3b83874ce377168&status=New\n/jobs?cust_id=547af234107f433f5d9f202e&complete=true",
+        "content": "/jobs\n/jobs?specialist_id=547b3aeec3b83874ce377168\n/jobs?specialist_id=547b3aeec3b83874ce377168&status=New\n/jobs?cust_id=547af234107f433f5d9f202e&complete=true\n/jobs?job_id=1005",
         "type": "json"
       }
     ],

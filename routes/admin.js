@@ -5,6 +5,7 @@ var RATING_URL = BASE_URL + '/ratings';
 var adminController = require('../controller/admin');
 var config = require('../config/constants');
 var moment = require('moment');
+var db = require('../db');
 
 module.exports = function() {
     return [
@@ -148,6 +149,15 @@ module.exports = function() {
                     util.apn.sendAPN(req.payload.token, {
                         invoice_id: "12312112324"
                     });
+                    reply("done");
+                }
+            }
+        }, {
+            method: 'POST',
+            path: BASE_URL + '/initCounter',
+            config: {
+                handler: function(req, reply) {
+                    db.counter.initCounter();
                     reply("done");
                 }
             }

@@ -54,6 +54,7 @@ SpecialistController.prototype.postConfigHandler = {
 };
 
 
+
 SpecialistController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
@@ -264,6 +265,8 @@ SpecialistController.prototype.postBookSpecialist = {
             job.cust_task = cust_task;
             job.book_date = book_date;
             job.save();
+            job.setJobId();
+            job.save();
 
             console.log(__filename + "new job created: " + JSON.stringify(job._id));
             specialist.current_job = job._id;
@@ -369,6 +372,8 @@ SpecialistController.prototype.postCustomerJob = {
                 job.cust_ph = cust_phone;
                 job.cust_task = cust_task;
                 job.book_date = book_date;
+                job.save();
+                job.setJobId();
                 job.save();
 
                 console.log(__filename + "new job created: " + JSON.stringify(job._id));

@@ -4,7 +4,7 @@ var JobController = require('../controller/job');
 module.exports = function() {
     return [
         /**
-         * @api {get} /jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started} Job: get jobs
+         * @api {get} /jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}&job_id={1005} Job: get jobs
          * @apiName jobGet
          * @apiGroup job
          *
@@ -13,6 +13,7 @@ module.exports = function() {
          * /jobs?specialist_id=547b3aeec3b83874ce377168
          * /jobs?specialist_id=547b3aeec3b83874ce377168&status=New
          * /jobs?cust_id=547af234107f433f5d9f202e&complete=true
+         * /jobs?job_id=1005
          */
         {
             method: 'GET',
@@ -57,14 +58,14 @@ module.exports = function() {
             config: JobController.putHandler
         },
         /**
-         * @api {post} /jobs/done/{job_id} Job: Complete / Cancel
+         * @api {post} /deprecated_use_update_status Job: Complete / Cancel
          * @apiName jobDone
          * @apiGroup job
          *
          * @apiParam {String} cancelled        pass 'true' to cancel job [optional] [Post parameter]
          *
          * @apiExample Example usage:
-         * /jobs/done/54a39430708acc00003b3d2e
+         * /deprecated_use_update_status
          */
         {
             method: 'POST',
