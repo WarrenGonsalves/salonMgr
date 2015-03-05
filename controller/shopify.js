@@ -4,8 +4,8 @@ var util = require('../util');
 var node_request = require('request');
 
 var SHOPIFY_BASE_URL = "https://5c836e6567c765665a2aab4e434493ff:83b8525775eac64994c7cfb95d7ea9c9@handsforhome.myshopify.com/";
-var SHOPIFY_CUSTOMER_URL = SHOPIFY_BASE_URL + "admin/customers.json";
-var SHOPIFY_PRODUCT_URL = SHOPIFY_BASE_URL + "admin/products.json";
+var SHOPIFY_CUSTOMER_URL = SHOPIFY_BASE_URL + "admin/customers.json?limit=250";
+var SHOPIFY_PRODUCT_URL = SHOPIFY_BASE_URL + "admin/products.json?limit=250";
 
 function ShopifyController() {};
 
@@ -92,6 +92,8 @@ ShopifyController.prototype.postOrderHandler = {
             job.specialist_id = specialist._id;
             job.specialist_name = specialist.name;
             job.specialist_ph = specialist.phone;
+            job.save();
+            job.setJobId();
             job.save();
 
             util.logger.info("Shopify Order", [job]);

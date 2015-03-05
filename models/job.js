@@ -3,6 +3,8 @@ var Schema = mongoose.Schema;
 var moment = require('moment');
 var momenttz = require('moment-timezone');
 
+var counter = require('./counter');
+var db = require('../db');
 // schema
 var jobSchema = new Schema({
     status: {
@@ -16,6 +18,7 @@ var jobSchema = new Schema({
     },
     shopify_order: Schema.Types.Mixed,
     estimate: String,
+    job_id: String,
     invoice_id: String,
     booking_slot_id: String,
     specialist_id: String,
@@ -66,6 +69,7 @@ jobSchema
 
 jobSchema
     .pre('save', function(next) {
+
         if (this.isModified('status')) {
             this.logHistory('status - ' + this.status);
 
@@ -78,10 +82,12 @@ jobSchema
                 this.cancelled = true;
             }
         }
+
         next();
+
     });
 
-//methods
+// statics
 jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_ph, cust_addr1, cust_addr2, cust_addr_landmark, cust_task, book_date, cb) {
     doc = {
         'specialist_id': specialist_id,
@@ -97,6 +103,18 @@ jobSchema.statics.createNew = function(specialist_id, cust_id, cust_name, cust_p
     console.log(__filename + "creating new job: " + doc);
     this.create(doc, cb);
 }
+
+// methods
+jobSchema.methods.setJobId = function() {
+
+    var currJob = this;
+
+    db.counter.getNext(function(err, count) {
+        currJob.job_id = count;
+        currJob.save();
+    });
+}
+
 
 jobSchema.methods.logHistory = function(data) {
     this.history.push(momenttz().tz('Asia/Kolkata').format('MMM Do, h:mm:ss a') + ' : ' + data);
