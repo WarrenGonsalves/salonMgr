@@ -36,7 +36,7 @@ var jobSchema = new Schema({
     cust_task: String,
     book_date: Date,
     images: [String],
-    history: [String],
+    history: [Schema.Types.Mixed],
     complete: {
         type: Boolean,
         default: false
@@ -72,7 +72,7 @@ jobSchema
 
         if (this.isNew) {
             if (this.status == "New") {
-                this.logHistory('status - ' + "Booked");
+                this.logHistory("Booked");
             }
         }
 
@@ -81,7 +81,7 @@ jobSchema
 
             console.log(" ------ updating job  ------ ", this.status);
 
-            this.logHistory('status - ' + this.status);
+            this.logHistory(this.status);
 
             if (this.status == "Finished") {
                 this.complete = true;
@@ -127,7 +127,12 @@ jobSchema.methods.setJobId = function() {
 
 
 jobSchema.methods.logHistory = function(data) {
-    this.history.push(momenttz().tz('Asia/Kolkata').format('MMM Do, h:mm:ss a') + ' : ' + data);
+    var logData = {
+        status: data,
+        time: momenttz().tz('Asia/Kolkata').format('Do MMM YYYY, h:mm:ss a')
+    };
+
+    this.history.push(logData);
 };
 
 // export
