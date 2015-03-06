@@ -130,6 +130,22 @@ AdminController.prototype.postSpecialistHandler = {
     }
 };
 
+/**
+* [getAllByCategoryId: given a category_id find all specialists ]
+*/
+AdminController.prototype.getAllSpecialists = {
+   handler: function(request, reply) {
+
+     //  console.log(__filename + "get specialist by category: " + request.params.cat_id);
+       db.specialist.find({}, function(err, data) {
+           util.reply.error(err, reply);
+           reply({
+               specialist_list: data
+           });
+       });
+   }
+}
+
 AdminController.prototype.postSpecialistAttributeHandler = {
     handler: function(request, reply) {
 
