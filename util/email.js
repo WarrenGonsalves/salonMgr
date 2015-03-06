@@ -72,12 +72,12 @@ module.exports.sendStatusUpdate = function(job) {
 
     if (job.status == "Estimated") {
         bookingHtmlSubject = "Estimate for your Booking";
-        bookingHtmlMsg = "Estimate for your Booking ref# " + job._id + " has been generated and sent to your Hands app.";
+        bookingHtmlMsg = "Estimate for your Booking ref# " + job.job_id + " has been generated and sent to your Hands app.";
     }
 
     if (job.status == "Invoiced") {
         bookingHtmlSubject = "Invoice for your booking";
-        bookingHtmlMsg = "Invoice for your Booking ref# " + job._id + " has been generated and sent to your Hands app.";
+        bookingHtmlMsg = "Invoice for your Booking ref# " + job.job_id + " has been generated and sent to your Hands app.";
     }
 
     if (job.status == "Finished") {
