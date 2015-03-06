@@ -70,7 +70,17 @@ jobSchema
 jobSchema
     .pre('save', function(next) {
 
+        if (this.isNew) {
+            if (this.status == "New") {
+                this.logHistory('status - ' + "Booked");
+            }
+        }
+
+
         if (this.isModified('status')) {
+
+            console.log(" ------ updating job  ------ ", this.status);
+
             this.logHistory('status - ' + this.status);
 
             if (this.status == "Finished") {

@@ -18,7 +18,7 @@ function createLog(level, tag, log, data_obj) {
 
     logger.data = JSON.stringify(data_obj);
     logger.save();
-    //console.log(Date.now(), tag, log);
+    console.log(Date.now(), tag, log);
 }
 
 module.exports.info = function(tag, log, data_obj) {

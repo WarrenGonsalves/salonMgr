@@ -71,6 +71,7 @@ invoiceController.prototype.postConfigHandler = {
             invoice.save();
 
             job.invoice_id = invoice._id;
+            job.status = "Invoiced";
             job.save();
 
             sendPushNotification(invoice);

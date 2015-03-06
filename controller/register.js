@@ -11,7 +11,7 @@ function generateAuthCode(phone, customername) {
     authCode.code = util.authUtil.generateAuthCode();
     authCode.save();
 
-    console.log("created new auth code for phone: " + authCode.phone);
+    console.log("created new auth code for phone: " + authCode.ph);
 
     util.sms.sendOTP(phone, authCode.code, customername);
 };
