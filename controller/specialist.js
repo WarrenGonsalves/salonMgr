@@ -62,9 +62,14 @@ SpecialistController.prototype.getConfigHandler = {
 
         var isGrouped = false;
         var query_param = {}
+        var limit = 3;
 
         if (!(request.query.store === undefined)) {
             query_param['stores.store_id'] = request.query.store;
+        }
+
+        if (!(request.query.limit === undefined)) {
+            limit = request.query.limit;
         }
 
         // filter for category
@@ -124,7 +129,7 @@ SpecialistController.prototype.getConfigHandler = {
 
             console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-            db.specialist.find(query_param).populate('jobs').populate('ratings').populate('categories').limit(3).exec(function(err, specialistList) {
+            db.specialist.find(query_param).populate('jobs').populate('ratings').populate('categories').limit(limit).exec(function(err, specialistList) {
                 if (err) {
                     reply(err).code(500);
                     return;
