@@ -138,7 +138,11 @@ AdminController.prototype.getAllSpecialists = {
 
      //  console.log(__filename + "get specialist by category: " + request.params.cat_id);
        db.specialist.find({}, function(err, data) {
-           util.reply.error(err, reply);
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
            reply({
                specialist_list: data
            });
