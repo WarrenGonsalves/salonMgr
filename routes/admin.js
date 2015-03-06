@@ -27,6 +27,10 @@ module.exports = function() {
             path: BASE_URL + '/console/{param*}',
             config: adminController.consoleHandler
         }, {
+            method: 'GET',
+            path: SPECIALIST_URL,
+            config: adminController.getAllSpecialists,
+        }, {
             method: 'POST',
             path: SPECIALIST_URL,
             config: adminController.postSpecialistHandler
