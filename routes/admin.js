@@ -94,6 +94,11 @@ module.exports = function() {
             path: BASE_URL + '/category',
             config: adminController.categoryPutHandler
         },
+        {
+            method: 'GET',
+            path: BASE_URL + '/specialists',
+            config: adminController.getAllSpecialists
+        },
         /**
          * @api {get} /admin/config Server: Get Server config
          * @apiName Server Config

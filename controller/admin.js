@@ -136,17 +136,19 @@ AdminController.prototype.postSpecialistHandler = {
 AdminController.prototype.getAllSpecialists = {
     handler: function(request, reply) {
 
-      //  console.log(__filename + "get specialist by category: " + request.params.cat_id);
+        console.log("--- get all specialists");
         db.specialist.find({}, function(err, data) {
-            util.reply.error(err, reply);
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
             reply({
                 specialist_list: data
             });
         });
     }
 };
-
-
 
 AdminController.prototype.putSpecialistHandler = {
     handler: function(request, reply) {
@@ -293,7 +295,7 @@ AdminController.prototype.categoryPutHandler = {
 AdminController.prototype.specialistRatingResetHandler = {
     handler: function(request, reply) {
 
-        db.specialist.find({}).exec(function(err, specialists){
+        db.specialist.find({}).exec(function(err, specialists) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -304,9 +306,9 @@ AdminController.prototype.specialistRatingResetHandler = {
             }
 
             // reset ratings to 1
-            _.each(specialists, function(specialist){
+            _.each(specialists, function(specialist) {
                 var ratings = specialist.ratings
-                _.each(ratings, function(rating){
+                _.each(ratings, function(rating) {
                     rating.count = 1
                 });
                 specialist.save();
@@ -314,7 +316,7 @@ AdminController.prototype.specialistRatingResetHandler = {
             reply("done");
         });
     }
-}; 
+};
 
 var adminController = new AdminController();
 module.exports = adminController;
