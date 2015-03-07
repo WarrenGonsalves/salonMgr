@@ -47,6 +47,10 @@ function registerCustomer(isServiceProvider, request, reply) {
         }
         if (existingCustomer) {
             util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
+            existingCustomer.email = request.payload.email;
+            existingCustomer.name = request.payload.name;
+            existingCustomer.ph = request.params.phone;
+            existingCustomer.save();
             generateAuthCode(existingCustomer.ph, existingCustomer.name);
             reply(existingCustomer);
             return;

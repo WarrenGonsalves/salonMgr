@@ -4,6 +4,7 @@ var Schema = mongoose.Schema;
 // schema
 var s_customer = new Schema({
     shopify_id: String,
+    phone: String,
     city: String,
     society: String,
     wing: String,

@@ -39,26 +39,78 @@ ShopifyController.prototype.reloadCustomerHandler = {
 
             var customers = (JSON.parse(body)).customers;
 
-            // remove all existing customer records
-            db.shopify_customer.remove({}, function(err, data) {
-                if (err) {
-                    util.reply.error(err, reply);
-                    // log error dont return
-                }
+            _.each(customers, function(customer) {
 
-                _.each(customers, function(customer) {
-                    s_customer = new db.shopify_customer();
-                    s_customer.shopify_id = customer.id;
-                    s_customer.city = customer.default_address.city;
-                    s_customer.society = customer.default_address.company;
-                    s_customer.wing = customer.default_address.address1;
-                    s_customer.apt = customer.default_address.address2;
-                    s_customer.identifier = customer.first_name;
-                    s_customer.save();
-                })
+                var s_customer = {};
+                s_customer = new db.shopify_customer();
+                s_customer.shopify_id = customer.id;
+                s_customer.city = customer.default_address.city;
+                s_customer.society = customer.default_address.company;
+                s_customer.wing = customer.default_address.address1;
+                s_customer.apt = customer.default_address.address2;
+                if (!(undefined == customer.default_address.phone || "" == customer.default_address.phone)) {
+                    s_customer.phone = customer.default_address.phone;
+                }
+                s_customer.identifier = customer.first_name;
+                //s_customer.save();
+
+                db.customer.findOne({
+                    $or: [{
+                        shopify_id: customer.id
+                    }, {
+                        ph: s_customer.phone
+                    }]
+                }).exec(function(err, existingCustomer) {
+
+                    if (err) {
+                        util.reply.error(err, reply);
+                        return;
+                    }
+
+                    if (null == existingCustomer) {
+                        // create new customer
+                        existingCustomer = new db.customer();
+                    }
+
+                    console.log(s_customer.phone);
+                    if (undefined != s_customer.phone) {
+                        console.log("processing phone number", customer.id);
+                        existingCustomer.ph = s_customer.phone;
+                    }
+
+                    existingCustomer.is_shopify = true;
+                    existingCustomer.shopify_customer = s_customer;
+                    existingCustomer.shopify_id = customer.id;
+                    existingCustomer.save();
+                });
+
 
                 reply("processed customers: " + customers.length);
-            });
+
+            })
+
+
+
+            // // remove all existing customer records
+            // db.shopify_customer.remove({}, function(err, data) {
+            //     if (err) {
+            //         util.reply.error(err, reply);
+            //         // log error dont return
+            //     }
+
+            //     _.each(customers, function(customer) {
+            //         s_customer = new db.shopify_customer();
+            //         s_customer.shopify_id = customer.id;
+            //         s_customer.city = customer.default_address.city;
+            //         s_customer.society = customer.default_address.company;
+            //         s_customer.wing = customer.default_address.address1;
+            //         s_customer.apt = customer.default_address.address2;
+            //         s_customer.identifier = customer.first_name;
+            //         s_customer.save();
+            //     })
+
+            //     
+            // });
         });
     }
 };
@@ -92,6 +144,7 @@ ShopifyController.prototype.postOrderHandler = {
             job.specialist_id = specialist._id;
             job.specialist_name = specialist.name;
             job.specialist_ph = specialist.phone;
+            job.shopify_customer_id = shopify_order.customer.id;
             job.save();
             job.setJobId();
             job.save();
