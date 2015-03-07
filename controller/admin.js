@@ -153,78 +153,48 @@ AdminController.prototype.getAllSpecialists = {
 AdminController.prototype.postSpecialistAttributeHandler = {
     handler: function(request, reply) {
 
-        if (request.payload.category_id === undefined) {
-            util.reply.error("category_id not found", reply);
-            return;
-        }
+        console.log("in postSpecialistAttributeHandler");
+        console.log("in postSpecialistAttributeHandler " + request.params.spc_id);
+        
 
-        if (request.payload.circle_id === undefined) {
-            util.reply.error("circle_id not found", reply);
-            return;
-        }
+        db.specialist.findOne({
+                _id: request.params.spc_id
+            }, function(err, selectedSpecialist) {
+                console.log((request.payload).key);
+                console.log((request.payload).content);
+                console.log(selectedSpecialist);
+                if((request.payload).key == 'name')
+                    selectedSpecialist.name = (request.payload).content
+                else if((request.payload).key == 'phone')
+                    selectedSpecialist.phone = (request.payload).content
+                else if((request.payload).key == 'addr')
+                    selectedSpecialist.addr = (request.payload).content
+                else if((request.payload).key == 'city')
+                    selectedSpecialist.city = (request.payload).content
+                else if((request.payload).key == 'state')
+                    selectedSpecialist.state = (request.payload).content
+                else if((request.payload).key == 'zip')
+                    selectedSpecialist.zip = (request.payload).content
+                else if((request.payload).key == 'family')
+                    selectedSpecialist.family = (request.payload).content
+                else if((request.payload).key == 'consulting_fee')
+                    selectedSpecialist.consulting_fee = (request.payload).content
+                else if((request.payload).key == 'work_hours')
+                    selectedSpecialist.work_hours = (request.payload).content
+                else if((request.payload).key == 'verified')
+                    selectedSpecialist.verified = (request.payload).content
+                else if((request.payload).key == 'services')
+                    selectedSpecialist.services = (request.payload).content
 
-        db.category.findOne({
-            _id: request.payload.category_id
-        }, function(err, selectedCat) {
-
-            if (err) {
-                util.reply.error(err, reply);
-                return;
-            }
-
-            db.circle.findOne({
-                _id: request.payload.circle_id
-            }).exec(function(err, selectedCircle) {
-
-                if (err) {
-                    util.reply.error(err, reply);
-                    return;
-                }
-
-                if (selectedCircle === null) {
-                    util.reply.error("Invalid circle", reply);
-                    return;
-                }
-
-                db.rating.find({}).exec(function(err, ratings) {
-
-                    if (err) {
-                        util.reply.error(err, reply);
-                        return;
-                    }
-
-                    console.log("creating a specialist with data: " + JSON.stringify(selectedCat));
-                    var specialist = new db.specialist();
-                    specialist.name = request.payload.name;
-                    specialist.phone = request.payload.phone;
-                    specialist.addr = request.payload.addr;
-                    specialist.city = request.payload.city;
-                    specialist.state = request.payload.state;
-                    specialist.zip = request.payload.zip;
-                    specialist.family = request.payload.family;
-                    specialist.consulting_fee = request.payload.consulting_fee;
-                    specialist.work_hours = request.payload.work_hours;
-                    specialist.verified = request.payload.verified;
-                    specialist.services = request.payload.services;
-
-                    specialist.categories.push(selectedCat);
-
-                    _.each(ratings, function(rating) {
-                        specialist.ratings.push(rating);
-                    })
-
-                    // circle
-                    specialist.circle = selectedCircle;
-                    specialist.circleloc = selectedCircle.locs;
-
-                    specialist.save();
-                    reply(specialist);
-
-                });
-            });
-        });
+                //selectedSpecialist[(request.payload).key] = (request.payload).value;
+                console.log("selectedSpecialist.name  " + selectedSpecialist.name );
+                selectedSpecialist.save();
+                reply(selectedSpecialist);
+        })
+        
     }
-};
+}
+
 
 AdminController.prototype.putSpecialistHandler = {
     handler: function(request, reply) {
