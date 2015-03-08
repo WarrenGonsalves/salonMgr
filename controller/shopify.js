@@ -13,7 +13,9 @@ function ShopifyController() {};
 
 ShopifyController.prototype.getCustomersHandler = {
     handler: function(request, reply) {
-        db.shopify_customer.find({}).exec(function(err, s_customers) {
+        db.customer.find({
+            is_shopify: true
+        }).exec(function(err, s_customers) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -32,33 +34,30 @@ ShopifyController.prototype.reloadCustomerHandler = {
         // download new customer info
         node_request(SHOPIFY_CUSTOMER_URL, function(err, response, body) {
 
+            console.log("inside");
+
             if (err || response.statusCode != 200) {
+                console.log("replying error");
                 util.reply.error(err, reply);
                 return;
             }
+
+            console.log("no error yet");
 
             var customers = (JSON.parse(body)).customers;
 
             _.each(customers, function(customer) {
 
-                var s_customer = {};
-                s_customer = new db.shopify_customer();
-                s_customer.shopify_id = customer.id;
-                s_customer.city = customer.default_address.city;
-                s_customer.society = customer.default_address.company;
-                s_customer.wing = customer.default_address.address1;
-                s_customer.apt = customer.default_address.address2;
+
                 if (!(undefined == customer.default_address.phone || "" == customer.default_address.phone)) {
-                    s_customer.phone = customer.default_address.phone;
+                    var shopify_customer_phone = customer.default_address.phone;
                 }
-                s_customer.identifier = customer.first_name;
-                //s_customer.save();
 
                 db.customer.findOne({
                     $or: [{
                         shopify_id: customer.id
                     }, {
-                        ph: s_customer.phone
+                        ph: shopify_customer_phone
                     }]
                 }).exec(function(err, existingCustomer) {
 
@@ -72,15 +71,19 @@ ShopifyController.prototype.reloadCustomerHandler = {
                         existingCustomer = new db.customer();
                     }
 
-                    console.log(s_customer.phone);
-                    if (undefined != s_customer.phone) {
+                    console.log(shopify_customer_phone);
+                    if (undefined != shopify_customer_phone) {
                         console.log("processing phone number", customer.id);
-                        existingCustomer.ph = s_customer.phone;
+                        existingCustomer.ph = shopify_customer_phone;
                     }
 
                     existingCustomer.is_shopify = true;
-                    existingCustomer.shopify_customer = s_customer;
                     existingCustomer.shopify_id = customer.id;
+                    existingCustomer.city = customer.default_address.city;
+                    existingCustomer.society = customer.default_address.company;
+                    existingCustomer.wing = customer.default_address.address1;
+                    existingCustomer.apt = customer.default_address.address2;
+                    existingCustomer.identifier = customer.first_name;
                     existingCustomer.save();
                 });
 
@@ -225,6 +228,5 @@ ShopifyController.prototype.reloadSpecialistHandler = {
         });
     }
 };
-
 
 module.exports = new ShopifyController();

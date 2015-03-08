@@ -11,8 +11,12 @@ var customerSchema = new Schema({
     apn_id: String,
     gcm_id: String,
     secret: String,
-    shopify_customer: Schema.Types.Mixed,
     shopify_id: String,
+    city: String,
+    society: String,
+    wing: String,
+    apt: String,
+    identifier: String,
     is_shopify: {
         type: Boolean,
         default: false
