@@ -27,6 +27,10 @@ module.exports = function() {
             path: BASE_URL + '/console/{param*}',
             config: adminController.consoleHandler
         }, {
+            method: 'GET',
+            path: SPECIALIST_URL,
+            config: adminController.getAllSpecialists,
+        }, {
             method: 'POST',
             path: SPECIALIST_URL,
             config: adminController.postSpecialistHandler
@@ -38,6 +42,10 @@ module.exports = function() {
             method: 'POST',
             path: SPECIALIST_URL + '/resetratings',
             config: adminController.specialistRatingResetHandler
+        },{
+            method: 'POST',
+            path: BASE_URL + '/editsp/{spc_id}',
+            config: adminController.postSpecialistAttributeHandler
         },
         /**
          * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist
@@ -93,11 +101,6 @@ module.exports = function() {
             method: 'PUT',
             path: BASE_URL + '/category',
             config: adminController.categoryPutHandler
-        },
-        {
-            method: 'GET',
-            path: BASE_URL + '/specialists',
-            config: adminController.getAllSpecialists
         },
         /**
          * @api {get} /admin/config Server: Get Server config

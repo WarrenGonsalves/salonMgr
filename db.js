@@ -29,3 +29,4 @@ exports.logger = models.logger;
 exports.feedback = models.feedback;
 exports.shopify_customer = models.shopify_customer;
 exports.counter = models.counter;
+exports.deals = models.deals;

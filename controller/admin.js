@@ -131,24 +131,70 @@ AdminController.prototype.postSpecialistHandler = {
 };
 
 /**
- * [getAllByCategoryId: given a category_id find all specialists ]
- */
+* [getAllByCategoryId: given a category_id find all specialists ]
+*/
 AdminController.prototype.getAllSpecialists = {
-    handler: function(request, reply) {
+   handler: function(request, reply) {
 
-        console.log("--- get all specialists");
-        db.specialist.find({}, function(err, data) {
-
+     //  console.log(__filename + "get specialist by category: " + request.params.cat_id);
+       db.specialist.find({}, function(err, data) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
-            reply({
-                specialist_list: data
-            });
-        });
+
+           reply({
+               specialist_list: data
+           });
+       });
+   }
+}
+
+AdminController.prototype.postSpecialistAttributeHandler = {
+    handler: function(request, reply) {
+
+        console.log("in postSpecialistAttributeHandler");
+        console.log("in postSpecialistAttributeHandler " + request.params.spc_id);
+        
+
+        db.specialist.findOne({
+                _id: request.params.spc_id
+            }, function(err, selectedSpecialist) {
+                console.log((request.payload).key);
+                console.log((request.payload).content);
+                console.log(selectedSpecialist);
+                if((request.payload).key == 'name')
+                    selectedSpecialist.name = (request.payload).content
+                else if((request.payload).key == 'phone')
+                    selectedSpecialist.phone = (request.payload).content
+                else if((request.payload).key == 'addr')
+                    selectedSpecialist.addr = (request.payload).content
+                else if((request.payload).key == 'city')
+                    selectedSpecialist.city = (request.payload).content
+                else if((request.payload).key == 'state')
+                    selectedSpecialist.state = (request.payload).content
+                else if((request.payload).key == 'zip')
+                    selectedSpecialist.zip = (request.payload).content
+                else if((request.payload).key == 'family')
+                    selectedSpecialist.family = (request.payload).content
+                else if((request.payload).key == 'consulting_fee')
+                    selectedSpecialist.consulting_fee = (request.payload).content
+                else if((request.payload).key == 'work_hours')
+                    selectedSpecialist.work_hours = (request.payload).content
+                else if((request.payload).key == 'verified')
+                    selectedSpecialist.verified = (request.payload).content
+                else if((request.payload).key == 'services')
+                    selectedSpecialist.services = (request.payload).content
+
+                //selectedSpecialist[(request.payload).key] = (request.payload).value;
+                console.log("selectedSpecialist.name  " + selectedSpecialist.name );
+                selectedSpecialist.save();
+                reply(selectedSpecialist);
+        })
+        
     }
-};
+}
+
 
 AdminController.prototype.putSpecialistHandler = {
     handler: function(request, reply) {
@@ -295,7 +341,7 @@ AdminController.prototype.categoryPutHandler = {
 AdminController.prototype.specialistRatingResetHandler = {
     handler: function(request, reply) {
 
-        db.specialist.find({}).exec(function(err, specialists) {
+        db.specialist.find({}).exec(function(err, specialists){
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -306,9 +352,9 @@ AdminController.prototype.specialistRatingResetHandler = {
             }
 
             // reset ratings to 1
-            _.each(specialists, function(specialist) {
+            _.each(specialists, function(specialist){
                 var ratings = specialist.ratings
-                _.each(ratings, function(rating) {
+                _.each(ratings, function(rating){
                     rating.count = 1
                 });
                 specialist.save();
@@ -316,7 +362,7 @@ AdminController.prototype.specialistRatingResetHandler = {
             reply("done");
         });
     }
-};
+}; 
 
 var adminController = new AdminController();
 module.exports = adminController;
