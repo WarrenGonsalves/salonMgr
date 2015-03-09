@@ -6,6 +6,7 @@ var TAG = "Send SMS"
 
 var EXOTEL_SID = "alsodigital"
 var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
+var CUSTOMER_SERVICE_PHONE = "9920251667"
 
 module.exports.sendSMS = function sendSMS(to, body) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -49,7 +50,8 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
-    var smsBody = "Hello " + customername + ", Hope all is well. Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation # is " + job.job_id + "."
+    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation is " + job.job_id + "." +
+        " Please call \"hands\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
 }
@@ -57,10 +59,10 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
-    var smsBody = "Hello " + job.specialist_name + ", New booking from hands.  Customer name - " + job.cust_name + ", Customer phone # - " + job.cust_ph + " . Please call within 5 minutes."
+    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer name - " + job.cust_name + ", customer phone # - " + job.cust_ph + " . Please call customer within 5 minutes to confirm meeting timings."
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
     this.sendSMS("9833789536", smsBody);
-    this.sendSMS(job.specialist_ph, smsBody)
+    this.sendSMS(job.specialist_ph, smsBody);
 }
