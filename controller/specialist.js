@@ -36,6 +36,7 @@ SpecialistController.prototype.postConfigHandler = {
         customer_id = request.payload.referral_customer_id;
         name = request.payload.name;
         phone = request.payload.phone;
+        category = request.payload.category_id;
 
         // if (request.payload.category_id === null) {
         //     util.reply.error("Provide specialist cateogry id", reply);
@@ -45,15 +46,13 @@ SpecialistController.prototype.postConfigHandler = {
         db.specialist.findOne({
             phone: request.payload.phone
         }).exec(function(err, specialist) {
-            util.email.sendNewSpecialistReferral(name, phone, customer_id);
+            util.email.sendNewSpecialistReferral(name, phone, category, customer_id);
 
             reply_string = node_util.format(SPECIALIST_REFFERED_REPLY, name)
             util.reply.success(reply_string, reply);
         });
     }
 };
-
-
 
 SpecialistController.prototype.getConfigHandler = {
     handler: function(request, reply) {

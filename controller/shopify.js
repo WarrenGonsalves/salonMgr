@@ -140,22 +140,36 @@ ShopifyController.prototype.postOrderHandler = {
                 return;
             }
 
-            var job = db.job();
+            // find customer_id for a given 
+            db.customer.findOne({
+                shopify_id: shopify_order.customer.id
+            }).exec(function(err, customer) {
 
-            job.is_shopify = true;
-            job.shopify_order = JSON.parse(JSON.stringify(request.payload));
-            job.specialist_id = specialist._id;
-            job.specialist_name = specialist.name;
-            job.specialist_ph = specialist.phone;
-            job.shopify_customer_id = shopify_order.customer.id;
-            job.save();
-            job.setJobId();
-            job.save();
+                var job = db.job();
 
-            util.logger.info("Shopify Order", [job]);
-            console.log("Shopify Order", JSON.stringify(job));
+                if (null != customer) {
+                    job.cust_id = customer._id;
+                    job.cust_name = customer.name;
+                    job.cust_ph = customer.ph;
+                    job.cust_email = customer.email;
+                }
 
-            reply("Job Created");
+                job.is_shopify = true;
+                job.shopify_order = JSON.parse(JSON.stringify(request.payload));
+                job.specialist_id = specialist._id;
+                job.specialist_name = specialist.name;
+                job.specialist_ph = specialist.phone;
+                job.shopify_customer_id = shopify_order.customer.id;
+                job.save();
+                job.setJobId();
+                job.save();
+
+                util.logger.info("Shopify Order", [job]);
+
+                reply("Job Created");
+            });
+
+
         });
     }
 };
