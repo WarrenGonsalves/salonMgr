@@ -22,7 +22,7 @@ DealListController.prototype.getDeals = {
             if(err){
                 util.reply.error(err, reply);
             }
-            console.log("in find");
+           // console.log("in find");
             reply({
                 deal_list: data
             });
