@@ -20,13 +20,35 @@ var dealsSchema = new Schema({
     type: Date,
     default: Date.now()
   },
+  deal_price: String,
   active: {
         type: Boolean,
         default: true
     }
+  }, {
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    },
+    id: false
   }
   );
 
+
+//virtuals
+dealsSchema
+    .virtual('valid_to_millisecs')
+    .get(function() {
+        return Date.parse(this.valid_to);
+});
+
+dealsSchema
+    .virtual('valid_from_millisecs')
+    .get(function() {
+        return Date.parse(this.valid_from);
+});
 
 // export
 module.exports = mongoose.model('deals', dealsSchema);
