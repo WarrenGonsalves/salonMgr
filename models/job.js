@@ -77,7 +77,6 @@ jobSchema
             }
         }
 
-
         if (this.isModified('status')) {
 
             console.log(" ------ updating job  ------ ", this.status);

@@ -35,6 +35,60 @@
   },
   {
     "type": "get",
+    "url": "/contracts",
+    "title": "Contracts: get all",
+    "name": "getContracts",
+    "group": "Contract",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/contracts",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/contract.js",
+    "groupTitle": "Contract"
+  },
+  {
+    "type": "post",
+    "url": "/contracts",
+    "title": "Contracts: create",
+    "name": "postContracts",
+    "group": "Contracts",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "file",
+            "optional": false,
+            "field": "img",
+            "description": "<p>image for contract [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/contracts",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/contract.js",
+    "groupTitle": "Contracts"
+  },
+  {
+    "type": "get",
     "url": "/feedbacks",
     "title": "feedback: get all",
     "name": "feedbackGet",
@@ -181,7 +235,7 @@
   {
     "type": "get",
     "url": "/shopify/customers",
-    "title": "Shopify: customers",
+    "title": "Shopify:",
     "name": "shopifyCustomers",
     "group": "Shopify",
     "examples": [
@@ -198,7 +252,7 @@
   {
     "type": "get",
     "url": "/shopify/customers",
-    "title": "Shopify:",
+    "title": "Shopify: customers",
     "name": "shopifyCustomers",
     "group": "Shopify",
     "examples": [
@@ -1042,6 +1096,23 @@
     ],
     "version": "0.0.0",
     "filename": "routes/specialist.js",
+    "groupTitle": "specialist"
+  },
+  {
+    "type": "get",
+    "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
+    "title": "get specialists",
+    "name": "getSpecialists",
+    "group": "specialist",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444&book_date=2014-11-12T10:00+05:30",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/deals.js",
     "groupTitle": "specialist"
   },
   {
