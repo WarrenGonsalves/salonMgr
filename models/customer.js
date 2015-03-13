@@ -12,6 +12,7 @@ var customerSchema = new Schema({
     gcm_id: String,
     secret: String,
     shopify_id: String,
+    shopify_address_id: String,
     city: String,
     society: String,
     wing: String,

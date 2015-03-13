@@ -68,23 +68,28 @@ ShopifyController.prototype.reloadCustomerHandler = {
 
                     if (null == existingCustomer) {
                         // create new customer
+                        console.log("creating new customer");
                         existingCustomer = new db.customer();
                     }
 
-                    console.log(shopify_customer_phone);
+                    console.log(customer.default_address.id);
                     if (undefined != shopify_customer_phone) {
                         console.log("processing phone number", customer.id);
                         existingCustomer.ph = shopify_customer_phone;
                     }
 
+                    console.log(existingCustomer.identifier);
+
                     existingCustomer.is_shopify = true;
                     existingCustomer.shopify_id = customer.id;
+                    existingCustomer.shopify_address_id = customer.default_address.id;
                     existingCustomer.city = customer.default_address.city;
                     existingCustomer.society = customer.default_address.company;
                     existingCustomer.wing = customer.default_address.address1;
                     existingCustomer.apt = customer.default_address.address2;
                     existingCustomer.identifier = customer.first_name;
                     existingCustomer.save();
+                    console.log(existingCustomer.shopify_address_id);
                 });
 
 
