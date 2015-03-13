@@ -9,7 +9,9 @@ function ContractController() {};
 ContractController.prototype.getHandler = {
 
     handler: function(request, reply) {
-        //empty
+        db.contract.find({}).exec(function(err, contracts){
+            reply({contracts: contracts});
+        });
     }
 };
 
