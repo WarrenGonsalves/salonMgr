@@ -82,14 +82,25 @@ ShopifyController.prototype.reloadCustomerHandler = {
 
                     existingCustomer.is_shopify = true;
                     existingCustomer.shopify_id = customer.id;
-                    existingCustomer.shopify_address_id = customer.default_address.id;
+                    existingCustomer.shopify_address_id = customer.default_address.id + "909090909";
                     existingCustomer.city = customer.default_address.city;
                     existingCustomer.society = customer.default_address.company;
                     existingCustomer.wing = customer.default_address.address1;
                     existingCustomer.apt = customer.default_address.address2;
                     existingCustomer.identifier = customer.first_name;
+
+
+                    existingCustomer.markModified('is_shopify');
+                    existingCustomer.markModified('shopify_id');
+                    existingCustomer.markModified('shopify_address_id');
+                    existingCustomer.markModified('society');
+                    existingCustomer.markModified('society');
+                    existingCustomer.markModified('wing');
+                    existingCustomer.markModified('apt');
+                    existingCustomer.markModified('identifier');
+
                     existingCustomer.save();
-                    console.log(existingCustomer.shopify_address_id);
+                    console.log(existingCustomer, "\n \n \n");
                 });
 
 

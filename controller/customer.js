@@ -20,6 +20,33 @@ CustomerController.prototype.getConfigHandler = {
     }
 };
 
+CustomerController.prototype.putConfigHandler = {
+    handler: function(request, reply) {
+
+        if (request.payload.id === undefined) {
+            util.reply.error("Provide valid customer id", reply);
+            return;
+        }
+
+        if (request.payload.phone === undefined) {
+            util.reply.error("Provide valid customer phone", reply);
+            return;
+        }
+
+        db.customer.findById(request.payload.id, function(err, data) {
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            data.ph = request.payload.phone;
+            data.save();
+
+            reply(data);
+        });
+    }
+};
+
 CustomerController.prototype.secretHandler = {
     handler: function(request, reply) {
 

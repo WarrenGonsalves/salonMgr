@@ -551,6 +551,43 @@
   },
   {
     "type": "put",
+    "url": "/customers",
+    "title": "Customer: update phone",
+    "name": "customerPut",
+    "group": "customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Customer Phone [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "customer"
+  },
+  {
+    "type": "put",
     "url": "/customers/secret",
     "title": "Customer: update secret",
     "name": "customerUpdate",
