@@ -9,7 +9,7 @@ module.exports = function() {
          * @apiGroup Contract
          *
          * @apiExample Example usage:
-         * /contracts
+         * /contracts?customer_id=54fc5a41c4ee2a000025737c
          */
         {
             method: 'GET',

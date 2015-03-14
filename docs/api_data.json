@@ -42,7 +42,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/contracts",
+        "content": "/contracts?customer_id=54fc5a41c4ee2a000025737c",
         "type": "json"
       }
     ],
