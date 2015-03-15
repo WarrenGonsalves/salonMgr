@@ -36,6 +36,7 @@ var customerSchema = new Schema({
     }
 })
 
+// methods
 customerSchema.methods.toJSON = function() {
   var obj = this.toObject()
   //delete obj.secret
@@ -57,7 +58,6 @@ customerSchema.methods.setSecret = function(mySecret) {
     return;
 }
 
-// methods
 customerSchema.methods.isValidSecret = function(mySecret) {
     console.log("model-- " + this.secret)
     return bcrypt.compareSync(mySecret, this.secret);
