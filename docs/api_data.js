@@ -550,8 +550,8 @@ define({ api: [
     "groupTitle": "customer"
   },
   {
-    "type": "put",
-    "url": "/customers",
+    "type": "post",
+    "url": "/customers/email",
     "title": "Customer: update phone",
     "name": "customerPut",
     "group": "customer",
@@ -578,7 +578,7 @@ define({ api: [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/customers",
+        "content": "/customers/phone",
         "type": "json"
       }
     ],
@@ -739,7 +739,14 @@ define({ api: [
             "type": "String",
             "optional": false,
             "field": "estimate",
-            "description": "<p>estimate data when setting Status = Estimated. [Put Parameter]</p> "
+            "description": "<p>estimate duration when setting Status = Estimated. [Put Parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "estimate_cost",
+            "description": "<p>estimate cost amount when setting Status = Estimated. [Put Parameter]</p> "
           }
         ]
       }

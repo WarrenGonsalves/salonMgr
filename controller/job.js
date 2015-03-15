@@ -94,13 +94,14 @@ JobController.prototype.putHandler = {
             if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
                 selectedJob.status = request.payload.status;
 
-                if (request.payload.status == 'Estimated' && request.payload.estimate == undefined) {
-                    util.reply.error('Need valid estimate data to set job status = Estimated', reply);
+                if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimate_cost == undefined)) {
+                    util.reply.error('Need valid estimate + estimate_cost data to set job status = Estimated', reply);
                     return;
                 }
 
                 if (request.payload.status == 'Estimated') {
-                    selectedJob.estimate = request.payload.estimate
+                    selectedJob.estimate = request.payload.estimate;
+                    selectedJob.estimate_cost = request.payload.estimate_cost;
                 }
             }
 

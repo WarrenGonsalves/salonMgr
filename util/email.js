@@ -71,19 +71,29 @@ module.exports.sendStatusUpdate = function(job) {
     }
 
     if (job.status == "Estimated") {
-        bookingHtmlSubject = "Estimate for your Booking";
-        bookingHtmlMsg = "Estimate for your Booking ref# " + job.job_id + " has been generated and sent to your Hands app.";
+        bookingHtmlSubject = "Estimate for your Booking #" + job.job_id;
+        bookingHtmlMsg = "Hi, " + job.cust_name + "<br>Estimate for your Booking ref# " + job.job_id + " is as follows";
+        bookingHtmlMsg += "<br><br>Duration: " + job.estimate;
+        bookingHtmlMsg += "<br>Cost (approx): ₹" + job.estimate_cost;
+
+        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
     if (job.status == "Invoiced") {
         bookingHtmlSubject = "Invoice for your booking";
         bookingHtmlMsg = "Invoice for your Booking ref# " + job.job_id + " has been generated and sent to your Hands app.";
+
+        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
     if (job.status == "Finished") {
         bookingHtmlSubject = "Thank you for using Hands";
         bookingHtmlMsg = "Thank you for using Hands. Please use your Hands app to provide valuable feedback for " + job.specialist_name;
+
+        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
-    this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+    // using sendMail for each status for more control.
+    //this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, bookingHtmlSubject, bookingHtmlMsg);
 }
