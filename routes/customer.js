@@ -33,7 +33,7 @@ module.exports = function() {
             config: CustomerController.pushNotificationConfigHandler
         },
         /**
-         * @api {put} /customers        Customer: update phone
+         * @api {post} /customers/email        Customer: update phone
          * @apiName customerPut
          * @apiGroup customer
          *
@@ -41,11 +41,11 @@ module.exports = function() {
          * @apiParam {String} phone     Customer Phone [Post parameter]
          *
          * @apiExample Example usage:
-         * /customers
+         * /customers/phone
          */
         {
-            method: 'PUT',
-            path: BASE_URL,
+            method: 'POST',
+            path: BASE_URL + '/phone',
             config: CustomerController.putConfigHandler
         },
         /**
