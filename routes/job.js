@@ -13,6 +13,7 @@ module.exports = function() {
          * /jobs?specialist_id=547b3aeec3b83874ce377168
          * /jobs?specialist_id=547b3aeec3b83874ce377168&status=New
          * /jobs?cust_id=547af234107f433f5d9f202e&complete=true
+         * /jobs?cust_id=547af234107f433f5d9f202e&is_shopify=true
          * /jobs?job_id=1005
          */
         {

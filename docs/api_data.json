@@ -703,7 +703,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs\n/jobs?specialist_id=547b3aeec3b83874ce377168\n/jobs?specialist_id=547b3aeec3b83874ce377168&status=New\n/jobs?cust_id=547af234107f433f5d9f202e&complete=true\n/jobs?job_id=1005",
+        "content": "/jobs\n/jobs?specialist_id=547b3aeec3b83874ce377168\n/jobs?specialist_id=547b3aeec3b83874ce377168&status=New\n/jobs?cust_id=547af234107f433f5d9f202e&complete=true\n/jobs?cust_id=547af234107f433f5d9f202e&is_shopify=true\n/jobs?job_id=1005",
         "type": "json"
       }
     ],

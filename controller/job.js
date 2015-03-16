@@ -31,6 +31,10 @@ JobController.prototype.getConfigHandler = {
             query_param['shopify_customer_id'] = request.query.shopify_customer_id;
         }
 
+        if (request.query.is_shopify) {
+            query_param['is_shopify'] = request.query.is_shopify;
+        }
+
         // if (!(request.query.specialist_id === undefined)) {
 
         //     if (request.query.specialist_id === "54d34339210754d0a2b874bf") {
