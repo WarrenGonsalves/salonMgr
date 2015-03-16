@@ -73,7 +73,6 @@ AdminDataController.prototype.deleteHandler = {
             reply({
                 data: data
             });
-
         });
     }
 };

@@ -33,16 +33,52 @@ CustomerController.prototype.putConfigHandler = {
             return;
         }
 
-        db.customer.findById(request.payload.id, function(err, data) {
+        // If phone number exists then merge 2 customers.
+
+        db.customer.findOne({
+            ph: request.payload.phone
+        }).exec(function(err, existingCustomer) {
+
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
 
-            data.ph = request.payload.phone;
-            data.save();
+            db.customer.findById(request.payload.id, function(err, shopifyCustomer) {
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
 
-            reply(data);
+                if (existingCustomer) {
+                    console.log("phone number exists: ", request.payload.phone, "merging customers");
+
+                    existingCustomer.ph = request.payload.phone;
+                    existingCustomer.shopify_id = existingCustomer.shopify_id;
+                    existingCustomer.identifier = shopifyCustomer.identifier;
+                    existingCustomer.apt = shopifyCustomer.apt;
+                    existingCustomer.wing = shopifyCustomer.wing;
+                    existingCustomer.society = shopifyCustomer.society;
+                    existingCustomer.city = shopifyCustomer.city;
+                    existingCustomer.is_shopify = true
+                    existingCustomer.save();
+
+                    shopifyCustomer.remove();
+
+                    // TODO if there are existing jobs with old customer id move them over to the new customer id.
+
+                    reply(existingCustomer);
+
+                } else {
+
+                    shopifyCustomer.ph = request.payload.phone;
+                    shopifyCustomer.save();
+
+                    reply(shopifyCustomer);
+                }
+
+                
+            });
         });
     }
 };

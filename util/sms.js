@@ -41,7 +41,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
     logger.info(TAG, ["SMS OTP", phone]);
 
     var smsBody = "Hello, " + customername + ", your One-Time Password is " + otp + " . Welcome aboard. We're all hands for you!"
-
+    
     this.sendSMS(phone, smsBody);
 
 }
