@@ -63,6 +63,10 @@ module.exports.notifySpecialistNewBooking = function(job) {
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
-    this.sendSMS("9833789536", smsBody);
-    this.sendSMS(job.specialist_ph, smsBody);
+    if (config.env == 'prod') {
+        this.sendSMS("9833789536", smsBody);
+        this.sendSMS(job.specialist_ph, smsBody);
+    } else {
+        logger.info(TAG, "skip sms for non prod env");
+    }
 }
