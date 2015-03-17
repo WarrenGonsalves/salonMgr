@@ -59,7 +59,7 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
-    var smsBody = "Hello, " + job.specialist_name + ". New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
+    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);

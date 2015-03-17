@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var logger = require('./logger');
+var formatter = require('./formatter');
 
 var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
 var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
@@ -56,7 +57,7 @@ module.exports.sendBookingConfirmation = function(customer, job) {
 
     var bookingHtmlMsg = job.cust_name + ", " + "your booking has been confirmed.";
     this.sendMail(SupportEmailId, customer.email, "Hands Booking Confirmation", bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, "CUSTOMER - " + JSON.stringify(customer) + "<br><br> JOB - " + JSON.stringify(job));
+    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, "CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
 }
 
 module.exports.sendStatusUpdate = function(job) {
