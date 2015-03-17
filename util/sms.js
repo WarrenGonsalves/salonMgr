@@ -12,8 +12,8 @@ module.exports.sendSMS = function sendSMS(to, body) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
 
     if (config.env != 'prod') {
-        logger.info(TAG, "skip sms for non prod env");
-        return;
+        // logger.info(TAG, "skip sms for non prod env");
+        // return;
     }
 
     request.post(exotelApi, {
@@ -40,7 +40,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
 
     logger.info(TAG, ["SMS OTP", phone]);
 
-    var smsBody = "Hello, " + customername + ", your One-Time Password(OTP) " + otp + " . Welcome aboard. We're all hands for you! :)"
+    var smsBody = "Hello, " + customername + ", your One-Time Password(OTP) is " + otp + " . Welcome aboard. We're all hands for you! :)"
     
     this.sendSMS(phone, smsBody);
 
