@@ -60,6 +60,14 @@ module.exports.sendBookingConfirmation = function(customer, job) {
     this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, "CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
 }
 
+module.exports.sendContractNotification = function(contract, customer) {
+
+    logger.info("Email Notification", ["New Contract", contract]);
+
+    var HtmlBody = "Contract details <br>" + formatter.toHTML(contract) + "<br><hr><br>" + "Customer details<br>" + formatter.toHTML(customer);
+    this.sendMail(SupportEmailId, SupportDistEmail, "New Contract", HtmlBody);
+}
+
 module.exports.sendStatusUpdate = function(job) {
 
     logger.info("Email Notification", ["Job Status", job]);

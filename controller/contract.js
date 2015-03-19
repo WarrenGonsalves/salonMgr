@@ -9,8 +9,10 @@ function ContractController() {};
 ContractController.prototype.getHandler = {
 
     handler: function(request, reply) {
-        db.contract.find(request.query).exec(function(err, contracts){
-            reply({contracts: contracts});
+        db.contract.find(request.query).exec(function(err, contracts) {
+            reply({
+                contracts: contracts
+            });
         });
     }
 };
@@ -36,6 +38,13 @@ ContractController.prototype.postHandler = {
             contract.contract_img = config.imgURL + fileName;
             contract.save();
             reply(contract);
+
+            // send email
+            db.customer.findById(contract.customer_id).exec(function(err, customer) {
+                util.email.sendContractNotification(contract, customer);
+            });
+
+
         });
     }
 };
