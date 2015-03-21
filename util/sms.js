@@ -8,7 +8,7 @@ var EXOTEL_SID = "alsodigital"
 var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
 var CUSTOMER_SERVICE_PHONE = "9833789536"
 
-module.exports.sendSMS = function sendSMS(to, body) {
+module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
 
     if (config.env != 'prod') {
@@ -16,11 +16,16 @@ module.exports.sendSMS = function sendSMS(to, body) {
         // return;
     }
 
+    var sms_priority = priority || "normal";
+
+    console.log(TAG, sms_priority);
+
     request.post(exotelApi, {
             form: {
                 From: "02233814263",
                 To: to,
-                Body: body
+                Body: body,
+                Priority: sms_priority
             }
         },
         function(err, response, body) {
@@ -30,6 +35,7 @@ module.exports.sendSMS = function sendSMS(to, body) {
             }
 
             if (!err && response.statusCode == 200) {
+                logger.info(TAG, body);
                 console.log(body);
             }
         }
@@ -42,7 +48,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
 
     var smsBody = "Hello, " + customername + ", your One-Time Password(OTP) is " + otp + " . Welcome aboard. We're all hands for you! :)"
     
-    this.sendSMS(phone, smsBody);
+    this.sendSMS(phone, smsBody, "high");
 
 }
 

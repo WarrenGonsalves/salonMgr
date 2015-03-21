@@ -45,7 +45,12 @@ AdminDataController.prototype.postHandler = {
 AdminDataController.prototype.putHandler = {
     handler: function(request, reply) {
 
-        db["contract"].find(request.query).exec(function(err, contracts) {
+        if (request.params.entity === undefined) {
+            util.reply.error("requires a valid entity to query.", reply);
+            return;
+        }
+
+        db[request.params.entity].findById(request.params.id).exec(function(err, dataList) {
             reply({
                 contracts: contracts
             });
