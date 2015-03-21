@@ -2,8 +2,9 @@ var db = require('../db');
 var _ = require('underscore');
 var util = require('../util');
 var node_request = require('request');
+var config = require('../config/constants');
 
-var SHOPIFY_BASE_URL = "https://5c836e6567c765665a2aab4e434493ff:83b8525775eac64994c7cfb95d7ea9c9@handsforhome.myshopify.com/";
+var SHOPIFY_BASE_URL = config.shopify_url;
 var SHOPIFY_CUSTOMER_URL = SHOPIFY_BASE_URL + "admin/customers.json?limit=250";
 var SHOPIFY_PRODUCT_URL = SHOPIFY_BASE_URL + "admin/products.json?limit=250";
 
@@ -34,15 +35,13 @@ ShopifyController.prototype.reloadCustomerHandler = {
         // download new customer info
         node_request(SHOPIFY_CUSTOMER_URL, function(err, response, body) {
 
-            console.log("inside");
+            util.logger.info("SHOPIFY", "Customer Interface", SHOPIFY_CUSTOMER_URL);
 
             if (err || response.statusCode != 200) {
                 console.log("replying error");
                 util.reply.error(err, reply);
                 return;
             }
-
-            console.log("no error yet");
 
             var customers = (JSON.parse(body)).customers;
 

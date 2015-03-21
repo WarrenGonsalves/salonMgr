@@ -140,12 +140,19 @@ var FixerApp = function() {
     // Print some information about the incoming request for debugging purposes
     self.server.ext('onRequest', function(request, next) {
 
-      if (request.path.indexOf('/admin/') > -1) {
-        next();
-      } else {
-        util.logger.info("server.onRequest", [request.path, request.query, request.params]);
-        next();
-      }
+      // if ("a_cutie" == request.headers.app_key) {
+        if (request.path.indexOf('/admin/') > -1) {
+          return next();
+        } else {
+          util.logger.info("server.onRequest", [request.path, request.query, request.params]);
+          return next();
+        }
+      // } else {
+      //   console.log("not a valid key for request");
+      //   // dont call next just return from here.
+      //   return next.error = "not valid";
+      // }
+
     });
   }
 

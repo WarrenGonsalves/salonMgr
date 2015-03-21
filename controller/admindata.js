@@ -50,9 +50,54 @@ AdminDataController.prototype.putHandler = {
             return;
         }
 
-        db[request.params.entity].findById(request.params.id).exec(function(err, dataList) {
+        if (request.params.id === undefined) {
+            util.reply.error("requires a valid id to query.", reply);
+            return;
+        }
+
+        var model = db[request.params.entity];
+        model.findById(request.params.id).exec(function(err, data) {
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            if (null == data) {
+                util.reply.error("No data for given id", reply);
+                return;
+            }
+
+            model_metadata = model.schema.paths;
+
+            // process all updates fields.
+            _.each(request.payload, function(field_value, field_key) {
+                console.log("--", field_key, field_value);
+
+                if (model_metadata[field_key]) {
+
+                    var datatype = String(model_metadata[field_key].options.type);
+
+                    if ("String" == model_metadata[field_key].instance) {
+                        console.log(field_key, "is a string");
+                        data[field_key] = field_value;
+
+                    } else if (datatype.indexOf("Boolean") != -1) {
+                        console.log(field_key, "is a boolean");
+                        data[field_key] = field_value;
+
+                    }
+
+                } else {
+                    console.log("xxxx --- ", "cannot find key ", field_key)
+                }
+
+            });
+
+            data.save();
+
             reply({
-                contracts: contracts
+                data: data
             });
         });
     }

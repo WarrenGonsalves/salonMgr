@@ -17,7 +17,7 @@ module.exports = function() {
             config: controller.postHandler
         },{
             method: 'PUT',
-            path: BASE_URL + '/{entity}',
+            path: BASE_URL + '/{entity}/{id}',
             config: controller.putHandler
         },{
             method: 'DELETE',
