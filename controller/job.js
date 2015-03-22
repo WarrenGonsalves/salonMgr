@@ -84,6 +84,7 @@ JobController.prototype.getConfigHandler = {
 JobController.prototype.putHandler = {
     handler: function(request, reply) {
         db.job.findById(request.params.id, function(err, selectedJob) {
+          //  console.log("debug","this is a test 3"+request.payload.status + " "+request.payload.estimate+" " + request.payload.estimated_fees);
 
             if (err) {
                 util.reply.error(err, reply);
@@ -98,14 +99,15 @@ JobController.prototype.putHandler = {
             if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
                 selectedJob.status = request.payload.status;
 
-                if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimate_cost == undefined)) {
+                if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimated_fees == undefined)) {
                     util.reply.error('Need valid estimate + estimate_cost data to set job status = Estimated', reply);
                     return;
                 }
+             //   console.log("debug","this is a test 1");
 
                 if (request.payload.status == 'Estimated') {
                     selectedJob.estimate = request.payload.estimate;
-                    selectedJob.estimate_cost = request.payload.estimate_cost;
+                    selectedJob.estimated_fees = request.payload.estimated_fees;
                 }
             }
 
@@ -114,6 +116,7 @@ JobController.prototype.putHandler = {
                     util.reply.error(err, reply);
                     return;
                 }
+            //    console.log("debug","this is a test 2");
 
                 if (selectedJob.is_shopify && selectedJob.status == 'Finished') {
                     // if shopify order is being closed then let know shopify too.
