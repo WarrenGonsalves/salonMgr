@@ -6,6 +6,8 @@ var formatter = require('./formatter');
 var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
 var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
 
+var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
+
 // var transporter = nodemailer.createTransport(sesTransport({
 //     accessKeyId: 'AKIAI35TGSKIAFGVQFVQ',
 //     secretAccessKey: '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',
@@ -55,9 +57,13 @@ module.exports.sendBookingConfirmation = function(customer, job) {
 
     logger.info("Email Notification", ["Booking Confirmation", customer, job]);
 
-    var bookingHtmlMsg = job.cust_name + ", " + "your booking has been confirmed.";
-    this.sendMail(SupportEmailId, customer.email, "Hands Booking Confirmation", bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, "CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+    var bookingHtmlMsg = "Hello " + job.cust_name + ", " + "your booking has been confirmed.";
+    bookingHtmlMsg += "<br><br> Service provider name - " + job.specialist_name + " - " + job.specialist_category;
+    bookingHtmlMsg += "<br>Phone# - " + job.specialist_ph;
+    bookingHtmlMsg += EMAIL_FOOTER;
+
+    this.sendMail(SupportEmailId, customer.email, "Hands booking confirmation " + job.job_id, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
 }
 
 module.exports.sendContractNotification = function(contract, customer) {
@@ -75,8 +81,9 @@ module.exports.sendStatusUpdate = function(job) {
     var bookingHtmlMsg;
 
     if (job.status == "Accepted") {
-        bookingHtmlSubject = "Hands Booking Acknowldegement";
-        bookingHtmlMsg = job.specialist_name + " has acknowledged your request.";
+        bookingHtmlSubject = "Hands Booking " + job.job_id + " is Accepted";
+        bookingHtmlMsg = "Hello " + job.cust_name + ", " + job.specialist_name + " has accepted your booking - " + job.job_id + ".";
+        bookingHtmlMsg += EMAIL_FOOTER;
     }
 
     if (job.status == "Estimated") {
@@ -84,6 +91,7 @@ module.exports.sendStatusUpdate = function(job) {
         bookingHtmlMsg = "Hi, " + job.cust_name + "<br>Estimate for your Booking ref# " + job.job_id + " is as follows";
         bookingHtmlMsg += "<br><br>Duration: " + job.estimate;
         bookingHtmlMsg += "<br>Cost (approx): ₹" + job.estimate_cost;
+        bookingHtmlMsg += EMAIL_FOOTER;
 
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }

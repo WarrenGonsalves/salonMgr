@@ -17,8 +17,8 @@ module.exports = function() {
             config: {
                 handler: function(req, reply) {
                     var settings = {}
-                    settings.smart_version = "1.4";
-                    settings.not_smart_version = "comming soon"; 
+                    settings.android = "5";
+                    settings.ios = "0"; 
                     reply({settings: settings});
                 }
             }
