@@ -19,7 +19,7 @@ module.exports = function() {
                     var settings = {}
                     settings.android = "5";
                     settings.ios = "0"; 
-                    reply({settings: settings});
+                    reply(settings);
                 }
             }
         }
