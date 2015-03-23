@@ -74,6 +74,8 @@ invoiceController.prototype.postConfigHandler = {
             job.status = "Invoiced";
             job.save();
 
+            util.email.sendInvoiceNotification(job, invoice);
+
             sendPushNotification(invoice);
 
             util.logger.info("Invoice", ["Invoice created: ", invoice._id]);

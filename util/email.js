@@ -2,6 +2,7 @@ var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
 var logger = require('./logger');
 var formatter = require('./formatter');
+var _ = require('underscore');
 
 var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
 var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
@@ -81,36 +82,57 @@ module.exports.sendStatusUpdate = function(job) {
     var bookingHtmlMsg;
 
     if (job.status == "Accepted") {
-        bookingHtmlSubject = "Hands Booking " + job.job_id + " is Accepted";
+        bookingHtmlSubject = "Hands booking " + job.job_id + " is Accepted";
         bookingHtmlMsg = "Hello " + job.cust_name + ", " + job.specialist_name + " has accepted your booking - " + job.job_id + ".";
         bookingHtmlMsg += EMAIL_FOOTER;
     }
 
     if (job.status == "Estimated") {
-        bookingHtmlSubject = "Estimate for your Booking #" + job.job_id;
-        bookingHtmlMsg = "Hi, " + job.cust_name + "<br>Estimate for your Booking ref# " + job.job_id + " is as follows";
-        bookingHtmlMsg += "<br><br>Duration: " + job.estimate;
-        bookingHtmlMsg += "<br>Cost (approx): ₹" + job.estimate_cost;
+        bookingHtmlSubject = "Hands booking " + job.job_id + " Estimated";
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has submitted an estimation for your booking " + job.job_id + ".";
+        bookingHtmlMsg += "<br><br>Number of days - " + job.estimate;
+        bookingHtmlMsg += "<br>Total Fees (approx) - ₹ " + job.estimate_cost;
         bookingHtmlMsg += EMAIL_FOOTER;
 
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
-    if (job.status == "Invoiced") {
-        bookingHtmlSubject = "Invoice for your booking";
-        bookingHtmlMsg = "Invoice for your Booking ref# " + job.job_id + " has been generated and sent to your Hands app.";
-
-        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
-    }
+    // use seperate function for sending invoice email as it required invoice data
 
     if (job.status == "Finished") {
-        bookingHtmlSubject = "Thank you for using Hands";
-        bookingHtmlMsg = "Thank you for using Hands. Please use your Hands app to provide valuable feedback for " + job.specialist_name;
+        bookingHtmlSubject = "Hands booking " + job.job_id + " completed";
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has indicated that the job is now complete. " 
+        bookingHtmlMsg += "Please use hands app to provide valuable feedback so we can improve the quality of service providers.";
+
+        bookingHtmlMsg += EMAIL_FOOTER;
 
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
     // using sendMail for each status for more control.
     //this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, bookingHtmlSubject, bookingHtmlMsg);
+}
+
+module.exports.sendInvoiceNotification = function(job, invoice) {
+
+    logger.info("Email Notification", ["Job Status", job]);
+    var bookingHtmlSubject;
+    var bookingHtmlMsg;
+
+    if (job.status == "Invoiced") {
+        bookingHtmlSubject = "Hands booking " + job.job_id + " Invoice";
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has submitted an invoice for your booking " + job.job_id + " and it has been sent to your hands app as well. ";
+        bookingHtmlMsg += "<br>";
+
+        _.each(invoice.line_items, function(lineItem){
+            bookingHtmlMsg += "<br>" + lineItem.item + " -  ₹ " +  lineItem.amount;
+        });
+
+        bookingHtmlMsg += EMAIL_FOOTER;
+
+        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+    }
+
     this.sendMail(SupportEmailId, SupportDistEmail, bookingHtmlSubject, bookingHtmlMsg);
 }
