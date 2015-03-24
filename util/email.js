@@ -18,8 +18,8 @@ var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'hands.transform@gmail.com',
-        pass: 'hands@123'
+        user: 'customerfirst@handsforhome.com',
+        pass: 'Qwer!234'
     }
 });
 
