@@ -38,7 +38,16 @@ FeedbackController.prototype.postConfigHandler = {
         feedback.customer_id = request.payload.customer_id;
         feedback.text = request.payload.text;
         feedback.save();
-        util.email.sendFeedback(feedback);
+
+        db.customer.findById(request.payload.customer_id).exec(function(err, customer) {
+            // ignore error not important just log it in console
+            if (err) {
+                util.logger.err("Feedback", ["Customer not found for", request.payload.customer_id]);
+            }
+
+            util.email.sendFeedback(feedback, customer);
+
+        });
         reply(feedback);
     }
 };

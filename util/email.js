@@ -40,11 +40,11 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
     });
 }
 
-module.exports.sendFeedback = function(feedback) {
+module.exports.sendFeedback = function(feedback, customer) {
     logger.info("Email Notification", ["Feedback", feedback]);
 
-    var feedbackHtmlMsg = "customer_id: " + feedback.customer_id + "<br>" + feedback.text;
-    this.sendMail(SupportEmailId, SupportDistEmail, "Feedback from " + feedback.customer_id, feedbackHtmlMsg);
+    var feedbackHtmlMsg = "Customer - " + customer.name + " has sent following feedback.<br><hr>" + feedback.text;
+    this.sendMail(SupportEmailId, SupportDistEmail, "Customer Feedback - " + customer.name, feedbackHtmlMsg);
 }
 
 module.exports.sendNewSpecialistReferral = function(name, phone, category, customer_id) {
@@ -90,7 +90,7 @@ module.exports.sendStatusUpdate = function(job) {
     if (job.status == "Estimated") {
         bookingHtmlSubject = "Hands booking " + job.job_id + " Estimated";
         bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has submitted an estimation for your booking " + job.job_id + ".";
-        bookingHtmlMsg += "<br><br>Number of days - " + job.estimate;
+        bookingHtmlMsg += "<br><br>Number of days - " + job.estimate + " days";
         bookingHtmlMsg += "<br>Total Fees (approx) - ₹ " + job.estimate_cost;
         bookingHtmlMsg += EMAIL_FOOTER;
 
@@ -101,7 +101,7 @@ module.exports.sendStatusUpdate = function(job) {
 
     if (job.status == "Finished") {
         bookingHtmlSubject = "Hands booking " + job.job_id + " completed";
-        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has indicated that the job is now complete. " 
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has indicated that the job is now complete. "
         bookingHtmlMsg += "Please use hands app to provide valuable feedback so we can improve the quality of service providers.";
 
         bookingHtmlMsg += EMAIL_FOOTER;
@@ -125,8 +125,8 @@ module.exports.sendInvoiceNotification = function(job, invoice) {
         bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has submitted an invoice for your booking " + job.job_id + " and it has been sent to your hands app as well. ";
         bookingHtmlMsg += "<br>";
 
-        _.each(invoice.line_items, function(lineItem){
-            bookingHtmlMsg += "<br>" + lineItem.item + " -  ₹ " +  lineItem.amount;
+        _.each(invoice.line_items, function(lineItem) {
+            bookingHtmlMsg += "<br>" + lineItem.item + " -  ₹ " + lineItem.amount;
         });
 
         bookingHtmlMsg += EMAIL_FOOTER;
