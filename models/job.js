@@ -51,6 +51,10 @@ var jobSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    last_updated: {
+        type: Date,
+        default: Date.now
+    },
     complete_date: Date
 }, {
     toObject: {
@@ -93,6 +97,8 @@ jobSchema
                 this.cancelled = true;
             }
         }
+
+        this.last_updated = new Date;
 
         next();
 

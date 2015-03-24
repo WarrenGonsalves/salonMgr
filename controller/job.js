@@ -68,7 +68,7 @@ JobController.prototype.getConfigHandler = {
         util.logger.info("Jobs - get", [query_param])
 
         // TODO sort by book date.
-        db.job.find(query_param).sort('book_date').exec(function(err, jobs) {
+        db.job.find(query_param).sort('-last_updated').exec(function(err, jobs) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
