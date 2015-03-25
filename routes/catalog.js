@@ -1,31 +1,33 @@
-﻿var specialist = require('../models/catalog');
-var specialistController = require('../controller/catalog');
-var BASE_URL = '/catalog';
-var util = require('../util');
-var config = require('../config/constants');
+﻿var db = require('../db');
+var BASE_URL = '/catalogs';
+
+var CatalogController = require('../controller/catalog');
+//var util = require('../util');
+//var config = require('../config/constants');
+//var catalog = require('../models/catalog');
 
 module.exports = function () {
     return [
         {
             method: 'GET',
             path: BASE_URL,
-            config: controller.getAllCatalog
+            config: CatalogController.getAllCatalog
         }, {
             method: 'GET',
             path: BASE_URL + '/{vendor_id}',
-            config: controller.getVendorCatalog
+            config: CatalogController.getVendorCatalog
         }, {
             method: 'POST',
             path: BASE_URL + '/add',
-            config: controller.addCatalog
+            config: CatalogController.addCatalog
         }, {
             method: 'POST',
             path: BASE_URL + '/update',
-            config: controller.updateCatalog
+            config: CatalogController.updateCatalog
         }, {
             method: 'POST',
             path: BASE_URL + '/{catalog_id}',
-            config: controller.deleteCatalog
+            config: CatalogController.deleteCatalog
         }
     ];
 }();

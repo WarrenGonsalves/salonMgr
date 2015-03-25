@@ -13,3 +13,4 @@ var catalogSchema = new Schema({
 
 // export
 module.exports = mongoose.model('catalog', catalogSchema);
+module.exports.schema = catalogSchema;

@@ -2,12 +2,12 @@
 var _ = require('underscore');
 var util = require('../util');
 
-function CatalogController() { };
+function CatalogController() {};
 
 CatalogController.prototype.getAllCatalog = {
     handler: function (request, reply) {
 
-        var query_param = {'catalog.delete_status': 0}
+        var query_param = {'delete_status': 0}
 
         // TODO sort by book date.
         db.catalog.find(query_param).exec(function (err, catalogList) {
@@ -26,7 +26,7 @@ CatalogController.prototype.getAllCatalog = {
 CatalogController.prototype.getVendorCatalog = {
     handler: function (request, reply) {
 
-        var query_param = { 'vendor_id': request.params.vendor_id, 'catalog.delete_status': 0 }
+        var query_param = { 'vendor_id': request.params.vendor_id, 'delete_status': 0 }
 
         // TODO sort by book date.
         db.catalog.find(query_param).exec(function (err, catalogList) {
@@ -42,9 +42,16 @@ CatalogController.prototype.getVendorCatalog = {
     }
 };
 
+/**
+ * add new catalog for a given vendor
+ * @params -
+ *      vendor_id, name, detail, price, icon_size_image, medium_image
+ *      
+ */
 CatalogController.prototype.addCatalog = {
     handler: function (request, reply) {
-        if (request.payload.vender_id === undefined) {
+        //console.log(request.payload);
+        if (typeof request.payload.vender_id === undefined) {
             return util.reply.error("Invalid vender id", reply);
         }
         db.catalog.count({ vendor_id: request.payload.vender_id }, function (err, c) {
@@ -97,9 +104,9 @@ CatalogController.prototype.updateCatalog = {
             return util.reply.error("Invalid catalog id", reply);
         }
         console.log(__filename + "update catalog by id: " + request.payload.catalogObj.catalog_id);
-        var catalogObject = request.payload.catalogObj.catalog_id;
+        var catalogObject = request.payload.catalogObj;
         delete catalogObject.catalog_id;
-        db.catalog.update({ 'catalog._id': request.payload.catalogObj.id },
+        db.catalog.update({ '_id': request.payload.catalogObj.catalog_id },
             catalogObject,
             function (err, data) {
                 util.reply.error(err, reply);
@@ -116,7 +123,7 @@ CatalogController.prototype.deleteCatalog = {
             return util.reply.error("Invalid catalog id", reply);
         }
         console.log(__filename + "delete catalog by id: " + request.params.catalog_id);
-        db.catalog.update({ 'catalog._id': request.params.catalog_id },
+        db.catalog.update({ '_id': request.params.catalog_id },
             { $set: { delete_status: 1 } },
             function (err, data) {
                 util.reply.error(err, reply);
