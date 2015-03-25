@@ -121,6 +121,9 @@ SpecialistController.prototype.getConfigHandler = {
                 $nin: specialistIdList
             };
 
+            // only query for active specialists.
+            query_param['active'] = {'$ne': false };
+
             console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
             db.specialist.find(query_param).populate('jobs').populate('ratings').populate('categories').limit(3).exec(function(err, specialistList) {
