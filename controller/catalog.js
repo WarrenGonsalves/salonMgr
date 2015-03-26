@@ -6,10 +6,8 @@ function CatalogController() {};
 
 CatalogController.prototype.getAllCatalog = {
     handler: function (request, reply) {
-
         var query_param = {'delete_status': 0}
 
-        // TODO sort by book date.
         db.catalog.find(query_param).exec(function (err, catalogList) {
             if (err) {
                 util.reply.error(err, reply);
@@ -25,10 +23,27 @@ CatalogController.prototype.getAllCatalog = {
 
 CatalogController.prototype.getVendorCatalog = {
     handler: function (request, reply) {
-
+        
         var query_param = { 'specialist_id': request.params.specialist_id, 'delete_status': 0 }
 
-        // TODO sort by book date.
+        db.catalog.find(query_param).exec(function (err, catalogList) {
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            reply({
+                catalogList: catalogList
+            });
+        });
+    }
+};
+
+CatalogController.prototype.getCatalog = {
+    handler: function (request, reply) {
+
+        var query_param = { '_id': request.params._id, 'delete_status': 0 }
+
         db.catalog.find(query_param).exec(function (err, catalogList) {
             if (err) {
                 util.reply.error(err, reply);
@@ -88,7 +103,7 @@ CatalogController.prototype.addCatalog = {
                 catalog.medium_image = request.payload.medium_image;
                 catalog.delete_status = 0;
                 catalog.save();
-                console.log("new entry added to catalog");
+                //console.log("new entry added to catalog");
                 reply(catalog);
             }
             else {
@@ -101,16 +116,20 @@ CatalogController.prototype.addCatalog = {
 
 CatalogController.prototype.updateCatalog = {
     handler: function (request, reply) {
-        if (request.payload.catalogObj.catalog_id === undefined) {
+        //console.log(request.payload._id);
+
+        if (request.payload._id === undefined) {
             return util.reply.error("Invalid catalog id", reply);
         }
-        console.log(__filename + "update catalog by id: " + request.payload.catalogObj.catalog_id);
-        var catalogObject = request.payload.catalogObj;
-        delete catalogObject.catalog_id;
-        db.catalog.update({ '_id': request.payload.catalogObj.catalog_id },
-            catalogObject,
+        console.log(__filename + "update catalog by id: " + request.payload._id);
+        
+        var catalogId = request.payload._id;
+        delete request.payload._id;
+        delete request.payload.specialist_id;
+        db.catalog.update({ '_id': catalogId },
+            request.payload,
             function (err, data) {
-                util.reply.error(err, reply);
+                if (err) util.reply.error(err, reply);
                 reply({
                     success: true
                 });
@@ -120,14 +139,18 @@ CatalogController.prototype.updateCatalog = {
 
 CatalogController.prototype.deleteCatalog = {
     handler: function (request, reply) {
-        if (request.params.catalog_id === undefined) {
+        console.log(request.payload._id);
+        if (request.payload._id === undefined) {
             return util.reply.error("Invalid catalog id", reply);
         }
-        console.log(__filename + "delete catalog by id: " + request.params.catalog_id);
-        db.catalog.update({ '_id': request.params.catalog_id },
-            { $set: { delete_status: 1 } },
+        console.log(__filename + "delete catalog by id: " + request.payload._id);
+        var updateDeleteFlag = {
+            delete_status: 1
+        };
+        db.catalog.update({ '_id': request.payload._id },
+            updateDeleteFlag,
             function (err, data) {
-                util.reply.error(err, reply);
+                if (err) util.reply.error(err, reply);
                 reply({
                     success: true
                 });
