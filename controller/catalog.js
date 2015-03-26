@@ -26,7 +26,7 @@ CatalogController.prototype.getAllCatalog = {
 CatalogController.prototype.getVendorCatalog = {
     handler: function (request, reply) {
 
-        var query_param = { 'vendor_id': request.params.vendor_id, 'delete_status': 0 }
+        var query_param = { 'specialist_id': request.params.specialist_id, 'delete_status': 0 }
 
         // TODO sort by book date.
         db.catalog.find(query_param).exec(function (err, catalogList) {
@@ -45,46 +45,48 @@ CatalogController.prototype.getVendorCatalog = {
 /**
  * add new catalog for a given vendor
  * @params -
- *      vendor_id, name, detail, price, icon_size_image, medium_image
+ *      specialist_id, name, detail, price, icon_size_image, medium_image
  *      
  */
 CatalogController.prototype.addCatalog = {
     handler: function (request, reply) {
         //console.log(request.payload);
-        if (typeof request.payload.vender_id === undefined) {
-            return util.reply.error("Invalid vender id", reply);
+        var reqObj = request.payload;
+        console.log(reqObj.specialist_id);
+        if (reqObj.specialist_id === undefined) {
+            return util.reply.error("Invalid specialist id", reply);
         }
-        db.catalog.count({ vendor_id: request.payload.vender_id }, function (err, c) {
+        db.catalog.count({ specialist_id: reqObj.specialist_id }, function (err, c) {
             if (err) return util.reply.error("Error while adding catalog: ", err);
             //max count = 50
             if (c < 50) {
-                if (request.payload.name === undefined) {
+                if (reqObj.name === undefined) {
                     return util.reply.error("Invalid catalog name", reply);
                 }
 
-                if (request.payload.detail === undefined) {
+                if (reqObj.detail === undefined) {
                     return util.reply.error("Invalid catalog detail", reply);
                 }
 
-                if (request.payload.price === undefined) {
+                if (reqObj.price === undefined) {
                     return util.reply.error("Invalid catalog detail", reply);
                 }
 
-                if (request.payload.icon_size_image === undefined) {
+                if (reqObj.icon_size_image === undefined) {
                     return util.reply.error("Invalid catalog icon size image", reply);
                 }
 
-                if (request.payload.medium_image === undefined) {
+                if (reqObj.medium_image === undefined) {
                     return util.reply.error("Invalid catalog medium image", reply);
                 }
 
                 var catalog = new db.catalog();
-                catalog.vender_id = request.payload.vender_id;
-                catalog.name = request.payload.name;
-                catalog.detail = request.payload.detail;
-                catalog.price = request.payload.price;
-                catalog.icon_size_image = request.payload.icon_size_image;
-                catalog.medium_image = request.payload.medium_image;
+                catalog.specialist_id = reqObj.specialist_id;
+                catalog.name = reqObj.name;
+                catalog.detail = reqObj.detail;
+                catalog.price = reqObj.price;
+                catalog.icon_size_image = reqObj.icon_size_image;
+                catalog.medium_image = reqObj.medium_image;
                 catalog.delete_status = 0;
                 catalog.save();
 

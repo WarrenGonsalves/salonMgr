@@ -2,9 +2,6 @@
 var BASE_URL = '/catalogs';
 
 var CatalogController = require('../controller/catalog');
-//var util = require('../util');
-//var config = require('../config/constants');
-//var catalog = require('../models/catalog');
 
 module.exports = function () {
     return [
@@ -14,7 +11,7 @@ module.exports = function () {
             config: CatalogController.getAllCatalog
         }, {
             method: 'GET',
-            path: BASE_URL + '/{vendor_id}',
+            path: BASE_URL + '/{specialist_id}',
             config: CatalogController.getVendorCatalog
         }, {
             method: 'POST',

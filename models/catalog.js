@@ -2,7 +2,7 @@
 var Schema = mongoose.Schema;
 
 var catalogSchema = new Schema({
-    vendor_id: String,
+    specialist_id: String,
     name: String,
     detail: String,
     price: Number,
