@@ -1,6 +1,8 @@
 ﻿var db = require('../db');
 var _ = require('underscore');
 var util = require('../util');
+var fs = require('fs');
+var config = require("../config/constants");
 
 function CatalogController() {};
 
@@ -63,9 +65,13 @@ CatalogController.prototype.getVendorCatalog = {
  *      
  */
 CatalogController.prototype.addCatalog = {
+    payload: {
+        output: 'stream',
+        allow: 'multipart/form-data'
+    },
     handler: function (request, reply) {
-        //console.log(request.payload);
         //console.log(request.payload.specialist_id);
+
         if (request.payload.specialist_id === undefined) {
             return util.reply.error("Invalid specialist id", reply);
         }
@@ -98,12 +104,38 @@ CatalogController.prototype.addCatalog = {
                 catalog.name = request.payload.name;
                 catalog.detail = request.payload.detail;
                 catalog.price = request.payload.price;
-                catalog.icon_size_image = request.payload.icon_size_image;
-                catalog.medium_image = request.payload.medium_image;
+                //catalog.icon_size_image = request.payload.icon_size_image;
+                //catalog.medium_image = request.payload.medium_image;
                 catalog.delete_status = 0;
                 catalog.save();
                 //console.log("new entry added to catalog");
-                reply(catalog);
+                //reply(catalog);
+
+                //new
+                //console.log(request.payload.icon_size_image.hapi.filename);
+                var re = /(?:\.([^.]+))?$/;
+                var icon_size_image = request.payload.icon_size_image;
+                var fileName = "catalogIcon_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+                var path = config.imgDir + fileName;
+                console.log(path);
+                icon_size_image.pipe(fs.createWriteStream(path));
+
+                icon_size_image.on('end', function (err) {
+                    catalog.icon_size_image = config.imgURL + fileName;
+                    catalog.save();
+                    var medium_image = request.payload.medium_image;
+                    fileName = "catalogMedImg_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+                    path = config.imgDir + fileName;
+                    console.log(path);
+                    medium_image.pipe(fs.createWriteStream(path));
+
+                    medium_image.on('end', function (err) {
+                        catalog.medium_image = config.imgURL + fileName;
+                        catalog.save();
+                        reply(catalog);
+                    })
+                });
+                //new
             }
             else {
                 reply(0);
