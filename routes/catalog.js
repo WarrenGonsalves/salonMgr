@@ -23,7 +23,7 @@ module.exports = function () {
             config: CatalogController.updateCatalog
         }, {
             method: 'POST',
-            path: BASE_URL + '/{catalog_id}',
+            path: BASE_URL + '/delete',
             config: CatalogController.deleteCatalog
         }
     ];

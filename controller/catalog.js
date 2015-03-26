@@ -6,18 +6,35 @@ function CatalogController() {};
 
 CatalogController.prototype.getAllCatalog = {
     handler: function (request, reply) {
-        var query_param = {'delete_status': 0}
+        if (request.query.catalogId === undefined) {
+            var query_param = { 'delete_status': 0 }
 
-        db.catalog.find(query_param).exec(function (err, catalogList) {
-            if (err) {
-                util.reply.error(err, reply);
-                return;
-            }
+            db.catalog.find(query_param).exec(function (err, catalogList) {
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
 
-            reply({
-                catalogList: catalogList
+                reply({
+                    catalogList: catalogList
+                });
             });
-        });
+        }
+        else
+        {
+            var query_param = { '_id': request.query.catalogId, 'delete_status': 0 }
+
+            db.catalog.find(query_param).exec(function (err, catalogList) {
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+
+                reply({
+                    catalogList: catalogList
+                });
+            });
+        }
     }
 };
 
@@ -25,24 +42,6 @@ CatalogController.prototype.getVendorCatalog = {
     handler: function (request, reply) {
         
         var query_param = { 'specialist_id': request.params.specialist_id, 'delete_status': 0 }
-
-        db.catalog.find(query_param).exec(function (err, catalogList) {
-            if (err) {
-                util.reply.error(err, reply);
-                return;
-            }
-
-            reply({
-                catalogList: catalogList
-            });
-        });
-    }
-};
-
-CatalogController.prototype.getCatalog = {
-    handler: function (request, reply) {
-
-        var query_param = { '_id': request.params._id, 'delete_status': 0 }
 
         db.catalog.find(query_param).exec(function (err, catalogList) {
             if (err) {
