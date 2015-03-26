@@ -75,7 +75,7 @@ CatalogController.prototype.addCatalog = {
         if (request.payload.specialist_id === undefined) {
             return util.reply.error("Invalid specialist id", reply);
         }
-        db.catalog.count({ specialist_id: request.payload.specialist_id }, function (err, c) {
+        db.catalog.count({ specialist_id: request.payload.specialist_id, delete_status: 0 }, function (err, c) {
             if (err) return util.reply.error("Error while adding catalog: ", err);
             //max count = 50
             if (c < 50) {
@@ -138,8 +138,7 @@ CatalogController.prototype.addCatalog = {
                 //new
             }
             else {
-                reply(0);
-                return util.reply.error("Cannot add more catalog", reply);
+                util.reply.error("Cannot add more catalog", reply);
             }
         });
     }
