@@ -51,45 +51,44 @@ CatalogController.prototype.getVendorCatalog = {
 CatalogController.prototype.addCatalog = {
     handler: function (request, reply) {
         //console.log(request.payload);
-        var reqObj = request.payload;
-        console.log(reqObj.specialist_id);
-        if (reqObj.specialist_id === undefined) {
+        //console.log(request.payload.specialist_id);
+        if (request.payload.specialist_id === undefined) {
             return util.reply.error("Invalid specialist id", reply);
         }
-        db.catalog.count({ specialist_id: reqObj.specialist_id }, function (err, c) {
+        db.catalog.count({ specialist_id: request.payload.specialist_id }, function (err, c) {
             if (err) return util.reply.error("Error while adding catalog: ", err);
             //max count = 50
             if (c < 50) {
-                if (reqObj.name === undefined) {
+                if (request.payload.name === undefined) {
                     return util.reply.error("Invalid catalog name", reply);
                 }
 
-                if (reqObj.detail === undefined) {
+                if (request.payload.detail === undefined) {
                     return util.reply.error("Invalid catalog detail", reply);
                 }
 
-                if (reqObj.price === undefined) {
+                if (request.payload.price === undefined) {
                     return util.reply.error("Invalid catalog detail", reply);
                 }
 
-                if (reqObj.icon_size_image === undefined) {
+                if (request.payload.icon_size_image === undefined) {
                     return util.reply.error("Invalid catalog icon size image", reply);
                 }
 
-                if (reqObj.medium_image === undefined) {
+                if (request.payload.medium_image === undefined) {
                     return util.reply.error("Invalid catalog medium image", reply);
                 }
 
                 var catalog = new db.catalog();
-                catalog.specialist_id = reqObj.specialist_id;
-                catalog.name = reqObj.name;
-                catalog.detail = reqObj.detail;
-                catalog.price = reqObj.price;
-                catalog.icon_size_image = reqObj.icon_size_image;
-                catalog.medium_image = reqObj.medium_image;
+                catalog.specialist_id = request.payload.specialist_id;
+                catalog.name = request.payload.name;
+                catalog.detail = request.payload.detail;
+                catalog.price = request.payload.price;
+                catalog.icon_size_image = request.payload.icon_size_image;
+                catalog.medium_image = request.payload.medium_image;
                 catalog.delete_status = 0;
                 catalog.save();
-
+                console.log("new entry added to catalog");
                 reply(catalog);
             }
             else {
