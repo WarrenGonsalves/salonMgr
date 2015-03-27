@@ -137,7 +137,6 @@ ShopifyController.prototype.reloadCustomerHandler = {
 
 ShopifyController.prototype.postOrderHandler = {
     handler: function(request, reply) {
-        //console.log("here---", request.payload);
 
         var shopify_order = request.payload;
 
@@ -152,6 +151,7 @@ ShopifyController.prototype.postOrderHandler = {
 
             if (null == specialist) {
                 util.reply.error("no shopify specialist found", reply);
+                console.log("no shopify specialist found");
                 return;
             }
 
@@ -160,6 +160,10 @@ ShopifyController.prototype.postOrderHandler = {
                 shopify_id: shopify_order.customer.id
             }).exec(function(err, customer) {
 
+                if (err) {
+                    util.reply.error(err, reply);
+                }
+
                 var job = db.job();
 
                 if (null != customer) {
@@ -167,6 +171,8 @@ ShopifyController.prototype.postOrderHandler = {
                     job.cust_name = customer.name;
                     job.cust_ph = customer.ph;
                     job.cust_email = customer.email;
+                } else {
+                    util.reply.error("no shopify customer found " + shopify_order.customer.id, reply);
                 }
 
                 job.is_shopify = true;
@@ -181,6 +187,7 @@ ShopifyController.prototype.postOrderHandler = {
 
                 util.sms.notifyLaundryBooking(job);
                 util.logger.info("Shopify Order", [job]);
+                console.log(job);
 
                 reply("Job Created");
             });

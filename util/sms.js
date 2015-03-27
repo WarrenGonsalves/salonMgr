@@ -1,6 +1,7 @@
 var logger = require('./logger');
 var request = require('request');
-var config = require("../config/constants")
+var config = require("../config/constants");
+var _ = require("underscore");
 
 var TAG = "Send SMS"
 
@@ -81,9 +82,6 @@ module.exports.notifySpecialistNewBooking = function(job) {
 }
 
 module.exports.notifyLaundryBooking = function(job) {
-
-
-    logger.info(TAG, ["SMS Laundry", job]);
 
     var total = 0;
 
