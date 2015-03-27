@@ -32,6 +32,7 @@ module.exports.sendSMS = function sendSMS(to, body, priority) {
 
             if (err) {
                 console.log(err);
+                logger.err(TAG, err);
             }
 
             if (!err && response.statusCode == 200) {
@@ -80,7 +81,6 @@ module.exports.notifySpecialistNewBooking = function(job) {
 }
 
 module.exports.notifyLaundryBooking = function(job) {
-    logger.info(TAG, ["SMS Laundry", job]);
 
     var total = 0;
 
@@ -91,5 +91,5 @@ module.exports.notifyLaundryBooking = function(job) {
     var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + job.shopify_order.total_price;
     smsBody += ". For details, please download the hands app from get.handsforhome.com";
     this.sendSMS(job.shopify_order.customer.default_address.phone, smsBody);
-
+    logger.info(TAG, ["SMS Laundry", job.shopify_order.customer.default_address.phone, smsBody]);
 }
