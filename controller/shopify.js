@@ -179,6 +179,7 @@ ShopifyController.prototype.postOrderHandler = {
                 job.setJobId();
                 job.save();
 
+                util.sms.notifyLaundryBooking(job);
                 util.logger.info("Shopify Order", [job]);
 
                 reply("Job Created");
