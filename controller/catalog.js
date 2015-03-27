@@ -113,28 +113,32 @@ CatalogController.prototype.addCatalog = {
 
                 //new
                 //console.log(request.payload.icon_size_image.hapi.filename);
+                var count = 0;
                 var re = /(?:\.([^.]+))?$/;
+                //Upload icon image
                 var icon_size_image = request.payload.icon_size_image;
-                var fileName = "catalogIcon_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
-                var path = config.imgDir + fileName;
-                console.log(path);
-                icon_size_image.pipe(fs.createWriteStream(path));
+                var iconFileName = "catalogIcon_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+                var iconPath = config.imgDir + iconFileName;
+                console.log(iconPath);
+                icon_size_image.pipe(fs.createWriteStream(iconPath));
 
                 icon_size_image.on('end', function (err) {
-                    catalog.icon_size_image = config.imgURL + fileName;
+                    catalog.icon_size_image = config.imgURL + iconFileName;
                     catalog.save();
-                    var medium_image = request.payload.medium_image;
-                    fileName = "catalogMedImg_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
-                    path = config.imgDir + fileName;
-                    console.log(path);
-                    medium_image.pipe(fs.createWriteStream(path));
-
-                    medium_image.on('end', function (err) {
-                        catalog.medium_image = config.imgURL + fileName;
-                        catalog.save();
-                        reply(catalog);
-                    })
+                    if (++count > 1) reply(catalog);
                 });
+                //Upload medium image
+                var medium_image = request.payload.medium_image;
+                var medImgFileName = "catalogMedImg_" + catalog._id + "." + re.exec(request.payload.medium_image.hapi.filename)[1];
+                var medImgPath = config.imgDir + medImgFileName;
+                console.log(medImgPath);
+                medium_image.pipe(fs.createWriteStream(medImgPath));
+
+                medium_image.on('end', function (err) {
+                    catalog.medium_image = config.imgURL + medImgFileName;
+                    catalog.save();
+                    if (++count > 1) reply(catalog);
+                })
                 //new
             }
             else {
