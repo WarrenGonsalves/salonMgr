@@ -49,7 +49,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
     //var smsBody = "Hello, " + customername + ", your One-Time Password(OTP) is " + otp + " . Welcome aboard. We're all hands for you! :)"
     //
     var smsBody = "Hello, " + customername + " , " + otp + " is your OTP . Welcome aboard. We're all hands for you! :)";
-    
+
     this.sendSMS(phone, smsBody, "high");
 
 }
@@ -84,12 +84,12 @@ module.exports.notifyLaundryBooking = function(job) {
 
     var total = 0;
 
-    _.each(job.shopify_order.line_items, function(line_item){
+    _.each(job.shopify_order.line_items, function(line_item) {
         total += line_item.quantity;
     });
 
     var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + job.shopify_order.total_price;
-    smsBody += ". For details, please download the hands app from get.handsforhome.com"; 
-
+    smsBody += ". For details, please download the hands app from get.handsforhome.com";
+    this.sendSMS(job.shopify_order.customer.default_address.phone, smsBody);
 
 }
