@@ -82,6 +82,9 @@ module.exports.notifySpecialistNewBooking = function(job) {
 
 module.exports.notifyLaundryBooking = function(job) {
 
+
+    logger.info(TAG, ["SMS Laundry", job]);
+
     var total = 0;
 
     _.each(job.shopify_order.line_items, function(line_item) {
@@ -90,6 +93,7 @@ module.exports.notifyLaundryBooking = function(job) {
 
     var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + job.shopify_order.total_price;
     smsBody += ". For details, please download the hands app from get.handsforhome.com";
-    this.sendSMS(job.shopify_order.customer.default_address.phone, smsBody);
+
     logger.info(TAG, ["SMS Laundry", job.shopify_order.customer.default_address.phone, smsBody]);
+    this.sendSMS(job.shopify_order.customer.default_address.phone, smsBody);
 }
