@@ -33,10 +33,45 @@ AdminDataController.prototype.getHandler = {
 AdminDataController.prototype.postHandler = {
     handler: function(request, reply) {
 
-        db["contract"].find(request.query).exec(function(err, contracts) {
-            reply({
-                contracts: contracts
-            });
+        if (request.params.entity === undefined) {
+            util.reply.error("requires a valid entity to query.", reply);
+            return;
+        }
+
+        var model = db[request.params.entity];
+
+        model_metadata = model.schema.paths;
+        data = new model();
+
+        // process all set fields
+        _.each(request.payload, function(field_value, field_key) {
+            console.log("--", field_key, field_value);
+
+            if (model_metadata[field_key]) {
+
+                var datatype = String(model_metadata[field_key].options.type);
+
+                if ("String" == model_metadata[field_key].instance) {
+                    console.log(field_key, "is a string");
+                    data[field_key] = field_value;
+                } else if (datatype.indexOf("Boolean") != -1) {
+                    console.log(field_key, "is a boolean");
+                    data[field_key] = field_value;
+                } else if (datatype.indexOf("Number") != -1) {
+                    console.log(field_key, "is a Number");
+                    data[field_key] = field_value;
+                }
+
+            } else {
+                console.log("xxxx --- ", "cannot find key ", field_key)
+            }
+
+        });
+
+        data.save();
+
+        reply({
+            data: data
         });
     }
 };
