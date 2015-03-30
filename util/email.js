@@ -4,8 +4,9 @@ var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
-var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
+// var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
+var SupportEmailId = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
+var SupportBookingEmailId = process.env.SUPPORT_BOOKING_EMAIL_ID || "email.naikparag@gmail.com";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
 
@@ -44,14 +45,14 @@ module.exports.sendFeedback = function(feedback, customer) {
     logger.info("Email Notification", ["Feedback", feedback]);
 
     var feedbackHtmlMsg = "Customer - " + customer.name + " has sent following feedback.<br><hr>" + feedback.text;
-    this.sendMail(SupportEmailId, SupportDistEmail, "Customer Feedback - " + customer.name, feedbackHtmlMsg);
+    this.sendMail(SupportEmailId, SupportEmailId, "Customer Feedback - " + customer.name, feedbackHtmlMsg);
 }
 
 module.exports.sendNewSpecialistReferral = function(name, phone, category, customer_id) {
     logger.info("Email Notification", ["New Spec Referral", name, phone, category, customer_id]);
 
     var referralHtmlMsg = "Specialist Name: " + name + " - " + category + "<br>" + "Specialist Phone: " + phone + "<br>" + "Referred by customer: " + customer_id;
-    this.sendMail(SupportEmailId, SupportDistEmail, "New Specialist Referral " + name, referralHtmlMsg);
+    this.sendMail(SupportEmailId, SupportEmailId, "New Specialist Referral " + name, referralHtmlMsg);
 }
 
 module.exports.sendBookingConfirmation = function(customer, job) {
@@ -64,7 +65,7 @@ module.exports.sendBookingConfirmation = function(customer, job) {
     bookingHtmlMsg += EMAIL_FOOTER;
 
     this.sendMail(SupportEmailId, customer.email, "Hands booking confirmation " + job.job_id, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Hands Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+    this.sendMail(SupportEmailId, SupportBookingEmailId, "Hands Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
 }
 
 module.exports.sendContractNotification = function(contract, customer) {
@@ -72,7 +73,7 @@ module.exports.sendContractNotification = function(contract, customer) {
     logger.info("Email Notification", ["New Contract", contract]);
 
     var HtmlBody = "Contract details <br>" + formatter.toHTML(contract) + "<br><hr><br>" + "Customer details<br>" + formatter.toHTML(customer);
-    this.sendMail(SupportEmailId, SupportDistEmail, "New Contract", HtmlBody);
+    this.sendMail(SupportEmailId, SupportEmailId, "New Contract", HtmlBody);
 }
 
 module.exports.sendStatusUpdate = function(job) {
@@ -111,7 +112,7 @@ module.exports.sendStatusUpdate = function(job) {
 
     // using sendMail for each status for more control.
     //this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, bookingHtmlSubject, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
 }
 
 module.exports.sendInvoiceNotification = function(job, invoice) {
@@ -134,5 +135,5 @@ module.exports.sendInvoiceNotification = function(job, invoice) {
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
     }
 
-    this.sendMail(SupportEmailId, SupportDistEmail, bookingHtmlSubject, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
 }

@@ -42,7 +42,7 @@ module.exports = function() {
             method: 'POST',
             path: SPECIALIST_URL + '/resetratings',
             config: adminController.specialistRatingResetHandler
-        },{
+        }, {
             method: 'POST',
             path: BASE_URL + '/editsp/{spc_id}',
             config: adminController.postSpecialistAttributeHandler
@@ -130,12 +130,20 @@ module.exports = function() {
                 }
             }
         }, {
-            method: 'POST',
-            path: BASE_URL + '/testpay',
+            method: 'GET',
+            path: BASE_URL + '/testpay/{order_id}/{customer_id}/{amount}',
             config: {
                 handler: function(req, reply) {
-                    util.paytm.testTransaction(req.payload.order_id, req.payload.customer_id, req.payload.amount);
-                    reply("done");
+                    util.paytm.testTransaction(req.params.order_id, req.params.customer_id, req.params.amount, function(err, data) {
+
+                        if (err) {
+                            reply(err);
+                        } else {
+                            reply(data);
+                        };
+
+
+                    });
                 }
             }
         }, {
