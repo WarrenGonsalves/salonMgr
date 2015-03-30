@@ -32,3 +32,4 @@ exports.counter = models.counter;
 exports.deals = models.deals;
 exports.contract = models.contract;
 exports.catalog = models.catalog;
+exports.order = models.order;

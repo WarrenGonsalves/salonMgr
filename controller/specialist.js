@@ -296,6 +296,39 @@ SpecialistController.prototype.postBookSpecialist = {
                 }
             });
 
+            if(!(request.payload.catalog_ids === undefined)) {
+                db.catalog.find( { _id: { $in:  request.payload.catalog_ids } } ).exec(function (err, catalogList) {
+                    if (err) {
+                        util.reply.error(err, reply);
+                        return;
+                    }
+                    var total_price = 0;
+                    var total_quantity = 0;
+                    var order = db.order();
+                    var line_items = new Array();
+                    for (var catalog in catalogList) {
+                        var item = {
+                            catalog_id: catalog._id,
+                            specialist_id: catalog.specialist_id,
+                            name: catalog.name,
+                            detail: catalog.detail,
+                            price: catalog.price,
+                            icon_size_image: catalog.icon_size_image, 
+                            medium_image: catalog.medium_image
+                        };
+                        total_quantity++;
+                        total_price += catalog.price;
+                        line_items.push(item);
+                    }
+                    order.total_price = total_price;
+                    order.total_quantity = total_quantity;
+                    order.line_items = line_items;
+                    order.save();
+                    job.order_id = order._id;
+                    job.save();
+                });
+            }
+
             reply(job);
         });
     }
