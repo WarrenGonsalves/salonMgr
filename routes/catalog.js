@@ -12,7 +12,7 @@ module.exports = function () {
          *
          * @apiExample Example usage:
          * /catalog //will return all catalogs
-         * /catalog?catalogId=54fc5a41c4ee2a000025737c
+         * /catalog?catalogId=54fc5a41c4ee2a000025737c //will return a single catalog
          */
         {
             method: 'GET',
@@ -33,7 +33,7 @@ module.exports = function () {
             config: CatalogController.getVendorCatalog
         },
         /**
-         * @api {post} /catalogs/add
+         * @api {post} /catalogs
          * @apiName addCatalog
          * @apiGroup Catalog
          *
@@ -46,11 +46,11 @@ module.exports = function () {
          */
         {
             method: 'POST',
-            path: BASE_URL + '/add',
+            path: BASE_URL,
             config: CatalogController.addCatalog
         },
         /**
-         * @api {post} /catalogs/update
+         * @api {put} /catalogs
          * @apiName updateCatalog
          * @apiGroup Catalog
          *
@@ -62,19 +62,19 @@ module.exports = function () {
          * @apiParam {String} medium_image      Catalog item medium image [Post parameter]
          */
         {
-            method: 'POST',
-            path: BASE_URL + '/update',
+            method: 'PUT',
+            path: BASE_URL,
             config: CatalogController.updateCatalog
         },
         /**
-         * @api {post} /catalogs/delete
+         * @api {put} /catalogs/delete
          * @apiName deleteCatalog
          * @apiGroup Catalog
          *
          * @apiParam {String} _id     Catalog item id [Post parameter]
          */
          {
-            method: 'POST',
+            method: 'PUT',
             path: BASE_URL + '/delete',
             config: CatalogController.deleteCatalog
         }

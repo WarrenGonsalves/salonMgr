@@ -8,7 +8,10 @@ var catalogSchema = new Schema({
     price: Number,
     icon_size_image: String, 
     medium_image: String,
-    delete_status: Number
+    delete_status: {
+        type: Number,
+        default: 0
+    }
 });
 
 // export
