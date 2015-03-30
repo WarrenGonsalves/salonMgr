@@ -22,6 +22,7 @@ var transporter = nodemailer.createTransport({
         user: 'customerfirst@handsforhome.com',
         pass: 'Qwer!234'
     }
+    
 });
 
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
@@ -39,6 +40,7 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
             console.log('Message sent: ' + info.response);
         }
     });
+
 }
 
 module.exports.sendFeedback = function(feedback, customer) {
