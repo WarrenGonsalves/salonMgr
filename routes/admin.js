@@ -147,6 +147,15 @@ module.exports = function() {
                 }
             }
         }, {
+            method: 'GET',
+            path: BASE_URL + '/order/{order_id}/{amount}',
+            config: {
+                handler: function(req, reply) {
+                    
+                    reply.view('order.jade', {});
+                }
+            }
+        }, {
             method: 'POST',
             path: BASE_URL + '/pushnotify/gcm',
             config: {

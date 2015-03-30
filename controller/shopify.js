@@ -32,10 +32,14 @@ ShopifyController.prototype.getCustomersHandler = {
 ShopifyController.prototype.reloadCustomerHandler = {
     handler: function(request, reply) {
 
-        // download new customer info
-        node_request(SHOPIFY_CUSTOMER_URL, function(err, response, body) {
+        var page = request.payload.page || "0";
 
-            util.logger.info("SHOPIFY", "Customer Interface", SHOPIFY_CUSTOMER_URL);
+        var shopify_pagination = SHOPIFY_CUSTOMER_URL + "&page=" + page;
+
+        // download new customer info
+        node_request(shopify_pagination, function(err, response, body) {
+
+            util.logger.info("SHOPIFY", "Customer Interface", shopify_pagination);
 
             if (err || response.statusCode != 200) {
                 console.log("replying error");
@@ -48,16 +52,19 @@ ShopifyController.prototype.reloadCustomerHandler = {
             _.each(customers, function(customer) {
 
 
-                if (!(undefined == customer.default_address.phone || "" == customer.default_address.phone)) {
-                    var shopify_customer_phone = customer.default_address.phone;
+                var query_params = {
+                    shopify_id: customer.id
                 }
 
+                if (!(undefined == customer.default_address.phone || "" == customer.default_address.phone)) {
+                    var shopify_customer_phone = customer.default_address.phone;
+                    query_params.ph = shopify_customer_phone;
+                }
+
+                console.log("searching for ", query_params);
+
                 db.customer.findOne({
-                    $or: [{
-                        shopify_id: customer.id
-                    }, {
-                        ph: shopify_customer_phone
-                    }]
+                    $or: [query_params]
                 }).exec(function(err, existingCustomer) {
 
                     if (err) {
@@ -71,13 +78,11 @@ ShopifyController.prototype.reloadCustomerHandler = {
                         existingCustomer = new db.customer();
                     }
 
-                    console.log(customer.default_address.id);
+                    //console.log(customer.default_address.id);
                     if (undefined != shopify_customer_phone) {
                         console.log("processing phone number", customer.id);
                         existingCustomer.ph = shopify_customer_phone;
                     }
-
-                    console.log(existingCustomer.identifier);
 
                     existingCustomer.is_shopify = true;
                     existingCustomer.shopify_id = customer.id;
@@ -88,6 +93,7 @@ ShopifyController.prototype.reloadCustomerHandler = {
                     existingCustomer.apt = customer.default_address.address2;
                     existingCustomer.identifier = customer.first_name;
 
+                    console.log(existingCustomer.identifier);
 
                     existingCustomer.markModified('is_shopify');
                     existingCustomer.markModified('shopify_id');
@@ -99,7 +105,7 @@ ShopifyController.prototype.reloadCustomerHandler = {
                     existingCustomer.markModified('identifier');
 
                     existingCustomer.save();
-                    console.log(existingCustomer, "\n \n \n");
+                    //console.log(existingCustomer, "\n \n \n");
                 });
 
 
