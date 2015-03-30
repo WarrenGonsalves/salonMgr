@@ -159,7 +159,7 @@ CatalogController.prototype.updateCatalog = {
         if (request.payload._id === undefined) {
             return util.reply.error("Invalid catalog id", reply);
         }
-        //console.log(__filename + "update catalog by id: " + request.payload._id);
+        console.log(__filename + "update catalog by id: " + request.payload._id);
         
         delete request.payload.specialist_id;
         if(request.payload.icon_size_image !== undefined || request.payload.medium_image !== undefined)
