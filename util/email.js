@@ -8,6 +8,9 @@ var _ = require('underscore');
 var SupportEmailId = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
 var SupportBookingEmailId = process.env.SUPPORT_BOOKING_EMAIL_ID || "email.naikparag@gmail.com";
 
+var EMAIL_SUPPORT_DETAILS = "<br><br>Please use hands app <a href='http://get.handsforhome.com'>get.handsforhome.com</a> or";
+EMAIL_SUPPORT_DETAILS += " email us at <a href='mailto:customerfirst@handsforhome.com'>customerfirst@handsforhome.com</a> to provide feedback so we can improve the quality for service providers.";
+
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
 
 // var transporter = nodemailer.createTransport(sesTransport({
@@ -22,7 +25,6 @@ var transporter = nodemailer.createTransport({
         user: 'customerfirst@handsforhome.com',
         pass: 'Qwer!234'
     }
-    
 });
 
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
@@ -40,7 +42,6 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
             console.log('Message sent: ' + info.response);
         }
     });
-
 }
 
 module.exports.sendFeedback = function(feedback, customer) {
@@ -67,7 +68,7 @@ module.exports.sendBookingConfirmation = function(customer, job) {
     bookingHtmlMsg += EMAIL_FOOTER;
 
     this.sendMail(SupportEmailId, customer.email, "Hands booking confirmation " + job.job_id, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportBookingEmailId, "Hands Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+    this.sendMail(SupportEmailId, SupportBookingEmailId, "Hands booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
 }
 
 module.exports.sendContractNotification = function(contract, customer) {
@@ -88,6 +89,8 @@ module.exports.sendStatusUpdate = function(job) {
         bookingHtmlSubject = "Hands booking " + job.job_id + " is Accepted";
         bookingHtmlMsg = "Hello " + job.cust_name + ", " + job.specialist_name + " has accepted your booking - " + job.job_id + ".";
         bookingHtmlMsg += EMAIL_FOOTER;
+
+        this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
     }
 
     if (job.status == "Estimated") {
@@ -98,23 +101,30 @@ module.exports.sendStatusUpdate = function(job) {
         bookingHtmlMsg += EMAIL_FOOTER;
 
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+        this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
     }
 
     // use seperate function for sending invoice email as it required invoice data
 
     if (job.status == "Finished") {
         bookingHtmlSubject = "Hands booking " + job.job_id + " completed";
-        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has indicated that the job is now complete. "
-        bookingHtmlMsg += "Please use hands app to provide valuable feedback so we can improve the quality of service providers.";
-
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", " + job.specialist_name + " has indicated that the job is now complete."
+        bookingHtmlMsg += EMAIL_SUPPORT_DETAILS;
         bookingHtmlMsg += EMAIL_FOOTER;
 
         this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+        this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
     }
 
-    // using sendMail for each status for more control.
-    //this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
+    if (job.status == "Cancelled") {
+        bookingHtmlSubject = "Hands booking " + job.job_id + " cancelled";
+        bookingHtmlMsg = "Hello, " + job.cust_name + ", <br>Your booking " + job.job_id + " has been cancelled.";
+        bookingHtmlMsg += EMAIL_SUPPORT_DETAILS;
+        bookingHtmlMsg += EMAIL_FOOTER;
+
+        this.sendMail(SupportEmailId, job.cust_email, bookingHtmlSubject, bookingHtmlMsg);
+        this.sendMail(SupportEmailId, SupportEmailId, bookingHtmlSubject, bookingHtmlMsg);
+    }
 }
 
 module.exports.sendInvoiceNotification = function(job, invoice) {
