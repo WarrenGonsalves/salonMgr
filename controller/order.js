@@ -40,3 +40,5 @@ OrderController.prototype.addOrder = {
         });
     }
 };
+
+module.exports = new OrderController();

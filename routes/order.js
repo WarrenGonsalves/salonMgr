@@ -1,5 +1,5 @@
 var db = require('../db');
-var BASE_URL = '/order';
+var BASE_URL = '/orders';
 
 var OrderController = require('../controller/order');
 
@@ -11,7 +11,7 @@ module.exports = function () {
          * @apiGroup Order
          *
          * @apiExample Example usage:
-         * /order //will return all orders
+         * /orders //will return all orders
          */
         {
             method: 'GET',

@@ -11,8 +11,8 @@ module.exports = function () {
          * @apiGroup Catalog
          *
          * @apiExample Example usage:
-         * /catalog //will return all catalogs
-         * /catalog?catalogId=54fc5a41c4ee2a000025737c //will return a single catalog
+         * /catalogs //will return all catalogs
+         * /catalogs?catalogId=54fc5a41c4ee2a000025737c //will return a single catalog
          */
         {
             method: 'GET',
