@@ -296,8 +296,9 @@ SpecialistController.prototype.postBookSpecialist = {
                 }
             });
             if (!(request.payload.catalog_ids === undefined)) {
-                console.log(request.payload.catalog_ids);
-                db.catalog.find({ _id: { $in: request.payload.catalog_ids } }).exec(function (err, catalogList) {
+                console.log('----000------------'+request.payload.catalog_ids.split(",")[0]);
+                db.catalog.find({ _id: { $in: request.payload.catalog_ids.split(',') } }).exec(function (err, catalogList) {
+                    console.log('-----555-----' + catalogList);
                     if (err) {
                         //console.log(err + "?????");
                         util.reply.error(err, reply);
@@ -308,6 +309,7 @@ SpecialistController.prototype.postBookSpecialist = {
                     var order = db.order();
                     var line_items = new Array();
                     for (var catalog in catalogList) {
+                        console.log('-----66-----');
                         var item = {
                             catalog_id: catalogList[catalog]._id,
                             specialist_id: catalogList[catalog].specialist_id,
