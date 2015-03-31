@@ -78,9 +78,9 @@ OrderController.prototype.updateOrder = {
                     util.reply.error(err, reply);
                     return;
                 }
-                if (catalogList === null) {
+                /*if (catalogList === null) {
                     return util.reply.error("Catalog not found", reply);
-                }
+                }*/
                 var total_price = 0;
                 var total_quantity = 0;
                 //var order = db.order();
