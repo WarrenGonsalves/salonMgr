@@ -10,7 +10,7 @@ OrderController.prototype.getAllOrders = {
         
         var query_param = {}
 
-        db.catalog.find(query_param).exec(function (err, orderList) {
+        db.order.find(query_param).exec(function (err, orderList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;

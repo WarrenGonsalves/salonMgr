@@ -244,7 +244,7 @@ SpecialistController.prototype.postBookSpecialist = {
             }
 
             if (specialist === null) {
-                reply("Specialist not found ").code(510);
+                reply("Specialist not found " + specialist_id).code(510);
                 return;
             }
 
@@ -295,10 +295,11 @@ SpecialistController.prototype.postBookSpecialist = {
                     util.logger.info(__filename, "No booking notifcation as no valid customer found");
                 }
             });
-
-            if(!(request.payload.catalog_ids === undefined)) {
-                db.catalog.find( { _id: { $in:  request.payload.catalog_ids } } ).exec(function (err, catalogList) {
+            if (!(request.payload.catalog_ids === undefined)) {
+                console.log(request.payload.catalog_ids);
+                db.catalog.find({ _id: { $in: request.payload.catalog_ids } }).exec(function (err, catalogList) {
                     if (err) {
+                        //console.log(err + "?????");
                         util.reply.error(err, reply);
                         return;
                     }
@@ -308,16 +309,16 @@ SpecialistController.prototype.postBookSpecialist = {
                     var line_items = new Array();
                     for (var catalog in catalogList) {
                         var item = {
-                            catalog_id: catalog._id,
-                            specialist_id: catalog.specialist_id,
-                            name: catalog.name,
-                            detail: catalog.detail,
-                            price: catalog.price,
-                            icon_size_image: catalog.icon_size_image, 
-                            medium_image: catalog.medium_image
+                            catalog_id: catalogList[catalog]._id,
+                            specialist_id: catalogList[catalog].specialist_id,
+                            name: catalogList[catalog].name,
+                            detail: catalogList[catalog].detail,
+                            price: catalogList[catalog].price,
+                            icon_size_image: catalogList[catalog].icon_size_image, 
+                            medium_image: catalogList[catalog].medium_image
                         };
                         total_quantity++;
-                        total_price += catalog.price;
+                        total_price += catalogList[catalog].price;
                         line_items.push(item);
                     }
                     order.total_price = total_price;
@@ -328,7 +329,6 @@ SpecialistController.prototype.postBookSpecialist = {
                     job.save();
                 });
             }
-
             reply(job);
         });
     }
