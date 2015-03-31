@@ -139,7 +139,7 @@ module.exports = function() {
                         if (err) {
                             reply(err);
                         } else {
-                            reply(data);
+                            reply.redirect(data);
                         };
 
 
@@ -151,8 +151,12 @@ module.exports = function() {
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {
                 handler: function(req, reply) {
-                    
-                    reply.view('order.jade', {});
+                    util.paytm.getPaytmPost(req.params.order_id, "CUST420", req.params.amount, function(err, paytmPostParams) {
+                        console.log("---- before jade", paytmPostParams);
+                        reply.view('order.jade', {
+                            paytmPostParams: paytmPostParams
+                        });
+                    });
                 }
             }
         }, {

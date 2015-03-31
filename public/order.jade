@@ -1,8 +1,5 @@
 h2 Order Document
-form(method='post', action='/documents/')
-    input(name='order_id', value="10", type='text')
-    input(name='order_id', value="10", type='text')
-    input(name='order_id', value="10", type='text')
-    input(name='order_id', value="10", type='text')
-    input(name='order_id', value="10", type='text')
-    input(name='order_id', value="10", type='text')
+form(method='post', action='https://pguat.paytm.com/oltp-web/processTransaction?orderid='+paytmPostParams.ORDER_ID)
+    each value, key in paytmPostParams
+        input(name=key, value=value, type='text')
+    input(type='submit',value='process')

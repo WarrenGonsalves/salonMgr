@@ -44,9 +44,9 @@ module.exports.testTransaction = function transaction(orderId, customerId, amoun
                 }
 
                 if (!err && response.statusCode == 200) {
-                    //console.log("paytm response", response);
+                    console.log("paytm response", response);
                     //console.log("paytm body", body);
-                    cb(null, body);
+                    cb(null, data);
                 }
 
                 cb(null, "ok");
@@ -54,6 +54,40 @@ module.exports.testTransaction = function transaction(orderId, customerId, amoun
         );
 
     });
-
-
 }
+
+module.exports.getPaytmPost = function transaction(orderId, customerId, amount, cb){
+
+    postdata = {
+        form: {
+            REQUEST_TYPE: 'DEFAULT',
+            MID: 'ALSOdi44238291101945',
+            ORDER_ID: orderId,
+            CUST_ID: customerId,
+            TXN_AMOUNT: amount,
+            CHANNEL_ID: 'WEB',
+            INDUSTRY_TYPE_ID: 'Retail',
+            WEBSITE: 'adplweb',
+            MOBILE_NO: '9920251667',
+            EMAIL: 'email.naikparag@gmail.com',
+            ORDER_DETAILS: 'Test transaction for hawaii',
+            CHECKSUMHASH: ''
+        }
+    }
+    
+    paytmChecksum.genchecksum(postdata.form, 'kgTCLAvHnjmPcIva', function(err, checksum) {
+        if (err) {
+            console.log(err);
+            cb(err);
+        }
+        console.log(checksum);
+        console.log(paytmChecksum.verifychecksum(checksum, 'kgTCLAvHnjmPcIva'));
+
+        cb(null, checksum);
+    });
+};
+
+
+
+
+
