@@ -60,6 +60,24 @@ module.exports = function() {
             config: JobController.putHandler
         },
         /**
+         * @api {put} /jobs/{job_id}/reassign Job: reassign specialist
+         * @apiName jobReassign
+         * @apiGroup job
+         *
+         * @apiParam {String} job_id        Job id [Url parameter]
+         * @apiParam {String} book_date     date as 2015-04-01T10:00+05:30 [PUT parameter]
+         * @apiParam {String} category      category text. eg Plumber / AC repair [Put Parameter]
+         * @apiParam {String} spc_id        new specialist id [Put Parameter]
+         *
+         * @apiExample Example usage:
+         * /jobs/547af234107f433f5d9f202e/reassign
+         */
+        {
+            method: 'PUT',
+            path: BASE_URL + '/{job_id}/reassign',
+            config: JobController.reassignJob
+        },
+        /**
          * @api {post} /deprecated_use_update_status Job: Complete / Cancel
          * @apiName jobDone
          * @apiGroup job

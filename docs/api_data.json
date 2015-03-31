@@ -1,6 +1,40 @@
 [
   {
     "type": "get",
+    "url": "/appsettings",
+    "title": "AppSettings: get",
+    "name": "getAppsettings",
+    "group": "Appsettings",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/appsettings",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/appsetting.js",
+    "groupTitle": "Appsettings"
+  },
+  {
+    "type": "get",
+    "url": "/circles?grouped=true",
+    "title": "Circles: get all",
+    "name": "getCircles",
+    "group": "Circle",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/circles\n/circles?grouped=true",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/unittest.js",
+    "groupTitle": "Circle"
+  },
+  {
+    "type": "get",
     "url": "/circles?grouped=true",
     "title": "Circles: get all",
     "name": "getCircles",
@@ -235,7 +269,7 @@
   {
     "type": "get",
     "url": "/shopify/customers",
-    "title": "Shopify:",
+    "title": "Shopify: customers",
     "name": "shopifyCustomers",
     "group": "Shopify",
     "examples": [
@@ -252,7 +286,7 @@
   {
     "type": "get",
     "url": "/shopify/customers",
-    "title": "Shopify: customers",
+    "title": "Shopify:",
     "name": "shopifyCustomers",
     "group": "Shopify",
     "examples": [
@@ -713,6 +747,57 @@
   },
   {
     "type": "put",
+    "url": "/jobs/{job_id}/reassign",
+    "title": "Job: reassign specialist",
+    "name": "jobReassign",
+    "group": "job",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "book_date",
+            "description": "<p>date as 2015-04-01T10:00+05:30 [PUT parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>category text. eg Plumber / AC repair [Put Parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "spc_id",
+            "description": "<p>new specialist id [Put Parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/547af234107f433f5d9f202e/reassign",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "job"
+  },
+  {
+    "type": "put",
     "url": "/jobs/{job_id}",
     "title": "Job: update status",
     "name": "jobStatus",
@@ -1156,7 +1241,7 @@
       }
     ],
     "version": "0.0.0",
-    "filename": "routes/deals.js",
+    "filename": "routes/specialist.js",
     "groupTitle": "specialist"
   },
   {
@@ -1173,7 +1258,7 @@
       }
     ],
     "version": "0.0.0",
-    "filename": "routes/specialist.js",
+    "filename": "routes/deals.js",
     "groupTitle": "specialist"
   }
 ]

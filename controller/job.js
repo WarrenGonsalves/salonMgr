@@ -84,7 +84,7 @@ JobController.prototype.getConfigHandler = {
 JobController.prototype.putHandler = {
     handler: function(request, reply) {
         db.job.findById(request.params.id, function(err, selectedJob) {
-          //  console.log("debug","this is a test 3"+request.payload.status + " "+request.payload.estimate+" " + request.payload.estimated_fees);
+            //  console.log("debug","this is a test 3"+request.payload.status + " "+request.payload.estimate+" " + request.payload.estimated_fees);
 
             if (err) {
                 util.reply.error(err, reply);
@@ -232,6 +232,115 @@ JobController.prototype.jobDoneConfigHandler = {
 
             removeJobFromSpecialist(selectedJob);
             sendJobStatusUpdate(selectedJob);
+        });
+    }
+};
+
+JobController.prototype.reassignJob = {
+    handler: function(request, reply) {
+
+        console.log("PAYLOAD-----" + JSON.stringify(request.payload));
+
+        var specialist_id = request.payload.spc_id;
+        var job_id = request.params.job_id;
+        var book_date;
+        if (!(request.payload.book_date === undefined)) {
+            book_date = new Date(Date.parse(request.payload.book_date));
+        }
+
+        if (!(request.payload.book_date_milli === undefined)) {
+            book_date = new Date(parseInt(request.payload.book_date_milli));
+        }
+
+        if (specialist_id === undefined) {
+            util.reply.error("Missing specialist id ", reply);
+            return;
+        }
+
+        if (job_id === undefined) {
+            util.reply.error("Missing job id ", reply);
+            return;
+        }
+
+        if (request.payload.book_date === undefined && request.payload.book_date_milli === undefined) {
+            util.reply.error("Provide book date", reply);
+            return;
+        }
+
+        if (request.payload.category === undefined) {
+            util.reply.error("Provide specialist category title", reply);
+            return;
+        }
+
+        util.logger.info(__filename, ["reassign Job to: " + specialist_id], JSON.stringify(request.payload));
+
+        db.specialist.findById(specialist_id, function(err, specialist) {
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            if (specialist === null) {
+                util.reply.error("Specialist not found ");
+                return;
+            }
+
+            db.job.findById(job_id, function(err, job) {
+
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+
+                if (job === null) {
+                    util.reply.error("job not found for given id");
+                    return;
+                }
+
+                job.specialist_id = specialist_id;
+                job.specialist_name = specialist.name;
+                job.specialist_category = request.payload.category;
+                job.specialist_ph = specialist.phone;
+                job.specialist_image = specialist.profile_img;
+                job.book_date = book_date;
+                job.save();
+                // dont set Job_id. we are simply updating existing job.
+                //job.setJobId();
+
+                console.log(__filename + "job updated " + JSON.stringify(job._id));
+                specialist.current_job = job._id;
+                specialist.jobs.push(job._id);
+                specialist.available = false;
+                //console.log(__filename + "adding job to specialist: " + JSON.stringify(specialist));
+                specialist.save();
+
+                var booking = new db.booking();
+                booking.specialist_id = job.specialist_id;
+                booking.book_date = new Date(Date.parse(book_date));
+                booking.cust_id = job.cust_id;
+                booking.job_id = job._id;
+                booking.save();
+
+                job.booking_slot_id = booking._id;
+                job.save();
+
+                db.customer.findById(job.cust_id).exec(function(err, customer) {
+                    if (customer != null) {
+                        console.log("sending email for booking....");
+                        job.cust_email = customer.email;
+                        job.save();
+                        util.email.sendBookingConfirmation(customer, job);
+                        util.sms.sendBookingConfirmation(customer.ph, job, customer.name);
+                        util.sms.notifySpecialistNewBooking(job);
+                    } else {
+                        util.logger.info(__filename, "No booking notifcation as no valid customer found for: " + job.cust_id);
+                    }
+                });
+
+                reply(job);
+
+            });
         });
     }
 };
