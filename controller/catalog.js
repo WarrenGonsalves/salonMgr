@@ -71,6 +71,7 @@ CatalogController.prototype.addCatalog = {
     },
     handler: function (request, reply) {
         //console.log(request.payload.specialist_id);
+        //console.log(request.payload.icon_size_image);
 
         if (request.payload.specialist_id === undefined) {
             return util.reply.error("Invalid specialist id", reply);
@@ -114,10 +115,10 @@ CatalogController.prototype.addCatalog = {
                 //new
                 //console.log(request.payload.icon_size_image.hapi.filename);
                 var count = 0;
-                var re = /(?:\.([^.]+))?$/;
+                //var re = /(?:\.([^.]+))?$/;
                 //Upload icon image
                 var icon_size_image = request.payload.icon_size_image;
-                var iconFileName = "catalogIcon_" + catalog._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+                var iconFileName = "catalogIcon_" + catalog._id; //+ "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
                 var iconPath = config.imgDir + iconFileName;
                 console.log(iconPath);
                 icon_size_image.pipe(fs.createWriteStream(iconPath));
@@ -129,7 +130,7 @@ CatalogController.prototype.addCatalog = {
                 });
                 //Upload medium image
                 var medium_image = request.payload.medium_image;
-                var medImgFileName = "catalogMedImg_" + catalog._id + "." + re.exec(request.payload.medium_image.hapi.filename)[1];
+                var medImgFileName = "catalogMedImg_" + catalog._id; //+ "." + re.exec(request.payload.medium_image.hapi.filename)[1];
                 var medImgPath = config.imgDir + medImgFileName;
                 console.log(medImgPath);
                 medium_image.pipe(fs.createWriteStream(medImgPath));
@@ -165,11 +166,11 @@ CatalogController.prototype.updateCatalog = {
         if(request.payload.icon_size_image !== undefined || request.payload.medium_image !== undefined)
         {
             var count = 0;
-            var re = /(?:\.([^.]+))?$/;
+            //var re = /(?:\.([^.]+))?$/;
             if(request.payload.icon_size_image !== undefined) {
                 //Update icon image
                 var icon_size_image = request.payload.icon_size_image;
-                var iconFileName = "catalogIcon_" + request.payload._id + "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+                var iconFileName = "catalogIcon_" + request.payload._id; //+ "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
                 var iconPath = config.imgDir + iconFileName;
                 console.log(iconPath);
                 icon_size_image.pipe(fs.createWriteStream(iconPath));
@@ -183,7 +184,7 @@ CatalogController.prototype.updateCatalog = {
             else ++count;
             if(request.payload.medium_image !== undefined) {
                 var medium_image = request.payload.medium_image;
-                var medImgFileName = "catalogMedImg_" + request.payload._id + "." + re.exec(request.payload.medium_image.hapi.filename)[1];
+                var medImgFileName = "catalogMedImg_" + request.payload._id; //+ "." + re.exec(request.payload.medium_image.hapi.filename)[1];
                 var medImgPath = config.imgDir + medImgFileName;
                 console.log(medImgPath);
                 medium_image.pipe(fs.createWriteStream(medImgPath));
