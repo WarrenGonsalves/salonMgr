@@ -89,9 +89,9 @@ module.exports.notifyLaundryBooking = function(job) {
         total += line_item.quantity;
     });
 
-    var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + job.shopify_order.total_price;
+    var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + parseInt(job.shopify_order.total_price);
     smsBody += ". For details, please download the hands app from get.handsforhome.com";
 
-    logger.info(TAG, ["SMS Laundry", job.shopify_order.customer.default_address.phone, smsBody]);
-    this.sendSMS(job.shopify_order.customer.default_address.phone, smsBody);
+    logger.info(TAG, ["SMS Laundry", job.cust_ph, smsBody]);
+    this.sendSMS(job.cust_ph, smsBody);
 }
