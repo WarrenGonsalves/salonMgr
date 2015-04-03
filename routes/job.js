@@ -6,7 +6,7 @@ module.exports = function() {
         /**
          * @api {get} /jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}&job_id={1005} Job: get jobs
          * @apiName jobGet
-         * @apiGroup job
+         * @apiGroup Jobs
          *
          * @apiExample Example usage:
          * /jobs
@@ -24,7 +24,7 @@ module.exports = function() {
         /**
          * @api {post} /jobs/img/{job_id} Job: upload images
          * @apiName jobImage
-         * @apiGroup jobs
+         * @apiGroup Jobs
          *
          * @apiParam {String} job_id        Job id [Url parameter]
          * @apiParam {Object} img           Job image file to be uploaded [Post parameter]
@@ -40,7 +40,7 @@ module.exports = function() {
         /**
          * @api {put} /jobs/{job_id} Job: update status
          * @apiName jobStatus
-         * @apiGroup job
+         * @apiGroup Jobs
          *
          * @apiParam {String} job_id        Job id [Url parameter]
          * @apiParam {String} status        Set status = 'Accepted', 'Estimated', 'Started', 'Finished', Cancelled' [PUT parameter]
@@ -62,7 +62,7 @@ module.exports = function() {
         /**
          * @api {put} /jobs/{job_id}/reassign Job: reassign specialist
          * @apiName jobReassign
-         * @apiGroup job
+         * @apiGroup Jobs
          *
          * @apiParam {String} job_id        Job id [Url parameter]
          * @apiParam {String} book_date     date as 2015-04-01T10:00+05:30 [PUT parameter]
@@ -80,7 +80,7 @@ module.exports = function() {
         /**
          * @api {post} /deprecated_use_update_status Job: Complete / Cancel
          * @apiName jobDone
-         * @apiGroup job
+         * @apiGroup Jobs
          *
          * @apiParam {String} cancelled        pass 'true' to cancel job [optional] [Post parameter]
          *

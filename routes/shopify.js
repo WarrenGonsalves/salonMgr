@@ -7,7 +7,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/interface/shopify/reload/customer Interface: reload customer
          * @apiName interfaceCustomer
-         * @apiGroup interface
+         * @apiGroup Interface
          *
          * @apiExample Example usage:
          * /admin/interface/shopify/reload/customer
@@ -20,7 +20,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/interface/shopify/reload/specialist Interface: reload specialist
          * @apiName interfaceSpecialist
-         * @apiGroup interface
+         * @apiGroup Interface
          *
          * @apiExample Example usage:
          * /admin/interface/shopify/reload/specialist

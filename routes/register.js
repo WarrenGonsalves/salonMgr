@@ -27,7 +27,7 @@ module.exports = function() {
         /**
          * @api {post} /register/store/{store_phone} Register: store
          * @apiName registerStore
-         * @apiGroup register
+         * @apiGroup Register
          *
          * @apiParam {String} store_phone Store phone number
          *
@@ -42,7 +42,7 @@ module.exports = function() {
         /**
          * @api {post} /register/customer/{customer_phone} Register: customer
          * @apiName registerCustomer
-         * @apiGroup register
+         * @apiGroup Register
          *
          * @apiParam {String} customer_phone Customer phone number
          * @apiParam {String} name Customer Name [Post Param]
@@ -59,7 +59,7 @@ module.exports = function() {
         /**
          * @api {post} /register/specialist/{specialist_phone} Register: specialist
          * @apiName registerSpecialist
-         * @apiGroup register
+         * @apiGroup Register
          *
          * @apiParam {String} specialist_phone Specialist phone number
          *
@@ -74,7 +74,7 @@ module.exports = function() {
         /**
          * @api {post} /register/auth/{phone}/{auth_code} Register: auth phone
          * @apiName auth
-         * @apiGroup register
+         * @apiGroup Register
          *
          * @apiParam {String} phone Store / Customer phone number
          * @apiParam {String} auth_code authorization code received via SMS

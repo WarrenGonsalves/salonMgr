@@ -9,7 +9,7 @@ module.exports = function() {
     /**
      * @api {get} /specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true get specialists
      * @apiName getSpecialists
-     * @apiGroup specialist
+     * @apiGroup Specialist
      *
      * @apiExample Example usage:
      * /specialists
@@ -26,7 +26,7 @@ module.exports = function() {
     /**
      * @api {post} /specialists       Specialist: Customer Referral
      * @apiName custReferral
-     * @apiGroup specialist
+     * @apiGroup Specialist
      *
      * @apiParam {String} referral_customer_id    Customer id [Post parameter]
      * @apiParam {String} name                    Specialist name [Post parameter]
@@ -41,7 +41,7 @@ module.exports = function() {
     /**
      * @api {post} /specialists/{spc_id}/book/{cust_id} Booking: book specialist
      * @apiName bookSpecialist
-     * @apiGroup specialist
+     * @apiGroup Specialist
      *
      * @apiParam {String} spc_id      Specialist id [Url parameter]
      * @apiParam {String} cust_id     Customer id / Store id [Url parameter]
@@ -65,7 +65,7 @@ module.exports = function() {
     /**
      * @api {post} /specialists/customerjob Booking: referr customer + job
      * @apiName customerJob
-     * @apiGroup specialist
+     * @apiGroup Specialist
      *
      * @apiParam {String} spc_id      Specialist id [Post parameter]
      * @apiParam {String} category    Specialist category title [Post parameter]

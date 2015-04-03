@@ -12,7 +12,7 @@ module.exports = function() {
         /**
          * @api {get} / Test.
          * @apiName TestEndPoint
-         * @apiGroup admin
+         * @apiGroup Admin
          */
         {
             method: 'GET',
@@ -50,7 +50,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/specialist/addcat/{spc_id}/{cat_id} Specialist: Add Category to Specialist
          * @apiName AddCat
-         * @apiGroup admin
+         * @apiGroup Admin
          *
          * @apiParam {String} spc_id      Specialist id.
          * @apiParam {String} cat_id      cateogory id.
@@ -64,7 +64,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/specialist/addstore/{spc_id}/{store_id} Specialist: Add Store to specialist
          * @apiName AddStore
-         * @apiGroup admin
+         * @apiGroup Admin
          *
          * @apiParam {String} spc_id      Specialist id.
          * @apiParam {String} store_id    Store id.
@@ -78,7 +78,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/reviews Reviews: new review metadata
          * @apiName AddReviewMetadata
-         * @apiGroup admin
+         * @apiGroup Admin
          *
          * @apiParam {String} text     Review text [Pay]
          *
@@ -95,7 +95,7 @@ module.exports = function() {
         /**
          * @api {put} /admin/category Category: update
          * @apiName ServerCateogry
-         * @apiGroup admin
+         * @apiGroup Admin
          */
         {
             method: 'PUT',
@@ -105,7 +105,7 @@ module.exports = function() {
         /**
          * @api {get} /admin/config Server: Get Server config
          * @apiName Server Config
-         * @apiGroup admin
+         * @apiGroup Admin
          */
         {
             method: 'GET',

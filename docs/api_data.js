@@ -1,5 +1,155 @@
 define({ api: [
   {
+    "type": "post",
+    "url": "/admin/specialist/addcat/{spc_id}/{cat_id}",
+    "title": "Specialist: Add Category to Specialist",
+    "name": "AddCat",
+    "group": "Admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "spc_id",
+            "description": "<p>Specialist id.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "cat_id",
+            "description": "<p>cateogory id.</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "post",
+    "url": "/admin/reviews",
+    "title": "Reviews: new review metadata",
+    "name": "AddReviewMetadata",
+    "group": "Admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "text",
+            "description": "<p>Review text [Pay]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "post",
+    "url": "/admin/specialist/addstore/{spc_id}/{store_id}",
+    "title": "Specialist: Add Store to specialist",
+    "name": "AddStore",
+    "group": "Admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "spc_id",
+            "description": "<p>Specialist id.</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "store_id",
+            "description": "<p>Store id.</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "put",
+    "url": "/admin/category",
+    "title": "Category: update",
+    "name": "ServerCateogry",
+    "group": "Admin",
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "get",
+    "url": "/admin/config",
+    "title": "Server: Get Server config",
+    "name": "Server_Config",
+    "group": "Admin",
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "get",
+    "url": "/",
+    "title": "Test.",
+    "name": "TestEndPoint",
+    "group": "Admin",
+    "version": "0.0.0",
+    "filename": "routes/admin.js",
+    "groupTitle": "Admin"
+  },
+  {
+    "type": "post",
+    "url": "/admin/categories/{category}/{sub_category}",
+    "title": "Category: create new",
+    "name": "bookSpecialist",
+    "group": "Admin",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "category",
+            "description": "<p>Category name</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "sub_category",
+            "description": "<p>Sub category name</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/admin/categories/Fixers/Plumber",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/category.js",
+    "groupTitle": "Admin"
+  },
+  {
     "type": "get",
     "url": "/appsettings",
     "title": "AppSettings: get",
@@ -18,20 +168,13 @@ define({ api: [
   },
   {
     "type": "get",
-    "url": "/circles?grouped=true",
-    "title": "Circles: get all",
-    "name": "getCircles",
-    "group": "Circle",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/circles\n/circles?grouped=true",
-        "type": "json"
-      }
-    ],
+    "url": "/categories/",
+    "title": "Get all categories",
+    "name": "getCategories",
+    "group": "Categories",
     "version": "0.0.0",
-    "filename": "routes/unittest.js",
-    "groupTitle": "Circle"
+    "filename": "routes/category.js",
+    "groupTitle": "Categories"
   },
   {
     "type": "get",
@@ -48,6 +191,23 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/circle.js",
+    "groupTitle": "Circle"
+  },
+  {
+    "type": "get",
+    "url": "/circles?grouped=true",
+    "title": "Circles: get all",
+    "name": "getCircles",
+    "group": "Circle",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/circles\n/circles?grouped=true",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/unittest.js",
     "groupTitle": "Circle"
   },
   {
@@ -122,6 +282,193 @@ define({ api: [
     "groupTitle": "Contracts"
   },
   {
+    "type": "post",
+    "url": "/customers/auth",
+    "title": "Customer: Auth",
+    "name": "customerAuth",
+    "group": "Customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>phone [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>email [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "secret",
+            "description": "<p>secret to verify [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/auth",
+        "type": "json"
+      }
+    ],
+    "description": "<p>provide either the phone / email / customer_id + secret to auth user.</p> ",
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
+    "type": "get",
+    "url": "/customers",
+    "title": "Customer: get all",
+    "name": "customerGet",
+    "group": "Customer",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
+    "type": "post",
+    "url": "/customers/{customer_id}/registerpush",
+    "title": "Customer: register push notification key",
+    "name": "customerPost",
+    "group": "Customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "gcm_id",
+            "description": "<p>GCM id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "apn_id",
+            "description": "<p>APN id [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/547ae3f83ee077774bbb2f5c/registerpush",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
+    "type": "post",
+    "url": "/customers/email",
+    "title": "Customer: update phone",
+    "name": "customerPut",
+    "group": "Customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "id",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Customer Phone [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/phone",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
+    "type": "put",
+    "url": "/customers/secret",
+    "title": "Customer: update secret",
+    "name": "customerUpdate",
+    "group": "Customer",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "old_secret",
+            "description": "<p>old secret to verify [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "new_secret",
+            "description": "<p>new secret to set [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers/secret",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
     "type": "get",
     "url": "/feedbacks",
     "title": "feedback: get all",
@@ -174,6 +521,40 @@ define({ api: [
     "version": "0.0.0",
     "filename": "routes/feedback.js",
     "groupTitle": "Feedback"
+  },
+  {
+    "type": "post",
+    "url": "/admin/interface/shopify/reload/customer",
+    "title": "Interface: reload customer",
+    "name": "interfaceCustomer",
+    "group": "Interface",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/admin/interface/shopify/reload/customer",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Interface"
+  },
+  {
+    "type": "post",
+    "url": "/admin/interface/shopify/reload/specialist",
+    "title": "Interface: reload specialist",
+    "name": "interfaceSpecialist",
+    "group": "Interface",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/admin/interface/shopify/reload/specialist",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Interface"
   },
   {
     "type": "get",
@@ -238,509 +619,10 @@ define({ api: [
   },
   {
     "type": "post",
-    "url": "/ratings/{specialist_id}",
-    "title": "Ratings: specialist rating",
-    "name": "postRating",
-    "group": "Rating",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "rating_ids",
-            "description": "<p>Comma seperated ids for rating count to be incremented [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/ratings/5468521be05865bc22d26733",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/rating.js",
-    "groupTitle": "Rating"
-  },
-  {
-    "type": "get",
-    "url": "/shopify/customers",
-    "title": "Shopify: customers",
-    "name": "shopifyCustomers",
-    "group": "Shopify",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/shopify/customers",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/shopify.js",
-    "groupTitle": "Shopify"
-  },
-  {
-    "type": "get",
-    "url": "/shopify/customers",
-    "title": "Shopify:",
-    "name": "shopifyCustomers",
-    "group": "Shopify",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/shopify/customers",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/shopify.js",
-    "groupTitle": "Shopify"
-  },
-  {
-    "type": "post",
-    "url": "/hawaii",
-    "title": "Transaction: callback url",
-    "name": "callbackTransaction",
-    "group": "Transaction",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/hawaii",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/transaction.js",
-    "groupTitle": "Transaction"
-  },
-  {
-    "type": "post",
-    "url": "/tnxs",
-    "title": "Transaction: callback url",
-    "name": "newTransaction",
-    "group": "Transaction",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/tnxs",
-        "type": "json"
-      }
-    ],
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "job_id",
-            "description": "<p>Job id [POST parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "amount",
-            "description": "<p>amount to be charged to customer [POST parameter]</p> "
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/transaction.js",
-    "groupTitle": "Transaction"
-  },
-  {
-    "type": "post",
-    "url": "/admin/specialist/addcat/{spc_id}/{cat_id}",
-    "title": "Specialist: Add Category to Specialist",
-    "name": "AddCat",
-    "group": "admin",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "spc_id",
-            "description": "<p>Specialist id.</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "cat_id",
-            "description": "<p>cateogory id.</p> "
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "post",
-    "url": "/admin/reviews",
-    "title": "Reviews: new review metadata",
-    "name": "AddReviewMetadata",
-    "group": "admin",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "text",
-            "description": "<p>Review text [Pay]</p> "
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "post",
-    "url": "/admin/specialist/addstore/{spc_id}/{store_id}",
-    "title": "Specialist: Add Store to specialist",
-    "name": "AddStore",
-    "group": "admin",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "spc_id",
-            "description": "<p>Specialist id.</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "store_id",
-            "description": "<p>Store id.</p> "
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "put",
-    "url": "/admin/category",
-    "title": "Category: update",
-    "name": "ServerCateogry",
-    "group": "admin",
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "get",
-    "url": "/admin/config",
-    "title": "Server: Get Server config",
-    "name": "Server_Config",
-    "group": "admin",
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "get",
-    "url": "/",
-    "title": "Test.",
-    "name": "TestEndPoint",
-    "group": "admin",
-    "version": "0.0.0",
-    "filename": "routes/admin.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "post",
-    "url": "/admin/categories/{category}/{sub_category}",
-    "title": "Category: create new",
-    "name": "bookSpecialist",
-    "group": "admin",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "category",
-            "description": "<p>Category name</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "sub_category",
-            "description": "<p>Sub category name</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/admin/categories/Fixers/Plumber",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/category.js",
-    "groupTitle": "admin"
-  },
-  {
-    "type": "get",
-    "url": "/categories/",
-    "title": "Get all categories",
-    "name": "getCategories",
-    "group": "categories",
-    "version": "0.0.0",
-    "filename": "routes/category.js",
-    "groupTitle": "categories"
-  },
-  {
-    "type": "post",
-    "url": "/customers/auth",
-    "title": "Customer: Auth",
-    "name": "customerAuth",
-    "group": "customer",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "customer_id",
-            "description": "<p>customer id [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "phone",
-            "description": "<p>phone [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "email",
-            "description": "<p>email [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "secret",
-            "description": "<p>secret to verify [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/customers/auth",
-        "type": "json"
-      }
-    ],
-    "description": "<p>provide either the phone / email / customer_id + secret to auth user.</p> ",
-    "version": "0.0.0",
-    "filename": "routes/customer.js",
-    "groupTitle": "customer"
-  },
-  {
-    "type": "get",
-    "url": "/customers",
-    "title": "Customer: get all",
-    "name": "customerGet",
-    "group": "customer",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/customers",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/customer.js",
-    "groupTitle": "customer"
-  },
-  {
-    "type": "post",
-    "url": "/customers/{customer_id}/registerpush",
-    "title": "Customer: register push notification key",
-    "name": "customerPost",
-    "group": "customer",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "gcm_id",
-            "description": "<p>GCM id [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "apn_id",
-            "description": "<p>APN id [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/customers/547ae3f83ee077774bbb2f5c/registerpush",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/customer.js",
-    "groupTitle": "customer"
-  },
-  {
-    "type": "post",
-    "url": "/customers/email",
-    "title": "Customer: update phone",
-    "name": "customerPut",
-    "group": "customer",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "id",
-            "description": "<p>Customer id [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "phone",
-            "description": "<p>Customer Phone [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/customers/phone",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/customer.js",
-    "groupTitle": "customer"
-  },
-  {
-    "type": "put",
-    "url": "/customers/secret",
-    "title": "Customer: update secret",
-    "name": "customerUpdate",
-    "group": "customer",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "customer_id",
-            "description": "<p>customer id [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "old_secret",
-            "description": "<p>old secret to verify [Post parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "String",
-            "optional": false,
-            "field": "new_secret",
-            "description": "<p>new secret to set [Post parameter]</p> "
-          }
-        ]
-      }
-    },
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/customers/secret",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/customer.js",
-    "groupTitle": "customer"
-  },
-  {
-    "type": "post",
-    "url": "/admin/interface/shopify/reload/customer",
-    "title": "Interface: reload customer",
-    "name": "interfaceCustomer",
-    "group": "interface",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/admin/interface/shopify/reload/customer",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/shopify.js",
-    "groupTitle": "interface"
-  },
-  {
-    "type": "post",
-    "url": "/admin/interface/shopify/reload/specialist",
-    "title": "Interface: reload specialist",
-    "name": "interfaceSpecialist",
-    "group": "interface",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/admin/interface/shopify/reload/specialist",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/shopify.js",
-    "groupTitle": "interface"
-  },
-  {
-    "type": "post",
     "url": "/deprecated_use_update_status",
     "title": "Job: Complete / Cancel",
     "name": "jobDone",
-    "group": "job",
+    "group": "Jobs",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -763,14 +645,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/job.js",
-    "groupTitle": "job"
+    "groupTitle": "Jobs"
   },
   {
     "type": "get",
     "url": "/jobs?specialist_id={spc_id}&cust_id={cust_id}&complete={flag}&status={New,Estimated,Started}&job_id={1005}",
     "title": "Job: get jobs",
     "name": "jobGet",
-    "group": "job",
+    "group": "Jobs",
     "examples": [
       {
         "title": "Example usage:",
@@ -780,14 +662,51 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/job.js",
-    "groupTitle": "job"
+    "groupTitle": "Jobs"
+  },
+  {
+    "type": "post",
+    "url": "/jobs/img/{job_id}",
+    "title": "Job: upload images",
+    "name": "jobImage",
+    "group": "Jobs",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [Url parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Object",
+            "optional": false,
+            "field": "img",
+            "description": "<p>Job image file to be uploaded [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/jobs/img/547af234107f433f5d9f202e",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/job.js",
+    "groupTitle": "Jobs"
   },
   {
     "type": "put",
     "url": "/jobs/{job_id}/reassign",
     "title": "Job: reassign specialist",
     "name": "jobReassign",
-    "group": "job",
+    "group": "Jobs",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -831,14 +750,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/job.js",
-    "groupTitle": "job"
+    "groupTitle": "Jobs"
   },
   {
     "type": "put",
     "url": "/jobs/{job_id}",
     "title": "Job: update status",
     "name": "jobStatus",
-    "group": "job",
+    "group": "Jobs",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -882,14 +801,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/job.js",
-    "groupTitle": "job"
+    "groupTitle": "Jobs"
   },
   {
     "type": "post",
-    "url": "/jobs/img/{job_id}",
-    "title": "Job: upload images",
-    "name": "jobImage",
-    "group": "jobs",
+    "url": "/ratings/{specialist_id}",
+    "title": "Ratings: specialist rating",
+    "name": "postRating",
+    "group": "Rating",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -897,15 +816,8 @@ define({ api: [
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "job_id",
-            "description": "<p>Job id [Url parameter]</p> "
-          },
-          {
-            "group": "Parameter",
-            "type": "Object",
-            "optional": false,
-            "field": "img",
-            "description": "<p>Job image file to be uploaded [Post parameter]</p> "
+            "field": "rating_ids",
+            "description": "<p>Comma seperated ids for rating count to be incremented [Post parameter]</p> "
           }
         ]
       }
@@ -913,20 +825,20 @@ define({ api: [
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs/img/547af234107f433f5d9f202e",
+        "content": "/ratings/5468521be05865bc22d26733",
         "type": "json"
       }
     ],
     "version": "0.0.0",
-    "filename": "routes/job.js",
-    "groupTitle": "jobs"
+    "filename": "routes/rating.js",
+    "groupTitle": "Rating"
   },
   {
     "type": "post",
     "url": "/register/auth/{phone}/{auth_code}",
     "title": "Register: auth phone",
     "name": "auth",
-    "group": "register",
+    "group": "Register",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -956,14 +868,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/register.js",
-    "groupTitle": "register"
+    "groupTitle": "Register"
   },
   {
     "type": "post",
     "url": "/register/customer/{customer_phone}",
     "title": "Register: customer",
     "name": "registerCustomer",
-    "group": "register",
+    "group": "Register",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1000,14 +912,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/register.js",
-    "groupTitle": "register"
+    "groupTitle": "Register"
   },
   {
     "type": "post",
     "url": "/register/specialist/{specialist_phone}",
     "title": "Register: specialist",
     "name": "registerSpecialist",
-    "group": "register",
+    "group": "Register",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1030,14 +942,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/register.js",
-    "groupTitle": "register"
+    "groupTitle": "Register"
   },
   {
     "type": "post",
     "url": "/register/store/{store_phone}",
     "title": "Register: store",
     "name": "registerStore",
-    "group": "register",
+    "group": "Register",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1060,14 +972,48 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/register.js",
-    "groupTitle": "register"
+    "groupTitle": "Register"
+  },
+  {
+    "type": "get",
+    "url": "/shopify/customers",
+    "title": "Shopify:",
+    "name": "shopifyCustomers",
+    "group": "Shopify",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/shopify/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Shopify"
+  },
+  {
+    "type": "get",
+    "url": "/shopify/customers",
+    "title": "Shopify: customers",
+    "name": "shopifyCustomers",
+    "group": "Shopify",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/shopify/customers",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/shopify.js",
+    "groupTitle": "Shopify"
   },
   {
     "type": "post",
     "url": "/specialists/{spc_id}/book/{cust_id}",
     "title": "Booking: book specialist",
     "name": "bookSpecialist",
-    "group": "specialist",
+    "group": "Specialist",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1153,14 +1099,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/specialist.js",
-    "groupTitle": "specialist"
+    "groupTitle": "Specialist"
   },
   {
     "type": "post",
     "url": "/specialists",
     "title": "Specialist: Customer Referral",
     "name": "custReferral",
-    "group": "specialist",
+    "group": "Specialist",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1197,14 +1143,14 @@ define({ api: [
     },
     "version": "0.0.0",
     "filename": "routes/specialist.js",
-    "groupTitle": "specialist"
+    "groupTitle": "Specialist"
   },
   {
     "type": "post",
     "url": "/specialists/customerjob",
     "title": "Booking: referr customer + job",
     "name": "customerJob",
-    "group": "specialist",
+    "group": "Specialist",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -1262,31 +1208,14 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/specialist.js",
-    "groupTitle": "specialist"
+    "groupTitle": "Specialist"
   },
   {
     "type": "get",
     "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
     "title": "get specialists",
     "name": "getSpecialists",
-    "group": "specialist",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/specialists\n/specialists?store=123456\n/specialists?store=123456&category=667766\n/specialists?store=123456&category=667766&grouped=true\n/specialists?category=667766&lat=19.1999999&lng=72.9444444&book_date=2014-11-12T10:00+05:30",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/deals.js",
-    "groupTitle": "specialist"
-  },
-  {
-    "type": "get",
-    "url": "/specialist?store={storeid}&category={categoryid}&lat={latitude}&lng={longitude}&book_date={YYYY-MM-DDThh:mmTZD}&grouped=true",
-    "title": "get specialists",
-    "name": "getSpecialists",
-    "group": "specialist",
+    "group": "Specialist",
     "examples": [
       {
         "title": "Example usage:",
@@ -1296,6 +1225,60 @@ define({ api: [
     ],
     "version": "0.0.0",
     "filename": "routes/specialist.js",
-    "groupTitle": "specialist"
+    "groupTitle": "Specialist"
+  },
+  {
+    "type": "post",
+    "url": "/hawaii",
+    "title": "Transaction: callback url",
+    "name": "callbackTransaction",
+    "group": "Transaction",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/hawaii",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/transaction.js",
+    "groupTitle": "Transaction"
+  },
+  {
+    "type": "post",
+    "url": "/tnxs",
+    "title": "Transaction: new transaction data",
+    "name": "newTransaction",
+    "group": "Transaction",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/tnxs",
+        "type": "json"
+      }
+    ],
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "job_id",
+            "description": "<p>Job id [POST parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "amount",
+            "description": "<p>amount to be charged to customer [POST parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/transaction.js",
+    "groupTitle": "Transaction"
   }
 ] });

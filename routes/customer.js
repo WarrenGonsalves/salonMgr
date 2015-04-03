@@ -6,7 +6,7 @@ module.exports = function() {
         /**
          * @api {get} /customers Customer: get all
          * @apiName customerGet
-         * @apiGroup customer
+         * @apiGroup Customer
          *
          * @apiExample Example usage:
          * /customers
@@ -19,7 +19,7 @@ module.exports = function() {
         /**
          * @api {post} /customers/{customer_id}/registerpush Customer: register push notification key
          * @apiName customerPost
-         * @apiGroup customer
+         * @apiGroup Customer
          *
          * @apiParam {String} gcm_id       GCM id [Post parameter]
          * @apiParam {String} apn_id       APN id [Post parameter]
@@ -35,7 +35,7 @@ module.exports = function() {
         /**
          * @api {post} /customers/email        Customer: update phone
          * @apiName customerPut
-         * @apiGroup customer
+         * @apiGroup Customer
          *
          * @apiParam {String} id        Customer id [Post parameter]
          * @apiParam {String} phone     Customer Phone [Post parameter]
@@ -51,7 +51,7 @@ module.exports = function() {
         /**
          * @api {post} /customers/auth     Customer: Auth
          * @apiName customerAuth
-         * @apiGroup customer
+         * @apiGroup Customer
          *
          * @apiParam {String} customer_id   customer id [Post parameter]
          * @apiParam {String} phone         phone [Post parameter]
@@ -71,7 +71,7 @@ module.exports = function() {
         /**
          * @api {put} /customers/secret     Customer: update secret
          * @apiName customerUpdate
-         * @apiGroup customer
+         * @apiGroup Customer
          *
          * @apiParam {String} customer_id   customer id [Post parameter]
          * @apiParam {String} old_secret    old secret to verify [Post parameter]

@@ -5,7 +5,7 @@ var controller = require('../controller/transaction');
 module.exports = function() {
     return [
         /**
-         * @api {post} /tnxs Transaction: callback url
+         * @api {post} /tnxs Transaction: new transaction data
          * @apiName newTransaction
          * @apiGroup Transaction
          *

@@ -8,7 +8,7 @@ module.exports = function() {
         /**
          * @api {get} /categories/ Get all categories
          * @apiName getCategories
-         * @apiGroup categories
+         * @apiGroup Categories
          */
         {
             method: 'GET',
@@ -18,7 +18,7 @@ module.exports = function() {
         /**
          * @api {post} /admin/categories/{category}/{sub_category} Category: create new
          * @apiName bookSpecialist
-         * @apiGroup admin
+         * @apiGroup Admin
          *
          * @apiParam {String} category      Category name
          * @apiParam {String} sub_category  Sub category name
