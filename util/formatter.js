@@ -1,5 +1,7 @@
 var logger = require('./logger');
 var _ = require('underscore');
+var moment = require('moment');
+var momenttz = require('moment-timezone');
 
 module.exports.toHTML = function toHTML(model) {
 
@@ -19,4 +21,12 @@ module.exports.toHTML = function toHTML(model) {
     } else {
         return "null";
     }    
+}
+
+module.exports.toDisplayDate = function (date) {
+    return momenttz(date).tz('Asia/Kolkata').format('Do MMM YYYY');
+}
+
+module.exports.toDisplayTime = function (date) {
+    return momenttz(date).tz('Asia/Kolkata').format('h:mm a');
 }
