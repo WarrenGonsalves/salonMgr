@@ -70,9 +70,9 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
-    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
-    var smsBody2 = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . ";
-    smsBody2 += "Customer address - " + job.cust_addr1 + " " + job.cust_addr_landmark + " , task - " + job.cust_task + ", date - " + formatter.toDisplayDate(job.book_date) + " time - " + formatter.toDisplayTime(job.book_date) + " Thank you."
+    //var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
+    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . ";
+    smsBody += "Customer address - " + job.cust_addr1 + " " + job.cust_addr_landmark + " , task - " + job.cust_task + ", date - " + formatter.toDisplayDate(job.book_date) + " time - " + formatter.toDisplayTime(job.book_date) + " Thank you."
 
 
     // TODO  replace viveks number with job.specialist_ph
@@ -81,7 +81,7 @@ module.exports.notifySpecialistNewBooking = function(job) {
         this.sendSMS("9833789536", smsBody);
         this.sendSMS(job.specialist_ph, smsBody);
     } else {
-        this.sendSMS("9920251667", smsBody2);
+        this.sendSMS("9920251667", smsBody);
         logger.info(TAG, "skip sms for non prod env");
     }
 }
@@ -93,6 +93,15 @@ module.exports.notifyLaundryBooking = function(job) {
     _.each(job.shopify_order.line_items, function(line_item) {
         total += line_item.quantity;
     });
+
+    var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + parseInt(job.shopify_order.total_price);
+    smsBody += ". For details, please download the hands app from get.handsforhome.com";
+
+    logger.info(TAG, ["SMS Laundry", job.cust_ph, smsBody]);
+    this.sendSMS(job.cust_ph, smsBody);
+}
+
+module.exports.notifySpecialistReassignment = function(job) {
 
     var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + parseInt(job.shopify_order.total_price);
     smsBody += ". For details, please download the hands app from get.handsforhome.com";
