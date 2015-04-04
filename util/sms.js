@@ -61,8 +61,12 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
-    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation is " + job.job_id + "." +
-        " Please call \"hands\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    // var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation is " + job.job_id + "." +
+    //     " Please call \"hands\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+
+    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_category +" service with us. Your booking confirmation is " + job.job_id + ". ";
+    smsBody += "We will visit your home on "+ formatter.toDisplayDate(job.book_date) +" at "+ formatter.toDisplayTime(job.book_date)+" for this service. ";
+    smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
 
     this.sendSMS(phone, smsBody);
 }
@@ -73,7 +77,6 @@ module.exports.notifySpecialistNewBooking = function(job) {
     //var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
     var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . ";
     smsBody += "Customer address - " + job.cust_addr1 + " " + job.cust_addr_landmark + " , task - " + job.cust_task + ", date - " + formatter.toDisplayDate(job.book_date) + " time - " + formatter.toDisplayTime(job.book_date) + " Thank you."
-
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
@@ -103,9 +106,11 @@ module.exports.notifyLaundryBooking = function(job) {
 
 module.exports.notifySpecialistReassignment = function(job) {
 
-    var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + parseInt(job.shopify_order.total_price);
-    smsBody += ". For details, please download the hands app from get.handsforhome.com";
+    var smsBody = "Hello, " + job.cust_name +". Your job # " + job.job_id + " has been assigned to "+ job.specialist_name+ ".  ";
+    smsBody += "We will visit your home on "+ formatter.toDisplayDate(job.book_date) +" at "+ formatter.toDisplayTime(job.book_date)+" for this service. ";
+    smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
 
-    logger.info(TAG, ["SMS Laundry", job.cust_ph, smsBody]);
+    logger.info(TAG, ["SMS SPC Reassign", job.cust_ph, smsBody]);
     this.sendSMS(job.cust_ph, smsBody);
+    //this.sendSMS("9920251667", smsBody);
 }

@@ -331,7 +331,7 @@ JobController.prototype.reassignJob = {
                         job.cust_email = customer.email;
                         job.save();
                         util.email.sendBookingConfirmation(customer, job);
-                        util.sms.sendBookingConfirmation(customer.ph, job, customer.name);
+                        util.sms.notifySpecialistReassignment(job);
                         util.sms.notifySpecialistNewBooking(job);
                     } else {
                         util.logger.info(__filename, "No booking notifcation as no valid customer found for: " + job.cust_id);
