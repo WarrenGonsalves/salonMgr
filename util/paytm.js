@@ -7,13 +7,13 @@ var PAYTM_CHECKSUM_KEY = 'kgTCLAvHnjmPcIva';
 var PAYTM_MERCHANT_ID = 'ALSOdi44238291101945';
 
 var PAYTM_POST_DEFAULTS = {
-        REQUEST_TYPE: 'DEFAULT',
-        MID: PAYTM_MERCHANT_ID,
-        CHANNEL_ID: 'WEB',
-        INDUSTRY_TYPE_ID: 'Retail',
-        WEBSITE: 'adplweb',
-        CHECKSUMHASH: ''
-    }
+    REQUEST_TYPE: 'DEFAULT',
+    MID: PAYTM_MERCHANT_ID,
+    CHANNEL_ID: 'WEB',
+    INDUSTRY_TYPE_ID: 'Retail',
+    WEBSITE: 'adplweb',
+    CHECKSUMHASH: ''
+}
 
 module.exports.testTransaction = function transaction(orderId, customerId, amount, cb) {
     var paytmApi = "https://pguat.paytm.com/oltp-web/processTransaction?orderid=" + orderId;
@@ -93,4 +93,22 @@ module.exports.getPaytmPost = function transaction(amount, tnx_id, job, cb) {
 
         cb(null, checksum);
     });
+};
+
+module.exports.checksumGenerator = function gen(paytmParams, cb) {
+
+    paytmChecksum.genchecksum(paytmParams, PAYTM_CHECKSUM_KEY, function(err, checksum) {
+        if (err) {
+            console.log(err);
+            cb(err);
+        }
+
+        checksum.payt_STATUS = 1;
+
+        console.log(checksum);
+        console.log(paytmChecksum.verifychecksum(checksum, PAYTM_CHECKSUM_KEY));
+
+        cb(null, checksum, paytmParams);
+    });
+
 };

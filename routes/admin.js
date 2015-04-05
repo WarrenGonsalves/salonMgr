@@ -147,6 +147,17 @@ module.exports = function() {
                 }
             }
         }, {
+            method: 'POST',
+            path: BASE_URL + '/paytm/gen_checksum',
+            config: {
+                handler: function(req, reply) {
+                    util.paytm.checksumGenerator(req.payload, function(err, paytmPostParams) {
+                        console.log("gen", paytmPostParams);
+                        reply(paytmPostParams);
+                    });
+                }
+            }
+        }, {
             method: 'GET',
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {
