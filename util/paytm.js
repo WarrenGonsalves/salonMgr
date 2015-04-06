@@ -97,18 +97,37 @@ module.exports.getPaytmPost = function transaction(amount, tnx_id, job, cb) {
 
 module.exports.checksumGenerator = function gen(paytmParams, cb) {
 
+    paytmParams.ORDER_DETAILS = "payment for hands"
+
     paytmChecksum.genchecksum(paytmParams, PAYTM_CHECKSUM_KEY, function(err, checksum) {
         if (err) {
             console.log(err);
             cb(err);
         }
 
-        checksum.payt_STATUS = 1;
-
         console.log(checksum);
         console.log(paytmChecksum.verifychecksum(checksum, PAYTM_CHECKSUM_KEY));
 
-        cb(null, checksum, paytmParams);
+        var paytmPostParams = {}
+        paytmPostParams.CHECKSUMHASH = checksum.CHECKSUMHASH
+        paytmPostParams.ORDER_ID = checksum.ORDER_ID
+        paytmPostParams.ORDER_DETAILS = "payment for hands"
+        paytmPostParams.payt_STATUS = 1
+
+        cb(null, paytmPostParams);
     });
+};
+
+module.exports.validateChecksum = function validate(paytmParams, cb) {
+
+    if (paytmChecksum.verifychecksum(checksum, PAYTM_CHECKSUM_KEY)) {
+        paytmParams.IS_CHECKSUM_VALID = "Y"
+    } else {
+        paytmParams.IS_CHECKSUM_VALID = "N"
+    }
+
+    console.log("verify checksum", paytmParams);
+
+    cb(null, paytmParams);
 
 };

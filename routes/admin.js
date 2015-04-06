@@ -158,6 +158,17 @@ module.exports = function() {
                 }
             }
         }, {
+            method: 'POST',
+            path: BASE_URL + '/paytm/validate_checksum',
+            config: {
+                handler: function(req, reply) {
+                    util.paytm.validateChecksum(req.payload, function(err, paytmPostParams) {
+                        console.log("validate", paytmPostParams);
+                        reply(paytmPostParams);
+                    });
+                }
+            }
+        }, {
             method: 'GET',
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {

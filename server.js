@@ -138,20 +138,18 @@ var FixerApp = function() {
 
   self.logRequests = function() {
     // Print some information about the incoming request for debugging purposes
-    self.server.ext('onRequest', function(request, next) {
+    self.server.ext('onRequest', function(request, reply) {
 
-      // if ("a_cutie" == request.headers.app_key) {
-        if (request.path.indexOf('/admin/') > -1) {
-          return next();
-        } else {
-          util.logger.info("server.onRequest", [request.path, request.query, request.params]);
-          return next();
-        }
-      // } else {
-      //   console.log("not a valid key for request");
-      //   // dont call next just return from here.
-      //   return next.error = "not valid";
+      // if ("heisenberg!heisenberg!" != request.headers.api_key) {
+      //   return reply("why u no send key :(").code(420);;
       // }
+
+      if (request.path.indexOf('/admin/') > -1) {
+        return reply();
+      } else {
+        util.logger.info("server.onRequest", [request.path, request.query, request.params]);
+        return reply();
+      }
 
     });
   }
