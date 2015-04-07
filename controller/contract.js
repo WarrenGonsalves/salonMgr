@@ -3,7 +3,7 @@ var fs = require('fs');
 var config = require("../config/constants");
 var util = require("../util");
 var _ = require('underscore');
-var adminData = require('./adminData');
+var adminData = require('./admindata');
 
 function ContractController() {};
 
