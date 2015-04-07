@@ -39,34 +39,9 @@ AdminDataController.prototype.postHandler = {
         }
 
         var model = db[request.params.entity];
-
-        model_metadata = model.schema.paths;
         data = new model();
 
-        // process all set fields
-        _.each(request.payload, function(field_value, field_key) {
-            console.log("--", field_key, field_value);
-
-            if (model_metadata[field_key]) {
-
-                var datatype = String(model_metadata[field_key].options.type);
-
-                if ("String" == model_metadata[field_key].instance) {
-                    console.log(field_key, "is a string");
-                    data[field_key] = field_value;
-                } else if (datatype.indexOf("Boolean") != -1) {
-                    console.log(field_key, "is a boolean");
-                    data[field_key] = field_value;
-                } else if (datatype.indexOf("Number") != -1) {
-                    console.log(field_key, "is a Number");
-                    data[field_key] = field_value;
-                }
-
-            } else {
-                console.log("xxxx --- ", "cannot find key ", field_key)
-            }
-
-        });
+        controller.decorateModel(model, data, request.payload)
 
         data.save();
 
@@ -103,33 +78,9 @@ AdminDataController.prototype.putHandler = {
                 return;
             }
 
-            model_metadata = model.schema.paths;
+            controller.decorateModel(model, data, request.payload)
 
-            // process all updates fields.
-            _.each(request.payload, function(field_value, field_key) {
-                console.log("--", field_key, field_value);
-
-                if (model_metadata[field_key]) {
-
-                    var datatype = String(model_metadata[field_key].options.type);
-
-                    if ("String" == model_metadata[field_key].instance) {
-                        console.log(field_key, "is a string");
-                        data[field_key] = field_value;
-
-                    } else if (datatype.indexOf("Boolean") != -1) {
-                        console.log(field_key, "is a boolean");
-                        data[field_key] = field_value;
-
-                    }
-
-                } else {
-                    console.log("xxxx --- ", "cannot find key ", field_key)
-                }
-
-            });
-
-            data.save();
+            data.save()
 
             reply({
                 data: data
@@ -161,6 +112,38 @@ AdminDataController.prototype.deleteHandler = {
         });
     }
 };
+
+AdminDataController.prototype.decorateModel = function(model, modelInstance, fieldMap) {
+
+    var model_metadata = model.schema.paths;
+
+    // process all updates fields.
+    _.each(fieldMap, function(field_value, field_key) {
+        console.log("decorateModel", field_key, field_value);
+
+        if (model_metadata[field_key]) {
+
+            var datatype = String(model_metadata[field_key].options.type);
+
+            if ("String" == model_metadata[field_key].instance) {
+                console.log(field_key, "is a string");
+                modelInstance[field_key] = field_value;
+            } else if (datatype.indexOf("Boolean") != -1) {
+                console.log(field_key, "is a boolean");
+                modelInstance[field_key] = field_value;
+            } else if (datatype.indexOf("Number") != -1) {
+                console.log(field_key, "is a Number");
+                modelInstance[field_key] = field_value;
+            }
+
+        } else {
+            console.log("decorateModel ", "cannot find key ", field_key)
+        }
+
+        return modelInstance;
+    });
+
+}
 
 var controller = new AdminDataController();
 module.exports = controller;

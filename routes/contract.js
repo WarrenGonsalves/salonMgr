@@ -30,6 +30,27 @@ module.exports = function() {
             method: 'POST',
             path: BASE_URL,
             config: controller.postHandler
+        },
+        /**
+         * @api {post} /contracts Contracts: update
+         * @apiName putContracts
+         * @apiGroup Contracts
+         * @apiParam {String} customer_id                   Customer id [Post parameter]
+         * @apiParam {String} contract_type                   Customer id [Post parameter]
+         * @apiParam {String} device_type                   Customer id [Post parameter]
+         * @apiParam {String} vendor                   Customer id [Post parameter]
+         * @apiParam {String} phone                   Customer id [Post parameter]
+         * @apiParam {String} start_date                   Customer id [Post parameter]
+         * @apiParam {String} end_date                   Customer id [Post parameter]
+         * 
+         *
+         * @apiExample Example usage:
+         * /contracts
+         */
+        {
+            method: 'PUT',
+            path: BASE_URL + '/{id}',
+            config: controller.putHandler
         }
     ];
 }();

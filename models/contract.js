@@ -1,6 +1,5 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
-var _ = require("underscore");
+var mongoose = require("mongoose")
+var Schema = mongoose.Schema
 
 // schema
 var contractSchema = new Schema({
@@ -9,6 +8,20 @@ var contractSchema = new Schema({
         ref: 'customer'
     },
     contract_img: String,
+    contract_type: String,
+    device_type: String,
+    vendor: String,
+    phone: String,
+    start_date: Date,
+    end_date: Date,
+    description: String,
+    visits: [{
+        date: Date,
+        is_complete: {
+            type: Boolean,
+            default: false
+        }
+    }],
     created_date: {
         type: Date,
         default: Date.now

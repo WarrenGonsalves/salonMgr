@@ -3,6 +3,7 @@ var fs = require('fs');
 var config = require("../config/constants");
 var util = require("../util");
 var _ = require('underscore');
+var adminData = require('./adminData');
 
 function ContractController() {};
 
@@ -43,9 +44,33 @@ ContractController.prototype.postHandler = {
             db.customer.findById(contract.customer_id).exec(function(err, customer) {
                 util.email.sendContractNotification(contract, customer);
             });
-
-
         });
+    }
+};
+
+ContractController.prototype.putHandler = {
+    handler: function(request, reply) {
+        db.contract.findById(request.params.id).exec(function(err, contract) {
+
+            if (err) {
+                util.reply.error(err, reply);
+                return;
+            }
+
+            if (null == contract) {
+                util.reply.error("No data for given id", reply);
+                return;
+            }
+
+            adminData.decorateModel(db.contract, contract, request.payload)
+
+            // //contract.
+            // _.each(visits, function(visitDate){
+            //     contract.visits.push({data: })
+            // })
+
+            reply(contract)
+        })
     }
 };
 
