@@ -6,11 +6,11 @@ var catalogSchema = new Schema({
     name: String,
     detail: String,
     price: Number,
-    icon_size_image: String, 
+    icon_size_image: String,
     medium_image: String,
-    delete_status: {
-        type: Number,
-        default: 0
+    active: {
+        type: Boolean,
+        default: true
     }
 });
 

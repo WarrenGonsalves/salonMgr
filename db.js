@@ -1,6 +1,7 @@
 var Mongoose = require('mongoose');
 var config = require('./config/constants');
 var models = require('./models');
+var _ = require('underscore')
 
 //load database
 Mongoose.connect(config.mongo.connecturl);
@@ -34,3 +35,36 @@ exports.contract = models.contract;
 exports.tnx = models.transaction;
 exports.catalog = models.catalog;
 exports.order = models.order;
+exports.product = models.product
+
+exports.decorateModel = function(model, modelInstance, fieldMap) {
+
+    var model_metadata = model.schema.paths;
+
+    // process all updates fields.
+    _.each(fieldMap, function(field_value, field_key) {
+        console.log("decorateModel", field_key, field_value);
+
+        if (model_metadata[field_key]) {
+
+            var datatype = String(model_metadata[field_key].options.type);
+
+            if ("String" == model_metadata[field_key].instance) {
+                console.log(field_key, "is a string");
+                modelInstance[field_key] = field_value;
+            } else if (datatype.indexOf("Boolean") != -1) {
+                console.log(field_key, "is a boolean");
+                modelInstance[field_key] = field_value;
+            } else if (datatype.indexOf("Number") != -1) {
+                console.log(field_key, "is a Number");
+                modelInstance[field_key] = field_value;
+            }
+
+        } else {
+            console.log("decorateModel ", "cannot find key ", field_key)
+        }
+
+        return modelInstance;
+    });
+
+}

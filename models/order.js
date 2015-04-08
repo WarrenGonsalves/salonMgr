@@ -5,12 +5,12 @@ var orderSchema = new Schema({
     total_price: String,
     total_quantity: String,
     line_items: [{
-        catalog_id: String,
+        product_lineitem_id: String,
         specialist_id: String,
         name: String,
         detail: String,
         price: Number,
-        icon_size_image: String, 
+        icon_size_image: String,
         medium_image: String
     }]
 });
