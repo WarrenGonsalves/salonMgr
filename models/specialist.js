@@ -23,6 +23,10 @@ var specialistSchema = new Schema({
     type: Boolean,
     default: false
   },
+  is_deal: {
+    type: Boolean,
+    default: false
+  },
   circle: Schema.Types.Mixed,
   circleloc: Schema.Types.Mixed,
   ratings: [ratingModel.schema],
