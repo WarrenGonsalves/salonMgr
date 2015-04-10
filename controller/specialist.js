@@ -292,7 +292,7 @@ SpecialistController.prototype.postBookSpecialist = {
                     job.cust_email = customer.email;
                     job.save();
                     util.email.sendBookingConfirmation(customer, job);
-                    util.sms.sendBookingConfirmation(customer.ph, job, customer.name);
+                    util.sms.sendBookingConfirmation(job, specialist);
                     util.sms.notifySpecialistNewBooking(job);
                 } else {
                     util.logger.info(__filename, "No booking notifcation as no valid customer found");
@@ -398,7 +398,7 @@ SpecialistController.prototype.postCustomerJob = {
                 job.cust_email = customer.email;
                 job.save();
                 util.email.sendBookingConfirmation(customer, job);
-                util.sms.sendBookingConfirmation(customer.ph, job, customer.name);
+                util.sms.sendBookingConfirmation(job, Specialist);
                 util.sms.notifySpecialistNewBooking(job);
 
                 reply(job);

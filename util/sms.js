@@ -57,18 +57,26 @@ module.exports.sendOTP = function(phone, otp, customername) {
 
 }
 
-module.exports.sendBookingConfirmation = function(phone, job, customername) {
+module.exports.sendBookingConfirmation = function(job, specialist) {
 
-    logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
+    logger.info(TAG, ["SMS Booking Confirmation", job]);
 
-    // var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation is " + job.job_id + "." +
-    //     " Please call \"hands\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    var smsBody = ""
+    if (specialist.is_deal == true) {
+        logger.info(TAG, ["SMS Booking", "is a deal"])
+        smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
+        smsBody += "You will receive a call within 60 mins to assign a technician to the job. ";
+        smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
 
-    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
-    smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
-    smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
+    } else {
+        logger.info(TAG, ["SMS Booking", "is not a deal"])
+        smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
+        smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
+        smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
 
-    this.sendSMS(phone, smsBody);
+    }
+
+    this.sendSMS(job.cust_ph, smsBody);
 }
 
 module.exports.notifySpecialistNewBooking = function(job) {
