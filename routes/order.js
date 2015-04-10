@@ -3,46 +3,33 @@ var BASE_URL = '/orders';
 
 var OrderController = require('../controller/order');
 
-module.exports = function () {
+module.exports = function() {
     return [
         /**
-         * @api {get} /orders Order: get order
+         * @api {get} /orders Order: get orders
          * @apiName getOrders
          * @apiGroup Order
          *
          * @apiExample Example usage:
-         * /orders //will return all orders
+         * /orders
          */
         {
             method: 'GET',
             path: BASE_URL,
-            config: OrderController.getAllOrders
+            config: OrderController.getHandler
         },
         /**
-         * @api {get} /orders/{_id} Order: get order
-         * @apiName getOrdersById
-         * @apiGroup Order
-         *
-         * @apiExample Example usage:
-         * /orders/551a559ec3ca9c5c1aad9b0d
-         */
-        {
-            method: 'GET',
-            path: BASE_URL+'/{_id}',
-            config: OrderController.getOrderById
-        },
-        /**
-         * @api {put} /orders
-         * @apiName updateOrder
+         * @api {post} /orders Order: create Order
+         * @apiName postOrder
          * @apiGroup Order
          *
          * @apiParam {String} _id               Order id [Post parameter]
          * @apiParam {String} catalog_ids       Catalog ids [Post parameter] // comma-separated string
          */
         {
-            method: 'PUT',
+            method: 'POST',
             path: BASE_URL,
-            config: OrderController.updateOrder
+            config: OrderController.postHandler
         }
     ];
 }();

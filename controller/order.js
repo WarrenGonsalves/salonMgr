@@ -1,113 +1,118 @@
 var db = require('../db');
 var _ = require('underscore');
 var util = require('../util');
-var fs = require('fs');
+var async = require('async');
 
 function OrderController() {};
 
-OrderController.prototype.getAllOrders = {
-    handler: function (request, reply) {
-        
-        var query_param = {}
+OrderController.prototype.getHandler = {
+    handler: function(request, reply) {
 
-        db.order.find(query_param).exec(function (err, orderList) {
+        db.order.find(request.query).exec(function(err, orderList) {
+
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
 
             reply({
-                orderList: orderList
+                list: orderList
             });
         });
     }
 };
 
-OrderController.prototype.getOrderById = {
-    handler: function (request, reply) {
+OrderController.prototype.postHandler = {
+    handler: function(request, reply) {
 
-        var query_param = { _id: request.params._id }
+        var orderPostData = JSON.parse(request.payload)
+        util.logger.info("Order", orderPostData)
 
-        db.order.findOne(query_param).exec(function (err, order) {
+        var orderQueryData = {}
+
+        async.parallel([
+            function(cb) {
+                db.specialist.findById(orderPostData.specialist_id).exec(function(err, data) {
+                    if (err) {
+                        console.log(err)
+                        cb(err)
+                        return
+                    }
+
+                    if (null == data) {
+                        console.log("no data found for id")
+                        cb("no data found for id")
+                        return
+                    }
+
+                    orderQueryData.specialist = data
+                    cb()
+                })
+            },
+            function(cb) {
+                db.customer.findById(orderPostData.customer_id).exec(function(err, data) {
+                    if (err) {
+                        console.log(err)
+                        cb(err)
+                        return
+                    }
+
+                    if (null == data) {
+                        console.log("no data found for id")
+                        cb("no data found for id")
+                        return
+                    }
+
+                    orderQueryData.customer = data
+                    cb()
+                })
+            }
+        ], function(err) {
             if (err) {
-                util.reply.error(err, reply);
-                return;
+                util.reply.error(err, reply)
+                return
             }
+            console.log("order details", orderQueryData)
 
-            reply(order);
+            reply("ok")
         });
-    }
-};
 
-OrderController.prototype.addOrder = {
-	handler: function (request, reply) {
-        
-        var query_param = {}
 
-        db.catalog.find(query_param).exec(function (err, orderList) {
-            if (err) {
-                util.reply.error(err, reply);
-                return;
-            }
 
-            reply({
-                orderList: orderList
-            });
-        });
-    }
-};
+        // async.each(orderPost.line_items, function(line_item, cb) {
+        //     console.log('order line_item', line_item)
 
-OrderController.prototype.updateOrder = {
-    handler: function (request, reply) {
-        if (request.payload._id === undefined) {
-            return util.reply.error("Invalid order id", reply);
-        }
-        var query_param = { _id: request.payload._id }
-        console.log(query_param);
-        db.order.findOne(query_param).exec(function (err, order) {
-            if (err) {
-                util.reply.error(err, reply);
-                return;
-            }
-            if (order === null)
-            {
-                return util.reply.error("Order id not found", reply);
-            }
-            db.catalog.find({ _id: { $in: request.payload.catalog_ids.split(',') } }).exec(function (err, catalogList) {
-                if (err) {
-                    util.reply.error(err, reply);
-                    return;
-                }
-                /*if (catalogList === null) {
-                    return util.reply.error("Catalog not found", reply);
-                }*/
-                var total_price = 0;
-                var total_quantity = 0;
-                //var order = db.order();
-                var line_items = new Array();
-                for (var catalog in catalogList) {
-                    var item = {
-                        catalog_id: catalogList[catalog]._id,
-                        specialist_id: catalogList[catalog].specialist_id,
-                        name: catalogList[catalog].name,
-                        detail: catalogList[catalog].detail,
-                        price: catalogList[catalog].price,
-                        icon_size_image: catalogList[catalog].icon_size_image,
-                        medium_image: catalogList[catalog].medium_image
-                    };
-                    total_quantity++;
-                    total_price += catalogList[catalog].price;
-                    line_items.push(item);
-                }
-                order.total_price = total_price;
-                order.total_quantity = total_quantity;
-                order.line_items = line_items;
-                order.save();
-            });
-            reply({
-                success: true
-            });
-        });
+        //     db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+
+        //         if (err) {
+        //             console.log(err)
+        //             cb(err)
+        //         }
+
+        //         product = product.toObject()
+        //         product.quantity = line_item.quantity
+        //         console.log('product ', product)
+        //         order.line_items.push(product)
+
+        //         cb()
+        //     })
+
+        // }, function(err) {
+        //     if (err) {
+        //         util.reply.error(err, reply);
+        //         return;
+        //     }
+
+        //     console.log(order)
+        //         // calculate total and price
+        //     _.each(order.line_items, function(line_item) {
+        //         order.total_quantity += Number(line_item.quantity)
+        //         order.total_price += (Number(line_item.price) * Number(line_item.quantity))
+        //     })
+        //     console.log(order)
+        //     order.save()
+        //     reply(order)
+        // })
     }
 };
 

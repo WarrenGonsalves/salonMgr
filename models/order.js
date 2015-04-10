@@ -2,17 +2,15 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
-    total_price: String,
-    total_quantity: String,
-    line_items: [{
-        product_lineitem_id: String,
-        specialist_id: String,
-        name: String,
-        detail: String,
-        price: Number,
-        icon_size_image: String,
-        medium_image: String
-    }]
+    total_price: {
+        type: Number,
+        default: 0
+    },
+    total_quantity: {
+        type: Number,
+        default: 0
+    },
+    line_items: [Schema.Types.Mixed]
 });
 
 // export
