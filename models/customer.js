@@ -18,9 +18,14 @@ var customerSchema = new Schema({
     wing: String,
     apt: String,
     identifier: String,
+    laundry_provider: String,
     is_shopify: {
         type: Boolean,
         default: false
+    },
+    notify_sms: {
+        type: Boolean,
+        default: true
     },
     isSP: {
         type: Boolean,
@@ -38,9 +43,9 @@ var customerSchema = new Schema({
 
 // methods
 customerSchema.methods.toJSON = function() {
-  var obj = this.toObject()
-  //delete obj.secret
-  return obj
+    var obj = this.toObject()
+        //delete obj.secret
+    return obj
 }
 
 // methods

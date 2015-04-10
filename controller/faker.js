@@ -6,6 +6,54 @@ var server = require('../server');
 
 function FakeController() {};
 
+FakeController.prototype.productsHandler = {
+    handler: function(request, reply) {
+
+        var sample_prods = []
+        sample_prods.push({
+            name: 'tshirt',
+            price: 10,
+            active: true
+        })
+        sample_prods.push({
+            name: 'jeans',
+            price: 20,
+            active: true
+        })
+        sample_prods.push({
+            name: 'suit',
+            price: 100,
+            active: true
+        })
+        sample_prods.push({
+            name: 'saree',
+            price: 40,
+            active: true
+        })
+        sample_prods.push({
+            name: 'salwar',
+            price: 50,
+            active: true
+        })
+        sample_prods.push({
+            name: 'dress',
+            price: 150,
+            active: true
+        })
+
+        _.each(sample_prods, function(prod_item) {
+            var product = new db.product()
+            db.decorateModel(db.product, product, prod_item)
+            product.specialist_id = request.params.specialist_id
+            product.img_s = faker.image.technics()
+            product.img_l = faker.image.technics()
+            product.save()
+        })
+
+        reply("ok");
+    }
+}
+
 FakeController.prototype.invoiceHandler = {
     handler: function(request, reply) {
 
@@ -26,7 +74,7 @@ FakeController.prototype.invoiceHandler = {
             }
         }
 
-        server.inject(request, function(res){
+        server.inject(request, function(res) {
             console.log("response from post invoice: " + res);
         });
     }

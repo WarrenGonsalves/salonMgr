@@ -13,12 +13,6 @@ EMAIL_SUPPORT_DETAILS += " email us at <a href='mailto:customerfirst@handsforhom
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
 
-// var transporter = nodemailer.createTransport(sesTransport({
-//     accessKeyId: 'AKIAI35TGSKIAFGVQFVQ',
-//     secretAccessKey: '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',
-//     rateLimit: 5
-// }));
-// 
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -39,7 +33,7 @@ module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
         if (error) {
             console.log(error);
         } else {
-            console.log('Message sent: ' + info.response);
+            //console.log('Message sent: ' + info.response);
         }
     });
 }

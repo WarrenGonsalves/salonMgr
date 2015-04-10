@@ -8,6 +8,10 @@ module.exports = function() {
         path: BASE_URL + '/specialist',
         config: FakeController.newSpecialistHandler
     }, {
+        method: 'POST',
+        path: BASE_URL + '/products/{specialist_id}',
+        config: FakeController.productsHandler
+    }, {
         method: 'GET',
         path: BASE_URL + '/invoices/{job_id}',
         config: FakeController.invoiceHandler

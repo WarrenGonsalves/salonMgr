@@ -25,7 +25,6 @@ Controller.prototype.getHandler = {
             reply({
                 list: list
             })
-
         })
     }
 }

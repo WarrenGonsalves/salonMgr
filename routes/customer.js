@@ -10,11 +10,25 @@ module.exports = function() {
          *
          * @apiExample Example usage:
          * /customers
+         * /customers?laundry_provider=5512c9f585c5f3b0da7d2156
          */
         {
             method: 'GET',
             path: BASE_URL,
-            config: CustomerController.getConfigHandler
+            config: CustomerController.getHandler
+        },
+        /**
+         * @api {post} /customers Customer: customer
+         * @apiName postCustomer
+         * @apiGroup Customer
+         *
+         * @apiExample Example usage:
+         * /customers
+         */
+        {
+            method: 'POST',
+            path: BASE_URL,
+            config: CustomerController.postHandler
         },
         /**
          * @api {post} /customers/{customer_id}/registerpush Customer: register push notification key
@@ -57,7 +71,7 @@ module.exports = function() {
          * @apiParam {String} phone         phone [Post parameter]
          * @apiParam {String} email         email [Post parameter]
          * @apiParam {String} secret        secret to verify [Post parameter]
-         * 
+         *
          * @apiExample Example usage:
          * /customers/auth
          *
@@ -76,7 +90,7 @@ module.exports = function() {
          * @apiParam {String} customer_id   customer id [Post parameter]
          * @apiParam {String} old_secret    old secret to verify [Post parameter]
          * @apiParam {String} new_secret    new secret to set [Post parameter]
-         * 
+         *
          * @apiExample Example usage:
          * /customers/secret
          */

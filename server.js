@@ -140,8 +140,8 @@ var FixerApp = function() {
     // Print some information about the incoming request for debugging purposes
     self.server.ext('onRequest', function(request, reply) {
 
-      // if ("heisenberg!heisenberg!" != request.headers.api_key) {
-      //   return reply("why u no send key :(").code(420);;
+      // if ("heisenberg!" != request.headers.api_key) {
+      //   return reply("breaking bad!").code(420)
       // }
 
       if (request.path.indexOf('/admin/') > -1) {

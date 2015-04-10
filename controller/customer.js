@@ -6,10 +6,10 @@ function CustomerController() {};
 /**
  * Get all customers
  */
-CustomerController.prototype.getConfigHandler = {
+CustomerController.prototype.getHandler = {
     handler: function(request, reply) {
 
-        db.customer.find({}, function(err, data) {
+        db.customer.find(request.query, function(err, data) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -19,6 +19,22 @@ CustomerController.prototype.getConfigHandler = {
         });
     }
 };
+
+CustomerController.prototype.postHandler = {
+    handler: function(request, reply) {
+
+        var customer = new db.customer()
+
+        db.decorateModel(db.customer, customer, request.payload)
+        customer.save(function(err, data) {
+            if (err) {
+                util.reply.error(err, reply)
+                return;
+            }
+            reply(data);
+        })
+    }
+}
 
 CustomerController.prototype.putConfigHandler = {
     handler: function(request, reply) {
@@ -53,31 +69,28 @@ CustomerController.prototype.putConfigHandler = {
                 if (existingCustomer) {
                     console.log("phone number exists: ", request.payload.phone, "merging customers");
 
-                    existingCustomer.ph = request.payload.phone;
-                    existingCustomer.shopify_id = existingCustomer.shopify_id;
-                    existingCustomer.identifier = shopifyCustomer.identifier;
-                    existingCustomer.apt = shopifyCustomer.apt;
-                    existingCustomer.wing = shopifyCustomer.wing;
-                    existingCustomer.society = shopifyCustomer.society;
-                    existingCustomer.city = shopifyCustomer.city;
+                    existingCustomer.ph = request.payload.phone
+                    existingCustomer.shopify_id = existingCustomer.shopify_id
+                    existingCustomer.identifier = shopifyCustomer.identifier
+                    existingCustomer.apt = shopifyCustomer.apt
+                    existingCustomer.wing = shopifyCustomer.wing
+                    existingCustomer.society = shopifyCustomer.society
+                    existingCustomer.city = shopifyCustomer.city
+                    existingCustomer.laundry_provider = shopifyCustomer.laundry_provider
                     existingCustomer.is_shopify = true
-                    existingCustomer.save();
-
-                    shopifyCustomer.remove();
+                    existingCustomer.save()
+                    shopifyCustomer.remove()
 
                     // TODO if there are existing jobs with old customer id move them over to the new customer id.
 
-                    reply(existingCustomer);
-
+                    reply(existingCustomer)
                 } else {
 
-                    shopifyCustomer.ph = request.payload.phone;
-                    shopifyCustomer.save();
+                    shopifyCustomer.ph = request.payload.phone
+                    shopifyCustomer.save()
 
-                    reply(shopifyCustomer);
+                    reply(shopifyCustomer)
                 }
-
-                
             });
         });
     }

@@ -167,6 +167,179 @@
     "groupTitle": "Appsettings"
   },
   {
+    "type": "post",
+    "url": "/catalogs",
+    "title": "",
+    "name": "addCatalog",
+    "group": "Catalog",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "specialist_id",
+            "description": "<p>Specialist id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Catalog item name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>Catalog item detail [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>Catalog item price [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "icon_size_image",
+            "description": "<p>Catalog item icon image [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "medium_image",
+            "description": "<p>Catalog item medium image [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/catalog.js",
+    "groupTitle": "Catalog"
+  },
+  {
+    "type": "put",
+    "url": "/catalogs/delete",
+    "title": "",
+    "name": "deleteCatalog",
+    "group": "Catalog",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>Catalog item id [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/catalog.js",
+    "groupTitle": "Catalog"
+  },
+  {
+    "type": "get",
+    "url": "/catalogs?catalogId={catalogId}",
+    "title": "Catalog: get catalogs",
+    "name": "getCatalogs",
+    "group": "Catalog",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/catalogs //will return all catalogs\n/catalogs?catalogId=54fc5a41c4ee2a000025737c //will return a single catalog",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/catalog.js",
+    "groupTitle": "Catalog"
+  },
+  {
+    "type": "get",
+    "url": "/catalogs/{specialist_id}",
+    "title": "Catalog: get catalogs",
+    "name": "getCatalogs",
+    "group": "Catalog",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/catalog/54fc5a41c4ee2a000025737c //gets catalogs based on the vendor id",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/catalog.js",
+    "groupTitle": "Catalog"
+  },
+  {
+    "type": "put",
+    "url": "/catalogs",
+    "title": "",
+    "name": "updateCatalog",
+    "group": "Catalog",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>Catalog item id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Catalog item name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>Catalog item detail [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>Catalog item price [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "icon_size_image",
+            "description": "<p>Catalog item icon image [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "medium_image",
+            "description": "<p>Catalog item medium image [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/catalog.js",
+    "groupTitle": "Catalog"
+  },
+  {
     "type": "get",
     "url": "/categories/",
     "title": "Get all categories",
@@ -283,6 +456,78 @@
   },
   {
     "type": "post",
+    "url": "/contracts",
+    "title": "Contracts: update",
+    "name": "putContracts",
+    "group": "Contracts",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "customer_id",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "contract_type",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "device_type",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "vendor",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "start_date",
+            "description": "<p>Customer id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "end_date",
+            "description": "<p>Customer id [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/contracts",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/contract.js",
+    "groupTitle": "Contracts"
+  },
+  {
+    "type": "post",
     "url": "/customers/auth",
     "title": "Customer: Auth",
     "name": "customerAuth",
@@ -342,7 +587,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/customers",
+        "content": "/customers\n/customers?laundry_provider=5512c9f585c5f3b0da7d2156",
         "type": "json"
       }
     ],
@@ -461,6 +706,23 @@
       {
         "title": "Example usage:",
         "content": "/customers/secret",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/customer.js",
+    "groupTitle": "Customer"
+  },
+  {
+    "type": "post",
+    "url": "/customers",
+    "title": "Customer: customer",
+    "name": "postCustomer",
+    "group": "Customer",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/customers",
         "type": "json"
       }
     ],
@@ -802,6 +1064,229 @@
     "version": "0.0.0",
     "filename": "routes/job.js",
     "groupTitle": "Jobs"
+  },
+  {
+    "type": "get",
+    "url": "/orders",
+    "title": "Order: get order",
+    "name": "getOrders",
+    "group": "Order",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/orders //will return all orders",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/order.js",
+    "groupTitle": "Order"
+  },
+  {
+    "type": "get",
+    "url": "/orders/{_id}",
+    "title": "Order: get order",
+    "name": "getOrdersById",
+    "group": "Order",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/orders/551a559ec3ca9c5c1aad9b0d",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/order.js",
+    "groupTitle": "Order"
+  },
+  {
+    "type": "put",
+    "url": "/orders",
+    "title": "",
+    "name": "updateOrder",
+    "group": "Order",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>Order id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "catalog_ids",
+            "description": "<p>Catalog ids [Post parameter] // comma-separated string</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/order.js",
+    "groupTitle": "Order"
+  },
+  {
+    "type": "delete",
+    "url": "/products/{id}",
+    "title": "",
+    "name": "deleteProduct",
+    "group": "Product",
+    "version": "0.0.0",
+    "filename": "routes/product.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "get",
+    "url": "/products?specialist_id=123456",
+    "title": "Product: get",
+    "name": "getProduct",
+    "group": "Product",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "/products?specialist_id=123123123",
+        "type": "json"
+      }
+    ],
+    "version": "0.0.0",
+    "filename": "routes/product.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "put",
+    "url": "/products/img/{id}",
+    "title": "",
+    "name": "imgProduct",
+    "group": "Product",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "img_s",
+            "description": "<p>Product item small image [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "img_l",
+            "description": "<p>Product item large image [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/product.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "post",
+    "url": "/products",
+    "title": "",
+    "name": "postProduct",
+    "group": "Product",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "specialist_id",
+            "description": "<p>Specialist id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Product item name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>Product item detail [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>Product item price [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/product.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "put",
+    "url": "/products/{product_id}",
+    "title": "",
+    "name": "putProduct",
+    "group": "Product",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "specialist_id",
+            "description": "<p>Specialist id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Product item name [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "detail",
+            "description": "<p>Product item detail [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "price",
+            "description": "<p>Product item price [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "img_s",
+            "description": "<p>Product item icon image [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "img_l",
+            "description": "<p>Product item medium image [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/product.js",
+    "groupTitle": "Product"
   },
   {
     "type": "post",
