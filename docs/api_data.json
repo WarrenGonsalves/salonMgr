@@ -1068,13 +1068,13 @@
   {
     "type": "get",
     "url": "/orders",
-    "title": "Order: get order",
+    "title": "Order: get orders",
     "name": "getOrders",
     "group": "Order",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/orders //will return all orders",
+        "content": "/orders",
         "type": "json"
       }
     ],
@@ -1083,27 +1083,10 @@
     "groupTitle": "Order"
   },
   {
-    "type": "get",
-    "url": "/orders/{_id}",
-    "title": "Order: get order",
-    "name": "getOrdersById",
-    "group": "Order",
-    "examples": [
-      {
-        "title": "Example usage:",
-        "content": "/orders/551a559ec3ca9c5c1aad9b0d",
-        "type": "json"
-      }
-    ],
-    "version": "0.0.0",
-    "filename": "routes/order.js",
-    "groupTitle": "Order"
-  },
-  {
-    "type": "put",
-    "url": "/orders",
-    "title": "",
-    "name": "updateOrder",
+    "type": "post",
+    "url": "/orders/customer",
+    "title": "Order: Order for customer",
+    "name": "postOrderForCustomer",
     "group": "Order",
     "parameter": {
       "fields": {
@@ -1120,7 +1103,37 @@
             "type": "String",
             "optional": false,
             "field": "catalog_ids",
-            "description": "<p>Catalog ids [Post parameter] // comma-separated string</p> "
+            "description": "<p>Catalog ids [Post parameter]</p> "
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/order.js",
+    "groupTitle": "Order"
+  },
+  {
+    "type": "post",
+    "url": "/orders/job",
+    "title": "Order: Order for job",
+    "name": "postOrderForJob",
+    "group": "Order",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "_id",
+            "description": "<p>Order id [Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "catalog_ids",
+            "description": "<p>Catalog ids [Post parameter]</p> "
           }
         ]
       }

@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
+    job_id: String,
     total_price: {
         type: Number,
         default: 0

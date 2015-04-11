@@ -19,17 +19,30 @@ module.exports = function() {
             config: OrderController.getHandler
         },
         /**
-         * @api {post} /orders Order: create Order
-         * @apiName postOrder
+         * @api {post} /orders/customer Order: Order for customer
+         * @apiName postOrderForCustomer
          * @apiGroup Order
          *
          * @apiParam {String} _id               Order id [Post parameter]
-         * @apiParam {String} catalog_ids       Catalog ids [Post parameter] // comma-separated string
+         * @apiParam {String} catalog_ids       Catalog ids [Post parameter]
          */
         {
             method: 'POST',
-            path: BASE_URL,
-            config: OrderController.postHandler
+            path: BASE_URL + '/customer',
+            config: OrderController.custOrderHandler
+        },
+        /**
+         * @api {post} /orders/job Order: Order for job
+         * @apiName postOrderForJob
+         * @apiGroup Order
+         *
+         * @apiParam {String} _id               Order id [Post parameter]
+         * @apiParam {String} catalog_ids       Catalog ids [Post parameter]
+         */
+        {
+            method: 'POST',
+            path: BASE_URL + '/job',
+            config: OrderController.custOrderHandler
         }
     ];
 }();

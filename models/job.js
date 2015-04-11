@@ -39,7 +39,7 @@ var jobSchema = new Schema({
     book_date: Date,
     images: [String],
     history: [Schema.Types.Mixed],
-    order_id: { type: mongoose.Schema.ObjectId, ref: 'order' },
+    order: Schema.Types.Mixed,
     complete: {
         type: Boolean,
         default: false
