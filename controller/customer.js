@@ -15,7 +15,9 @@ CustomerController.prototype.getHandler = {
                 return;
             }
 
-            reply(data);
+            reply({
+                list: data
+            });
         });
     }
 };
