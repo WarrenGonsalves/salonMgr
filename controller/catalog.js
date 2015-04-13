@@ -73,79 +73,78 @@ CatalogController.prototype.addCatalog = {
         //console.log(request.payload.specialist_id);
         //console.log(request.payload.icon_size_image);
 
-        if (request.payload.specialist_id === undefined) {
-            return util.reply.error("Invalid specialist id", reply);
+        if (request.payload.icon_size_image === undefined) {
+            return util.reply.error("Invalid catalog icon size image", reply);
         }
-        db.catalog.count({ specialist_id: request.payload.specialist_id, delete_status: 0 }, function (err, c) {
+
+        if (request.payload.medium_image === undefined) {
+            return util.reply.error("Invalid catalog medium image", reply);
+        }
+
+        console.log("Adding new catalog: specialist_id= " + request.payload.specialist_id + " catalog name= " + request.payload.name);
+        var catalog = new db.catalog();
+        catalog.specialist_id = request.payload.specialist_id;
+        catalog.name = request.payload.name;
+        catalog.detail = request.payload.detail;
+        catalog.price = request.payload.price;
+        //catalog.icon_size_image = request.payload.icon_size_image;
+        //catalog.medium_image = request.payload.medium_image;
+        //catalog.delete_status = 0;       
+        /*catalog.save(function(err) {
+            if(err) return util.reply.error(err, reply);
+        });*/
+        //console.log("new entry added to catalog");
+        //reply(catalog);
+
+        //new
+        //console.log(request.payload.icon_size_image.hapi.filename);
+        var count = 0;
+        //var re = /(?:\.([^.]+))?$/;
+        //Upload icon image
+        var icon_size_image = request.payload.icon_size_image;
+        var iconFileName = "catalogIcon_" + catalog._id; //+ "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
+        var iconPath = config.imgDir + iconFileName;
+        console.log(iconPath);
+        icon_size_image.pipe(fs.createWriteStream(iconPath));
+
+        icon_size_image.on('end', function (err) {
+            catalog.icon_size_image = config.imgURL + iconFileName;
+            
+            if (++count > 1) {
+                catalog.save(function(err) {
+                    if(err) return util.reply.error(err, reply);
+                    console.log("New catalog added");
+                    reply(catalog);
+                });
+            }
+        });
+        //Upload medium image
+        var medium_image = request.payload.medium_image;
+        var medImgFileName = "catalogMedImg_" + catalog._id; //+ "." + re.exec(request.payload.medium_image.hapi.filename)[1];
+        var medImgPath = config.imgDir + medImgFileName;
+        console.log(medImgPath);
+        medium_image.pipe(fs.createWriteStream(medImgPath));
+
+        medium_image.on('end', function (err) {
+            catalog.medium_image = config.imgURL + medImgFileName;
+
+            if (++count > 1) {
+                catalog.save(function(err) {
+                    if(err) return util.reply.error(err, reply);
+                    console.log("New catalog added");
+                    reply(catalog);
+                });
+            }
+        })
+        /*db.catalog.count({ specialist_id: request.payload.specialist_id, delete_status: 0 }, function (err, c) {
             if (err) return util.reply.error("Error while adding catalog: ", err);
             //max count = 50
             if (c < 50) {
-                if (request.payload.name === undefined) {
-                    return util.reply.error("Invalid catalog name", reply);
-                }
-
-                if (request.payload.detail === undefined) {
-                    return util.reply.error("Invalid catalog detail", reply);
-                }
-
-                if (request.payload.price === undefined) {
-                    return util.reply.error("Invalid catalog detail", reply);
-                }
-
-                if (request.payload.icon_size_image === undefined) {
-                    return util.reply.error("Invalid catalog icon size image", reply);
-                }
-
-                if (request.payload.medium_image === undefined) {
-                    return util.reply.error("Invalid catalog medium image", reply);
-                }
-
-                var catalog = new db.catalog();
-                catalog.specialist_id = request.payload.specialist_id;
-                catalog.name = request.payload.name;
-                catalog.detail = request.payload.detail;
-                catalog.price = request.payload.price;
-                //catalog.icon_size_image = request.payload.icon_size_image;
-                //catalog.medium_image = request.payload.medium_image;
-                //catalog.delete_status = 0;
-                catalog.save();
-                //console.log("new entry added to catalog");
-                //reply(catalog);
-
-                //new
-                //console.log(request.payload.icon_size_image.hapi.filename);
-                var count = 0;
-                //var re = /(?:\.([^.]+))?$/;
-                //Upload icon image
-                var icon_size_image = request.payload.icon_size_image;
-                var iconFileName = "catalogIcon_" + catalog._id; //+ "." + re.exec(request.payload.icon_size_image.hapi.filename)[1];
-                var iconPath = config.imgDir + iconFileName;
-                console.log(iconPath);
-                icon_size_image.pipe(fs.createWriteStream(iconPath));
-
-                icon_size_image.on('end', function (err) {
-                    catalog.icon_size_image = config.imgURL + iconFileName;
-                    catalog.save();
-                    if (++count > 1) reply(catalog);
-                });
-                //Upload medium image
-                var medium_image = request.payload.medium_image;
-                var medImgFileName = "catalogMedImg_" + catalog._id; //+ "." + re.exec(request.payload.medium_image.hapi.filename)[1];
-                var medImgPath = config.imgDir + medImgFileName;
-                console.log(medImgPath);
-                medium_image.pipe(fs.createWriteStream(medImgPath));
-
-                medium_image.on('end', function (err) {
-                    catalog.medium_image = config.imgURL + medImgFileName;
-                    catalog.save();
-                    if (++count > 1) reply(catalog);
-                })
-                //new
             }
             else {
                 util.reply.error("Cannot add more catalog", reply);
             }
-        });
+        });*/
     }
 };
 

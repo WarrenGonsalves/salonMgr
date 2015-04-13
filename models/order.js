@@ -2,16 +2,40 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
-    total_price: String,
-    total_quantity: String,
+    total_price: {
+            type: String,
+            required: true
+        },
+    total_quantity: {
+            type: String,
+            required: true
+        },
     line_items: [{
-        catalog_id: String,
-        specialist_id: String,
-        name: String,
+        catalog_id: {
+            type: String,
+            required: true
+        },
+        specialist_id: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
         detail: String,
-        price: Number,
-        icon_size_image: String, 
-        medium_image: String
+        price: {
+            type: String,
+            required: true
+        },
+        icon_size_image: {
+            type: String,
+            required: true
+        }, 
+        medium_image: {
+            type: String,
+            required: true
+        }
     }]
 });
 

@@ -2,12 +2,30 @@
 var Schema = mongoose.Schema;
 
 var catalogSchema = new Schema({
-    specialist_id: String,
-    name: String,
-    detail: String,
-    price: Number,
-    icon_size_image: String, 
-    medium_image: String,
+    specialist_id: {
+            type: String,
+            required: true
+        },
+    name: {
+            type: String,
+            required: true
+        },
+    detail: {
+            type: String,
+            required: true
+        },
+    price: {
+            type: Number,
+            required: true
+        },
+    icon_size_image: {
+            type: String,
+            required: true
+        }, 
+    medium_image: {
+            type: String,
+            required: true
+        },
     delete_status: {
         type: Number,
         default: 0
