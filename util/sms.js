@@ -88,13 +88,8 @@ module.exports.notifySpecialistNewBooking = function(job) {
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
-    if (config.env == 'prod') {
-        this.sendSMS("9833789536", smsBody);
-        this.sendSMS(job.specialist_ph, smsBody);
-    } else {
-        this.sendSMS("9920251667", smsBody);
-        logger.info(TAG, "skip sms for non prod env");
-    }
+    this.sendSMS("9833789536", smsBody);
+    this.sendSMS(job.specialist_ph, smsBody);
 }
 
 module.exports.notifyLaundryBooking = function(job) {
@@ -112,7 +107,7 @@ module.exports.notifyLaundryBooking = function(job) {
     this.sendSMS(job.cust_ph, smsBody);
 }
 
-module.exports.notifySpecialistReassignment = function(job) {
+module.exports.notifyCustomerOfSpecialistReassignment = function(job) {
 
     var smsBody = "Hello, " + job.cust_name + ". Your job # " + job.job_id + " has been assigned to " + job.specialist_name + ".  ";
     smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";

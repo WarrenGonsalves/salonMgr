@@ -127,7 +127,7 @@ function fakeSpecialist() {
     specialist.city = faker.address.city();
     specialist.state = faker.address.state();
     specialist.zip = faker.address.zipCode();
-    specialist.phone = 992011 + util.authUtil.generateAuthCode();
+    specialist.phone = 20000 + util.authUtil.generateAuthCode();
     specialist.profile_img = faker.internet.avatar();
     specialist.family = "Married, 3 kids. 2 daughters and one son."
     specialist.consulting_fee = 'Minimum of ₹ 200';
