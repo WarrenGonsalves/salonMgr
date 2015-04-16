@@ -87,7 +87,7 @@ OrderController.prototype.custOrderHandler = {
 
                     product = product.toObject()
                     product.quantity = line_item.quantity
-                    //console.log('product ', product)
+                        //console.log('product ', product)
                     order.line_items.push(product)
 
                     cb()
@@ -118,6 +118,7 @@ OrderController.prototype.custOrderHandler = {
                 job.cust_name = orderQueryData.customer.name
                 job.cust_ph = orderQueryData.customer.ph
                 job.book_date = Date.now()
+                job.cust_addr1 = orderQueryData.customer.getStreetAddress()
                 job.is_shopify = true
                     //job.save()
                 job.setJobId()

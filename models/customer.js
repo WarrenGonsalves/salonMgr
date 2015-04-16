@@ -68,6 +68,12 @@ customerSchema.methods.isValidSecret = function(mySecret) {
     return bcrypt.compareSync(mySecret, this.secret);
 }
 
+customerSchema.methods.getStreetAddress = function(mySecret) {
+    var address = this.society + ", " + this.wing + " - " + this.apt
+    console.log("model-- " + address)
+    return address
+}
+
 // export
 module.exports = mongoose.model('customer', customerSchema);
 module.exports.schema = customerSchema;
