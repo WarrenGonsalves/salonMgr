@@ -129,10 +129,7 @@ OrderController.prototype.custOrderHandler = {
 
                 reply(order)
             })
-
-
         });
-
     }
 };
 

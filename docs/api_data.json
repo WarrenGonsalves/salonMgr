@@ -1095,15 +1095,36 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "_id",
-            "description": "<p>Order id [Post parameter]</p> "
+            "field": "customer_id",
+            "description": "<p>customer id [Json Post parameter]</p> "
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "catalog_ids",
-            "description": "<p>Catalog ids [Post parameter]</p> "
+            "field": "specialist_id",
+            "description": "<p>specialist id [Json Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_items",
+            "description": "<p>line item [Json Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_items.product_id",
+            "description": "<p>product_id child tag of line_item [Json Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_items.quantity",
+            "description": "<p>quantify child tag of line_item [Json Post parameter]</p> "
           }
         ]
       }
@@ -1125,15 +1146,29 @@
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "_id",
-            "description": "<p>Order id [Post parameter]</p> "
+            "field": "job_id",
+            "description": "<p>job id [Json Post parameter]</p> "
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
-            "field": "catalog_ids",
-            "description": "<p>Catalog ids [Post parameter]</p> "
+            "field": "line_items",
+            "description": "<p>line item [Json Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_items.product_id",
+            "description": "<p>product_id child tag of line_item [Json Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "line_items.quantity",
+            "description": "<p>quantify child tag of line_item [Json Post parameter]</p> "
           }
         ]
       }

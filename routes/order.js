@@ -23,8 +23,12 @@ module.exports = function() {
          * @apiName postOrderForCustomer
          * @apiGroup Order
          *
-         * @apiParam {String} _id               Order id [Post parameter]
-         * @apiParam {String} catalog_ids       Catalog ids [Post parameter]
+         * @apiParam {String} customer_id               customer id [Json Post parameter]
+         * @apiParam {String} specialist_id             specialist id [Json Post parameter]
+         * @apiParam {String} line_items                line item [Json Post parameter]
+         * @apiParam {String} line_items.product_id     product_id child tag of line_item [Json Post parameter]
+         * @apiParam {String} line_items.quantity       quantify child tag of line_item [Json Post parameter]
+         *
          */
         {
             method: 'POST',
@@ -36,8 +40,10 @@ module.exports = function() {
          * @apiName postOrderForJob
          * @apiGroup Order
          *
-         * @apiParam {String} _id               Order id [Post parameter]
-         * @apiParam {String} catalog_ids       Catalog ids [Post parameter]
+         * @apiParam {String} job_id                    job id [Json Post parameter]
+         * @apiParam {String} line_items                line item [Json Post parameter]
+         * @apiParam {String} line_items.product_id     product_id child tag of line_item [Json Post parameter]
+         * @apiParam {String} line_items.quantity       quantify child tag of line_item [Json Post parameter]
          */
         {
             method: 'POST',
