@@ -157,7 +157,6 @@ OrderController.prototype.jobOrderHandler = {
                     job = data
                     cb()
                 })
-
             }],
             function(err) {
                 if (err) {
