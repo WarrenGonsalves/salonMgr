@@ -133,4 +133,81 @@ OrderController.prototype.custOrderHandler = {
     }
 };
 
+OrderController.prototype.jobOrderHandler = {
+    handler: function(request, reply) {
+
+        var orderPostData = JSON.parse(request.payload)
+        util.logger.info("Order", orderPostData)
+
+        var job
+
+        async.series([function(cb) {
+
+                db.job.findById(orderPostData.job_id).exec(function(err, data) {
+                    if (err) {
+                        cb(err)
+                        return
+                    }
+
+                    if (null == data) {
+                        cb("no data found for id")
+                        return
+                    }
+
+                    job = data
+                    cb()
+                })
+
+            }],
+            function(err) {
+                if (err) {
+                    util.reply.error(err, reply)
+                    return
+                }
+
+                var order = db.order()
+
+                async.each(orderPostData.line_items, function(line_item, cb) {
+                    console.log('order line_item', line_item)
+
+                    db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+
+                        if (err) {
+                            console.log(err)
+                            cb(err)
+                        }
+
+                        product = product.toObject()
+                        product.quantity = line_item.quantity
+                            //console.log('product ', product)
+                        order.line_items.push(product)
+
+                        cb()
+                    })
+
+                }, function(err) {
+                    if (err) {
+                        util.reply.error(err, reply);
+                        return;
+                    }
+
+                    console.log(order)
+                        // calculate total and price
+                    _.each(order.line_items, function(line_item) {
+                        order.total_quantity += Number(line_item.quantity)
+                        order.total_price += (Number(line_item.price) * Number(line_item.quantity))
+                    })
+                    console.log(order)
+                    order.save()
+
+                    job.order = order
+                    job.save()
+
+                    reply(job)
+                })
+
+            })
+    }
+}
+
 module.exports = new OrderController();

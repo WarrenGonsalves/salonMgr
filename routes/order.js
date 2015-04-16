@@ -48,7 +48,7 @@ module.exports = function() {
         {
             method: 'POST',
             path: BASE_URL + '/job',
-            config: OrderController.custOrderHandler
+            config: OrderController.jobOrderHandler
         }
     ];
 }();
