@@ -126,8 +126,6 @@ OrderController.prototype.custOrderHandler = {
                 job.save()
 
                 reply(job)
-
-                reply(order)
             })
         });
     }
