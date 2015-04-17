@@ -5,7 +5,7 @@ define({
   "title": "BumbleBee",
   "generator": {
     "version": "0.8.1",
-    "time": "2015-04-16T06:53:01.882Z"
+    "time": "2015-04-17T18:49:37.458Z"
   },
   "apidoc": "0.2.0"
 });

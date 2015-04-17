@@ -265,6 +265,7 @@ SpecialistController.prototype.postBookSpecialist = {
             job.cust_addr2 = cust_addr2;
             job.cust_addr_landmark = cust_addr_landmark;
             job.cust_task = cust_task;
+            job.location = request.payload.location;
             job.book_date = book_date;
             job.save();
             job.setJobId();
@@ -411,6 +412,7 @@ SpecialistController.prototype.postCustomerJob = {
                 job.cust_ph = cust_phone;
                 job.cust_task = cust_task;
                 job.book_date = book_date;
+                job.location = request.payload.location;
                 job.save();
                 job.setJobId();
                 job.save();

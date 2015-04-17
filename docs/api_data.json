@@ -1619,6 +1619,13 @@
             "optional": false,
             "field": "book_date",
             "description": "<p>Book date and time in YYYY-MM-DDThh:mmTZD format [2014-11-12T10:00+05:30][Post parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "location",
+            "description": "<p>Circle / location name of the job [Post parameter]</p> "
           }
         ]
       }

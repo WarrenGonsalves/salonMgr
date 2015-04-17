@@ -53,6 +53,7 @@ module.exports = function() {
      * @apiParam {String} landmark    Customer address landmark [Post parameter]
      * @apiParam {String} task        Customer task [Post parameter]
      * @apiParam {String} book_date   Book date and time in YYYY-MM-DDThh:mmTZD format [2014-11-12T10:00+05:30][Post parameter]
+     * @apiParam {String} location    Circle / location name of the job [Post parameter]
      *
      * @apiExample Example usage:
      * /specialists/123456/book/34343434

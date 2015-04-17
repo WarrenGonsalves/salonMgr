@@ -11,6 +11,7 @@ var productSchema = new Schema({
         required: true
     },
     detail: String,
+    group: String,
     price: {
         type: Number,
         required: true

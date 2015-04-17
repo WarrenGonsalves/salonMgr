@@ -345,5 +345,4 @@ JobController.prototype.reassignJob = {
     }
 };
 
-
 module.exports = new JobController();
