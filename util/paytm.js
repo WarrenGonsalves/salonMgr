@@ -12,6 +12,7 @@ var PAYTM_POST_DEFAULTS = {
     CHANNEL_ID: 'WEB',
     INDUSTRY_TYPE_ID: 'Retail',
     WEBSITE: 'adplweb',
+    THEME: 'merchant',
     CHECKSUMHASH: ''
 }
 
@@ -69,7 +70,7 @@ module.exports.testTransaction = function transaction(orderId, customerId, amoun
     });
 }
 
-module.exports.getPaytmPost = function transaction(amount, tnx_id, job, cb) {
+module.exports.getPaytmPost = function transaction(amount, tnx_id, job, channel_id, cb) {
 
     var paytmPostData = {
         ORDER_ID: tnx_id,
@@ -82,6 +83,11 @@ module.exports.getPaytmPost = function transaction(amount, tnx_id, job, cb) {
     }
 
     _.extend(paytmPostData, PAYTM_POST_DEFAULTS);
+
+    if (channel_id == 'WAP') {
+        paytmPostData.CHANNEL_ID = 'WAP'
+        paytmPostData.WEBSITE = 'adplwap'
+    }
 
     paytmChecksum.genchecksum(paytmPostData, PAYTM_CHECKSUM_KEY, function(err, checksum) {
         if (err) {

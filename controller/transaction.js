@@ -21,6 +21,7 @@ Controller.prototype.postHandler = {
 
         var amount = request.payload.amount;
         var job_id = request.payload.job_id;
+        var channel_id = request.payload.channel_id;
 
         if (!amount) {
             util.reply.error("Tnx amount is required", reply);
@@ -29,6 +30,11 @@ Controller.prototype.postHandler = {
 
         if (!job_id) {
             util.reply.error("job id is required", reply);
+            return;
+        }
+
+        if (!channel_id) {
+            util.reply.error("channel_id either needs to be WEB or WAP", reply);
             return;
         }
 
@@ -48,11 +54,11 @@ Controller.prototype.postHandler = {
                 return;
             }
 
+            // valid job lets create a transaction.
             var tnx = new db.tnx();
             tnx.save();
 
-            // valid job lets create a transaction.
-            util.paytm.getPaytmPost(amount, tnx._id, job, function(err, paytmPost){
+            util.paytm.getPaytmPost(amount, tnx._id, job, channel_id, function(err, paytmPost){
                 tnx.data = JSON.stringify(paytmPost);
                 tnx.save();
                 reply(paytmPost);
