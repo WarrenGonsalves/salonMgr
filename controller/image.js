@@ -25,21 +25,33 @@ ImageController.prototype.getHandler = {
                 list: list
             })
         })
-
     }
 };
 
 ImageController.prototype.postHandler = {
+    payload: {
+        output: 'stream',
+        allow: 'multipart/form-data'
+    },
     handler: function(request, reply) {
 
         var image = new db.image()
+        var image_payload = request.payload["img"]
+        console.log(image_payload.hapi.filename)
+        var fileName = image_payload.hapi.filename
+        var path = config.imgDir + "hands_" + fileName
+        console.log(path)
+        imageController.uploadImg(image_payload, path, function(err, data) {
+            if (err) {
+                util.reply.error(err, reply)
+                return
+            }
 
-
-        var image_payload = request.payload["img"];
-        var fileName = "hands_" + image._id;
-        var path = config.imgDir + fileName;
-        console.log(path);
-
+            image.name = fileName
+            image.url = config.imgURL + "hands_" + fileName
+            image.save()
+            reply(image)
+        })
     }
 }
 
@@ -49,4 +61,5 @@ ImageController.prototype.uploadImg = function(img, path, cb) {
     img.on('end', cb)
 }
 
-exports = new ImageController();
+imageController = new ImageController();
+module.exports = imageController

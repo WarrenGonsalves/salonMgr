@@ -36,6 +36,7 @@ exports.tnx = models.transaction;
 exports.catalog = models.catalog;
 exports.order = models.order;
 exports.product = models.product
+exports.image = models.image
 
 exports.decorateModel = function(model, modelInstance, fieldMap) {
 

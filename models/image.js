@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 
 var imageSchema = new Schema({
     name: String,
-    image: String,
+    url: String,
     active: {
         type: Boolean,
         default: true

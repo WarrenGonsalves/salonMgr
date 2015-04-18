@@ -103,7 +103,8 @@ module.exports.getPaytmPost = function transaction(amount, tnx_id, job, channel_
 
 module.exports.checksumGenerator = function gen(paytmParams, cb) {
 
-    paytmParams.ORDER_DETAILS = "payment for hands"
+    // dont add order_detail parameter as it will fail on mobile.
+    //paytmParams.ORDER_DETAILS = "payment for hands"
 
     paytmChecksum.genchecksum(paytmParams, PAYTM_CHECKSUM_KEY, function(err, checksum) {
         if (err) {
