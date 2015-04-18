@@ -78,7 +78,7 @@ OrderController.prototype.custOrderHandler = {
             async.each(orderPostData.line_items, function(line_item, cb) {
                 console.log('order line_item', line_item)
 
-                db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+                db.product.findById(line_item.product_id).select('name price group').exec(function(err, product) {
 
                     if (err) {
                         console.log(err)
