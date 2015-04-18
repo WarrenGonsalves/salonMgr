@@ -1,19 +1,20 @@
 var CALLBACK_URL = '/hawaii';
-var BASE_URL = '/tnxs';
+var BASE_URL = '/txns';
 var controller = require('../controller/transaction');
 
 module.exports = function() {
     return [
         /**
-         * @api {post} /tnxs Transaction: new transaction data
+         * @api {post} /txns Transaction: new transaction data
          * @apiName newTransaction
          * @apiGroup Transaction
          *
          * @apiExample Example usage:
-         * /tnxs
+         * /txns
          *
          * @apiParam {String} job_id        Job id [POST parameter]
          * @apiParam {String} amount        amount to be charged to customer [POST parameter]
+         * @apiParam {String} channel_id    either WAP or WEB [POST parameter]
          */
         {
             method: 'POST',

@@ -1786,14 +1786,14 @@ define({ api: [
   },
   {
     "type": "post",
-    "url": "/tnxs",
+    "url": "/txns",
     "title": "Transaction: new transaction data",
     "name": "newTransaction",
     "group": "Transaction",
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/tnxs",
+        "content": "/txns",
         "type": "json"
       }
     ],
@@ -1813,6 +1813,13 @@ define({ api: [
             "optional": false,
             "field": "amount",
             "description": "<p>amount to be charged to customer [POST parameter]</p> "
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "channel_id",
+            "description": "<p>either WAP or WEB [POST parameter]</p> "
           }
         ]
       }

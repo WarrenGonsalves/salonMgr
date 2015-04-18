@@ -35,7 +35,10 @@ ImageController.prototype.postHandler = {
         var image = new db.image()
 
 
-
+        var image_payload = request.payload["img"];
+        var fileName = "hands_" + image._id;
+        var path = config.imgDir + fileName;
+        console.log(path);
 
     }
 }
