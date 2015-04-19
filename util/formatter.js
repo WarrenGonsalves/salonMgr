@@ -37,6 +37,6 @@ module.exports.toDisplayTimeRange = function (date) {
 
 module.exports.toDisplayDateWithTimeRange = function(date) {
     var displayDateTime = momenttz(date).tz('Asia/Kolkata').format('MMM Do')
-    displayDateTime += " " + momenttz(date).tz('Asia/Kolkata').format('h:mm a') + " to " + momenttz(date).add(2, 'h').tz('Asia/Kolkata').format('h:mm a')
+    displayDateTime += " " + momenttz(date).tz('Asia/Kolkata').format('h:mm A') + " to " + momenttz(date).add(2, 'h').tz('Asia/Kolkata').format('h:mm A')
     return displayDateTime
 }
