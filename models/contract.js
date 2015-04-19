@@ -8,7 +8,10 @@ var contractSchema = new Schema({
         ref: 'customer'
     },
     contract_img: String,
-    contract_type: String,
+    contract_type: {
+        type: String,
+        enum: ['Appliance']
+    },
     device_type: String,
     vendor: String,
     phone: String,

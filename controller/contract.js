@@ -68,7 +68,7 @@ ContractController.prototype.putHandler = {
             // _.each(visits, function(visitDate){
             //     contract.visits.push({data: })
             // })
-
+            contract.save()
             reply(contract)
         })
     }
