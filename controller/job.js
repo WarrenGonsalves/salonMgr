@@ -96,45 +96,45 @@ JobController.prototype.putHandler = {
                 return;
             }
 
-            if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
-                selectedJob.status = request.payload.status;
-
-                if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimate_cost == undefined)) {
-                    util.reply.error('Need valid estimate + estimate_cost data to set job status = Estimated', reply);
-                    return;
-                }
-
-                if (request.payload.status == 'Estimated') {
-                    selectedJob.estimate = request.payload.estimate;
-                    selectedJob.estimate_cost = request.payload.estimate_cost;
-                }
+            if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimate_cost == undefined)) {
+                util.reply.error('Need valid estimate + estimate_cost data to set job status = Estimated', reply);
+                return;
             }
 
+            if (request.payload.status == 'Estimated') {
+                selectedJob.estimate = request.payload.estimate;
+                selectedJob.estimate_cost = request.payload.estimate_cost;
+            }
+
+
+
+            // if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
+            //     selectedJob.status = request.payload.status;
+
+            //     if (request.payload.status == 'Estimated' && (request.payload.estimate == undefined || request.payload.estimate_cost == undefined)) {
+            //         util.reply.error('Need valid estimate + estimate_cost data to set job status = Estimated', reply);
+            //         return;
+            //     }
+
+            //     if (request.payload.status == 'Estimated') {
+            //         selectedJob.estimate = request.payload.estimate;
+            //         selectedJob.estimate_cost = request.payload.estimate_cost;
+            //     }
+            // }
+            selectedJob.status = request.payload.status
             selectedJob.save(function(err, savedJob) {
+
+                console.log("after save job -- ", err)
                 if (err) {
                     util.reply.error(err, reply);
                     return;
                 }
 
-                if (selectedJob.is_shopify && selectedJob.status == 'Finished') {
-                    // if shopify order is being closed then let know shopify too.
-                    ShopifyController.closeOrder(selectedJob.shopify_order.id, function(err, response) {
-                        if (err) {
-                            util.reply.error(err, reply);
-                            return;
-                        }
-                        //var order_info = response.order.order_number + " : " + response.order.id;
-                        var jsonResponse = JSON.parse(response);
-                        util.reply.success(jsonResponse, reply);
-                    });
-
-                } else {
-                    reply(selectedJob);
-                    sendJobStatusUpdate(selectedJob);
-                    if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
-                        removeJobFromSpecialist(selectedJob);
-                    }
+                sendJobStatusUpdate(selectedJob);
+                if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
+                    removeJobFromSpecialist(selectedJob);
                 }
+                reply(selectedJob);
             });
         });
     }

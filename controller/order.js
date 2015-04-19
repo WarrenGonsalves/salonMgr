@@ -111,7 +111,7 @@ OrderController.prototype.custOrderHandler = {
                 var job = db.job()
                 job.specialist_id = orderQueryData.specialist._id
                 job.specialist_name = orderQueryData.specialist.name
-                job.specialist_category = request.payload.category
+                job.specialist_category = request.payload.specialist_category
                 job.specialist_ph = orderQueryData.specialist.ph
                 job.specialist_image = orderQueryData.specialist.profile_img
                 job.cust_id = orderQueryData.customer._id
@@ -123,6 +123,7 @@ OrderController.prototype.custOrderHandler = {
                     //job.save()
                 job.setJobId()
                 job.order = order
+                job.status = "Pickedup"
                 job.save()
 
                 reply(job)
@@ -198,6 +199,7 @@ OrderController.prototype.jobOrderHandler = {
                     order.save()
 
                     job.order = order
+                    job.status = "Pickedup"
                     job.save()
 
                     reply(job)

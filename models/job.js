@@ -9,7 +9,7 @@ var db = require('../db');
 var jobSchema = new Schema({
     status: {
         type: String,
-        enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced'],
+        enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced', 'Pickedup' , 'Delivered'],
         default: 'New'
     },
     is_shopify: {
