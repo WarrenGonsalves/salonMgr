@@ -5,11 +5,12 @@ var momenttz = require('moment-timezone');
 
 var counter = require('./counter');
 var db = require('../db');
+var util = require('../util')
 // schema
 var jobSchema = new Schema({
     status: {
         type: String,
-        enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced', 'Pickedup' , 'Delivered'],
+        enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced', 'Pickedup', 'Delivered'],
         default: 'New'
     },
     is_shopify: {
@@ -73,6 +74,12 @@ jobSchema
     .virtual('book_date_millisecs')
     .get(function() {
         return Date.parse(this.book_date);
+    });
+
+jobSchema
+    .virtual('book_date_display')
+    .get(function() {
+        return util.formatter.toDisplayDateWithTimeRange(this.book_date)
     });
 
 jobSchema
