@@ -5,7 +5,11 @@ var util = require('../util')
 // schema
 var schema = new Schema({
     date: Date,
-    status: String,
+    status: {
+        type: String,
+        enum: ['Complete', 'Next', 'Pending'],
+        default: 'Pending'
+    },
     contract_id: String,
     created_date: {
         type: Date,

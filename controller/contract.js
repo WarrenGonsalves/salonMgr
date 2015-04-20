@@ -10,11 +10,11 @@ function ContractController() {};
 ContractController.prototype.getHandler = {
 
     handler: function(request, reply) {
-        db.contract.find(request.query).exec(function(err, contracts) {
+        db.contract.find(request.query).populate('visits').exec(function(err, contracts) {
             reply({
                 contracts: contracts
             });
-        });
+        });""
     }
 };
 
@@ -63,6 +63,9 @@ ContractController.prototype.putHandler = {
             }
 
             db.decorateModel(db.contract, contract, request.payload)
+
+            contract.start_date = new Date(Date.parse(request.payload.start_date))
+            contract.end_date = new Date(Date.parse(request.payload.end_date))
 
             async.each(request.payload.visits, function(visit_date, cb) {
                 var visit = new db.visit()

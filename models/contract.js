@@ -1,5 +1,6 @@
 var mongoose = require("mongoose")
 var Schema = mongoose.Schema
+var util = require('../util')
 
 // schema
 var contractSchema = new Schema({
@@ -17,12 +18,16 @@ var contractSchema = new Schema({
     phone: String,
     start_date: Date,
     end_date: Date,
+    visits_remaining: Number,
     description: String,
     is_processed: {
         type: Boolean,
         default: false
     },
-    visits: [Schema.Types.Mixed],
+    visits: [{
+        type: Schema.Types.ObjectId,
+        ref: 'visit'
+    }],
     created_date: {
         type: Date,
         default: Date.now
@@ -42,6 +47,18 @@ contractSchema
     .virtual('create_date_milli')
     .get(function() {
         return Date.parse(this.created_date);
+    });
+
+contractSchema
+    .virtual('start_date_display')
+    .get(function() {
+        return util.formatter.toDisplayDate(this.start_date)
+    });
+
+contractSchema
+    .virtual('end_date_display')
+    .get(function() {
+        return util.formatter.toDisplayDate(this.end_date)
     });
 
 // export
