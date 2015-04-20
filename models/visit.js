@@ -4,8 +4,9 @@ var util = require('../util')
 
 // schema
 var schema = new Schema({
-    data: Date,
+    date: Date,
     status: String,
+    contract_id: String,
     created_date: {
         type: Date,
         default: Date.now

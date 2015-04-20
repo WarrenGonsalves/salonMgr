@@ -75,6 +75,7 @@ ContractController.prototype.putHandler = {
                 visit.date = new Date(Date.parse(visit_date));
                 console.log(visit)
                 contract.visits.push(visit.toJSON())
+                visit.contract_id = contract._id
                 visit.save()
                 cb()
 
