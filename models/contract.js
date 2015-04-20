@@ -18,6 +18,10 @@ var contractSchema = new Schema({
     start_date: Date,
     end_date: Date,
     description: String,
+    is_processed: {
+        type: Boolean,
+        default: false
+    },
     visits: [{
         date: Date,
         is_complete: {

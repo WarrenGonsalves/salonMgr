@@ -6,7 +6,7 @@ var momenttz = require('moment-timezone');
 var counter = require('./counter');
 var db = require('../db');
 var util = require('../util')
-// schema
+    // schema
 var jobSchema = new Schema({
     status: {
         type: String,
@@ -80,6 +80,12 @@ jobSchema
     .virtual('book_date_display')
     .get(function() {
         return util.formatter.toDisplayDateWithTimeRange(this.book_date)
+    });
+
+jobSchema
+    .virtual('deliver_date_display')
+    .get(function() {
+        return util.formatter.toDisplayDateWithTimeRange(moment(this.book_date).add(3, 'd'))
     });
 
 jobSchema
