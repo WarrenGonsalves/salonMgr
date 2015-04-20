@@ -17,6 +17,7 @@ var invoiceSchema = new Schema({
         amount: Number
     }],
     total: Number,
+    quantity: Number,
     accepted: {
         type: Boolean,
         default: false

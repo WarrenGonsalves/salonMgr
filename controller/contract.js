@@ -3,7 +3,7 @@ var fs = require('fs');
 var config = require("../config/constants");
 var util = require("../util");
 var _ = require('underscore');
-var adminData = require('./admindata');
+var async = require('async');
 
 function ContractController() {};
 
@@ -62,14 +62,32 @@ ContractController.prototype.putHandler = {
                 return;
             }
 
-            adminData.decorateModel(db.contract, contract, request.payload)
+            db.decorateModel(db.contract, contract, request.payload)
 
-            // //contract.
-            // _.each(visits, function(visitDate){
-            //     contract.visits.push({data: })
-            // })
-            contract.save()
-            reply(contract)
+            async.each(request.payload.visits, function(visit_date, cb) {
+                var visit = new db.visit()
+
+                if (!Date.parse(visit_date)){
+                    cb("invalid date")
+                    return
+                }
+
+                visit.date = new Date(Date.parse(visit_date));
+                console.log(visit)
+                contract.visits.push(visit.toJSON())
+                visit.save()
+                cb()
+
+            }, function(err) {
+                if (err) {
+                    console.log("error - ", err)
+                    util.reply.error(err, reply)
+                    return
+                }
+
+                contract.save()
+                reply(contract)
+            })
         })
     }
 };

@@ -37,6 +37,7 @@ exports.catalog = models.catalog;
 exports.order = models.order;
 exports.product = models.product
 exports.image = models.image
+exports.visit = models.visit
 
 exports.decorateModel = function(model, modelInstance, fieldMap) {
 

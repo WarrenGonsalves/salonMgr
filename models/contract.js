@@ -22,13 +22,7 @@ var contractSchema = new Schema({
         type: Boolean,
         default: false
     },
-    visits: [{
-        date: Date,
-        is_complete: {
-            type: Boolean,
-            default: false
-        }
-    }],
+    visits: [Schema.Types.Mixed],
     created_date: {
         type: Date,
         default: Date.now

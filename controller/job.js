@@ -105,9 +105,7 @@ JobController.prototype.putHandler = {
                 selectedJob.estimate = request.payload.estimate;
                 selectedJob.estimate_cost = request.payload.estimate_cost;
             }
-
-
-
+            
             // if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
             //     selectedJob.status = request.payload.status;
 
