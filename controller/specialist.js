@@ -122,7 +122,9 @@ SpecialistController.prototype.getConfigHandler = {
             };
 
             // only query for active specialists.
-            query_param['active'] = {'$ne': false };
+            query_param['active'] = {
+                '$ne': false
+            };
 
             console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
@@ -278,15 +280,20 @@ SpecialistController.prototype.postBookSpecialist = {
             //console.log(__filename + "adding job to specialist: " + JSON.stringify(specialist));
             specialist.save();
 
-            var booking = new db.booking();
-            booking.specialist_id = job.specialist_id;
-            booking.book_date = new Date(Date.parse(book_date));
-            booking.cust_id = job.cust_id;
-            booking.job_id = job._id;
-            booking.save();
+            if (job.specialist_category == 'Laundry') {
+                // dont create any booking slot
+            } else {
+                console.log("--- creating booking")
+                var booking = new db.booking();
+                booking.specialist_id = job.specialist_id;
+                booking.book_date = new Date(Date.parse(book_date));
+                booking.cust_id = job.cust_id;
+                booking.job_id = job._id;
+                booking.save();
 
-            job.booking_slot_id = booking._id;
-            job.save();
+                job.booking_slot_id = booking._id;
+                job.save();
+            }
 
             db.customer.findById(customer_id).exec(function(err, customer) {
                 if (customer != null) {
@@ -300,8 +307,12 @@ SpecialistController.prototype.postBookSpecialist = {
                 }
             });
             if (!(request.payload.catalog_ids === undefined)) {
-                console.log('----000------------'+request.payload.catalog_ids.split(",")[0]);
-                db.catalog.find({ _id: { $in: request.payload.catalog_ids.split(',') } }).exec(function (err, catalogList) {
+                console.log('----000------------' + request.payload.catalog_ids.split(",")[0]);
+                db.catalog.find({
+                    _id: {
+                        $in: request.payload.catalog_ids.split(',')
+                    }
+                }).exec(function(err, catalogList) {
                     console.log('-----555-----' + catalogList);
                     if (err) {
                         //console.log(err + "?????");
@@ -320,7 +331,7 @@ SpecialistController.prototype.postBookSpecialist = {
                             name: catalogList[catalog].name,
                             detail: catalogList[catalog].detail,
                             price: catalogList[catalog].price,
-                            icon_size_image: catalogList[catalog].icon_size_image, 
+                            icon_size_image: catalogList[catalog].icon_size_image,
                             medium_image: catalogList[catalog].medium_image
                         };
                         total_quantity++;
