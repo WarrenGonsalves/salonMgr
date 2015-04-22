@@ -5,6 +5,7 @@ var _ = require("underscore");
 // schema
 var categorySchema = new Schema({
     category: String,
+    display: String,
     sub_category: String,
     active: {
         type: Boolean,
