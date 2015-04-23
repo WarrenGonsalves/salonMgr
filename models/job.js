@@ -103,7 +103,7 @@ jobSchema
 
             this.logHistory(this.status);
 
-            if (this.status == "Finished") {
+            if (this.status == "Finished" || this.status == "Delivered") {
                 this.complete = true;
             }
 
