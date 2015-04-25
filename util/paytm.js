@@ -118,7 +118,7 @@ module.exports.checksumGenerator = function gen(paytmParams, cb) {
         var paytmPostParams = {}
         paytmPostParams.CHECKSUMHASH = checksum.CHECKSUMHASH
         paytmPostParams.ORDER_ID = checksum.ORDER_ID
-        paytmPostParams.ORDER_DETAILS = "payment for hands"
+        // paytmPostParams.ORDER_DETAILS = "payment for hands"
         paytmPostParams.payt_STATUS = 1
 
         cb(null, paytmPostParams);

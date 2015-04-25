@@ -10,8 +10,21 @@ function Controller() {};
 Controller.prototype.hawaiiHandler = {
     handler: function(request, reply) {
 
-        util.logger.info(TAG, ["paytm callback", JSON.stringify(request.payload)]);
-        reply("ok");
+        util.logger.info(TAG, ["paytm callback", JSON.stringify(request.payload)])
+
+        if (request.payload.STATUS == "TXN_SUCCESS") {
+
+            reply.view('paytm_success.jade', {
+                OrderId: request.payload.ORDERID
+            })
+
+        } else {
+
+            reply.view('paytm_error.jade', {
+                OrderId: request.payload.ORDERID
+            })
+
+        }
     }
 };
 
@@ -58,7 +71,7 @@ Controller.prototype.postHandler = {
             var tnx = new db.tnx();
             tnx.save();
 
-            util.paytm.getPaytmPost(amount, tnx._id, job, channel_id, function(err, paytmPost){
+            util.paytm.getPaytmPost(amount, tnx._id, job, channel_id, function(err, paytmPost) {
                 tnx.data = JSON.stringify(paytmPost);
                 tnx.save();
                 reply(paytmPost);
