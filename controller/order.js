@@ -168,20 +168,35 @@ OrderController.prototype.jobOrderHandler = {
                 async.each(orderPostData.line_items, function(line_item, cb) {
                     console.log('order line_item', line_item)
 
-                    db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+                    if (line_item.name == "Custom") {
+                        // custom product simply add it to order
 
-                        if (err) {
-                            console.log(err)
-                            cb(err)
-                        }
-
+                        var product = new db.product()
+                        product.name = "Custom"
+                        product.price = line_item.price
                         product = product.toObject()
                         product.quantity = line_item.quantity
-                            //console.log('product ', product)
                         order.line_items.push(product)
 
                         cb()
-                    })
+
+                    } else {
+                        db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+
+                            if (err) {
+                                console.log(err)
+                                cb(err)
+                            }
+
+                            product = product.toObject()
+                            product.quantity = line_item.quantity
+                            order.line_items.push(product)
+
+                            cb()
+                        })
+                    }
+
+
 
                 }, function(err) {
                     if (err) {

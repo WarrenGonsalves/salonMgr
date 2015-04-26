@@ -23,7 +23,6 @@ Controller.prototype.hawaiiHandler = {
             reply.view('paytm_error.jade', {
                 OrderId: request.payload.ORDERID
             })
-
         }
     }
 };
