@@ -160,7 +160,7 @@ module.exports = function() {
             }
         }, {
             method: 'POST',
-            path: '/paytm/validate_checksum',
+            path: BASE_URL + '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
                     util.paytm.validateChecksum(req.payload, function(err, paytmPostParams) {
