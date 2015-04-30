@@ -6,6 +6,7 @@ var adminController = require('../controller/admin');
 var config = require('../config/constants');
 var moment = require('moment');
 var db = require('../db');
+var _ = require('underscore');
 
 module.exports = function() {
     return [
@@ -174,10 +175,15 @@ module.exports = function() {
             path: '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
-                    reply_json = JSON.parse(req.payload)
-                    reply_json.IS_CHECKSUM_VALID = "Y"
-                    console.log(JSON.stringify(reply_json))
-                    reply("Call back url from paytm. OK" + JSON.stringify(reply_json))
+                    data = {}
+                    data.TXNID = 'TEST_ID'
+                    data.STATUS = 'TXN_SUCCESS'
+                    data.IS_CHECKSUM_VALID = 'Y'
+                    //_.extend(data, req.payload)
+                    console.log(data)
+                    reply.view('paytm_callback.jade', {
+                        callback_data: JSON.stringify(data)
+                    })
                 }
             }
         },{

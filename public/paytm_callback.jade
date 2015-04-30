@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+        title Paytm
+        script.
+            return document.getElementById('response').value
+    body
+        Redirecting back to app<br>
+        form(method='post')
+            input(id='response', name='responseField', type='hidden', value=callback_data)
