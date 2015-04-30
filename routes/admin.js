@@ -174,9 +174,10 @@ module.exports = function() {
             path: '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
-                    reply_json = JSON.stringify(req.payload)
+                    reply_json = JSON.parse(req.payload)
                     reply_json.IS_CHECKSUM_VALID = "Y"
-                    reply("Call back url from paytm. OK" + JSON.stringify(req.payload))
+                    console.log(JSON.stringify(reply_json))
+                    reply("Call back url from paytm. OK" + JSON.stringify(reply_json))
                 }
             }
         },{
