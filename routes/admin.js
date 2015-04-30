@@ -174,7 +174,7 @@ module.exports = function() {
             path: '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
-                    reply("Call back url from paytm. OK" + JSON.stringify(request.payload))
+                    reply("Call back url from paytm. OK" + JSON.stringify(req.payload))
                 }
             }
         },{
