@@ -171,6 +171,14 @@ module.exports = function() {
             }
         }, {
             method: 'GET',
+            path: '/paytm/validate_checksum',
+            config: {
+                handler: function(req, reply) {
+                    reply("Call back url from paytm. OK")
+                }
+            }
+        },{
+            method: 'GET',
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {
                 handler: function(req, reply) {
