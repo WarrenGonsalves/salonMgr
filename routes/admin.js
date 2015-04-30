@@ -149,7 +149,7 @@ module.exports = function() {
             }
         }, {
             method: 'POST',
-            path: '/paytm/gen_checksum',
+            path: BASE_URL + '/paytm/gen_checksum',
             config: {
                 handler: function(req, reply) {
                     util.paytm.checksumGenerator(req.payload, function(err, paytmPostParams) {
@@ -170,11 +170,11 @@ module.exports = function() {
                 }
             }
         }, {
-            method: 'GET',
+            method: 'POST',
             path: '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
-                    reply("Call back url from paytm. OK")
+                    reply("Call back url from paytm. OK" + JSON.stringify(request.payload))
                 }
             }
         },{
