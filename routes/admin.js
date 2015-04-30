@@ -175,18 +175,26 @@ module.exports = function() {
             path: '/paytm/validate_checksum',
             config: {
                 handler: function(req, reply) {
+                    reply.redirect('http://fixers.ngrok.com/paytm/callback_url')
+                }
+            }
+        }, {
+            method: 'GET',
+            path: '/paytm/callback_url',
+            config: {
+                handler: function(req, reply) {
                     data = {}
                     data.TXNID = 'TEST_ID'
                     data.STATUS = 'TXN_SUCCESS'
                     data.IS_CHECKSUM_VALID = 'Y'
-                    //_.extend(data, req.payload)
+                        //_.extend(data, req.payload)
                     console.log(data)
                     reply.view('paytm_callback.jade', {
                         callback_data: JSON.stringify(data)
                     })
                 }
             }
-        },{
+        }, {
             method: 'GET',
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {
