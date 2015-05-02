@@ -113,6 +113,23 @@ AdminDataController.prototype.deleteHandler = {
     }
 };
 
+AdminDataController.prototype.metaHandler = {
+    handler: function(request, reply) {
+        var model = db[request.params.entity]
+        var model_metadata = model.schema.paths
+
+        var field_metadata = {}
+
+        _.each(model_metadata, function(field){
+            //var datatype = String(model_metadata[field.path].options.type);
+            field_metadata[field.path] = String(model_metadata[field.path].options.type)
+            console.log("------- ", field)
+        })
+        model_metadata.field_metadata = field_metadata
+        reply(model_metadata)
+    }
+};
+
 AdminDataController.prototype.decorateModel = function(model, modelInstance, fieldMap) {
 
     var model_metadata = model.schema.paths;

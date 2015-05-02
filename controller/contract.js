@@ -11,6 +11,17 @@ ContractController.prototype.getHandler = {
 
     handler: function(request, reply) {
         db.contract.find(request.query).populate('visits').exec(function(err, contracts) {
+
+            _.each(contracts, function(contract){
+                var pending_visits = 0
+                _.each(contract.visits, function(visit){
+                    if (visit.status == 'Pending' || visit.status == 'Next'){
+                        pending_visits++
+                    }
+                })
+                contract.visits_remaining = pending_visits
+            })
+
             reply({
                 contracts: contracts
             })

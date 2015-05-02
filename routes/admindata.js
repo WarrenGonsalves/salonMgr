@@ -6,23 +6,25 @@ var moment = require('moment');
 var db = require('../db');
 
 module.exports = function() {
-    return [
-        {
-            method: 'GET',
-            path: BASE_URL + '/{entity}',
-            config: controller.getHandler
-        }, {
-            method: 'POST',
-            path: BASE_URL + '/{entity}',
-            config: controller.postHandler
-        },{
-            method: 'PUT',
-            path: BASE_URL + '/{entity}/{id}',
-            config: controller.putHandler
-        },{
-            method: 'DELETE',
-            path: BASE_URL + '/{entity}',
-            config: controller.deleteHandler
-        }
-    ];
+    return [{
+        method: 'GET',
+        path: BASE_URL + '/{entity}',
+        config: controller.getHandler
+    }, {
+        method: 'POST',
+        path: BASE_URL + '/{entity}',
+        config: controller.postHandler
+    }, {
+        method: 'PUT',
+        path: BASE_URL + '/{entity}/{id}',
+        config: controller.putHandler
+    }, {
+        method: 'DELETE',
+        path: BASE_URL + '/{entity}',
+        config: controller.deleteHandler
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/{entity}/meta',
+        config: controller.metaHandler
+    }];
 }();
