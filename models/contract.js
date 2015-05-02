@@ -18,7 +18,7 @@ var contractSchema = new Schema({
     phone: String,
     start_date: Date,
     end_date: Date,
-    visits_remaining: Number,
+    visits_remaining: String,
     description: String,
     is_processed: {
         type: Boolean,
@@ -60,6 +60,22 @@ contractSchema
     .get(function() {
         return util.formatter.toDisplayDate(this.end_date)
     });
+
+contractSchema
+    .virtual('created_date_display')
+    .get(function() {
+        return util.formatter.toDisplayDate(this.created_date)
+    });
+
+contractSchema.methods.getVisitsRemaining = function(visits_remaining) {
+    var data = ""
+    if (this.contract_type == "Appliance") {
+        data = visits_remaining + " Servicings Left"
+    } else {
+        data = visits_remaining + " Visits Left"
+    }
+    return data
+}
 
 // export
 module.exports = mongoose.model('contract', contractSchema);
