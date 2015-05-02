@@ -64,8 +64,13 @@ ContractController.prototype.putHandler = {
 
             db.decorateModel(db.contract, contract, request.payload)
 
-            contract.start_date = new Date(Date.parse(request.payload.start_date))
-            contract.end_date = new Date(Date.parse(request.payload.end_date))
+            if (request.payload.start_date) {
+                contract.start_date = new Date(Date.parse(request.payload.start_date))
+            }
+
+            if (request.payload.end_date) {
+                contract.end_date = new Date(Date.parse(request.payload.end_date))
+            }
 
             if (request.payload.visits) {
                 async.each(request.payload.visits, function(visit_date, cb) {
