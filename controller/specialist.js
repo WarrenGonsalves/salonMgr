@@ -302,50 +302,51 @@ SpecialistController.prototype.postBookSpecialist = {
                     util.email.sendBookingConfirmation(customer, job);
                     util.sms.sendBookingConfirmation(job, specialist);
                     util.sms.notifySpecialistNewBooking(job);
+                    
                 } else {
                     util.logger.info(__filename, "No booking notifcation as no valid customer found");
                 }
             });
-            if (!(request.payload.catalog_ids === undefined)) {
-                console.log('----000------------' + request.payload.catalog_ids.split(",")[0]);
-                db.catalog.find({
-                    _id: {
-                        $in: request.payload.catalog_ids.split(',')
-                    }
-                }).exec(function(err, catalogList) {
-                    console.log('-----555-----' + catalogList);
-                    if (err) {
-                        //console.log(err + "?????");
-                        util.reply.error(err, reply);
-                        return;
-                    }
-                    var total_price = 0;
-                    var total_quantity = 0;
-                    var order = db.order();
-                    var line_items = new Array();
-                    for (var catalog in catalogList) {
-                        console.log('-----66-----');
-                        var item = {
-                            catalog_id: catalogList[catalog]._id,
-                            specialist_id: catalogList[catalog].specialist_id,
-                            name: catalogList[catalog].name,
-                            detail: catalogList[catalog].detail,
-                            price: catalogList[catalog].price,
-                            icon_size_image: catalogList[catalog].icon_size_image,
-                            medium_image: catalogList[catalog].medium_image
-                        };
-                        total_quantity++;
-                        total_price += catalogList[catalog].price;
-                        line_items.push(item);
-                    }
-                    order.total_price = total_price;
-                    order.total_quantity = total_quantity;
-                    order.line_items = line_items;
-                    order.save();
-                    job.order_id = order._id;
-                    job.save();
-                });
-            }
+            // if (!(request.payload.catalog_ids === undefined)) {
+            //     console.log('----000------------' + request.payload.catalog_ids.split(",")[0]);
+            //     db.catalog.find({
+            //         _id: {
+            //             $in: request.payload.catalog_ids.split(',')
+            //         }
+            //     }).exec(function(err, catalogList) {
+            //         console.log('-----555-----' + catalogList);
+            //         if (err) {
+            //             //console.log(err + "?????");
+            //             util.reply.error(err, reply);
+            //             return;
+            //         }
+            //         var total_price = 0;
+            //         var total_quantity = 0;
+            //         var order = db.order();
+            //         var line_items = new Array();
+            //         for (var catalog in catalogList) {
+            //             console.log('-----66-----');
+            //             var item = {
+            //                 catalog_id: catalogList[catalog]._id,
+            //                 specialist_id: catalogList[catalog].specialist_id,
+            //                 name: catalogList[catalog].name,
+            //                 detail: catalogList[catalog].detail,
+            //                 price: catalogList[catalog].price,
+            //                 icon_size_image: catalogList[catalog].icon_size_image,
+            //                 medium_image: catalogList[catalog].medium_image
+            //             };
+            //             total_quantity++;
+            //             total_price += catalogList[catalog].price;
+            //             line_items.push(item);
+            //         }
+            //         order.total_price = total_price;
+            //         order.total_quantity = total_quantity;
+            //         order.line_items = line_items;
+            //         order.save();
+            //         job.order_id = order._id;
+            //         job.save();
+            //     });
+            // }
             reply(job);
         });
     }

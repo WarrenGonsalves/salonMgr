@@ -2,9 +2,9 @@ doctype html
 html
     head
         title Paytm
-        script.
-            return document.getElementById('response').value
+        script(type="javascript").
+            function response() {return document.getElementById('response').value}
     body
         Redirecting back to app<br>
-        form(method='post')
-            input(id='response', name='responseField', type='hidden', value=callback_data)
+        form(method='post' name='frm')
+            input(id='response', name='responseField', value=callback_data)

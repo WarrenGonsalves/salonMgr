@@ -13,8 +13,8 @@ ContractController.prototype.getHandler = {
         db.contract.find(request.query).populate('visits').exec(function(err, contracts) {
             reply({
                 contracts: contracts
-            });
-        });""
+            })
+        })
     }
 };
 
@@ -67,31 +67,36 @@ ContractController.prototype.putHandler = {
             contract.start_date = new Date(Date.parse(request.payload.start_date))
             contract.end_date = new Date(Date.parse(request.payload.end_date))
 
-            async.each(request.payload.visits, function(visit_date, cb) {
-                var visit = new db.visit()
+            if (request.payload.visits) {
+                async.each(request.payload.visits, function(visit_date, cb) {
+                    var visit = new db.visit()
 
-                if (!Date.parse(visit_date)){
-                    cb("invalid date")
-                    return
-                }
+                    if (!Date.parse(visit_date)) {
+                        cb("invalid date")
+                        return
+                    }
 
-                visit.date = new Date(Date.parse(visit_date));
-                console.log(visit)
-                contract.visits.push(visit.toJSON())
-                visit.contract_id = contract._id
-                visit.save()
-                cb()
+                    visit.date = new Date(Date.parse(visit_date));
+                    console.log(visit)
+                    contract.visits.push(visit.toJSON())
+                    visit.contract_id = contract._id
+                    visit.save()
+                    cb()
 
-            }, function(err) {
-                if (err) {
-                    console.log("error - ", err)
-                    util.reply.error(err, reply)
-                    return
-                }
+                }, function(err) {
+                    if (err) {
+                        console.log("error - ", err)
+                        util.reply.error(err, reply)
+                        return
+                    }
 
+                    contract.save()
+                    reply(contract)
+                })
+            } else {
                 contract.save()
                 reply(contract)
-            })
+            }
         })
     }
 };

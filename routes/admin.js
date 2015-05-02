@@ -187,6 +187,14 @@ module.exports = function() {
                     data.TXNID = 'TEST_ID'
                     data.STATUS = 'TXN_SUCCESS'
                     data.IS_CHECKSUM_VALID = 'Y'
+                    data.BANKTXNID = ''
+                    data.ORDERID = 'ORDER_TEST'
+                    data.GATEWAYNAME = 'ICICI'
+                    data.RESPCODE = '01'
+                    data.RESPMSG = 'Txn Successfull'
+                    data.BANKNAME = 'BANKNAME'
+                    data.MID = 'robosf49909586699899'
+                    data.PAYMENTMODE = 'CC'
                         //_.extend(data, req.payload)
                     console.log(data)
                     reply.view('paytm_callback.jade', {
