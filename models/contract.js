@@ -11,7 +11,7 @@ var contractSchema = new Schema({
     contract_img: String,
     contract_type: {
         type: String,
-        enum: ['Appliance']
+        enum: ['Appliance', 'Pest Control']
     },
     device_type: String,
     vendor: String,

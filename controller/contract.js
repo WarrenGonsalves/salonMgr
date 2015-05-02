@@ -48,12 +48,20 @@ ContractController.prototype.postHandler = {
 
         img.on('end', function(err) {
             contract.contract_img = config.imgURL + fileName;
-            contract.save();
-            reply(contract);
+            contract.save(function(err, contract) {
+                console.log(err)
+                if (err) {
+                    console.log("---- inside error ")
+                    util.reply.error(err, reply)
+                    return
+                }
 
-            // send email
-            db.customer.findById(contract.customer_id).exec(function(err, customer) {
-                util.email.sendContractNotification(contract, customer);
+                reply(contract);
+
+                // send email
+                db.customer.findById(contract.customer_id).exec(function(err, customer) {
+                    util.email.sendContractNotification(contract, customer);
+                });
             });
         });
     }
@@ -101,17 +109,29 @@ ContractController.prototype.putHandler = {
 
                 }, function(err) {
                     if (err) {
-                        console.log("error - ", err)
                         util.reply.error(err, reply)
                         return
                     }
 
-                    contract.save()
-                    reply(contract)
+                    contract.save(function(err, contract) {
+                        if (err) {
+                            util.reply.error(err, reply)
+                            return
+                        }
+
+                        reply(contract);
+                    })
+
                 })
             } else {
-                contract.save()
-                reply(contract)
+                contract.save(function(err, contract) {
+                    if (err) {
+                        util.reply.error(err, reply)
+                        return
+                    }
+
+                    reply(contract);
+                })
             }
         })
     }
