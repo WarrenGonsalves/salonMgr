@@ -1028,7 +1028,7 @@
             "type": "String",
             "optional": false,
             "field": "job_id",
-            "description": "<p>Job id [Url parameter]</p> "
+            "description": "<p>_id or job_id () [Url parameter]</p> "
           },
           {
             "group": "Parameter",
@@ -1057,7 +1057,7 @@
     "examples": [
       {
         "title": "Example usage:",
-        "content": "/jobs/547af234107f433f5d9f202e",
+        "content": "/jobs/547af234107f433f5d9f202e\n/jobs/1024",
         "type": "json"
       }
     ],

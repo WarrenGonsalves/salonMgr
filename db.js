@@ -68,5 +68,8 @@ exports.decorateModel = function(model, modelInstance, fieldMap) {
 
         return modelInstance;
     });
+}
 
+exports.isValidObjectId = function(obj_id) {
+    return Mongoose.Types.ObjectId.isValid(obj_id)
 }

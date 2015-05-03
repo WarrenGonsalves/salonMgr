@@ -42,13 +42,14 @@ module.exports = function() {
          * @apiName jobStatus
          * @apiGroup Jobs
          *
-         * @apiParam {String} job_id        Job id [Url parameter]
+         * @apiParam {String} job_id        _id or job_id () [Url parameter]
          * @apiParam {String} status        Set status = 'Accepted', 'Estimated', 'Started', 'Finished', Cancelled' [PUT parameter]
          * @apiParam {String} estimate      estimate duration when setting Status = Estimated. [Put Parameter]
          * @apiParam {String} estimate_cost      estimate cost amount when setting Status = Estimated. [Put Parameter]
          *
          * @apiExample Example usage:
          * /jobs/547af234107f433f5d9f202e
+         * /jobs/1024
          */
         {
             method: 'PUT',

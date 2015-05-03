@@ -83,7 +83,19 @@ JobController.prototype.getConfigHandler = {
 
 JobController.prototype.putHandler = {
     handler: function(request, reply) {
-        db.job.findById(request.params.id, function(err, selectedJob) {
+
+        console.log(db.isValidObjectId(request.params.id))
+        if (db.isValidObjectId(request.params.id)) {
+            query_param = {
+                _id: request.params.id
+            }
+        } else {
+            query_param = {
+                job_id: request.params.id
+            }
+        }
+
+        db.job.findOne(query_param, function(err, selectedJob) {
             //  console.log("debug","this is a test 3"+request.payload.status + " "+request.payload.estimate+" " + request.payload.estimated_fees);
 
             if (err) {
@@ -92,7 +104,7 @@ JobController.prototype.putHandler = {
             }
 
             if (selectedJob === null) {
-                util.reply.error("Job not found", reply);
+                util.reply.error("Job not found for id", reply);
                 return;
             }
 
@@ -105,7 +117,7 @@ JobController.prototype.putHandler = {
                 selectedJob.estimate = request.payload.estimate;
                 selectedJob.estimate_cost = request.payload.estimate_cost;
             }
-            
+
             // if (request.payload.status !== undefined && 'Accepted,Estimated,Started,Finished,Cancelled,Invoiced'.indexOf(request.payload.status) > -1) {
             //     selectedJob.status = request.payload.status;
 
@@ -121,8 +133,6 @@ JobController.prototype.putHandler = {
             // }
             selectedJob.status = request.payload.status
             selectedJob.save(function(err, savedJob) {
-
-                console.log("after save job -- ", err)
                 if (err) {
                     util.reply.error(err, reply);
                     return;
