@@ -12,17 +12,23 @@ Controller.prototype.hawaiiHandler = {
 
         util.logger.info(TAG, ["paytm callback", JSON.stringify(request.payload)])
 
+        var data = request.payload
+
         if (request.payload.STATUS == "TXN_SUCCESS") {
 
-            reply.view('paytm_success.jade', {
-                OrderId: request.payload.ORDERID
-            })
+            data.IS_CHECKSUM_VALID = 'Y'
+            util.logger.info(TAG, ["paytm callback Success", data])
+            reply.view('paytm_callback.jade', {
+                        callback_data: JSON.stringify(data)
+                    })
 
         } else {
 
-            reply.view('paytm_error.jade', {
-                OrderId: request.payload.ORDERID
-            })
+            data.IS_CHECKSUM_VALID = 'N'
+            util.logger.info(TAG, ["paytm callback Error", data])
+            reply.view('paytm_callback.jade', {
+                        callback_data: JSON.stringify(data)
+                    })
         }
     }
 };

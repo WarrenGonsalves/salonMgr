@@ -7,6 +7,7 @@ var config = require('../config/constants');
 var moment = require('moment');
 var db = require('../db');
 var _ = require('underscore');
+var tnxcontroller = require('../controller/transaction');
 
 module.exports = function() {
     return [
@@ -173,11 +174,7 @@ module.exports = function() {
         }, {
             method: 'POST',
             path: '/paytm/validate_checksum',
-            config: {
-                handler: function(req, reply) {
-                    reply.redirect('http://fixers.ngrok.com/paytm/callback_url')
-                }
-            }
+            config: tnxcontroller.hawaiiHandler
         }, {
             method: 'GET',
             path: '/paytm/callback_url',

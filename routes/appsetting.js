@@ -17,7 +17,7 @@ module.exports = function() {
             config: {
                 handler: function(req, reply) {
                     var settings = {}
-                    settings.android = "5";
+                    settings.android = "9";
                     settings.ios = "1.3"; 
                     reply(settings);
                 }
