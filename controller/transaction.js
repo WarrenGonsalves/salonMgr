@@ -14,22 +14,14 @@ Controller.prototype.hawaiiHandler = {
 
         var data = request.payload
 
-        if (request.payload.STATUS == "TXN_SUCCESS") {
+        util.paytm.validateChecksum(request.payload,function(err, verifiedPaytmParams){
 
-            data.IS_CHECKSUM_VALID = 'Y'
-            util.logger.info(TAG, ["paytm callback Success", data])
+            verifiedPaytmParams
+            util.logger.info(TAG, ["paytm callback verified", verifiedPaytmParams])
             reply.view('paytm_callback.jade', {
-                        callback_data: JSON.stringify(data)
+                        callback_data: JSON.stringify(verifiedPaytmParams)
                     })
-
-        } else {
-
-            data.IS_CHECKSUM_VALID = 'N'
-            util.logger.info(TAG, ["paytm callback Error", data])
-            reply.view('paytm_callback.jade', {
-                        callback_data: JSON.stringify(data)
-                    })
-        }
+        })       
     }
 };
 
