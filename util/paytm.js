@@ -127,7 +127,7 @@ module.exports.checksumGenerator = function gen(paytmParams, cb) {
 
 module.exports.validateChecksum = function validate(paytmParams, cb) {
 
-    if (paytmChecksum.verifychecksum(checksum, PAYTM_CHECKSUM_KEY)) {
+    if (paytmChecksum.verifychecksum(paytmParams, PAYTM_CHECKSUM_KEY)) {
         paytmParams.IS_CHECKSUM_VALID = 'Y'
     } else {
         paytmParams.IS_CHECKSUM_VALID = 'N'
