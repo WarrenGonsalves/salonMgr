@@ -177,30 +177,6 @@ module.exports = function() {
             config: tnxcontroller.hawaiiHandler
         }, {
             method: 'GET',
-            path: '/paytm/callback_url',
-            config: {
-                handler: function(req, reply) {
-                    data = {}
-                    data.TXNID = 'TEST_ID'
-                    data.STATUS = 'TXN_SUCCESS'
-                    data.IS_CHECKSUM_VALID = 'Y'
-                    data.BANKTXNID = ''
-                    data.ORDERID = 'ORDER_TEST'
-                    data.GATEWAYNAME = 'ICICI'
-                    data.RESPCODE = '01'
-                    data.RESPMSG = 'Txn Successfull'
-                    data.BANKNAME = 'BANKNAME'
-                    data.MID = 'robosf49909586699899'
-                    data.PAYMENTMODE = 'CC'
-                        //_.extend(data, req.payload)
-                    console.log(data)
-                    reply.view('paytm_callback.jade', {
-                        callback_data: JSON.stringify(data)
-                    })
-                }
-            }
-        }, {
-            method: 'GET',
             path: BASE_URL + '/order/{order_id}/{amount}',
             config: {
                 handler: function(req, reply) {

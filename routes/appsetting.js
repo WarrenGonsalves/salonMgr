@@ -18,7 +18,8 @@ module.exports = function() {
                 handler: function(req, reply) {
                     var settings = {}
                     settings.android = "9";
-                    settings.ios = "1.3"; 
+                    settings.ios = "1.3";
+                    settings.pay_callback = "http://bumblebee-champitest.rhcloud.com/paytm/validate_checksum" 
                     reply(settings);
                 }
             }
