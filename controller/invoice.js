@@ -68,7 +68,7 @@ invoiceController.prototype.postConfigHandler = {
             });
 
             invoice.total = request.payload.total;
-            invoice.quantity = 
+            //invoice.quantity = 
             invoice.save();
 
             job.invoice_id = invoice._id;

@@ -181,7 +181,7 @@ OrderController.prototype.jobOrderHandler = {
                         cb()
 
                     } else {
-                        db.product.findById(line_item.product_id).select('name price').exec(function(err, product) {
+                        db.product.findById(line_item.product_id).select('name price group').exec(function(err, product) {
 
                             if (err) {
                                 console.log(err)
