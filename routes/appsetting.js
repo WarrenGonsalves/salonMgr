@@ -19,6 +19,7 @@ module.exports = function() {
                     var settings = {}
                     settings.android = "9";
                     settings.ios = "1.3";
+                    settings.pay_gen = "http://bumblebee-champitest.rhcloud.com/admin/paytm/gen_checksum"
                     settings.pay_callback = "http://bumblebee-champitest.rhcloud.com/paytm/validate_checksum" 
                     reply(settings);
                 }

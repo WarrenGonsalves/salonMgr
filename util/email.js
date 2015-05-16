@@ -11,7 +11,7 @@ var SupportBookingEmailId = process.env.SUPPORT_BOOKING_EMAIL_ID || "email.naikp
 var EMAIL_SUPPORT_DETAILS = "<br><br>Please use hands app <a href='http://get.handsforhome.com'>get.handsforhome.com</a> or";
 EMAIL_SUPPORT_DETAILS += " email us at <a href='mailto:customerfirst@handsforhome.com'>customerfirst@handsforhome.com</a> to provide feedback so we can improve the quality for service providers.";
 
-var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
+var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 8080467567 anytime if you have any questions.<br><br>Regards<br>Paul"
 
 var transporter = nodemailer.createTransport({
     service: 'Gmail',

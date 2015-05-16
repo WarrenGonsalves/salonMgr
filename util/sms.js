@@ -8,7 +8,7 @@ var TAG = "Send SMS"
 
 var EXOTEL_SID = "alsodigital"
 var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
-var CUSTOMER_SERVICE_PHONE = "9833789536"
+var CUSTOMER_SERVICE_PHONE = "8080467567"
 
 module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -66,13 +66,13 @@ module.exports.sendBookingConfirmation = function(job, specialist) {
         logger.info(TAG, ["SMS Booking", "is a deal"])
         smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
         smsBody += "You will receive a call within 60 mins to assign a technician to the job. ";
-        smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
+        smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
 
     } else {
         logger.info(TAG, ["SMS Booking", "is not a deal"])
         smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
         smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
-        smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
+        smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
 
     }
 
@@ -89,6 +89,7 @@ module.exports.notifySpecialistNewBooking = function(job) {
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
     this.sendSMS("9833789536", smsBody);
+    this.sendSMS("8080467567", smsBody);
     this.sendSMS(job.specialist_ph, smsBody);
 }
 
@@ -111,7 +112,7 @@ module.exports.notifyCustomerOfSpecialistReassignment = function(job) {
 
     var smsBody = "Hello, " + job.cust_name + ". Your job # " + job.job_id + " has been assigned to " + job.specialist_name + ".  ";
     smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
-    smsBody += "Please call \"hands\" customer service at 9833789536 if there are any issues. Have a wonderful day."
+    smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
 
     logger.info(TAG, ["SMS SPC Reassign", job.cust_ph, smsBody]);
     this.sendSMS(job.cust_ph, smsBody);
