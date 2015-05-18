@@ -3,71 +3,17 @@ var request = require('request');
 var _ = require('underscore');
 var paytmChecksum = require('./paytm/checksum');
 
-var PAYTM_CHECKSUM_KEY = 'kgTCLAvHnjmPcIva';
-var PAYTM_MERCHANT_ID = 'ALSOdi44238291101945';
+var PAYTM_CHECKSUM_KEY = '3&GKd!SjeRf9rYPa';
+var PAYTM_MERCHANT_ID = 'Handsf55807645643291';
 
 var PAYTM_POST_DEFAULTS = {
     REQUEST_TYPE: 'DEFAULT',
     MID: PAYTM_MERCHANT_ID,
     CHANNEL_ID: 'WEB',
-    INDUSTRY_TYPE_ID: 'Retail',
+    INDUSTRY_TYPE_ID: 'Retail124',
     WEBSITE: 'adplweb',
     THEME: 'merchant',
     CHECKSUMHASH: ''
-}
-
-module.exports.testTransaction = function transaction(orderId, customerId, amount, cb) {
-    var paytmApi = "https://pguat.paytm.com/oltp-web/processTransaction?orderid=" + orderId;
-
-    postdata = {
-        form: {
-            REQUEST_TYPE: 'DEFAULT',
-            MID: PAYTM_MERCHANT_ID,
-            ORDER_ID: orderId,
-            CUST_ID: customerId,
-            TXN_AMOUNT: amount,
-            CHANNEL_ID: 'WEB',
-            INDUSTRY_TYPE_ID: 'Retail',
-            WEBSITE: 'adplweb',
-            MOBILE_NO: '9920251667',
-            EMAIL: 'email.naikparag@gmail.com',
-            ORDER_DETAILS: 'Test transaction for hawaii',
-            CHECKSUMHASH: ''
-        }
-    }
-
-    paytmChecksum.genchecksum(postdata.form, PAYTM_CHECKSUM_KEY, function(err, checksum) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log(checksum);
-        console.log(paytmChecksum.verifychecksum(checksum, PAYTM_CHECKSUM_KEY));
-
-        request.post(paytmApi, {
-                form: checksum,
-                followAllRedirects: true
-            },
-            function(err, response, body) {
-
-                console.log(" --------- yaaay status codes ----", response.statusCode);
-
-                if (err) {
-                    console.log("paytm post error - ", err);
-                    cb(err);
-                }
-
-                if (!err && response.statusCode == 200) {
-                    console.log("paytm response", response);
-                    //console.log("paytm body", body);
-                    cb(null, data);
-                }
-
-                cb(null, "ok");
-            }
-        );
-
-    });
 }
 
 module.exports.getPaytmPost = function transaction(amount, tnx_id, job, channel_id, cb) {
@@ -103,9 +49,6 @@ module.exports.getPaytmPost = function transaction(amount, tnx_id, job, channel_
 
 module.exports.checksumGenerator = function gen(paytmParams, cb) {
 
-    // dont add order_detail parameter as it will fail on mobile.
-    //paytmParams.ORDER_DETAILS = "payment for hands"
-
     paytmChecksum.genchecksum(paytmParams, PAYTM_CHECKSUM_KEY, function(err, checksum) {
         if (err) {
             console.log(err);
@@ -118,7 +61,6 @@ module.exports.checksumGenerator = function gen(paytmParams, cb) {
         var paytmPostParams = {}
         paytmPostParams.CHECKSUMHASH = checksum.CHECKSUMHASH
         paytmPostParams.ORDER_ID = checksum.ORDER_ID
-        // paytmPostParams.ORDER_DETAILS = "payment for hands"
         paytmPostParams.payt_STATUS = 1
 
         cb(null, paytmPostParams);

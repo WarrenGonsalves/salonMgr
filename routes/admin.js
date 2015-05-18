@@ -137,16 +137,7 @@ module.exports = function() {
             path: BASE_URL + '/testpay/{order_id}/{customer_id}/{amount}',
             config: {
                 handler: function(req, reply) {
-                    util.paytm.testTransaction(req.params.order_id, req.params.customer_id, req.params.amount, function(err, data) {
-
-                        if (err) {
-                            reply(err);
-                        } else {
-                            reply.redirect(data);
-                        };
-
-
-                    });
+                    reply("not implemented")
                 }
             }
         }, {
