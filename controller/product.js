@@ -20,7 +20,7 @@ Controller.prototype.getHandler = {
         _.extend(query_params, request.query)
         console.log(TAG, query_params)
 
-        db.product.find(query_params).exec(function(err, list) {
+        db.product.find(query_params).sort('name').exec(function(err, list) {
 
             reply({
                 list: list
