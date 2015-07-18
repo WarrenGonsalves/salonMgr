@@ -11,8 +11,18 @@ function CategoryController() {};
  */
 CategoryController.prototype.getConfigHandler = {
     handler: function(request, reply) {
-        db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
-      
+        //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+        var query_param = {};
+        query_param['active'] = {'$ne': false };
+        
+        if(request.query.id){
+            query_param['parent'] = request.query.id;
+        }
+        else{
+            query_param['parent'] = '';
+        }
+
+        db.category.find(query_param).sort('order').exec(function(err, services){
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -24,6 +34,11 @@ CategoryController.prototype.getConfigHandler = {
             //     return data;
             // });
 
+            reply({
+                services: services
+            });
+
+            /*
             // group services by category
             services = _.groupBy(services, function(data) {
                 return data.category;
@@ -60,7 +75,7 @@ CategoryController.prototype.getConfigHandler = {
                 reply({
                     services: services
                 });
-            }
+            }*/
         });
     }
 };

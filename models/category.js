@@ -4,8 +4,8 @@ var _ = require("underscore");
 
 // schema
 var categorySchema = new Schema({
+    parent: String,
     category: String,
-    sub_category: String,
     active: {
         type: Boolean,
         default: true

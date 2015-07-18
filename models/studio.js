@@ -8,6 +8,8 @@ var studioSchema = new Schema({
   	name: String,
     email: String,
   	phone: String,
+    profile_img: String,
+    likes: Number,
   	type: [{type: String, enum: ['salon','spa','stylist']}],
   	circle: Schema.Types.Mixed,
   	circleloc: Schema.Types.Mixed,

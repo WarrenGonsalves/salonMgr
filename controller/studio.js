@@ -6,6 +6,7 @@ var _ = require('underscore');
 var veribage = require('../config/legal');
 var moment = require('moment');
 var momenttz = require('moment-timezone');
+var mongoose = require('mongoose');
 
 function StudioController() {};
 
@@ -19,6 +20,11 @@ StudioController.prototype.getConfigHandler = {
         // filter for category
         if (!(request.query.service === undefined)) {
             query_param['services.id'] = request.query.service;
+
+        }
+
+        if (request.query._id) {
+            query_param['_id'] = request.query.id;
         }
 
         // filter for circle 
@@ -60,11 +66,15 @@ StudioController.prototype.postConfigHandler = {
         studio.name = request.payload.name;
         studio.email = request.payload.email;
         studio.phone = request.payload.phone;
-        
+        studio.phone = 20;
+
         // services
-        studio.services.push({id: '559bf17ce4b020c37dc08858', price: 300});
+        studio.services.push({id: '55aac875e4b0f6549e074f4a', price: 300});
         
         studio.features = ['ac', 'home', 'pick&drop'];
+
+        // profile pic 
+        studio.profile_img = "https://s3.amazonaws.com/uifaces/faces/twitter/HenryHoffman/128.jpg";
 
         // images
         studio.images.push({"name": "img1", "url": "https://s3.amazonaws.com/uifaces/faces/twitter/HenryHoffman/128.jpg"});
