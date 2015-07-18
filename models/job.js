@@ -27,7 +27,7 @@ var jobSchema = new Schema({
     specialist_name: String,
     specialist_category: String,
     specialist_ph: String,
-    specialist_image: String,
+    //specialist_image: String,
     cust_id: String,
     cust_name: String,
     cust_ph: String,
@@ -39,7 +39,7 @@ var jobSchema = new Schema({
     book_date: Date,
     images: [String],
     history: [Schema.Types.Mixed],
-    order_id: { type: mongoose.Schema.ObjectId, ref: 'order' },
+    //order_id: { type: mongoose.Schema.ObjectId, ref: 'order' },
     complete: {
         type: Boolean,
         default: false

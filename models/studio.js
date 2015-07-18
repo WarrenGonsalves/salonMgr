@@ -8,17 +8,17 @@ var studioSchema = new Schema({
   	name: String,
     email: String,
   	phone: String,
-  	type: {type: String, enum: ['salon','spa','stylist']},
+  	type: [{type: String, enum: ['salon','spa','stylist']}],
   	circle: Schema.Types.Mixed,
   	circleloc: Schema.Types.Mixed,
-  	categories: [{
-      	type: Schema.Types.ObjectId,
-     	ref: 'category'
-  	}],
-  	features: [{
-      	type: String,
-      	enum: ['ac','home','pick&drop']
-  	}],
+    services: [{
+        id: {
+          type: Schema.Types.ObjectId,
+          ref: 'category'
+        },
+        price: {type: Number, default: 0.00, set: setPrice }
+    }],
+  	features: [{type: String}],
   	images: [{
       	name: String,
       	url: String
@@ -41,6 +41,10 @@ var studioSchema = new Schema({
 studioSchema.index({
   	circleloc: '2dsphere'
 });
+
+function setPrice(num){
+    return num.toFixed(2);
+}
 
 // export
 module.exports = mongoose.model('studio', studioSchema);

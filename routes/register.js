@@ -83,7 +83,7 @@ module.exports = function() {
          * /register/auth/9999888999/2424
          */
         {
-            method: 'GET',
+            method: 'POST',
             path: BASE_URL + '/auth/{phone}/{code}',
             config: registrationController.authHandler
         }
