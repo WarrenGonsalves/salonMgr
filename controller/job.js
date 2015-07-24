@@ -68,7 +68,10 @@ JobController.prototype.getConfigHandler = {
         util.logger.info("Jobs - get", [query_param])
 
         // TODO sort by book date.
-        db.job.find(query_param).sort('book_date').populate('order_id').exec(function (err, jobs) {
+        db.job.find(query_param).sort('book_date').populate('order_id')
+        .populate('specialist_id', null, 'studio')
+        .populate('service', null, 'category')
+        .exec(function (err, jobs) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -131,9 +134,9 @@ JobController.prototype.putHandler = {
                 } else {
                     reply(selectedJob);
                     sendJobStatusUpdate(selectedJob);
-                    if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
+                    /*if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
                         removeJobFromSpecialist(selectedJob);
-                    }
+                    }*/
                 }
             });
         });

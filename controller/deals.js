@@ -30,5 +30,22 @@ DealListController.prototype.getDeals = {
     }
 };
 
+DealListController.prototype.createCoupon = {
+    handler: function(request, reply) {
+        console.log("in controller");
+        
+        var coupon = new db.coupon();
+        coupon.code = request.payload.code;
+        coupon.description = request.payload.description;
+        coupon.discount = request.payload.discount;
+        coupon.max_amount = request.payload.max_amount;
+
+        coupon.save();
+        
+       // console.log("in find");
+        reply(coupon);
+    }
+};
+
 var dealListController = new DealListController();
 module.exports = dealListController;

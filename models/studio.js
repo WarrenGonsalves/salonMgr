@@ -9,6 +9,7 @@ var studioSchema = new Schema({
     email: String,
   	phone: String,
     profile_img: String,
+    description: String,
     likes: Number,
   	type: [{type: String, enum: ['salon','spa','stylist']}],
   	circle: Schema.Types.Mixed,
@@ -18,7 +19,9 @@ var studioSchema = new Schema({
           type: Schema.Types.ObjectId,
           ref: 'category'
         },
-        price: {type: Number, default: 0.00, set: setPrice }
+        price: {type: Number, default: 0.00, set: setPrice },
+        service_time: String,
+        products: [{type: String}]
     }],
   	features: [{type: String}],
   	images: [{

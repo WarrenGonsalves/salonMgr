@@ -53,7 +53,7 @@ module.exports = function() {
          */
         {
             method: 'POST',
-            path: BASE_URL + '/customer/{phone}',
+            path: BASE_URL + '/customer/{email}',
             config: registrationController.registerCustomerHandler
         },
         /**

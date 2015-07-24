@@ -35,3 +35,4 @@ exports.catalog = models.catalog;
 exports.order = models.order;
 exports.featured_items = models.featured_items;
 exports.studio = models.studio;
+exports.coupon = models.coupon;

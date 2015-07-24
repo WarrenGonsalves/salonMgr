@@ -23,7 +23,7 @@ function generateAuthCode(phone, customername) {
  */
 function registerCustomer(isServiceProvider, request, reply) {
 
-    if (request.params.phone === undefined) {
+    if (request.payload.phone === undefined) {
         util.reply.error("Customer registration needs a valid phone number", reply);
         return;
     }
@@ -33,41 +33,41 @@ function registerCustomer(isServiceProvider, request, reply) {
         return;
     }
 
-    if (request.payload.email === undefined) {
+    if (request.params.email === undefined) {
         util.reply.error("Customer registration needs a valid email address", reply);
         return;
     }
 
     db.customer.findOne({
-        ph: request.params.phone
+        email: request.params.email
     }, function(err, existingCustomer) {
         if (err) {
             util.reply.error(err, reply);
             return;
         }
         if (existingCustomer) {
-            util.logger.info("Register", ["Phone number already registered, sending existing customer.", existingCustomer]);
+            util.logger.info("Register", ["Email already registered, sending existing customer.", existingCustomer]);
             existingCustomer.email = request.payload.email;
             existingCustomer.name = request.payload.name;
-            existingCustomer.ph = request.params.phone;
+            existingCustomer.ph = request.payload.phone;
             existingCustomer.save();
-            generateAuthCode(existingCustomer.ph, existingCustomer.name);
+            //generateAuthCode(existingCustomer.ph, existingCustomer.name);
             reply(existingCustomer);
             return;
         }
 
         // create new customer
         customer = new db.customer();
-        customer.ph = request.params.phone;
+        customer.ph = request.payload.phone;
         customer.name = request.payload.name;
         customer.email = request.payload.email;
         customer.isSP = isServiceProvider;
         customer.save();
-        customer.initSecret();
+        //customer.initSecret();
 
         console.log("created new customer: " + customer.name + " is a store: " + customer.isSP);
 
-        generateAuthCode(customer.ph, customer.name);
+        //generateAuthCode(customer.ph, customer.name);
         reply(customer);
     });
 }

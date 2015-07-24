@@ -58,8 +58,8 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
-    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.specialist_category + "). Your booking confirmation is " + job.job_id + "." +
-        " Please call \"hands\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.service.category + "). Your booking confirmation is " + job.job_id + "." +
+        " Please call \"Sassy\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
 }
@@ -67,7 +67,7 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
-    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
+    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"Sassy\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);

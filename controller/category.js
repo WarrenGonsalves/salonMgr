@@ -16,67 +16,40 @@ CategoryController.prototype.getConfigHandler = {
         query_param['active'] = {'$ne': false };
         
         if(request.query.id){
-            query_param['parent'] = request.query.id;
+            db.category.findOne({_id: request.query.id}).populate('parent', null, 'category').exec(function(err, category){
+                reply({
+                    category: category
+                });
+            });
         }
         else{
             query_param['parent'] = '';
-        }
-
-        db.category.find(query_param).sort('order').exec(function(err, services){
-            if (err) {
-                util.reply.error(err, reply);
-                return;
+            if(request.query.parent)
+            {
+                query_param['parent'] = request.query.parent;
             }
 
-            // services = _.map(services, function(data) {
-            //     data = data.toJSON();
-            //     data.href = SPECIALIST_BY_CATEGORY_HREF + data._id;
-            //     return data;
-            // });
-
-            reply({
-                services: services
-            });
-
-            /*
-            // group services by category
-            services = _.groupBy(services, function(data) {
-                return data.category;
-            });
-
-            // re-map json structure to match requirement
-            services = _.map(services, function(data) {
-                var mappedValue = {
-                    'category': data[0].category,
-                    'sub_categories': data
-                };
-                return mappedValue;
-            })
-
-            if (!(request.query.customer === undefined)) {
-                db.job.find({
-                    cust_id: request.query.customer,
-                    complete:false
-                }).sort('book_date').exec(function(err, jobs) {
-                    console.log("got jobs: " + jobs);
-                    // if (err) {
-                    //     util.reply.error(err, reply);
-                    //     return;
-                    // }
-
-                    reply({
-                        services: services,
-                        joblist: jobs
-                    });
-
+            db.category.find(query_param).sort('order').exec(function(err, services){
+                if (err) {
+                    util.reply.error(err, reply);
                     return;
-                });
-            } else {
-                reply({
-                    services: services
-                });
-            }*/
-        });
+                }
+
+                if(request.query.parent){
+                    db.category.findOne({_id: request.query.parent}).exec(function(err, category){
+                        reply({
+                            services: services,
+                            category: category
+                        });
+                    });
+                }
+                else{
+                    reply({
+                        services: services
+                    });
+                }
+            });
+        }
     }
 };
 

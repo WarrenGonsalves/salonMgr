@@ -12,32 +12,41 @@ var jobSchema = new Schema({
         enum: ['New', 'Accepted', 'Estimated', 'Started', 'Finished', 'Cancelled', 'Invoiced'],
         default: 'New'
     },
-    is_shopify: {
+    /*is_shopify: {
         type: Boolean,
         default: false
-    },
-    shopify_order: Schema.Types.Mixed,
-    shopify_customer_id: String,
-    estimate: String,
-    estimate_cost: String,
+    },*/
+    //shopify_order: Schema.Types.Mixed,
+    //shopify_customer_id: String,
+    //estimate: String,
+    //estimate_cost: String,
     job_id: String,
-    invoice_id: String,
+    //invoice_id: String,
     booking_slot_id: String,
+    service: String,
+    price: String,
+    coupon: {
+        code: String, 
+        description: String,
+        discount: Number,
+        discount_amt: Number,
+        max_amount: Number
+    },
+    total_amount: Number,
     specialist_id: String,
     specialist_name: String,
-    specialist_category: String,
     specialist_ph: String,
-    //specialist_image: String,
+    specialist_image: String,
     cust_id: String,
     cust_name: String,
     cust_ph: String,
     cust_email: String,
-    cust_addr1: String,
+    /*cust_addr1: String,
     cust_addr2: String,
     cust_addr_landmark: String,
-    cust_task: String,
+    cust_task: String,*/
     book_date: Date,
-    images: [String],
+    //images: [String],
     history: [Schema.Types.Mixed],
     //order_id: { type: mongoose.Schema.ObjectId, ref: 'order' },
     complete: {
@@ -127,6 +136,9 @@ jobSchema.methods.setJobId = function() {
     });
 }
 
+jobSchema.methods.getJobId = function() {
+    return this.job_id;
+}
 
 jobSchema.methods.logHistory = function(data) {
     var logData = {
