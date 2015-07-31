@@ -17,7 +17,11 @@ AdminController.prototype.addSpecialistCategoryHandler = {
                 _id: request.params.spc_id
             }, function(err, specialist) {
                 console.log("adding cat: " + cat + " to specialist: " + specialist);
-                specialist.categories.push(cat);
+                specialist.categories.push({
+                    id: cat._id,
+                    price: request.params.price,
+                    service_time: request.payload.service_time || ''
+                });
                 specialist.save();
                 reply(specialist);
             });

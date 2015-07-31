@@ -4,10 +4,10 @@ var _ = require("underscore");
 
 // schema
 var couponSchema = new Schema({
-  code: String,
+  code: String, // coupon Code
   description: String,
-  discount: Number,
-  max_amount: Number,
+  discount: Number, // percent
+  max_amount: Number, // max discount amount
   created_date: {
     type: Date,
     default: Date.now()
