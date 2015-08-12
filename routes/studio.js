@@ -22,6 +22,22 @@ module.exports = function() {
 	      path: BASE_URL,
 	      config: studioController.getConfigHandler
 	    },
+	     /**
+	     * @api {get} /studios/ype get studios
+	     * @apiName getStudios
+	     * @apiGroup studio
+	     *
+	     * @apiExample Example usage:
+	     * /studios
+	     * /studios?category=667766
+	     * /studios?category=667766&grouped=true
+	     * /studios?category=667766&lat=19.1999999&lng=72.9444444
+	     */
+	    {
+	      method: 'GET',
+	      path: BASE_URL+'/category',
+	      config: studioController.getStudioListWithType
+	    },
 	    /**
 	     * @api {post} /studios post studios
 	     * @apiName postStudios
@@ -32,6 +48,17 @@ module.exports = function() {
 	      method: 'POST',
 	      path: BASE_URL,
 	      config: studioController.postConfigHandler
+	    },
+	    /**
+	     * @api {post} /checkcoupon code
+	     * @apiName postStudios
+	     * @apiGroup studio
+	     *
+	     */
+	    {
+	      method: 'POST',
+	      path: BASE_URL + '/couponcode/{coupon_code}/{orig_price}',
+	      config: studioController.checkCoupon
 	    },
 	    /**
 	     * @api {post} /studios/{studio_id}/book/{cust_id} Booking: book studio

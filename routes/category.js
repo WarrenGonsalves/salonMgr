@@ -14,6 +14,16 @@ module.exports = function() {
             method: 'GET',
             path: BASE_URL,
             config: Controller.getConfigHandler
+        }, 
+        /**
+         * @api {get} /getIA/ Get all categories
+         * @apiName getIA
+         * @apiGroup IA
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/ia/",
+            config: Controller.getIA
         },
         /**
          * @api {post} /admin/categories/{category}/{sub_category} Category: create new
