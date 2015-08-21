@@ -35,6 +35,7 @@ exports.contract = models.contract;
 exports.tnx = models.transaction;
 exports.catalog = models.catalog;
 exports.order = models.order;
+<<<<<<< HEAD
 exports.product = models.product
 exports.image = models.image
 exports.visit = models.visit
@@ -73,3 +74,8 @@ exports.decorateModel = function(model, modelInstance, fieldMap) {
 exports.isValidObjectId = function(obj_id) {
     return Mongoose.Types.ObjectId.isValid(obj_id)
 }
+=======
+exports.featured_items = models.featured_items;
+exports.studio = models.studio;
+exports.coupon = models.coupon;
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2

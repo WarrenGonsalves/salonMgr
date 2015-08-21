@@ -19,7 +19,8 @@ if (process.env.NODE_ENV == 'prod') {
     config.server.port = '8081';
     // Mongo
     //config.mongo.connecturl = "mongodb://dbuser2:admin@127.0.0.1:27017/optimus";
-    config.mongo.connecturl = process.env.MONGO_URL;
+   // config.mongo.connecturl = process.env.MONGO_URL;
+    config.mongo.connecturl = "mongodb://sassyDBadmin:admin123@sassy.co.in:27017/sassy";
     // Data dir
     // '/var/data/handz'
     config.dataDir = process.env.DATA_DIR;

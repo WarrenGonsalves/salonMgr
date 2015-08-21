@@ -10,6 +10,11 @@ module.exports = function() {
       method: 'GET',
       path: BASE_URL,
       config: dealListController.getDeals
+    },
+    {
+      method: 'POST',
+      path: BASE_URL+'/create_coupon',
+      config: dealListController.createCoupon
     }
   ];
 }();

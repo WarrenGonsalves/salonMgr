@@ -68,6 +68,7 @@ module.exports.sendBookingConfirmation = function(job, specialist) {
         smsBody += "You will receive a call within 60 mins to assign a technician to the job. ";
         smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
 
+<<<<<<< HEAD
     } else {
         logger.info(TAG, ["SMS Booking", "is not a deal"])
         smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
@@ -75,6 +76,10 @@ module.exports.sendBookingConfirmation = function(job, specialist) {
         smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
 
     }
+=======
+    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.service.category + "). Your booking confirmation is " + job.job_id + "." +
+        " Please call \"Sassy\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
 
     this.sendSMS(job.cust_ph, smsBody);
 }
@@ -82,9 +87,13 @@ module.exports.sendBookingConfirmation = function(job, specialist) {
 module.exports.notifySpecialistNewBooking = function(job) {
     logger.info(TAG, ["SMS Booking - notification to specialist", job]);
 
+<<<<<<< HEAD
     //var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
     var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . ";
     smsBody += "Customer address - " + job.cust_addr1 + " " + job.cust_addr_landmark + " , task - " + job.cust_task + ", date - " + formatter.toDisplayDate(job.book_date) + " time - " + formatter.toDisplayTimeRange(job.book_date) + " Thank you."
+=======
+    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"Sassy\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
 
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);

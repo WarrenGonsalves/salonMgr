@@ -68,7 +68,14 @@ JobController.prototype.getConfigHandler = {
         util.logger.info("Jobs - get", [query_param])
 
         // TODO sort by book date.
+<<<<<<< HEAD
         db.job.find(query_param).sort('-last_updated').populate('order_id').exec(function(err, jobs) {
+=======
+        db.job.find(query_param).sort('book_date').populate('order_id')
+        .populate('specialist_id', null, 'studio')
+        .populate('service', null, 'category')
+        .exec(function (err, jobs) {
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -138,9 +145,30 @@ JobController.prototype.putHandler = {
                     return;
                 }
 
+<<<<<<< HEAD
                 sendJobStatusUpdate(selectedJob);
                 if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
                     removeJobFromSpecialist(selectedJob);
+=======
+                if (selectedJob.is_shopify && selectedJob.status == 'Finished') {
+                    // if shopify order is being closed then let know shopify too.
+                    ShopifyController.closeOrder(selectedJob.shopify_order.id, function(err, response) {
+                        if (err) {
+                            util.reply.error(err, reply);
+                            return;
+                        }
+                        //var order_info = response.order.order_number + " : " + response.order.id;
+                        var jsonResponse = JSON.parse(response);
+                        util.reply.success(jsonResponse, reply);
+                    });
+
+                } else {
+                    reply(selectedJob);
+                    sendJobStatusUpdate(selectedJob);
+                    /*if (selectedJob.status == "Accepted" || selectedJob.status == "Cancelled") {
+                        removeJobFromSpecialist(selectedJob);
+                    }*/
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
                 }
                 reply(selectedJob);
             });

@@ -55,9 +55,9 @@ module.exports = function() {
          * @apiName AddCat
          * @apiGroup Admin
          *
-         * @apiParam {String} spc_id      Specialist id.
-         * @apiParam {String} cat_id      cateogory id.
-         *
+         * @apiParam {String} spc_id        Specialist id.
+         * @apiParam {String} cat_id        cateogory id.
+         * @apiParam {String} service_time  Service time [POST param].
          */
         {
             method: 'POST',

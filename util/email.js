@@ -57,12 +57,17 @@ module.exports.sendBookingConfirmation = function(customer, job) {
     logger.info("Email Notification", ["Booking Confirmation", customer, job]);
 
     var bookingHtmlMsg = "Hello " + job.cust_name + ", " + "your booking has been confirmed.";
-    bookingHtmlMsg += "<br><br> Service provider name - " + job.specialist_name + " - " + job.specialist_category;
+    bookingHtmlMsg += "<br><br> Studio name - " + job.specialist_name + " - " + job.service.category;
     bookingHtmlMsg += "<br>Phone# - " + job.specialist_ph;
     bookingHtmlMsg += EMAIL_FOOTER;
 
+<<<<<<< HEAD
     this.sendMail(SupportEmailId, customer.email, "Hands booking confirmation " + job.job_id, bookingHtmlMsg);
     this.sendMail(SupportEmailId, SupportBookingEmailId, "Hands booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+=======
+    this.sendMail(SupportEmailId, customer.email, "Sassy booking confirmation " + job.job_id, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, "Sassy Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+>>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
 }
 
 module.exports.sendContractNotification = function(contract, customer) {

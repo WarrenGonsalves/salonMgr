@@ -53,7 +53,7 @@ module.exports = function() {
          */
         {
             method: 'POST',
-            path: BASE_URL + '/customer/{phone}',
+            path: BASE_URL + '/customer/{email}',
             config: registrationController.registerCustomerHandler
         },
         /**
@@ -83,7 +83,7 @@ module.exports = function() {
          * /register/auth/9999888999/2424
          */
         {
-            method: 'GET',
+            method: 'POST',
             path: BASE_URL + '/auth/{phone}/{code}',
             config: registrationController.authHandler
         }
