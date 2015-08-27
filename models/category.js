@@ -4,14 +4,18 @@ var _ = require("underscore");
 
 // schema
 var categorySchema = new Schema({
-    parent: String, // parent category id
     category: String, // category name
+    subcategory: String, // subcategory id
+    service: String, // service name
+    attribute1: String, // attribute1 name
+    attribute2: String, // attribute2 name
     icon: String, // icon
+    service_time: String,
     active: {
         type: Boolean,
         default: true
     },
-    order: Number,
+    order: Number
 },{
     toObject: {
         virtuals: true

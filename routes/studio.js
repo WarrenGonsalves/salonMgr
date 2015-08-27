@@ -46,6 +46,16 @@ module.exports = function() {
 	     */
 	    {
 	      method: 'POST',
+	      path: BASE_URL+'/bulk/{studio_id}',
+	      config: studioController.addStudioServices
+	    },/**
+	     * @api {post} /studios post studios
+	     * @apiName postStudios
+	     * @apiGroup studio
+	     *
+	     */
+	    {
+	      method: 'POST',
 	      path: BASE_URL,
 	      config: studioController.postConfigHandler
 	    },

@@ -24,19 +24,50 @@ CategoryController.prototype.getConfigHandler = {
             });
         }
         else{
-            query_param['parent'] = '';
-            if(request.query.parent)
+            query_param['category'] = '';
+            query_param['subcategory'] = '';
+            query_param['service'] = '';
+           // query_param['attribute1'] = '';
+           // query_param['attribute2'] = '';
+           // query_param['parent'] = '';
+
+            if(request.query.category  && request.query.category != 'undefined')
             {
-                query_param['parent'] = request.query.parent;
+                query_param['category'] = request.query.category;
             }
+            if(request.query.subcategory  && request.query.subcategory != 'undefined')
+            {
+                query_param['subcategory'] = request.query.subcategory;
+            }
+            if(request.query.service  && request.query.service != 'undefined')
+            {
+                query_param['service'] = request.query.service;
+            }
+            if(request.query.attribute1  && request.query.attribute1 != 'undefined')
+            {
+               // query_param['attribute1'] = request.query.attribute1;
+            }
+            if(request.query.attribute2 && request.query.attribute2 != 'undefined')
+            {
+               // query_param['attribute2'] = request.query.attribute2;
+            }
+
+           // query_param['active'] = "true";
+             //console.log("in category controller  query_param['attribute2'] " + query_param['attribute2']);
+            // console.log("in category controller  query_param['attribute1'] " + query_param['attribute1']);
+            // console.log("in category controller  query_param['service'] " + query_param['service']);
 
             db.category.find(query_param).sort('order').exec(function(err, services){
                 if (err) {
                     util.reply.error(err, reply);
                     return;
                 }
+                console.log("in category controller services" + services);
+                reply({
+                        services: services
+                 });
 
-                if(request.query.parent){
+              /*  if(request.query.parent){
                     db.category.findOne({_id: request.query.parent}).exec(function(err, category){
                         reply({
                             services: services,
@@ -48,12 +79,31 @@ CategoryController.prototype.getConfigHandler = {
                     reply({
                         services: services
                     });
-                }
+                }*/
             });
         }
     }
 };
 
+
+CategoryController.prototype.postConfigHandler = {
+    handler: function(request, reply) {
+
+        // create new category
+        category = new db.category();
+        // general info
+        category.category = request.payload.category;
+        category.subcategory = request.payload.category;
+        category.service = request.payload.service;
+        category.attribute1 = request.payload.attribute1;
+        category.attribute2 = request.payload.attribute2;
+        category.order = request.payload.order;
+        category.save();
+
+        reply(category);
+
+    }
+};
 
 CategoryController.prototype.getIA = {
     handler: function(request, reply) {

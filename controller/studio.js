@@ -13,20 +13,18 @@ function StudioController() {};
 StudioController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
-        console.log(__filename + ' query param ' + JSON.stringify(request.query));
+        console.log(__filename + ' hsdjfhjsdfhkjsdkjfhjquery param ' + JSON.stringify(request.query));
 
         var query_param = {};
 
         // filter for category
-        if (!(request.query.service === undefined)) {
-            query_param['services.id'] = request.query.service;
-
+        if (!(request.query.categoryId === undefined)) {
+            query_param['services.id'] = mongoose.Types.ObjectId(request.query.categoryId);
         }
 
         if (request.query._id) {
             query_param['_id'] = request.query._id;
         }
-
 
         // filter for circle 
         if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
@@ -44,12 +42,13 @@ StudioController.prototype.getConfigHandler = {
         
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
+        //db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
+         db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
-
+            console.log(__filename + ' studioList' + studioList);
             reply({
                 studio_list: studioList
             });
@@ -63,25 +62,29 @@ StudioController.prototype.getStudioListWithType = {
 
         console.log("in here");
 
-        console.log(__filename + ' query param ' + JSON.stringify(request.query));
-
         var query_param = {};
-
+        
+          // filter for category
+        if (!(request.query.categoryId === undefined)) {
+            query_param['services.id'] = request.query.categoryId;
+        }
+/*
         // filter for category
         if (!(request.query.category === undefined)) {
             query_param['services.category'] = request.query.category;
         }
 
         if (!(request.query.subcat === undefined)) {
-            query_param['services.subcategory'] = request.query.subcategory;
+            query_param['services.subcategory'] = request.query.subcat;
         }
 
         if (!(request.query.service === undefined)) {
             query_param['services.service'] = request.query.service;
         }
+
       
         console.log("query "+ query_param['services.category'] + " subcat " +query_param['services.subcategory'] + " service "+query_param['services.service']);
-
+ */
         // filter for circle 
         if (!(request.query.lat === undefined) && !(request.query.lng === undefined)) {
             var nearLoc = {
@@ -96,20 +99,57 @@ StudioController.prototype.getStudioListWithType = {
             query_param['circleloc'] = nearLoc;
         }
         
-        console.log(__filename + ' query param ' + JSON.stringify(query_param));
+       // query_param['services.id']="55d77aab46faeb0a4d0a7b9f";
+
+        console.log(__filename + ' query param ' + request.query.categoryId);
 
         db.studio.find(query_param).exec(function(err, studioList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
             }
-
+            console.log(__filename + ' query param ' +studioList);
             reply({
                 studio_list: studioList
             });
         });
     }
 };
+
+
+StudioController.prototype.addStudioServices = {
+    handler: function(request, reply) {
+         var studioServicesObject = request.payload.studioServices;
+          
+
+        var studioID = request.params.studio_id;
+        var services = {};
+       
+         db.studio.findOne({
+            _id: studioID
+        }).exec(function(err, studio) {
+           
+         
+            /* studio.services['id']              = mongoose.Types.ObjectId(studioServicesObject.id);
+             studio.services['attributetype']   = studioServicesObject.attributetype;
+             studio.services['attributeArray']  = studioServicesObject.attributeArray;
+             studio.services['service_time']    = studioServicesObject.service_time;*/
+
+        services.id              = studioServicesObject.id;
+        services.attributetype   = studioServicesObject.attributetype;
+        services.attributeArray  = studioServicesObject.attributeArray;
+        services.service_time     = studioServicesObject.service_time;
+        studio.services.push(services);
+        studio.save();
+            
+            //  console.log(" in addStudioServices studioServicesObject.attributeArray  "  + JSON.stringify(studio.services));
+            
+             //console.log("studioServicesObject  in service " +JSON.stringify(studio.name));
+             reply(studio);
+        })
+}
+
+}
 
 StudioController.prototype.postConfigHandler = {
     handler: function(request, reply) {
@@ -125,11 +165,15 @@ StudioController.prototype.postConfigHandler = {
         studio.description = 'This is a description of the studio';
 
         // services
-        attributeArrayValue = [{"regular":{"up-to-waist":"3500","up-to-waist":"3700","below-waist":"3900"},"crown":{"up-to-waist":"3500","up-to-waist":"3700","below-waist":"3900"}}];
+        attributeArrayValue = {"regular":{"up-to-waist":"3500","up-to-waist":"3700","below-waist":"3900"},"crown":{"up-to-waist":"3500","up-to-waist":"3700","below-waist":"3900"}};
 
-        studio.services.push({category:'hair',attributeArray:attributeArrayValue, subcategory:'color',service:'global',attributetype:'2', price: 300, service_time: '30 min', products: ['Loreal']});
+        //studio.services.push({category:'hair',attributeArray:attributeArrayValue, subcategory:'color',service:'global',attributetype:'2', price: 300, service_time: '30 min', products: ['Loreal']});
+       //  studio.services.push({id: '55cd8eef9ccf90a5fcf937db', price: 300, service_time: '30 min', products: ['Loreal']});
+          studio.services.push({id: '55cf5e2bddedd324b4c138da', price: 400, service_time: '30 min', attributeArray: attributeArrayValue,attributetype:'2', products: ['Loreal']});
+       //   studio.services.push({id: '55cd8eef9ccf90a5fcf937dd', price: 400, service_time: '30 min', products: ['Loreal']});
+
+        //   studio.services.push({id: '55aac875e4b0f6549e074f4a', price: 300, service_time: '30 min', products: ['Loreal']});
         
-
         studio.features = ['ac', 'home', 'pick&drop'];
 
         // profile pic 
@@ -165,7 +209,7 @@ StudioController.prototype.postConfigHandler = {
 StudioController.prototype.postBookStudio = {
     handler: function(request, reply) {
 
-        console.log("PAYLOAD-----" + JSON.stringify(request.payload));
+        //console.log("PAYLOAD-----" + JSON.stringify(request.payload));
 
         var specialist_id = request.params.studio_id;
         var customer_id = request.params.cust_id;
@@ -208,7 +252,7 @@ StudioController.prototype.postBookStudio = {
 
         db.studio.findOne({
             _id: specialist_id
-        }).populate('services.id').exec(function(err, studio) {
+        }).exec(function(err, studio) {
 
             if (err) {
                 util.reply.error(err, reply);
@@ -233,12 +277,13 @@ StudioController.prototype.postBookStudio = {
 
                             // service
                             job.service = request.payload.service;
+                            console.log(" job service vivke "+request.payload.service);
 
                             job.price = 0;
                 
                             for(x in studio.services){
                                 console.log(studio.services[x]);
-                                if(studio.services[x].id && studio.services[x].id._id == job.service){
+                                if(studio.services[x]._id  == job.service){
                                     job.price = studio.services[x].price;
                                 }
                             }

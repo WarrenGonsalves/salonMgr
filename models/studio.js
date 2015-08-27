@@ -15,13 +15,15 @@ var studioSchema = new Schema({
   	circle: Schema.Types.Mixed,
   	circleloc: Schema.Types.Mixed,
     services: [{
+       id: {
+          type: Schema.Types.ObjectId,
+          ref: 'category'
+        },
         price: {type: Number, default: 0.00, set: setPrice },
         service_time: String,
-        category: String,
-        subcategory: String,
-        service: String,
         attributetype:String,
-        attributeArray:[Schema.Types.Mixed]
+        attributeArray:Schema.Types.Mixed
+        
     }],
     products: [{type: String}],
   	features: [{type: String}],

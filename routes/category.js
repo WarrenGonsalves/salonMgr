@@ -15,8 +15,17 @@ module.exports = function() {
             path: BASE_URL,
             config: Controller.getConfigHandler
         }, 
-        /**
-         * @api {get} /getIA/ Get all categories
+        /**  /**
+         * @api {get} /categories/ Get all categories
+         * @apiName add Categories
+         * @apiGroup categories
+         */
+        {
+            method: 'POST',
+            path: BASE_URL,
+            config: Controller.postConfigHandler
+        },
+         /* @api {get} /getIA/ Get all categories
          * @apiName getIA
          * @apiGroup IA
          */
