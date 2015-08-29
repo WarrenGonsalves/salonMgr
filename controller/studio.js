@@ -138,8 +138,11 @@ StudioController.prototype.addStudioServices = {
         services.id              = studioServicesObject.id;
         services.attributetype   = studioServicesObject.attributetype;
         services.attributeArray  = studioServicesObject.attributeArray;
-        services.service_time     = studioServicesObject.service_time;
+        services.service_time    = studioServicesObject.service_time;
+        if(studioServicesObject.attributetype == 0)
+            services.price = parseInt(studioServicesObject.price);
         studio.services.push(services);
+
         studio.save();
             
             //  console.log(" in addStudioServices studioServicesObject.attributeArray  "  + JSON.stringify(studio.services));
