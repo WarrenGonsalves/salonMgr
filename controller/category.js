@@ -27,10 +27,16 @@ CategoryController.prototype.getConfigHandler = {
             query_param['category'] = '';
             query_param['subcategory'] = '';
             query_param['service'] = '';
+             query_param['customerType'] = '';
            // query_param['attribute1'] = '';
            // query_param['attribute2'] = '';
            // query_param['parent'] = '';
-
+           if(request.query.customerType  && request.query.customerType != 'undefined')
+            {
+                query_param['customerType'] = request.query.customerType;
+            }else{
+                 query_param['customerType'] = 'women';
+            }
             if(request.query.category  && request.query.category != 'undefined')
             {
                 query_param['category'] = request.query.category;

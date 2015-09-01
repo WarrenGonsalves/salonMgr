@@ -15,7 +15,8 @@ var categorySchema = new Schema({
         type: Boolean,
         default: true
     },
-    order: Number
+    order: Number,
+    customerType: [{type: String, enum: ['men','women','kids']}],
 },{
     toObject: {
         virtuals: true
