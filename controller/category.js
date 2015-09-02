@@ -27,7 +27,7 @@ CategoryController.prototype.getConfigHandler = {
             query_param['category'] = '';
             query_param['subcategory'] = '';
             query_param['service'] = '';
-             query_param['customerType'] = '';
+            query_param['customerType'] = '';
            // query_param['attribute1'] = '';
            // query_param['attribute2'] = '';
            // query_param['parent'] = '';
@@ -57,11 +57,6 @@ CategoryController.prototype.getConfigHandler = {
             {
                // query_param['attribute2'] = request.query.attribute2;
             }
-
-           // query_param['active'] = "true";
-             //console.log("in category controller  query_param['attribute2'] " + query_param['attribute2']);
-            // console.log("in category controller  query_param['attribute1'] " + query_param['attribute1']);
-            // console.log("in category controller  query_param['service'] " + query_param['service']);
 
             db.category.find(query_param).sort('order').exec(function(err, services){
                 if (err) {
