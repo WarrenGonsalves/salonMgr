@@ -33,27 +33,12 @@ if (process.env.NODE_ENV == 'prod') {
     
 }
 
-if (process.env.OPENSHIFT_APP_NAME == "bumblebee") {
-    config.env = 'development';
-    config.server.ip = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-    config.server.port = process.env.OPENSHIFT_NODEJS_PORT || '5000';
-    // Mongo
-    config.mongo.connecturl = "mongodb://" + process.env.BUMBLEBEE_MONGODB_DB_USER + ":" + process.env.BUMBLEBEE_MONGODB_DB_PWD + "@" + process.env.BUMBLEBEE_MONGODB_DB_HOST + ":" + process.env.BUMBLEBEE_MONGODB_DB_PORT + "/" + process.env.BUMBLEBEE_MONGODB_DB_NAME;
-    // Data dir
-    config.dataDir = process.env.OPENSHIFT_DATA_DIR || (__dirname + "/../data");
-
-    config.imgURL = 'http://' + process.env.OPENSHIFT_APP_DNS + '/img/';
-
-    //shopify
-    config.shopify_url = "https://5c836e6567c765665a2aab4e434493ff:83b8525775eac64994c7cfb95d7ea9c9@handsforhome.myshopify.com/";
-}
-
 if (process.env.NODE_ENV == 'local') {
     config.env = 'local';
     config.server.ip = '127.0.0.1';
     config.server.port = '5000';
     // Mongo
-    config.mongo.connecturl = "mongodb://dbuser:dbuser@127.0.0.1:27017/fixers";
+    config.mongo.connecturl = "mongodb://@127.0.0.1:27017/sassy";
     // Data dir
     config.dataDir = __dirname + "/../data";
 

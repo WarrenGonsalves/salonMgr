@@ -58,8 +58,8 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
-    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.service.category + "). Your booking confirmation is " + job.job_id + "." +
-        " Please call \"Sassy\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+   
+    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.service.price +". Please show this at the reception to avail your service. You will soon recieved the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
 }
