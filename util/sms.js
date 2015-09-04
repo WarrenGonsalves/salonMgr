@@ -59,7 +59,7 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
    
-    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.service.price +". Please show this at the reception to avail your service. You will soon recieved the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.price +". Please show this at the reception to avail your service. You will soon recieved the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
 }
@@ -72,7 +72,7 @@ module.exports.notifySpecialistNewBooking = function(job) {
     // TODO  replace viveks number with job.specialist_ph
     //this.sendSMS("9833789536", smsBody);
     if (config.env == 'prod') {
-        this.sendSMS("9833789536", smsBody);
+        this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
         this.sendSMS(job.specialist_ph, smsBody);
     } else {
         logger.info(TAG, "skip sms for non prod env");

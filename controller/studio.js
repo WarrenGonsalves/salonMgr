@@ -218,6 +218,7 @@ StudioController.prototype.postBookStudio = {
         var customer_id = request.params.cust_id;
         var cust_name = request.payload.name;
         var cust_phone = request.payload.phone;
+        var product_orig_price = request.payload.product_orig_price;
         /*var cust_addr1 = request.payload.addr;
         var cust_addr2 = request.payload.addr2;
         var cust_addr_landmark = request.payload.landmark;
@@ -280,18 +281,22 @@ StudioController.prototype.postBookStudio = {
 
                             // service
                             job.service = request.payload.service;
-                            console.log(" job service vivke "+request.payload.service);
+                            console.log(" job service  "+request.payload.service);
 
                             job.price = 0;
                 
-                            for(x in studio.services){
-                                console.log(studio.services[x]);
+                      /*      for(x in studio.services){
+                                console.log(" studio.services[x]._id "+studio.services[x]._id + " job.service " +job.service);
+                               // console.log(studio.services[x]);
                                 if(studio.services[x]._id  == job.service){
+                                    console.log(" match found ");
                                     job.price = studio.services[x].price;
                                 }
                             }
+                        */
+                           //  console.log(" job service price after addng "+job.price);
 
-                            var total_amount = job.price;
+                            var total_amount = product_orig_price;
                             if(request.payload.coupon_code){
                                 var discount = (job.price*(coupon.discount/100));
                                 if(discount > coupon.max_amount){
@@ -308,7 +313,7 @@ StudioController.prototype.postBookStudio = {
                                     max_amount: coupon.max_amount
                                 }
                             }
-
+                            job.price = product_orig_price;
                             job.total_amount = total_amount;
 
                             // studio/specialist
