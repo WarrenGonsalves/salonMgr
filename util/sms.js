@@ -1,12 +1,12 @@
 var logger = require('./logger');
 var request = require('request');
-var config = require("../config/constants")
+var config = require("../config/constants");
 
-var TAG = "Send SMS"
+var TAG = "Send SMS";
 
-var EXOTEL_SID = "alsodigital"
-var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
-var CUSTOMER_SERVICE_PHONE = "9833789536"
+var EXOTEL_SID = "alsodigital";
+var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc";
+var CUSTOMER_SERVICE_PHONE = "9833789536";
 
 module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -42,6 +42,8 @@ module.exports.sendSMS = function sendSMS(to, body, priority) {
     );
 }
 
+
+
 module.exports.sendOTP = function(phone, otp, customername) {
 
     logger.info(TAG, ["SMS OTP", phone]);
@@ -54,6 +56,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
 
 }
 
+
 module.exports.sendBookingConfirmation = function(phone, job, customername) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
@@ -62,6 +65,25 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
     var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.price +". Please show this at the reception to avail your service. You will soon recieved the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendStudioLeadToRequest = function(name, phone) {
+
+    logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Thank you for sharing your phone number. Our customer service will get back to you in two days. Have a sassy week. "
+
+    this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendStudioLeadToCustomerService = function(name, phone) {
+
+    logger.info(TAG, ["sendStudioLeadToCustomerService", name, phone]);
+
+   
+    var smsBody = "Hello, customer service . We have a new lead for studio from  the web. Name : "+ name  +". Phone #: "+ phone.
+
+    this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
 }
 
 module.exports.notifySpecialistNewBooking = function(job) {

@@ -13,7 +13,7 @@ function StudioController() {};
 StudioController.prototype.getConfigHandler = {
     handler: function(request, reply) {
 
-        console.log(__filename + ' hsdjfhjsdfhkjsdkjfhjquery param ' + JSON.stringify(request.query));
+      //  console.log(__filename + ' hsdjfhjsdfhkjsdkjfhjquery param ' + JSON.stringify(request.query));
 
         var query_param = {};
 
@@ -398,6 +398,16 @@ StudioController.prototype.checkCouponWhileBooking = function(coupon_code, callb
         callback(false, false);
     }
 };
+
+StudioController.prototype.studiolead = {
+    handler: function(request, reply) {
+        var name = request.params.customer_name;
+        var phone = request.params.phone;
+        console.log(" in studiolead "+name +"  "+phone);
+         util.sms.sendStudioLeadToCustomerService(name, phone);
+         util.sms.sendStudioLeadToRequest(name, phone);
+    }
+}
 
 StudioController.prototype.checkCoupon = {
     handler: function(request, reply) {

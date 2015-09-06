@@ -58,6 +58,16 @@ module.exports = function() {
 	      method: 'POST',
 	      path: BASE_URL,
 	      config: studioController.postConfigHandler
+	    },/**
+	     * @api {post} /studio/lead  studios
+	     * @apiName add leads
+	     * @apiGroup studio
+	     *
+	     */
+	    {
+	      method: 'POST',
+	      path: BASE_URL+'/lead/{customer_name}/{phone}',
+	      config: studioController.studiolead
 	    },
 	    /**
 	     * @api {post} /checkcoupon code
