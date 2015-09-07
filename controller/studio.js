@@ -60,7 +60,7 @@ StudioController.prototype.getConfigHandler = {
 StudioController.prototype.getStudioListWithType = {
     handler: function(request, reply) {
 
-        console.log("in here");
+        console.log("STUDIO CONTROLLER");
 
         var query_param = {};
         
@@ -108,7 +108,8 @@ StudioController.prototype.getStudioListWithType = {
                 util.reply.error(err, reply);
                 return;
             }
-            console.log(__filename + ' query param ' +studioList);
+            // console.log(__filename + ' query param ' +studioList);
+            console.log('STUDIO LIST ' +studioList);
             reply({
                 studio_list: studioList
             });

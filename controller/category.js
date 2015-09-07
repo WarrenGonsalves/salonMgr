@@ -14,7 +14,7 @@ CategoryController.prototype.getConfigHandler = {
         //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
         var query_param = {};
       //  query_param['active'] = {'$ne': false };
-      console.log("in category controller  ")
+      console.log("CATEGORY CONTROLLER")
         
         if(request.query.id){
             db.category.findOne({_id: request.query.id}).populate('parent', null, 'category').exec(function(err, category){
@@ -57,13 +57,13 @@ CategoryController.prototype.getConfigHandler = {
             {
                // query_param['attribute2'] = request.query.attribute2;
             }
-
+            console.info(query_param);
             db.category.find(query_param).sort('order').exec(function(err, services){
                 if (err) {
                     util.reply.error(err, reply);
                     return;
                 }
-                console.log("in category controller services" + services);
+                console.log("SERVICES" + services);
                 reply({
                         services: services
                  });
