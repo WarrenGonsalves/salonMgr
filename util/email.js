@@ -1,10 +1,11 @@
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
+var smtpTransport = require('nodemailer-smtp-transport');
 var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "customerfirst@sassy.co.in";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "feedback@sassy.co.in";
 var SupportDistEmail = process.env.DIST_EMAIL_ID || "vc1023@gmail.com";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
@@ -15,13 +16,23 @@ var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9
 //     rateLimit: 5
 // }));
 // 
-var transporter = nodemailer.createTransport({
+/*var transporter = nodemailer.createTransport({
     service: 'zoho',
     auth: {
-        user: 'customerfirst@handsforhome.com',
-        pass: 'Qwer!234'
+        user: 'vc1023@gmail.com',
+        pass: 'Qwer1234'
     }
 });
+*/
+var transporter = nodemailer.createTransport(smtpTransport({
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'customerfirst@sassy.co.in',
+        pass: 'Customer@123'
+    }
+}));
 
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
 
@@ -80,7 +91,14 @@ module.exports.sendStudioFeedback = function(feedback) {
 
     logger.info("Email Notification", ["Feedback ", feedback]);
 
-    var HtmlBody = "feedback details <br>" + formatter.toHTML(feedback);
+    var HtmlBody = "feedback details <br>" 
+                + "customer_name : " + feedback.customer_name + "<br>"
+                + "phone_number : " + feedback.phone_number + "<br>"
+                + "question1 : " + feedback.question1 + "<br>"
+                + "question2 : " + feedback.question2 + "<br>"
+                + "question3 : " + feedback.question3 + "<br>"
+                + "question4 : " + feedback.question4 + "<br>"
+                + "question5 : " + feedback.question5 + "<br>";
 
     this.sendMail(SupportEmailId, SupportDistEmail, "New feedback", HtmlBody);
 }
