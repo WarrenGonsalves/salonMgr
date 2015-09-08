@@ -81,9 +81,18 @@ module.exports.sendStudioLeadToCustomerService = function(name, phone) {
     logger.info(TAG, ["sendStudioLeadToCustomerService", name, phone]);
 
    
-    var smsBody = "Hello, customer service . We have a new lead for studio from  the web. Name : "+ name  +". Phone #: "+ phone.
+    var smsBody = "Hello, customer service . We have a new lead for studio from  the web. Name : "+ name  +". Phone #: "+ phone
 
     this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
+}
+
+module.exports.sendThankYouForFeedback = function(name, phone) {
+
+    logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Thank you for sharing feedback and helping us improve. Our customer service will call you to resolve any issues or in case you loved everything to gossip :) and plan your next trip with us at a discounted price "
+
+    this.sendSMS(phone, smsBody);
 }
 
 module.exports.notifySpecialistNewBooking = function(job) {

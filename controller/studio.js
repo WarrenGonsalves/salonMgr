@@ -409,6 +409,17 @@ StudioController.prototype.studiolead = {
     }
 }
 
+StudioController.prototype.studiofeedback = {
+    handler: function(request, reply) {
+        var name = request.params.customer_name;
+        var phone = request.params.phone;
+        console.log(" in studiolead "+name +"  "+phone);
+         util.email.sendStudioFeedback(request.body);
+         if(phone != undefined || phone != null)
+            util.sms.sendThankYouForFeedback(name, phone);
+    }
+}
+
 StudioController.prototype.checkCoupon = {
     handler: function(request, reply) {
 

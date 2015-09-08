@@ -4,8 +4,8 @@ var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
-var SupportDistEmail = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "customerfirst@sassy.co.in";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "vc1023@gmail.com";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
 
@@ -16,7 +16,7 @@ var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9
 // }));
 // 
 var transporter = nodemailer.createTransport({
-    service: 'Gmail',
+    service: 'zoho',
     auth: {
         user: 'customerfirst@handsforhome.com',
         pass: 'Qwer!234'
@@ -73,6 +73,16 @@ module.exports.sendContractNotification = function(contract, customer) {
 
     var HtmlBody = "Contract details <br>" + formatter.toHTML(contract) + "<br><hr><br>" + "Customer details<br>" + formatter.toHTML(customer);
     this.sendMail(SupportEmailId, SupportDistEmail, "New Contract", HtmlBody);
+}
+
+
+module.exports.sendStudioFeedback = function(feedback) {
+
+    logger.info("Email Notification", ["Feedback ", feedback]);
+
+    var HtmlBody = "feedback details <br>" + formatter.toHTML(feedback);
+
+    this.sendMail(SupportEmailId, SupportDistEmail, "New feedback", HtmlBody);
 }
 
 module.exports.sendStatusUpdate = function(job) {
