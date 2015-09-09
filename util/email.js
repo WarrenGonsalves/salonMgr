@@ -6,7 +6,7 @@ var formatter = require('./formatter');
 var _ = require('underscore');
 
 var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "feedback@sassy.co.in";
-var SupportDistEmail = process.env.DIST_EMAIL_ID || "vc1023@gmail.com";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "vivek@sassy.co.in";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
 
@@ -29,8 +29,8 @@ var transporter = nodemailer.createTransport(smtpTransport({
     port: 465,
     secure: true,
     auth: {
-        user: 'customerfirst@sassy.co.in',
-        pass: 'Customer@123'
+        user: 'vivek@sassy.co.in',
+        pass: 'Vivek1023'
     }
 }));
 

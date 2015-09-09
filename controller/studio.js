@@ -419,7 +419,7 @@ StudioController.prototype.studiofeedback = {
         if(phone != undefined || phone != null)
             util.sms.sendThankYouForFeedback(name, phone);
 
-      //  reply('success');
+        reply('{"success":"true"}');
 
     }
 }
