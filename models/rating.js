@@ -5,8 +5,8 @@ var Schema = mongoose.Schema;
 var ratingSchema = new Schema({
     text: String,
     count: {
-        type: Number,
-        default: 1
+        type: Boolean,
+        default: true
     }
 }, {
     id: false

@@ -36,16 +36,8 @@ var studioSchema = new Schema({
     	default: Date.now()
   	},
   	updated_date: Date,
-    practitioners: [{
-       id: {
-          type: Schema.Types.ObjectId,
-          ref: 'practitioners'
-        }}],
-    ratings: [{
-       id: {
-          type: Schema.Types.ObjectId,
-          ref: 'ratings'
-        }}]
+    practitioners: { type: [mongoose.Schema.Types.ObjectId], ref: 'practitioner'},
+    ratings: { type: [mongoose.Schema.Types.ObjectId], ref: 'rating'}
 }, 
 {strict: false},
 {

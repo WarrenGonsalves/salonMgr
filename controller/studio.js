@@ -227,6 +227,10 @@ StudioController.prototype.postBookStudio = {
         var book_date;
         if (!(request.payload.book_date === undefined)) {
             book_date = new Date(Date.parse(request.payload.book_date));
+            console.log("DATEE!!!!!!!!!!!!");
+            console.log(request.payload.book_date);
+            console.log(book_date);
+
         }
 
         if (!(request.payload.book_date_milli === undefined)) {
