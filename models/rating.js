@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 // schema
 var ratingSchema = new Schema({
     text: String,
-    count: {
+    like: {
         type: Boolean,
         default: true
     }

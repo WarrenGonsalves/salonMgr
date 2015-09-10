@@ -43,7 +43,7 @@ StudioController.prototype.getConfigHandler = {
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
         //db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
-         db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
+         db.studio.find(query_param).populate('services.id practitioners ratings').exec(function(err, studioList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;

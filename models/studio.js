@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var categoryModel = require("./category");
 var _ = require("underscore");
+// var practitioners = require("./practitioner");
 
 // schema
 var studioSchema = new Schema({
@@ -36,8 +37,8 @@ var studioSchema = new Schema({
     	default: Date.now()
   	},
   	updated_date: Date,
-    practitioners: { type: [mongoose.Schema.Types.ObjectId], ref: 'practitioner'},
-    ratings: { type: [mongoose.Schema.Types.ObjectId], ref: 'rating'}
+    practitioners: [{ type: mongoose.Schema.Types.ObjectId, ref: 'practitioner'}],
+    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'rating'}]
 }, 
 {strict: false},
 {
