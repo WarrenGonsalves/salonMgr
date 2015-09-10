@@ -94,11 +94,12 @@ module.exports.sendStudioFeedback = function(feedback) {
     var HtmlBody = "feedback details <br>" 
                 + "customer_name : " + feedback.customer_name + "<br>"
                 + "phone_number : " + feedback.phone_number + "<br>"
-                + "question1 : " + feedback.question1 + "<br>"
-                + "question2 : " + feedback.question2 + "<br>"
-                + "question3 : " + feedback.question3 + "<br>"
-                + "question4 : " + feedback.question4 + "<br>"
-                + "question5 : " + feedback.question5 + "<br>";
+                + "How did you make your booking? : " + feedback.question1 + "<br>"
+                + "Did you have any issues selecting the service you required? : " + feedback.question2 + "<br>"
+                + "Did you get a reminder for your appointment? : " + feedback.question3 + "<br>"
+                + "Did you have to wait at the salon? : " + feedback.question4 + "<br>"
+                + "What would you change about the practitioner who served you? : " + feedback.question5 + "<br>"
+                + "Did you think the service was priced fair? : " + feedback.question6 + "<br>";
 
     this.sendMail(SupportEmailId, SupportDistEmail, "New feedback", HtmlBody);
 }
