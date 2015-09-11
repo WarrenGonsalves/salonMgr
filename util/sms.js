@@ -90,7 +90,7 @@ module.exports.sendThankYouForFeedback = function(name, phone) {
 
     logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
 
-    var smsBody = "Hello,"+ name + ". Thank you for sharing feedback and helping us improve. Our customer service will call you to resolve any issues or in case you loved everything to gossip :) and plan your next trip with us at a discounted price "
+    var smsBody = "Hello,"+ name + ". Thank you for sharing feedback and helping us improve. Our customer service will call you to resolve any issues. Have a great day ahead. Sassy Studios - whatsapp 7506 7507 00.  "
 
     this.sendSMS(phone, smsBody);
 }
