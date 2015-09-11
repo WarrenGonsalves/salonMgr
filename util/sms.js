@@ -6,7 +6,7 @@ var TAG = "Send SMS";
 
 var EXOTEL_SID = "alsodigital";
 var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc";
-var CUSTOMER_SERVICE_PHONE = "9833789536";
+var CUSTOMER_SERVICE_PHONE = "7506 7507 00";
 
 module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -22,7 +22,7 @@ module.exports.sendSMS = function sendSMS(to, body, priority) {
 
     request.post(exotelApi, {
             form: {
-                From: "02233814263",
+                From: "02233814032",
                 To: to,
                 Body: body,
                 Priority: sms_priority
