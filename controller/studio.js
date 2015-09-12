@@ -43,7 +43,7 @@ StudioController.prototype.getConfigHandler = {
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
         //db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
-         db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
+         db.studio.find(query_param).populate('services.id practitioners ratings').exec(function(err, studioList) {
             if (err) {
                 util.reply.error(err, reply);
                 return;
@@ -227,6 +227,10 @@ StudioController.prototype.postBookStudio = {
         var book_date;
         if (!(request.payload.book_date === undefined)) {
             book_date = new Date(Date.parse(request.payload.book_date));
+            console.log("DATEE!!!!!!!!!!!!");
+            console.log(request.payload.book_date);
+            console.log(book_date);
+
         }
 
         if (!(request.payload.book_date_milli === undefined)) {
