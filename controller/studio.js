@@ -217,6 +217,7 @@ StudioController.prototype.postBookStudio = {
 
         var specialist_id = request.params.studio_id;
         var customer_id = request.params.cust_id;
+        var practitioner = request.payload.practitioner;
         var cust_name = request.payload.name;
         var cust_phone = request.payload.phone;
         var product_orig_price = request.payload.product_orig_price;
@@ -355,6 +356,9 @@ StudioController.prototype.postBookStudio = {
                             booking.book_date = new Date(Date.parse(book_date));
                             booking.cust_id = job.cust_id;
                             booking.job_id = job._id;
+                            booking.practitioner = practitioner;
+                            booking.services = request.payload.services;
+                            booking.price = product_orig_price;
                             booking.save();
 
                             job.booking_slot_id = booking._id;
@@ -379,6 +383,7 @@ StudioController.prototype.postBookStudio = {
                                     });
                                 } else {
                                     util.logger.info(__filename, "No booking notifcation as no valid customer found");
+                                    reply({message:"Booking created without customer"}).code(200);
                                 }
                             });
                       
