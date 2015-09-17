@@ -109,7 +109,7 @@ StudioController.prototype.getStudioListWithType = {
                 return;
             }
             // console.log(__filename + ' query param ' +studioList);
-            console.log('STUDIO LIST ' +studioList);
+           // console.log('STUDIO LIST ' +studioList);
             reply({
                 studio_list: studioList
             });

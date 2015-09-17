@@ -14,6 +14,15 @@ module.exports = function() {
             method: 'GET',
             path: BASE_URL,
             config: Controller.getConfigHandler
+        },  /**
+         * @api {get} /categories/trending Get trending categories
+         * @apiName getCategories
+         * @apiGroup categories
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/trending/",
+            config: Controller.getTrendingCategories
         }, 
         /**  /**
          * @api {get} /categories/ Get all categories
