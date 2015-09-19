@@ -86,7 +86,7 @@ CategoryController.prototype.getConfigHandler = {
     }
 };
 /**
- * Get Category
+ * Get trending categories
  */
 CategoryController.prototype.getTrendingCategories = {
     handler: function(request, reply) {
@@ -110,6 +110,40 @@ CategoryController.prototype.getTrendingCategories = {
         }
     }
 
+
+/**
+ * Get trending categories
+ */
+CategoryController.prototype.getCategoriesForCatalogDisplay = {
+    handler: function(request, reply) {
+        //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+        var query_param = {};
+      //  query_param['active'] = {'$ne': false };
+      console.log("CATEGORY DISPLAY CONTROLLER")
+     
+         
+            db.category.distinct("service",{"customerType":"girls"}).exec(function(err, girlsCatalog){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+            });
+
+            db.category.distinct("service",{"customerType":"boys"}).exec(function(err, boysCatalog){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+                boysCatalog = boysCatalog
+            }); 
+
+            console.log("boysCatalog" + boysCatalog);
+            reply({
+                boysCatalog: boysCatalog
+            });
+
+        }
+    }
 
 
 CategoryController.prototype.postConfigHandler = {

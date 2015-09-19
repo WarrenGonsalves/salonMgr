@@ -23,7 +23,16 @@ module.exports = function() {
             method: 'GET',
             path: BASE_URL+"/trending/",
             config: Controller.getTrendingCategories
-        }, 
+        },   /**
+         * @api {get} /categories/trending Get trending categories
+         * @apiName getCategories
+         * @apiGroup categories
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/all/",
+            config: Controller.getCategoriesForCatalogDisplay
+        },
         /**  /**
          * @api {get} /categories/ Get all categories
          * @apiName add Categories

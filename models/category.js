@@ -4,6 +4,7 @@ var _ = require("underscore");
 
 // schema
 var categorySchema = new Schema({
+    category:String,
     service: String, // category name
     title: String, // subcategory id
     grade: [{type: String, enum: ['a+','a','a-']}], // service name
