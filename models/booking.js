@@ -17,8 +17,8 @@ var bookingSchema = new Schema({
     },
     services: [{
             id: { type: mongoose.Schema.Types.ObjectId, ref: 'service'},
-            attribute1: String,
-            attribute2: String
+            title: String,
+            price: Number
         }],
     practitioner: {type: mongoose.Schema.Types.ObjectId, ref: 'practitioner' },
     price: Number
