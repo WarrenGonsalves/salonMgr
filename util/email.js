@@ -5,7 +5,7 @@ var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "feedback@sassy.co.in";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "vivek@sassy.co.in";
 var SupportDistEmail = process.env.DIST_EMAIL_ID || "vivek@sassy.co.in";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
@@ -94,14 +94,20 @@ module.exports.sendStudioFeedback = function(feedback) {
     var HtmlBody = "feedback details <br>" 
                 + "customer_name : " + feedback.customer_name + "<br>"
                 + "phone_number : " + feedback.phone_number + "<br>"
+                + "customer_email : " + feedback.customer_email + "<br>"
                 + "How did you make your booking? : " + feedback.question1 + "<br>"
                 + "Did you have any issues selecting the service you required? : " + feedback.question2 + "<br>"
                 + "Did you get a reminder for your appointment? : " + feedback.question3 + "<br>"
                 + "Did you have to wait at the salon? : " + feedback.question4 + "<br>"
                 + "What would you change about the practitioner who served you? : " + feedback.question5 + "<br>"
-                + "Did you think the service was priced fair? : " + feedback.question6 + "<br>";
+                + "Did you think the service was priced fair? : " + feedback.question6 + "<br><br><br>"
+                + "Category selected  by customer: " + feedback.category + "<br>"
+                + "practitioner name: " + feedback.practitioner + "<br>"
+                + "service : " + feedback.service + "<br>"
+                + "price : " + feedback.price + "<br>";
 
     this.sendMail(SupportEmailId, SupportDistEmail, "New feedback", HtmlBody);
+
 }
 
 module.exports.sendStatusUpdate = function(job) {
