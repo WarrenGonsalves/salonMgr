@@ -4,19 +4,23 @@ var _ = require("underscore");
 
 // schema
 var categorySchema = new Schema({
-    category: String, // category name
-    subcategory: String, // subcategory id
-    service: String, // service name
-    attribute1: String, // attribute1 name
-    attribute2: String, // attribute2 name
+    category:String,
+    service: String, // category name
+    title: String, // subcategory id
+    grade: [{type: String, enum: ['a+','a','a-']}], // service name
+    variation: String, // attribute1 name
+    variationTitle: String, // attribute2 name
+    variationType: String, // attribute2 name
     icon: String, // icon
-    service_time: String,
+    time: String,
+    description: String,
     active: {
         type: Boolean,
         default: true
     },
-    order: Number,
-    customerType: [{type: String, enum: ['men','women','kids']}],
+    trending: String,
+    customerType: String,
+    price: {type: Number, default: 0.00, set: setPrice }
 },{
     toObject: {
         virtuals: true
@@ -26,7 +30,9 @@ var categorySchema = new Schema({
     },
     id: false
 });
-
+function setPrice(num){
+    return num.toFixed(2);
+}
 // export
 module.exports = mongoose.model('category', categorySchema);
 module.exports.categorySchema = categorySchema;
