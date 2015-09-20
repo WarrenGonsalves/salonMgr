@@ -6,6 +6,7 @@ console.log("processing models");
 fs.readdirSync(__dirname).forEach(function(file) {
   /* If its the current file ignore it */
   if (file === 'index.js') return;
+  if (file === '.DS_Store') return;
 
   /* Prepare empty object to store module */
   var mod = {};

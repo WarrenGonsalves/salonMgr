@@ -14,7 +14,14 @@ var bookingSchema = new Schema({
     created_date: {
         type: Date,
         default: Date.now()
-    }
+    },
+    services: [{
+            id: { type: mongoose.Schema.Types.ObjectId, ref: 'service'},
+            title: String,
+            price: Number
+        }],
+    practitioner: {type: mongoose.Schema.Types.ObjectId, ref: 'practitioner' },
+    price: Number
 })
 
 // export

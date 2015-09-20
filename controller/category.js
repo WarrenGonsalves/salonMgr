@@ -14,10 +14,10 @@ CategoryController.prototype.getConfigHandler = {
         //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
         var query_param = {};
       //  query_param['active'] = {'$ne': false };
-      console.log("CATEGORY CONTROLLER")
+      console.log("CATEGORY CONTROLLER OOO"+request.query.id)
         
         if(request.query.id){
-            db.category.findOne({_id: request.query.id}).populate('parent', null, 'category').exec(function(err, category){
+            db.category.findOne({_id: request.query.id}).exec(function(err, category){
                 reply({
                     category: category
                 });
@@ -58,7 +58,7 @@ CategoryController.prototype.getConfigHandler = {
                // query_param['attribute2'] = request.query.attribute2;
             }
             console.info(query_param);
-            db.category.find(query_param).sort('order').exec(function(err, services){
+            db.category.find().exec(function(err, services){
                 if (err) {
                     util.reply.error(err, reply);
                     return;
@@ -85,6 +85,65 @@ CategoryController.prototype.getConfigHandler = {
         }
     }
 };
+/**
+ * Get trending categories
+ */
+CategoryController.prototype.getTrendingCategories = {
+    handler: function(request, reply) {
+        //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+        var query_param = {};
+      //  query_param['active'] = {'$ne': false };
+      console.log("CATEGORY TRENDING CONTROLLER")
+     
+         
+            db.category.find({ 'trending' : { $gt: 0  } }).sort('trending').exec(function(err, services){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+                console.log("SERVICES" + services);
+                reply({
+                        services: services
+                 });
+
+            });
+        }
+    }
+
+
+/**
+ * Get trending categories
+ */
+CategoryController.prototype.getCategoriesForCatalogDisplay = {
+    handler: function(request, reply) {
+        //db.category.find({$and:[{active: {'$ne': false }},{category:{'$ne':'super_users'}}]}).select('category sub_category active').sort('order sub_category').find(function(err, services) {
+        var query_param = {};
+      //  query_param['active'] = {'$ne': false };
+      console.log("CATEGORY DISPLAY CONTROLLER")
+     
+         
+            db.category.distinct("service",{"customerType":"girls"}).exec(function(err, girlsCatalog){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+            });
+
+            db.category.distinct("service",{"customerType":"boys"}).exec(function(err, boysCatalog){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+                boysCatalog = boysCatalog
+            }); 
+
+            console.log("boysCatalog" + boysCatalog);
+            reply({
+                boysCatalog: boysCatalog
+            });
+
+        }
+    }
 
 
 CategoryController.prototype.postConfigHandler = {
