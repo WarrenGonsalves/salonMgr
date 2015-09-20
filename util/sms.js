@@ -6,7 +6,8 @@ var TAG = "Send SMS";
 
 var EXOTEL_SID = "alsodigital";
 var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc";
-var CUSTOMER_SERVICE_PHONE = "7506 7507 00";
+var CUSTOMER_SERVICE_PHONE = "7506750700";
+
 
 module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -62,7 +63,7 @@ module.exports.sendBookingConfirmation = function(phone, job, customername) {
     logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
 
    
-    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.price +". Please show this at the reception to avail your service. You will soon recieved the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.price +". Please show this at the reception to avail your service. You will soon recieve the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
 
     this.sendSMS(phone, smsBody);
 }
