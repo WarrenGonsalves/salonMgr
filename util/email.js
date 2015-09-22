@@ -65,17 +65,20 @@ module.exports.sendNewSpecialistReferral = function(name, phone, category, custo
     this.sendMail(SupportEmailId, SupportDistEmail, "New Specialist Referral " + name, referralHtmlMsg);
 }
 
-module.exports.sendBookingConfirmation = function(customer, job) {
+module.exports.sendBookingConfirmation = function(customer, booking) {
 
-    logger.info("Email Notification", ["Booking Confirmation", customer, job]);
-
-    var bookingHtmlMsg = "Hello " + job.cust_name + ", " + "your booking has been confirmed.";
-    bookingHtmlMsg += "<br><br> Studio name - " + job.specialist_name + " - " + job.service.category;
-    bookingHtmlMsg += "<br>Phone# - " + job.specialist_ph;
+    logger.info("Email Notification", ["Booking Confirmation", customer, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
+    var bookingHtmlMsg = "Hello " + booking.cust_id.name + ", " + "your booking has been confirmed.";
+    bookingHtmlMsg += "<br><br> Studio name - " + booking.studio_id.name + " - " + bookedServices;
+    bookingHtmlMsg += "<br>Phone# - " + booking.studio_id.ph;
     bookingHtmlMsg += EMAIL_FOOTER;
 
-    this.sendMail(SupportEmailId, customer.email, "Sassy booking confirmation " + job.job_id, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Sassy Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
+    this.sendMail(SupportEmailId, customer.email, "Sassy booking confirmation " + booking.booking_no, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, "Sassy Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> booking - " + formatter.toHTML(booking));
 }
 
 module.exports.sendContractNotification = function(contract, customer) {

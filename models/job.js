@@ -33,7 +33,7 @@ var jobSchema = new Schema({
         max_amount: Number
     },
     total_amount: Number,
-    specialist_id: String,
+    studio_id: {type: mongoose.Schema.Types.ObjectId, ref: 'studio' },
     specialist_name: String,
     specialist_ph: String,
     specialist_image: String,

@@ -5,6 +5,9 @@ var Schema = mongoose.Schema;
 var counterSchema = new Schema({
     job_count: {
         type: Number
+    },
+    booking_count: {
+        type: Number
     }
 });
 
@@ -65,6 +68,28 @@ counterSchema.statics.getNext = function(cb) {
 
         console.log("Counter Model", counter.job_count);
         cb(err, counter.job_count);
+    });
+};
+
+counterSchema.statics.getNextBooking = function(cb) {
+    var query = {};
+    var update = {
+        $inc: {
+            booking_count: 1
+        }
+    };
+    var options = {
+        upsert: true
+    };
+
+    this.findOneAndUpdate(query, update, options, function(err, counter) {
+
+        if (err) {
+            console.log(err);
+        }
+
+        console.log("Booking Counter Model", counter.booking_count);
+        cb(err, counter.booking_count);
     });
 };
 

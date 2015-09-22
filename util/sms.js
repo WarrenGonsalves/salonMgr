@@ -58,13 +58,22 @@ module.exports.sendOTP = function(phone, otp, customername) {
 }
 
 
-module.exports.sendBookingConfirmation = function(phone, job, customername) {
+module.exports.sendBookingConfirmation = function(phone, booking, customername) {
 
-    logger.info(TAG, ["SMS Booking Confirmation", phone, job]);
-
+    logger.info(TAG, ["SMS Booking Confirmation", phone, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
    
-    var smsBody = "Hello, " + customername + ". Thank you for booking at " + job.specialist_name + ", your booking id is "+job.job_id+". Service : " + job.service.subcategory +" - "+ job.service.service + ", Price " + job.price +". Please show this at the reception to avail your service. You will soon recieve the address of the salon. Please call Sassy Studios care @  " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
+    var smsBody =   "Hello, " + customername + ". Thank you for booking at " + booking.studio_id.name + 
+                    ", your booking id is "+booking.booking_no+". Services : " + 
+                    bookedServices + "Price " + booking.price +
+                    ". Please show this at the reception to avail your service. You will soon recieve the address of the salon. Please call Sassy Studios care @  " 
+                    + CUSTOMER_SERVICE_PHONE + " if there are any issues.";
 
+    console.log("CUSTOMER SMS");
+    console.log(smsBody);
     this.sendSMS(phone, smsBody);
 }
 
@@ -96,17 +105,19 @@ module.exports.sendThankYouForFeedback = function(name, phone) {
     this.sendSMS(phone, smsBody);
 }
 
-module.exports.notifySpecialistNewBooking = function(job) {
-    logger.info(TAG, ["SMS Booking - notification to specialist", job]);
+module.exports.notifySpecialistNewBooking = function(booking) {
+    logger.info(TAG, ["SMS Booking - notification to specialist", booking]);
 
-    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"Sassy\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
-
+    var smsBody = "Hello, " + booking.studio_id.name + ", New booking from \"Sassy\". Customer - " 
+                    + booking.cust_id.name + ", Phone # - " + booking.cust_id.ph + " . Thank you."
+    console.log("STUDIO SMS");
+    console.log(smsBody);
     // TODO  replace viveks number with job.specialist_ph
-    //this.sendSMS("9833789536", smsBody);
-    if (config.env == 'prod') {
+    // //this.sendSMS("9833789536", smsBody);
+    // if (config.env == 'prod') {
         this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
-        this.sendSMS(job.specialist_ph, smsBody);
-    } else {
-        logger.info(TAG, "skip sms for non prod env");
-    }
+        // this.sendSMS(booking.studio_id.phone, smsBody);
+    // } else {
+        // logger.info(TAG, "skip sms for non prod env");
+    // }
 }

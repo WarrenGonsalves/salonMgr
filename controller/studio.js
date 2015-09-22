@@ -215,7 +215,7 @@ StudioController.prototype.postBookStudio = {
 
         //console.log("PAYLOAD-----" + JSON.stringify(request.payload));
 
-        var specialist_id = request.params.studio_id;
+        var studio_id = request.params.studio_id;
         var customer_id = request.params.cust_id;
         var practitioner = request.payload.practitioner;
         var cust_name = request.payload.name;
@@ -234,7 +234,7 @@ StudioController.prototype.postBookStudio = {
             book_date = new Date(parseInt(request.payload.book_date_milli));
         }
 
-        if (specialist_id === null) {
+        if (studio_id === null) {
             util.reply.error("Incorrect studio id ", reply);
             return;
         }
@@ -254,10 +254,10 @@ StudioController.prototype.postBookStudio = {
             return;
         }
         console.log("AFTER CHECKS");
-        util.logger.info(__filename, ["booking studio for: " + specialist_id + ":" + customer_id + ":"], JSON.stringify(request.payload));
+        util.logger.info(__filename, ["booking studio for: " + studio_id + ":" + customer_id + ":"], JSON.stringify(request.payload));
 
         db.studio.findOne({
-            _id: specialist_id
+            _id: studio_id
         }).exec(function(err, studio) {
 
             if (err) {
@@ -266,7 +266,7 @@ StudioController.prototype.postBookStudio = {
             }
 
             if (studio === null) {
-                reply("Studio not found " + specialist_id).code(510);
+                reply("Studio not found " + studio_id).code(510);
                 return;
             }
 
@@ -278,109 +278,92 @@ StudioController.prototype.postBookStudio = {
                                 util.reply.error("Invalid Coupon code " + request.payload.coupon_code, reply);
                                 return;
                             }
-                            for (var i = 0; i < request.payload.services.length; i++) 
-                            {   
-                                var job = db.job();
-    
-                                // service
-                                console.log("JOB LOOP !!!!!!!!!!!!!!!!!!!")
-                                var currCategory = studio.services.id(request.payload.services[i].id);
-
-                                job.service = currCategory.id;
-    
-                                job.price = 0;
-                    
-                          /*      for(x in studio.services){
-                                    console.log(" studio.services[x]._id "+studio.services[x]._id + " job.service " +job.service);
-                                   // console.log(studio.services[x]);
-                                    if(studio.services[x]._id  == job.service){
-                                        console.log(" match found ");
-                                        job.price = studio.services[x].price;
-                                    }
-                                }
-                            */
-                               //  console.log(" job service price after addng "+job.price);
-    
-                                var total_amount = product_orig_price;
-                                if(request.payload.coupon_code){
-                                    var discount = (job.price*(coupon.discount/100));
-                                    if(discount > coupon.max_amount){
-                                        discount = coupon.max_amount;
-                                    }
-    
-                                    total_amount -= discount;
-    
-                                    job.coupon = {
-                                        code: coupon.code,
-                                        description: coupon.description,
-                                        discount: coupon.discount,
-                                        discount_amt: discount,
-                                        max_amount: coupon.max_amount
-                                    }
-                                }
-                                job.price = product_orig_price;
-                                job.total_amount = total_amount;
-    
-                                // studio/specialist
-                                job.specialist_id = specialist_id;
-                                job.specialist_name = studio.name;
-                                job.specialist_ph = studio.phone;
-                                job.specialist_image = studio.profile_img;
-    
-                                // customer
-                                job.cust_id = customer_id;
-                                job.cust_name = cust_name;
-                                job.cust_ph = cust_phone;
-    
-                                /*job.cust_addr1 = cust_addr1;
-                                job.cust_addr2 = cust_addr2;
-                                job.cust_addr_landmark = cust_addr_landmark;
-                                job.cust_task = cust_task;*/
-    
-                                job.book_date = book_date;
-                                job.save();
-    
-                                job.setJobId();
-                                job.save();
-                                
-                                console.log(__filename + "new job created: " + JSON.stringify(job._id));
-                            }
-                            /*specialist.current_job = job._id;
-                            specialist.jobs.push(job._id);
-                            specialist.available = false;
-                            //console.log(__filename + "adding job to specialist: " + JSON.stringify(specialist));
-                            specialist.save();*/
+                            
 
                             var booking = new db.booking();
-                            booking.specialist_id = job.specialist_id;
+                            booking.studio_id = studio_id;
                             booking.book_date = new Date(Date.parse(book_date));
-                            booking.cust_id = job.cust_id;
-                            booking.job_id = job._id;
+                            booking.cust_id = customer_id;
                             booking.practitioner = practitioner;
                             booking.services = request.payload.services;
                             booking.price = product_orig_price;
                             booking.save(function (err, newBooking) {
                                 if (err) console.log(err);
-                                job.booking_slot_id = newBooking._id;
-                                job.save();
+                                var jobList = [];
+                                for (var i = 0; i < request.payload.services.length; i++) 
+                                {   
+                                    var job = db.job();
+        
+                                    // service
+                                    console.log("JOB LOOP !!!!!!!!!!!!!!!!!!!")
+                                    var currCategory = studio.services.id(request.payload.services[i].id);
+                                    job.booking_slot_id = newBooking._id;
 
+                                    job.service = currCategory.id;
+        
+                                    job.price = 0;
+        
+                                    var total_amount = product_orig_price;
+                                    if(request.payload.coupon_code){
+                                        var discount = (job.price*(coupon.discount/100));
+                                        if(discount > coupon.max_amount){
+                                            discount = coupon.max_amount;
+                                        }
+        
+                                        total_amount -= discount;
+        
+                                        job.coupon = {
+                                            code: coupon.code,
+                                            description: coupon.description,
+                                            discount: coupon.discount,
+                                            discount_amt: discount,
+                                            max_amount: coupon.max_amount
+                                        }
+                                    }
+                                    job.price = product_orig_price;
+                                    job.total_amount = total_amount;
+        
+                                    // studio/specialist
+                                    job.studio_id = studio_id;
+                                    job.studio_name = studio.name;
+                                    job.studio_ph = studio.phone;
+                                    job.studio_image = studio.profile_img;
+        
+                                    // customer
+                                    job.cust_id = customer_id;
+                                    job.cust_name = cust_name;
+                                    job.cust_ph = cust_phone;
+                                    
+        
+                                    job.book_date = book_date;
+                                    job.save();
+        
+                                    job.setJobId();
+                                    job.save();
+                                    jobList.push(job._id);
+                                    console.log(__filename + "new job created: " + JSON.stringify(job._id));
+                                }
+                                newBooking.job_ids = jobList;
+                                newBooking.save();
+                                
                                 db.customer.findById(customer_id).exec(function(err, customer) {
                                     if (customer != null) {
-                                        job.cust_email = customer.email;
-                                        job.cust_name = customer.name;
-                                        job.save();
-
-                                        db.job.findOne({_id: job._id}).populate('service', null, 'category').exec(function(err, new_job){
-                                            console.log(new_job);
-                                            if(err || !new_job){
-                                                util.logger.info(__filename, "No booking notifcation as no valid customer found");
-                                                return;
-                                            }
-                                            util.email.sendBookingConfirmation(customer, new_job);
-                                            util.sms.sendBookingConfirmation(customer.ph, new_job, customer.name);
-                                            util.sms.notifySpecialistNewBooking(new_job);
-                                            reply(newBooking);
+                                        // job.cust_email = customer.email;
+                                        // job.cust_name = customer.name;
+                                        // job.save();
+                                        newBooking.setBookingNo(function (book) {
+                                            db.booking.findById(newBooking._id).populate('cust_id studio_id').exec(function(err, currBooking){
+                                                if(err || !currBooking){
+                                                    util.logger.info(__filename, "No booking notifcation as no valid customer found");
+                                                    return;
+                                                }
+                                                util.email.sendBookingConfirmation(customer, currBooking);
+                                                util.sms.sendBookingConfirmation(customer.ph, currBooking, currBooking.cust_id.name);
+                                                util.sms.notifySpecialistNewBooking(currBooking);
+                                                reply(newBooking);
+                                            });
                                         });
+                                        
                                     } else {
                                         util.logger.info(__filename, "No booking notifcation as no valid customer found");
                                         reply({message:"Booking created without customer"}).code(200);
