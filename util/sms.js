@@ -58,7 +58,7 @@ module.exports.sendOTP = function(phone, otp, customername) {
 }
 
 
-module.exports.sendBookingConfirmation = function(phone, booking, customername) {
+module.exports.sendBookingConfirmation = function(phone, booking, customername, coupon) {
 
     logger.info(TAG, ["SMS Booking Confirmation", phone, booking]);
     var bookedServices = "";
@@ -66,11 +66,10 @@ module.exports.sendBookingConfirmation = function(phone, booking, customername) 
         bookedServices = bookedServices + booking.services[i].title + ", ";
     };
    
-    var smsBody =   "Hello, " + customername + ". Thank you for booking at " + booking.studio_id.name + 
-                    ", your booking id is "+booking.booking_no+". Services : " + 
-                    bookedServices + "Price " + booking.price +
-                    ". Please show this at the reception to avail your service. You will soon recieve the address of the salon. Please call Sassy Studios care @  " 
-                    + CUSTOMER_SERVICE_PHONE + " if there are any issues.";
+    var smsBody =   "Hello " + customername + ". Thank you for booking at Sassy Studios, your booking id is " + booking.booking_no 
+                    + ". Price " + booking.price +
+                    ".Discount coupon - " + coupon + ". Please show this at the reception to avail your service. Please call Sassy Studios care @ " 
+                    + CUSTOMER_SERVICE_PHONE + " if there are any concerns.";
 
     console.log("CUSTOMER SMS");
     console.log(smsBody);

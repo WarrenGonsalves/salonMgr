@@ -278,7 +278,9 @@ StudioController.prototype.postBookStudio = {
                                 util.reply.error("Invalid Coupon code " + request.payload.coupon_code, reply);
                                 return;
                             }
-                            
+                            if (request.payload.coupon_code) 
+                                var coupon = request.payload.coupon_code;
+                            else var coupon = "notapplied";
 
                             var booking = new db.booking();
                             booking.studio_id = studio_id;
@@ -296,6 +298,7 @@ StudioController.prototype.postBookStudio = {
         
                                     // service
                                     console.log("JOB LOOP !!!!!!!!!!!!!!!!!!!")
+                                    console.log(request.payload.services[i].id)
                                     var currCategory = studio.services.id(request.payload.services[i].id);
                                     job.booking_slot_id = newBooking._id;
 
@@ -358,7 +361,7 @@ StudioController.prototype.postBookStudio = {
                                                     return;
                                                 }
                                                 util.email.sendBookingConfirmation(customer, currBooking);
-                                                util.sms.sendBookingConfirmation(customer.ph, currBooking, currBooking.cust_id.name);
+                                                util.sms.sendBookingConfirmation(customer.ph, currBooking, currBooking.cust_id.name, coupon);
                                                 util.sms.notifySpecialistNewBooking(currBooking);
                                                 reply(newBooking);
                                             });
