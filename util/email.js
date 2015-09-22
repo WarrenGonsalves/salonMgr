@@ -5,10 +5,10 @@ var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "vivek@sassy.co.in";
-var SupportDistEmail = process.env.DIST_EMAIL_ID || "vivek@sassy.co.in";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "ops@sassystudios.in";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "vivek@sassystudios.in";
 
-var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9833789536 anytime if you have any questions.<br><br>Regards<br>Paul"
+var EMAIL_FOOTER = "<br><br>Please feel free to call Sassy customer service at 7506750700 anytime if you have any questions.<br><br>Regards<br>Vivek"
 
 // var transporter = nodemailer.createTransport(sesTransport({
 //     accessKeyId: 'AKIAI35TGSKIAFGVQFVQ',
@@ -16,14 +16,14 @@ var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 9
 //     rateLimit: 5
 // }));
 // 
-/*var transporter = nodemailer.createTransport({
-    service: 'zoho',
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
     auth: {
-        user: 'vc1023@gmail.com',
-        pass: 'Qwer1234'
+        user: 'vivek@sassystudios.in',
+        pass: 'Vivek1023'
     }
 });
-*/
+/*
 var transporter = nodemailer.createTransport(smtpTransport({
     host: 'smtp.zoho.com',
     port: 465,
@@ -33,7 +33,7 @@ var transporter = nodemailer.createTransport(smtpTransport({
         pass: 'Vivek1023'
     }
 }));
-
+*/
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
 
     console.log("sending email to", toAddr)
