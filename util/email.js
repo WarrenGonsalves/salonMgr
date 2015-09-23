@@ -5,8 +5,8 @@ var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "ops@sassystudios.in";
-var SupportDistEmail = process.env.DIST_EMAIL_ID || "vivek@sassystudios.in";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "vivek@sassystudios.in";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "ops@sassystudios.in";
 
 var EMAIL_FOOTER = "<br><br>Please feel free to call Sassy customer service at 7506750700 anytime if you have any questions.<br><br>Regards<br>Vivek"
 
