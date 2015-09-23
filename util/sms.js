@@ -68,7 +68,7 @@ module.exports.sendBookingConfirmation = function(phone, booking, customername, 
    
    
     var smsBody =   "Hello " + customername + ". Thank you for booking at Sassy Studios, your booking id is " + booking.booking_no 
-                    + ". Price " + booking.price + ". Discount coupon - " + coupon + ". Please show this at the reception to avail your service. Please call Sassy Studios care @ " 
+                    + ". Price " + booking.price + ". Discount coupon - " + coupon + ". Please show this at the reception to avail the service. Please call Sassy Studios Care @ " 
                     + CUSTOMER_SERVICE_PHONE + " if there are any concerns.";
 
     console.log("CUSTOMER SMS");
