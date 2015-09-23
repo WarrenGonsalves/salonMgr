@@ -214,7 +214,7 @@ StudioController.prototype.postBookStudio = {
     handler: function(request, reply) {
 
         //console.log("PAYLOAD-----" + JSON.stringify(request.payload));
-
+        var studioOrder = request.payload.studioOrder;
         var studio_id = request.params.studio_id;
         var customer_id = request.params.cust_id;
         var practitioner = request.payload.practitioner;
@@ -361,8 +361,12 @@ StudioController.prototype.postBookStudio = {
                                                     return;
                                                 }
                                                 util.email.sendBookingConfirmation(customer, currBooking);
-                                                util.sms.sendBookingConfirmation(customer.ph, currBooking, currBooking.cust_id.name, coupon);
-                                                util.sms.notifySpecialistNewBooking(currBooking);
+                                                if (studioOrder) 
+                                                    util.sms.sendThankYouForComing(customer.ph, currBooking, currBooking.cust_id.name);
+                                                else {
+                                                    util.sms.sendBookingConfirmation(customer.ph, currBooking, currBooking.cust_id.name, coupon);
+                                                    util.sms.notifySpecialistNewBooking(currBooking);
+                                                }
                                                 reply(newBooking);
                                             });
                                         });

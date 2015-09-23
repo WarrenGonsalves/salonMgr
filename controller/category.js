@@ -24,18 +24,16 @@ CategoryController.prototype.getConfigHandler = {
             });
         }
         else{
-            query_param['category'] = '';
-            query_param['subcategory'] = '';
-            query_param['service'] = '';
-            query_param['customerType'] = '';
+            // query_param['category'] = '';
+            // query_param['subcategory'] = '';
+            // query_param['service'] = '';
+            // query_param['customerType'] = '';
            // query_param['attribute1'] = '';
            // query_param['attribute2'] = '';
            // query_param['parent'] = '';
            if(request.query.customerType  && request.query.customerType != 'undefined')
             {
                 query_param['customerType'] = request.query.customerType;
-            }else{
-                 query_param['customerType'] = 'women';
             }
             if(request.query.category  && request.query.category != 'undefined')
             {
@@ -57,13 +55,18 @@ CategoryController.prototype.getConfigHandler = {
             {
                // query_param['attribute2'] = request.query.attribute2;
             }
+            if (request.query.fullList) {
+                console.log("all services");
+            }else {
+                query_param['sassyService'] = true;
+            }
             console.info(query_param);
-            db.category.find().exec(function(err, services){
+            db.category.find(query_param).exec(function(err, services){
                 if (err) {
                     util.reply.error(err, reply);
                     return;
                 }
-                console.log("SERVICES" + services);
+                console.log("SERVICES" + services.length);
                 reply({
                         services: services
                  });

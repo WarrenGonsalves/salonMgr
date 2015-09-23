@@ -13,6 +13,7 @@ var categorySchema = new Schema({
     variationType: String, // attribute2 name
     icon: String, // icon
     time: String,
+    sassyService: Boolean,
     description: String,
     active: {
         type: Boolean,

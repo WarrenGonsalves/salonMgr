@@ -76,6 +76,23 @@ module.exports.sendBookingConfirmation = function(phone, booking, customername, 
     this.sendSMS(phone, smsBody);
 }
 
+module.exports.sendThankYouForComing = function(phone, booking, customername) {
+
+    logger.info(TAG, ["SMS Booking Confirmation", phone, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
+   
+    var smsBody =   "Hello " + customername + ". Thank you for using Sassy Studios. Price " + booking.price +
+                    ". Please show this at the reception to avail your service. Please call Sassy Studios care @ " 
+                    + CUSTOMER_SERVICE_PHONE + " if there are any concerns.";
+
+    console.log("THANK YOU FOR COMING SMS");
+    console.log(smsBody);
+    // this.sendSMS(phone, smsBody);
+}
+
 module.exports.sendStudioLeadToRequest = function(name, phone) {
 
     logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
