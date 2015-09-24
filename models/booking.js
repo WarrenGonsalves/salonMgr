@@ -11,6 +11,8 @@ var bookingSchema = new Schema({
     cust_id: {type: mongoose.Schema.Types.ObjectId, ref: 'customer' },
     booking_no: String,
     job_ids: [{type: mongoose.Schema.Types.ObjectId, ref: 'job' }],
+    affiliate: String,
+    coupon: String,
     active: {
         type: Boolean,
         default: true

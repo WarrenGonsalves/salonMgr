@@ -221,6 +221,7 @@ StudioController.prototype.postBookStudio = {
         var cust_name = request.payload.name;
         var cust_phone = request.payload.phone;
         var product_orig_price = request.payload.product_orig_price;
+        var affiliate = request.payload.affiliate;
         /*var cust_addr1 = request.payload.addr;
         var cust_addr2 = request.payload.addr2;
         var cust_addr_landmark = request.payload.landmark;
@@ -289,6 +290,8 @@ StudioController.prototype.postBookStudio = {
                             booking.practitioner = practitioner;
                             booking.services = request.payload.services;
                             booking.price = product_orig_price;
+                            booking.affiliate = affiliate;
+                            booking.coupon = coupon;
                             booking.save(function (err, newBooking) {
                                 if (err) console.log(err);
                                 var jobList = [];
