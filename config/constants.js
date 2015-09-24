@@ -38,7 +38,7 @@ if (process.env.NODE_ENV == 'local') {
     config.server.ip = '127.0.0.1';
     config.server.port = '5000';
     // Mongo
-    config.mongo.connecturl = "mongodb://localhost:27018/sassy";
+    config.mongo.connecturl = "mongodb://localhost:27017/sassy_dev";
     // Data dir
     config.dataDir = __dirname + "/../data";
 
