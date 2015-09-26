@@ -29,6 +29,31 @@ AdminController.prototype.addSpecialistCategoryHandler = {
     }
 };
 
+AdminController.prototype.getBookingList = function (request, reply, next) {
+    var query_param = {};
+
+    if (!request.pre.isAdmin) {
+        query_param['studio_id'] = request.pre.user;
+    }
+    console.log("query_param "  + JSON.stringify(request.query._id));
+    // TODO sort by book date.
+    db.booking.find(query_param).sort('book_date')
+    .populate('cust_id', 'name ph')
+    // .populate('service', null, 'category')
+    .exec(function (err, bookings) {
+        if (err) {
+            util.reply.error(err, reply);
+            return;
+        }
+        console.log("Admin get_BOOKING");
+        // console.log(bookings);
+        reply({
+            bookinglist: bookings
+        });
+    });
+};
+
+
 AdminController.prototype.addSpecialistStoreHandler = {
     handler: function(request, reply) {
         db.specialist.findOne({

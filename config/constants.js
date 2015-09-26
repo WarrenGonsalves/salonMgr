@@ -5,7 +5,7 @@
 var util = require('../util');
 
 var config = module.exports = {};
-
+config.tokenSecret = 'm324u2m3n4uu423mn';
 // server config
 config.server = {};
 

@@ -13,6 +13,10 @@ var bookingSchema = new Schema({
     job_ids: [{type: mongoose.Schema.Types.ObjectId, ref: 'job' }],
     affiliate: String,
     coupon: String,
+    studioOrder: {
+        type: Boolean,
+        default: false
+    },
     active: {
         type: Boolean,
         default: true
