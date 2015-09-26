@@ -58,6 +58,24 @@ module.exports.sendFeedback = function(feedback, customer) {
     this.sendMail(SupportEmailId, SupportDistEmail, "Customer Feedback - " + customer.name, feedbackHtmlMsg);
 }
 
+module.exports.sendPasswordChange = function(name, email) {
+    logger.info("Password change Notification", ["Password", name]);
+
+    var html = "Hi - " + name + ", your password has been changed as per your request.";
+    console.log("STUDIO PASS CHANGE");
+    console.log(html);
+    // this.sendMail(SupportEmailId, email, "Password change" + name, html);
+}
+
+module.exports.sendPasswordReset = function(name, email, password) {
+    logger.info("Password reset Notification", ["Password", name]);
+
+    var html = "Hi - " + name + ", your password has been reset as per your request.<br>New Password: " + password;
+    console.log("STUDIO PASS RESET");
+    console.log(html);
+    // this.sendMail(SupportEmailId, email, "Password reset" + name, html);
+}
+
 module.exports.sendNewSpecialistReferral = function(name, phone, category, customer_id) {
     logger.info("Email Notification", ["New Spec Referral", name, phone, category, customer_id]);
 

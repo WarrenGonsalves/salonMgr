@@ -16,7 +16,7 @@ StudioController.prototype.getConfigHandler = {
       //  console.log(__filename + ' hsdjfhjsdfhkjsdkjfhjquery param ' + JSON.stringify(request.query));
 
         var query_param = {};
-
+        query_param['isAdmin'] = {$ne: true};
         // filter for category
         if (!(request.query.categoryId === undefined)) {
             query_param['services.id'] = mongoose.Types.ObjectId(request.query.categoryId);
@@ -42,7 +42,6 @@ StudioController.prototype.getConfigHandler = {
         
         console.log(__filename + ' query param ' + JSON.stringify(query_param));
 
-        //db.studio.find(query_param).populate('services.id').exec(function(err, studioList) {
          db.studio.find(query_param).populate('services.id practitioners ratings').exec(function(err, studioList) {
             if (err) {
                 util.reply.error(err, reply);
@@ -63,6 +62,7 @@ StudioController.prototype.getStudioListWithType = {
         console.log("STUDIO CONTROLLER");
 
         var query_param = {};
+        query_param['isAdmin'] = {$ne: true};
         
           // filter for category
         if (!(request.query.categoryId === undefined)) {
@@ -127,9 +127,10 @@ StudioController.prototype.addStudioServices = {
         var services = {};
        
          db.studio.findOne({
-            _id: studioID
+            _id: studioID,
+            isAdmin: {$ne: true}
         }).exec(function(err, studio) {
-           
+        console.log(studio);
          
             /* studio.services['id']              = mongoose.Types.ObjectId(studioServicesObject.id);
              studio.services['attributetype']   = studioServicesObject.attributetype;
@@ -258,7 +259,8 @@ StudioController.prototype.postBookStudio = {
         util.logger.info(__filename, ["booking studio for: " + studio_id + ":" + customer_id + ":"], JSON.stringify(request.payload));
 
         db.studio.findOne({
-            _id: studio_id
+            _id: studio_id,
+            isAdmin: {$ne: true}
         }).exec(function(err, studio) {
 
             if (err) {
@@ -292,6 +294,7 @@ StudioController.prototype.postBookStudio = {
                             booking.price = product_orig_price;
                             booking.affiliate = affiliate;
                             booking.coupon = coupon;
+                            booking.studioOrder = studioOrder;
                             booking.save(function (err, newBooking) {
                                 if (err) console.log(err);
                                 var jobList = [];

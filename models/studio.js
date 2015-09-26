@@ -2,13 +2,16 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var categoryModel = require("./category");
 var _ = require("underscore");
+var bcrypt = require('bcrypt-nodejs');
 // var practitioners = require("./practitioner");
 
 // schema
 var studioSchema = new Schema({
   	name: String,
     email: String,
-  	phone: String,
+  	phone: Number,
+    isAdmin: { type: Boolean, default: false },
+    password: { type: String, select: false },
     profile_img: String,
     description: String,
     likes: Number,
@@ -59,5 +62,24 @@ function setPrice(num){
     return num.toFixed(2);
 }
 
+studioSchema.pre('save', function(next) {
+  var studio = this;
+  if (!studio.isModified('password')) {
+    return next();
+  }
+  bcrypt.genSalt(10, function(err, salt) {
+    if (err) return next(err);
+    bcrypt.hash(studio.password, salt, null, function(err, hash) {
+      studio.password = hash;
+      next();
+    });
+  });
+});
+
+studioSchema.methods.comparePassword = function(password, done) {
+  bcrypt.compare(password, this.password, function(err, isMatch) {
+    done(err, isMatch);
+  });
+};
 // export
 module.exports = mongoose.model('studio', studioSchema);

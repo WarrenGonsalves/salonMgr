@@ -114,11 +114,33 @@ module.exports.sendStudioLeadToCustomerService = function(name, phone) {
 
 module.exports.sendThankYouForFeedback = function(name, phone) {
 
-    logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
+    logger.info(TAG, ["sendThankYouForFeedback", name, phone]);
 
     var smsBody = "Hello,"+ name + ". Thank you for sharing feedback and helping us improve. Our customer service will call you to resolve any issues. Have a great day ahead. Sassy Studios - whatsapp 7506 7507 00.  "
 
     this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendPasswordChange = function(name, phone) {
+
+    logger.info(TAG, ["sendPasswordChange", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Your password has been changed as per your request."
+    console.log("SMS PASS CHANGE");
+    console.log(smsBody);
+
+    // this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendPasswordReset = function(name, phone, password) {
+
+    logger.info(TAG, ["sendPasswordReset", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Your password has been reset as per your request. New password: " + password;
+    console.log("SMS PASS RESET");
+    console.log(smsBody);
+
+    // this.sendSMS(phone, smsBody);
 }
 
 module.exports.notifySpecialistNewBooking = function(booking) {
