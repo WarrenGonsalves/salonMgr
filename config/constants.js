@@ -24,7 +24,7 @@ if (process.env.NODE_ENV == 'prod') {
     // Data dir
     // '/var/data/handz'
     config.dataDir = process.env.DATA_DIR;
-
+    config.dataDir = __dirname + "/../data";
     //config.imgURL = 'http://handz-api.elasticbeanstalk.com' + '/img/';
     config.imgURL = process.env.DOMAIN_URL + '/img/';
 
