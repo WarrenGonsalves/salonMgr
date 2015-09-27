@@ -19,7 +19,7 @@ if (process.env.NODE_ENV == 'prod') {
     config.server.port = '5000';
     // Mongo
     //config.mongo.connecturl = "mongodb://dbuser2:admin@127.0.0.1:27017/optimus";
-    config.mongo.connecturl = "mongodb://sassyDBadmin:admin123@127.0.0.1:27017/sassy";
+    config.mongo.connecturl = "mongodb://localhost:27017/sassy";
     
     // Data dir
     // '/var/data/handz'
@@ -32,6 +32,8 @@ if (process.env.NODE_ENV == 'prod') {
     config.shopify_url = "https://cb17c02512c49edbdff2c5a56cb8f3f1:63d249fc225678150b9518fe9988c034@handsforhome-prod.myshopify.com/"
     
 }
+
+
 
 if (process.env.NODE_ENV == 'local') {
     config.env = 'local';
