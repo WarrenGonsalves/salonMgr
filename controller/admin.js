@@ -4,6 +4,7 @@ var fs = require('fs');
 var config = require("../config/constants");
 var util = require("../util");
 var _ = require('underscore');
+var moment = require('moment');
 
 function AdminController() {};
 
@@ -29,16 +30,18 @@ AdminController.prototype.addSpecialistCategoryHandler = {
     }
 };
 
-AdminController.prototype.getBookingList = function (request, reply, next) {
+AdminController.prototype.getBookingList = function (request, reply) {
     var query_param = {};
 
     if (!request.pre.isAdmin) {
         query_param['studio_id'] = request.pre.user;
-    }
-    console.log("query_param "  + JSON.stringify(request.query._id));
-    // TODO sort by book date.
+    } else if (request.query.studio_id) {
+        query_param['studio_id'] = request.query.studio_id;
+    };
+    console.log(query_param);
     db.booking.find(query_param).sort('book_date')
     .populate('cust_id', 'name ph')
+    .populate('practitioners', 'name')
     // .populate('service', null, 'category')
     .exec(function (err, bookings) {
         if (err) {
@@ -53,6 +56,186 @@ AdminController.prototype.getBookingList = function (request, reply, next) {
     });
 };
 
+AdminController.prototype.postBookingStatus = function (request, reply) {
+    var query_param = {};
+
+    if (!request.params.booking_id) {
+        util.reply.error("Booking ID required", reply);
+    }
+    db.booking.findById(request.params.booking_id)
+    .exec(function (err, booking) {
+        if (err) {
+            console.log(err);
+            return util.reply.error(err, reply);
+        }
+        else if (!booking) 
+            return util.reply.error("Booking ID invalid", reply);
+        console.log(booking.studio_id);
+        //check if user should be able to change booking status
+        //if user is admin && booking is from users studio then move forward
+        if (!request.pre.isAdmin && (request.pre.user != booking.studio_id)) 
+            return util.reply.error("Not authorized", reply);
+
+        booking.status = request.payload.status;
+        if (request.payload.status === "in-progress") {
+            booking.start_time = moment();
+            booking.practitioners = arrayUnique(booking.practitioners.concat(request.payload.practitioners));
+        } else if (request.payload.status === "receive-payment")
+            booking.end_time = moment();
+        else if (request.payload.status === "rescheduled"){
+            console.log(request.payload.newTime);
+            var date = request.payload.newTime.date;
+            var time = request.payload.newTime.time;
+            date = moment(date).startOf('day');
+            time = moment(time);
+            booking.book_date = moment(date).add(time);
+        }
+        else if (request.payload.status === "completed"){
+            booking.end_time = moment();
+            booking.payment_type = request.payload.payment_type;
+        }else if (request.payload.status === "closed")
+            booking.feedback = request.payload.feedback;
+
+        booking.save(function (err, booking) {
+            if (err) {
+                if (err.name === "ValidationError") 
+                    return util.reply.error("Invalid status", reply);    
+                else 
+                    return util.reply.error(err, reply);
+            }
+            else {
+                db.booking.findById(booking._id)
+                .populate('cust_id', 'name ph')
+                .populate('practitioners', 'name').exec( function (err, booking) {
+                    if (err) 
+                        return util.reply.error(err, reply);
+                    else {
+                        reply(booking)
+                    }
+                })
+            }
+        })
+    });
+};
+
+AdminController.prototype.postBookingServices = function (request, reply) {
+    var query_param = {};
+
+    if (!request.params.booking_id) {
+        util.reply.error("Booking ID required", reply);
+    }
+    db.booking.findById(request.params.booking_id)
+    .exec(function (err, booking) {
+        if (err) {
+            console.log(err);
+            return util.reply.error(err, reply);
+        }
+        else if (!booking) 
+            return util.reply.error("Booking ID invalid", reply);
+        //check if user should be able to change booking status
+        //if user is admin && booking is from users studio then move forward
+        if (!request.pre.isAdmin && (request.pre.user != booking.studio_id)) 
+            return util.reply.error("Not authorized", reply);
+        for (var i = 0; i < request.payload.services.length; i++) {
+            var match = false;
+            for (var j = 0; j < booking.services.length; j++) {
+                if (booking.services[j].id == request.payload.services[i].id) {
+                    match = true;
+                };
+            };
+            if (!match) {
+                console.log("no match")
+                if (!booking.services) 
+                    booking.services = request.payload.services;
+                else 
+                    booking.services.push(request.payload.services[i]);
+                booking.price += request.payload.services[i].price;
+            };
+        };
+        db.coupon.findOne({code: booking.coupon, active: true}, function(err, coupon){
+            if (coupon) {
+                var discount = (booking.price*(coupon.discount/100));
+                if(discount > coupon.max_amount){
+                    discount = coupon.max_amount;
+                }
+                booking.discount = discount;
+            }
+            console.log(booking.services);
+            booking.save(function (err, booking) {
+                if (err) {
+                    if (err.name === "ValidationError") 
+                        return util.reply.error("Invalid status", reply);    
+                    else 
+                        return util.reply.error(err, reply);
+                }
+                else {
+                    db.booking.findById(booking._id)
+                    .populate('cust_id', 'name ph')
+                    .populate('practitioners', 'name').exec( function (err, booking) {
+                        if (err) 
+                            return util.reply.error(err, reply);
+                        else {
+                            reply(booking)
+                        }
+                    })
+                }
+            })
+        });
+        
+    });
+};
+
+AdminController.prototype.getStudioList = function (request, reply) {
+    var query_param = {};
+
+    if (!request.pre.isAdmin) {
+        //if user is not admin show only users studio
+        db.studio.findById(request.pre.user).populate('services.id practitioners').exec(function(err, studio){
+            reply({ 
+                studioList: studio
+            });
+        });
+    } else {
+        if (request.query.id) {
+            db.studio.findById(request.query.id).populate('services.id practitioners').exec(function(err, studio){
+                reply({ 
+                    studioList: studio
+                });
+            });
+        } else {
+            query_param['isAdmin'] = {$ne: true};
+            if (request.query.select) 
+                select_fields = request.query.select;
+            if(request.query.customerType  && request.query.customerType != 'undefined')
+            {
+                query_param['customerType'] = request.query.customerType;
+            }
+            console.info(query_param);
+            db.studio.find(query_param).exec(function(err, studios){
+                if (err) {
+                    util.reply.error(err, reply);
+                    return;
+                }
+                console.log("studios" + studios.length);
+                reply({
+                        studioList: studios
+                });
+            });
+        }
+    }
+};
+
+function arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] == a[j])
+                a.splice(j--, 1);
+        }
+    }
+    console.log(a)
+    return a;
+};
 
 AdminController.prototype.addSpecialistStoreHandler = {
     handler: function(request, reply) {

@@ -223,6 +223,8 @@ StudioController.prototype.postBookStudio = {
         var cust_phone = request.payload.phone;
         var product_orig_price = request.payload.product_orig_price;
         var affiliate = request.payload.affiliate;
+        var source = request.payload.source;
+
         /*var cust_addr1 = request.payload.addr;
         var cust_addr2 = request.payload.addr2;
         var cust_addr_landmark = request.payload.landmark;
@@ -281,11 +283,21 @@ StudioController.prototype.postBookStudio = {
                                 util.reply.error("Invalid Coupon code " + request.payload.coupon_code, reply);
                                 return;
                             }
-                            if (request.payload.coupon_code) 
-                                var coupon = request.payload.coupon_code;
-                            else var coupon = "notapplied";
-
                             var booking = new db.booking();
+
+                            if (coupon) {
+                                booking.coupon = coupon.code;
+                                var discount = (product_orig_price*(coupon.discount/100));
+                                if(discount > coupon.max_amount){
+                                    discount = coupon.max_amount;
+                                }
+                                booking.discount = discount;
+                            }
+                            else {
+                                booking.coupon = "notapplied";
+                                booking.discount = 0;
+                            }
+
                             booking.studio_id = studio_id;
                             booking.book_date = new Date(Date.parse(book_date));
                             booking.cust_id = customer_id;
@@ -293,26 +305,31 @@ StudioController.prototype.postBookStudio = {
                             booking.services = request.payload.services;
                             booking.price = product_orig_price;
                             booking.affiliate = affiliate;
-                            booking.coupon = coupon;
+                            
+                            booking.source = source;
                             booking.studioOrder = studioOrder;
                             booking.save(function (err, newBooking) {
                                 if (err) console.log(err);
                                 var jobList = [];
-                                for (var i = 0; i < request.payload.services.length; i++) 
+
+                                console.log("newBooking!!!!!!!!!!!!!!!!!");
+                                console.log(newBooking);
+                                for (var i = 0; i < newBooking.services.length; i++) 
                                 {   
                                     var job = db.job();
         
                                     // service
                                     console.log("JOB LOOP !!!!!!!!!!!!!!!!!!!")
-                                    console.log(request.payload.services[i].id)
-                                    var currCategory = studio.services.id(request.payload.services[i].id);
+                                    console.log(newBooking.services[i].id)
+                                    var currCategory = studio.services.id(newBooking.services[i].id);
                                     job.booking_slot_id = newBooking._id;
 
                                     job.service = currCategory.id;
         
                                     job.price = 0;
-        
-                                    var total_amount = product_orig_price;
+                                    newBooking.services[i].discount = 0;
+                                    
+                                    var total_amount = newBooking.price;
                                     if(request.payload.coupon_code){
                                         var discount = (job.price*(coupon.discount/100));
                                         if(discount > coupon.max_amount){
@@ -320,7 +337,6 @@ StudioController.prototype.postBookStudio = {
                                         }
         
                                         total_amount -= discount;
-        
                                         job.coupon = {
                                             code: coupon.code,
                                             description: coupon.description,
@@ -449,7 +465,7 @@ StudioController.prototype.checkCoupon = {
                 console.log("coupon.discount = " + coupon.discount );
                 var new_price = "";
 
-                discount = (10*orig_price)/100;
+                discount = (coupon.discount*orig_price)/100;
 
                 if(discount < coupon.max_amount){
                     new_price = orig_price - discount;

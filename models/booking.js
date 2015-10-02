@@ -8,9 +8,18 @@ var db = require('../db');
 var bookingSchema = new Schema({
     studio_id: {type: mongoose.Schema.Types.ObjectId, ref: 'studio' },
     book_date: Date,
+    start_time: Date,
+    end_time: Date,
     cust_id: {type: mongoose.Schema.Types.ObjectId, ref: 'customer' },
     booking_no: String,
     job_ids: [{type: mongoose.Schema.Types.ObjectId, ref: 'job' }],
+    status: {
+        type: String,
+        default: 'new',
+        enum: ['new', 'in-progress', 'receive-payment', 'completed', 'closed', 'cancelled', 'no-show', 'rescheduled']
+    },
+    payment_type: String,
+    source: String,
     affiliate: String,
     coupon: String,
     studioOrder: {
@@ -26,12 +35,14 @@ var bookingSchema = new Schema({
         default: Date.now()
     },
     services: [{
-            id: { type: mongoose.Schema.Types.ObjectId, ref: 'service'},
-            title: String,
-            price: Number
-        }],
+        id: { type: mongoose.Schema.Types.ObjectId, ref: 'service'},
+        title: String,
+        price: Number
+    }],
     practitioner: {type: mongoose.Schema.Types.ObjectId, ref: 'practitioner' },
-    price: Number
+    practitioners: [{type: mongoose.Schema.Types.ObjectId, ref: 'practitioner' }],
+    price: Number,
+    discount: Number
 })
 
 // methods

@@ -16,6 +16,7 @@ function AuthController() {};
 function createJWT(studio) {
   var payload = {
     sub: studio._id,
+    admin: studio.isAdmin,
     iat: moment().unix(),
     exp: moment().add(14, 'days').unix()
   };
@@ -111,8 +112,9 @@ AuthController.prototype.resetStudioPassword = {
     } else if (!isNaN(key)) {
         query_param['phone'] = key;
     } else return util.reply.authError('Email or mobile required', reply);
-
+    console.log(query_param)
     db.studio.findOne(query_param,'+password', function(err, studio){
+      console.log(studio)
       if(err)
           util.reply.error(err, reply);
       else if(!studio){
@@ -161,11 +163,11 @@ AuthController.prototype.ensureAuthenticated = function (request, reply) {
     payload = jwt.decode(token, config.tokenSecret);
   }
   catch (err) {
-    return util.reply.authFail(err.message, reply);
+    return util.reply.authFail("Invalid token", reply);
   }
 
   if (payload.exp <= moment().unix()) {
-    return util.reply.authFail('Token has expired', reply);
+    return util.reply.authFail('Token has expired. Please login again.', reply);
   }
   user = payload.sub;
   

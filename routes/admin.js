@@ -13,10 +13,6 @@ module.exports = function() {
     {
         method: 'GET',
         path: BASE_URL + '/bookings',
-        // config: {
-        //   auth: AuthController.ensureAuthenticated, 
-        //   handler: adminController.getBookingList
-        // },
         config: {
           pre: [
             { method: AuthController.ensureAuthenticated, assign: 'user'},
@@ -24,7 +20,38 @@ module.exports = function() {
           ]
         },
         handler: adminController.getBookingList
+    }, {
+        method: 'POST',
+        path: BASE_URL + '/bookings/status/{booking_id}',
+        config: {
+          pre: [
+            { method: AuthController.ensureAuthenticated, assign: 'user'},
+            { method: AuthController.isAdmin, assign: 'isAdmin'},
+          ]
+        },
+        handler: adminController.postBookingStatus
+    }, {
+        method: 'POST',
+        path: BASE_URL + '/bookings/services/{booking_id}',
+        config: {
+          pre: [
+            { method: AuthController.ensureAuthenticated, assign: 'user'},
+            { method: AuthController.isAdmin, assign: 'isAdmin'},
+          ]
+        },
+        handler: adminController.postBookingServices
+    }, {
+        method: 'GET',
+        path: BASE_URL + '/studios',
+        config: {
+          pre: [
+            { method: AuthController.ensureAuthenticated, assign: 'user'},
+            { method: AuthController.isAdmin, assign: 'isAdmin'},
+          ]
+        },
+        handler: adminController.getStudioList
     }
+
 
 
     // /**
