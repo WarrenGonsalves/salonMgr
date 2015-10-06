@@ -1,14 +1,13 @@
 var logger = require('./logger');
 var request = require('request');
 var config = require("../config/constants");
-var formatter = require('./formatter');
-var _ = require("underscore");
 
-var TAG = "Send SMS"
+var TAG = "Send SMS";
 
-var EXOTEL_SID = "alsodigital"
-var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc"
-var CUSTOMER_SERVICE_PHONE = "8080467567"
+var EXOTEL_SID = "alsodigital";
+var EXOTEL_TOKEN = "2bb41cad024062adc1f9136a4fabcdf28e93b8dc";
+var CUSTOMER_SERVICE_PHONE = "7506750700";
+
 
 module.exports.sendSMS = function sendSMS(to, body, priority) {
     var exotelApi = "https://" + EXOTEL_SID + ":" + EXOTEL_TOKEN + "@twilix.exotel.in/v1/Accounts/" + EXOTEL_SID + "/Sms/send"
@@ -24,7 +23,7 @@ module.exports.sendSMS = function sendSMS(to, body, priority) {
 
     request.post(exotelApi, {
             form: {
-                From: "02233814263",
+                From: "02233814032",
                 To: to,
                 Body: body,
                 Priority: sms_priority
@@ -45,6 +44,8 @@ module.exports.sendSMS = function sendSMS(to, body, priority) {
     );
 }
 
+
+
 module.exports.sendOTP = function(phone, otp, customername) {
 
     logger.info(TAG, ["SMS OTP", phone]);
@@ -57,73 +58,105 @@ module.exports.sendOTP = function(phone, otp, customername) {
 
 }
 
-module.exports.sendBookingConfirmation = function(job, specialist) {
 
-    logger.info(TAG, ["SMS Booking Confirmation", job]);
+module.exports.sendBookingConfirmation = function(phone, booking, customername, coupon) {
 
-    var smsBody = ""
-    if (specialist.is_deal == true) {
-        logger.info(TAG, ["SMS Booking", "is a deal"])
-        smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
-        smsBody += "You will receive a call within 60 mins to assign a technician to the job. ";
-        smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
+    logger.info(TAG, ["SMS Booking Confirmation", phone, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
+   
+   
+    var smsBody =   "Hello " + customername + ". Thank you for booking at Sassy Studios, your booking id is " + booking.booking_no 
+                    + ". Price " + booking.price + ". Discount coupon - " + coupon + ". Please show this at the reception to avail the service. Please call Sassy Studios Care @ " 
+                    + CUSTOMER_SERVICE_PHONE + " if there are any concerns.";
 
-<<<<<<< HEAD
-    } else {
-        logger.info(TAG, ["SMS Booking", "is not a deal"])
-        smsBody = "Hello, " + job.cust_name + ". Thank you for booking " + job.specialist_category + " service with us. Your booking confirmation is " + job.job_id + ". ";
-        smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
-        smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
-
-    }
-=======
-    var smsBody = "Hello, " + customername + ". Thank you for booking " + job.specialist_name + "(" + job.service.category + "). Your booking confirmation is " + job.job_id + "." +
-        " Please call \"Sassy\" customer service at " + CUSTOMER_SERVICE_PHONE + " if there are any issues."
->>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
-
-    this.sendSMS(job.cust_ph, smsBody);
+    console.log("CUSTOMER SMS");
+    console.log(smsBody);
+    this.sendSMS(phone, smsBody);
 }
 
-module.exports.notifySpecialistNewBooking = function(job) {
-    logger.info(TAG, ["SMS Booking - notification to specialist", job]);
+module.exports.sendThankYouForComing = function(phone, booking, customername) {
 
-<<<<<<< HEAD
-    //var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
-    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"hands\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . ";
-    smsBody += "Customer address - " + job.cust_addr1 + " " + job.cust_addr_landmark + " , task - " + job.cust_task + ", date - " + formatter.toDisplayDate(job.book_date) + " time - " + formatter.toDisplayTimeRange(job.book_date) + " Thank you."
-=======
-    var smsBody = "Hello, " + job.specialist_name + ", New booking from \"Sassy\". Customer - " + job.cust_name + ", Phone # - " + job.cust_ph + " . Thank you."
->>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
+    logger.info(TAG, ["SMS Booking Confirmation", phone, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
+   
+    var smsBody =   "Hello " + customername + ". Thank you for using Sassy Studios. Price " + booking.price +
+                    ". Please show this at the reception to avail your service. Please call Sassy Studios care @ " 
+                    + CUSTOMER_SERVICE_PHONE + " if there are any concerns.";
 
+    console.log("THANK YOU FOR COMING SMS");
+    console.log(smsBody);
+    // this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendStudioLeadToRequest = function(name, phone) {
+
+    logger.info(TAG, ["sendStudioLeadToRequest", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Thank you for sharing your phone number. Our customer service will get back to you in two days. Have a sassy week. "
+
+    this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendStudioLeadToCustomerService = function(name, phone) {
+
+    logger.info(TAG, ["sendStudioLeadToCustomerService", name, phone]);
+
+   
+    var smsBody = "Hello, customer service . We have a new lead for studio from  the web. Name : "+ name  +". Phone #: "+ phone
+
+    this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
+}
+
+module.exports.sendThankYouForFeedback = function(name, phone) {
+
+    logger.info(TAG, ["sendThankYouForFeedback", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Thank you for sharing feedback and helping us improve. Our customer service will call you to resolve any issues. Have a great day ahead. Sassy Studios - whatsapp 7506 7507 00.  "
+
+    this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendPasswordChange = function(name, phone) {
+
+    logger.info(TAG, ["sendPasswordChange", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Your password has been changed as per your request."
+    console.log("SMS PASS CHANGE");
+    console.log(smsBody);
+
+    // this.sendSMS(phone, smsBody);
+}
+
+module.exports.sendPasswordReset = function(name, phone, password) {
+
+    logger.info(TAG, ["sendPasswordReset", name, phone]);
+
+    var smsBody = "Hello,"+ name + ". Your password has been reset as per your request. New password: " + password;
+    console.log("SMS PASS RESET");
+    console.log(smsBody);
+
+    // this.sendSMS(phone, smsBody);
+}
+
+module.exports.notifySpecialistNewBooking = function(booking) {
+    logger.info(TAG, ["SMS Booking - notification to specialist", booking]);
+
+    var smsBody = "Hello, " + booking.studio_id.name + ", New booking from \"Sassy\". Customer - " 
+                    + booking.cust_id.name + ", Phone # - " + booking.cust_id.ph + " . Thank you."
+    console.log("STUDIO SMS");
+    console.log(smsBody);
     // TODO  replace viveks number with job.specialist_ph
-    //this.sendSMS("9833789536", smsBody);
-    this.sendSMS("9833789536", smsBody);
-    this.sendSMS("8080467567", smsBody);
-    this.sendSMS(job.specialist_ph, smsBody);
-}
-
-module.exports.notifyLaundryBooking = function(job) {
-
-    var total = 0;
-
-    _.each(job.shopify_order.line_items, function(line_item) {
-        total += line_item.quantity;
-    });
-
-    var smsBody = "Hello, " + job.specialist_name + " picked up " + total + " clothes, total is Rs " + parseInt(job.shopify_order.total_price);
-    smsBody += ". For details, please download the hands app from get.handsforhome.com";
-
-    logger.info(TAG, ["SMS Laundry", job.cust_ph, smsBody]);
-    this.sendSMS(job.cust_ph, smsBody);
-}
-
-module.exports.notifyCustomerOfSpecialistReassignment = function(job) {
-
-    var smsBody = "Hello, " + job.cust_name + ". Your job # " + job.job_id + " has been assigned to " + job.specialist_name + ".  ";
-    smsBody += "We will visit your home on " + formatter.toDisplayDate(job.book_date) + " at " + formatter.toDisplayTimeRange(job.book_date) + " for this service. ";
-    smsBody += "Please call \"hands\" customer service at 8080467567 if there are any issues. Have a wonderful day."
-
-    logger.info(TAG, ["SMS SPC Reassign", job.cust_ph, smsBody]);
-    this.sendSMS(job.cust_ph, smsBody);
-    //this.sendSMS("9920251667", smsBody);
+    // //this.sendSMS("9833789536", smsBody);
+    // if (config.env == 'prod') {
+        this.sendSMS(CUSTOMER_SERVICE_PHONE, smsBody);
+        // this.sendSMS(booking.studio_id.phone, smsBody);
+    // } else {
+        // logger.info(TAG, "skip sms for non prod env");
+    // }
 }

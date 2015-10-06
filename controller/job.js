@@ -19,20 +19,16 @@ JobController.prototype.getConfigHandler = {
             query_param['cust_id'] = request.query.customer;
         }
 
+         if (!(request.query._id === undefined)) {
+            query_param['_id'] = request.query._id;
+        }
+
         if (!(request.query.cust_id === undefined)) {
             query_param['cust_id'] = request.query.cust_id;
         }
 
         if (!(request.query.job_id === undefined)) {
             query_param['job_id'] = request.query.job_id;
-        }
-
-        if (!(request.query.shopify_customer_id === undefined)) {
-            query_param['shopify_customer_id'] = request.query.shopify_customer_id;
-        }
-
-        if (request.query.is_shopify) {
-            query_param['is_shopify'] = request.query.is_shopify;
         }
 
         // if (!(request.query.specialist_id === undefined)) {
@@ -64,8 +60,8 @@ JobController.prototype.getConfigHandler = {
         if (!(request.query.complete === undefined)) {
             query_param['complete'] = request.query.complete;
         }
-
-        util.logger.info("Jobs - get", [query_param])
+        console.log("query_param "  + JSON.stringify(request.query._id));
+      //  util.logger.info("Jobs - get", [query_param])
 
         // TODO sort by book date.
 <<<<<<< HEAD

@@ -35,7 +35,6 @@ var couponSchema = new Schema({
   }
   );
 
-
 //virtuals
 couponSchema
     .virtual('valid_to_millisecs')

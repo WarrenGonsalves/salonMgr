@@ -1,26 +1,33 @@
 var nodemailer = require('nodemailer');
 var sesTransport = require('nodemailer-ses-transport');
+var smtpTransport = require('nodemailer-smtp-transport');
 var logger = require('./logger');
 var formatter = require('./formatter');
 var _ = require('underscore');
 
-// var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "hands-support@handsforhome.com";
-var SupportEmailId = process.env.DIST_EMAIL_ID || "email.naikparag@gmail.com";
-var SupportBookingEmailId = process.env.SUPPORT_BOOKING_EMAIL_ID || "email.naikparag@gmail.com";
+var SupportEmailId = process.env.SUPPORT_EMAIL_ID || "vivek@sassystudios.in";
+var SupportDistEmail = process.env.DIST_EMAIL_ID || "ops@sassystudios.in";
 
-var EMAIL_SUPPORT_DETAILS = "<br><br>Please use hands app <a href='http://get.handsforhome.com'>get.handsforhome.com</a> or";
-EMAIL_SUPPORT_DETAILS += " email us at <a href='mailto:customerfirst@handsforhome.com'>customerfirst@handsforhome.com</a> to provide feedback so we can improve the quality for service providers.";
-
-var EMAIL_FOOTER = "<br><br>Please feel free to call hands customer service at 8080467567 anytime if you have any questions.<br><br>Regards<br>Paul"
+var EMAIL_FOOTER = "<br><br>Please feel free to call Sassy customer service at 7506750700 anytime if you have any questions.<br><br>Regards<br>Vivek"
 
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-        user: 'customerfirst@handsforhome.com',
-        pass: 'Qwer!234'
+        user: 'vivek@sassystudios.in',
+        pass: 'Vivek1023'
     }
 });
-
+/*
+var transporter = nodemailer.createTransport(smtpTransport({
+    host: 'smtp.zoho.com',
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'vivek@sassy.co.in',
+        pass: 'Vivek1023'
+    }
+}));
+*/
 module.exports.sendMail = function sendMail(fromAddr, toAddr, subject, text) {
 
     console.log("sending email to", toAddr)
@@ -45,6 +52,24 @@ module.exports.sendFeedback = function(feedback, customer) {
     this.sendMail(SupportEmailId, SupportEmailId, "Customer Feedback - " + customer.name, feedbackHtmlMsg);
 }
 
+module.exports.sendPasswordChange = function(name, email) {
+    logger.info("Password change Notification", ["Password", name]);
+
+    var html = "Hi - " + name + ", your password has been changed as per your request.";
+    console.log("STUDIO PASS CHANGE");
+    console.log(html);
+    // this.sendMail(SupportEmailId, email, "Password change" + name, html);
+}
+
+module.exports.sendPasswordReset = function(name, email, password) {
+    logger.info("Password reset Notification", ["Password", name]);
+
+    var html = "Hi - " + name + ", your password has been reset as per your request.<br>New Password: " + password;
+    console.log("STUDIO PASS RESET");
+    console.log(html);
+    // this.sendMail(SupportEmailId, email, "Password reset" + name, html);
+}
+
 module.exports.sendNewSpecialistReferral = function(name, phone, category, customer_id) {
     logger.info("Email Notification", ["New Spec Referral", name, phone, category, customer_id]);
 
@@ -52,22 +77,20 @@ module.exports.sendNewSpecialistReferral = function(name, phone, category, custo
     this.sendMail(SupportEmailId, SupportEmailId, "New Specialist Referral " + name, referralHtmlMsg);
 }
 
-module.exports.sendBookingConfirmation = function(customer, job) {
+module.exports.sendBookingConfirmation = function(customer, booking) {
 
-    logger.info("Email Notification", ["Booking Confirmation", customer, job]);
-
-    var bookingHtmlMsg = "Hello " + job.cust_name + ", " + "your booking has been confirmed.";
-    bookingHtmlMsg += "<br><br> Studio name - " + job.specialist_name + " - " + job.service.category;
-    bookingHtmlMsg += "<br>Phone# - " + job.specialist_ph;
+    logger.info("Email Notification", ["Booking Confirmation", customer, booking]);
+    var bookedServices = "";
+    for (var i = 0; i < booking.services.length; i++) {
+        bookedServices = bookedServices + booking.services[i].title + ", ";
+    };
+    var bookingHtmlMsg = "Hello " + booking.cust_id.name + ", " + "your booking has been confirmed.";
+    bookingHtmlMsg += "<br><br> Studio name - " + booking.studio_id.name + " - " + bookedServices;
+    bookingHtmlMsg += "<br>Phone# - " + booking.studio_id.ph;
     bookingHtmlMsg += EMAIL_FOOTER;
 
-<<<<<<< HEAD
-    this.sendMail(SupportEmailId, customer.email, "Hands booking confirmation " + job.job_id, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportBookingEmailId, "Hands booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
-=======
-    this.sendMail(SupportEmailId, customer.email, "Sassy booking confirmation " + job.job_id, bookingHtmlMsg);
-    this.sendMail(SupportEmailId, SupportDistEmail, "Sassy Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> JOB - " + formatter.toHTML(job));
->>>>>>> 26bf8858c57c88ab34ff16a23f9d41f9f43974c2
+    this.sendMail(SupportEmailId, customer.email, "Sassy booking confirmation " + booking.booking_no, bookingHtmlMsg);
+    this.sendMail(SupportEmailId, SupportDistEmail, "Sassy Booking - Support - " + customer.name, bookingHtmlMsg + "<br><hr><br>CUSTOMER - " + formatter.toHTML(customer) + "<br><br> booking - " + formatter.toHTML(booking));
 }
 
 module.exports.sendContractNotification = function(contract, customer) {
@@ -76,6 +99,30 @@ module.exports.sendContractNotification = function(contract, customer) {
 
     var HtmlBody = "Contract details <br>" + formatter.toHTML(contract) + "<br><hr><br>" + "Customer details<br>" + formatter.toHTML(customer);
     this.sendMail(SupportEmailId, SupportEmailId, "New Contract", HtmlBody);
+}
+
+
+module.exports.sendStudioFeedback = function(feedback) {
+
+    logger.info("Email Notification", ["Feedback ", feedback]);
+
+    var HtmlBody = "feedback details <br>" 
+                + "customer_name : " + feedback.customer_name + "<br>"
+                + "phone_number : " + feedback.phone_number + "<br>"
+                + "customer_email : " + feedback.customer_email + "<br>"
+                + "How did you make your booking? : " + feedback.question1 + "<br>"
+                + "Did you have any issues selecting the service you required? : " + feedback.question2 + "<br>"
+                + "Did you get a reminder for your appointment? : " + feedback.question3 + "<br>"
+                + "Did you have to wait at the salon? : " + feedback.question4 + "<br>"
+                + "What would you change about the practitioner who served you? : " + feedback.question5 + "<br>"
+                + "Did you think the service was priced fair? : " + feedback.question6 + "<br><br><br>"
+                + "Category selected  by customer: " + feedback.category + "<br>"
+                + "practitioner name: " + feedback.practitioner + "<br>"
+                + "service : " + feedback.service + "<br>"
+                + "price : " + feedback.price + "<br>";
+
+    this.sendMail(SupportEmailId, SupportDistEmail, "New feedback", HtmlBody);
+
 }
 
 module.exports.sendStatusUpdate = function(job) {

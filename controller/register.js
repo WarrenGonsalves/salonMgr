@@ -39,7 +39,7 @@ function registerCustomer(isServiceProvider, request, reply) {
     }
 
     db.customer.findOne({
-        email: request.params.email
+        ph: request.payload.phone
     }, function(err, existingCustomer) {
         if (err) {
             util.reply.error(err, reply);

@@ -23,6 +23,43 @@ module.exports = function() {
             method: 'GET',
             path: '/v2/categories',
             config: Controller.getConfigHandler
+        },  /**
+         * @api {get} /categories/trending Get trending categories
+         * @apiName getCategories
+         * @apiGroup categories
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/trending/",
+            config: Controller.getTrendingCategories
+        },   /**
+         * @api {get} /categories/trending Get trending categories
+         * @apiName getCategories
+         * @apiGroup categories
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/all/",
+            config: Controller.getCategoriesForCatalogDisplay
+        },
+        /**  /**
+         * @api {get} /categories/ Get all categories
+         * @apiName add Categories
+         * @apiGroup categories
+         */
+        {
+            method: 'POST',
+            path: BASE_URL,
+            config: Controller.postConfigHandler
+        },
+         /* @api {get} /getIA/ Get all categories
+         * @apiName getIA
+         * @apiGroup IA
+         */
+        {
+            method: 'GET',
+            path: BASE_URL+"/ia/",
+            config: Controller.getIA
         },
         /**
          * @api {post} /admin/categories/{category}/{sub_category} Category: create new
